@@ -1,0 +1,7 @@
+forms
+{
+    form CRM_Contact_Selection
+    {
+        label placement = left
+    }
+}

@@ -1,0 +1,9 @@
+list CRM_Contact_Selections
+{
+    displayName = "CRM Contact Selections"
+    show all rows from CRM_Contact_Selection
+    (
+        CRM_Contact
+        Notes
+    )
+}

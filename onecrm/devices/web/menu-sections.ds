@@ -1,0 +1,39 @@
+menu
+{
+    space Main_Navigation
+    {
+        displayname = "Main Navigation"
+        icon = "business-briefcase-24"
+
+        section CRM_Section
+        {
+            displayname = "CRM"
+            icon = "users-multiple-11"
+
+            form CRM_Contact_Selection
+            {
+                icon = "users-single-body"
+            }
+            report CRM_Contact_Selections
+            {
+                icon = "business-chart-bar-33"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = space,section,component
+        }
+    }
+}

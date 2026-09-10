@@ -1,0 +1,219 @@
+zohocrm1_contacts
+{
+    displayname = "Zoho CRM Contacts"
+    module = Contacts
+    connection = zohocrm1_connection
+
+    account_name
+    (
+        type = text
+        displayname = "Account Name"
+        source field name = "Account_Name"
+        search operators = {startsWith}
+    )
+    contactid
+    (
+        type = text
+        displayname = "Contact ID"
+        source field name = "CONTACTID"
+        primary = true
+        report only = true
+    )
+    date_of_birth
+    (
+        type = date
+        displayname = "Date of Birth"
+        source field name = "Date_of_Birth"
+        display format = "yyyy-MM-dd"
+        search operators = {equals}
+    )
+    department
+    (
+        type = text
+        displayname = "Department"
+        source field name = "Department"
+        search operators = {startsWith}
+    )
+    description
+    (
+        type = textarea
+        displayname = "Description"
+        source field name = "Description"
+    )
+    email
+    (
+        type = email
+        displayname = "Email"
+        source field name = "Email"
+        search operators = {startsWith}
+    )
+    fax
+    (
+        type = text
+        displayname = "Fax"
+        source field name = "Fax"
+        search operators = {startsWith}
+    )
+    first_name
+    (
+        type = text
+        displayname = "First Name"
+        source field name = "First_Name"
+        search operators = {startsWith}
+    )
+    home_phone
+    (
+        type = text
+        displayname = "Home Phone"
+        source field name = "Home_Phone"
+        search operators = {startsWith}
+    )
+    must have last_name
+    (
+        type = text
+        displayname = "Last Name"
+        source field name = "Last_Name"
+        search operators = {startsWith}
+    )
+    lead_source
+    (
+        type = picklist
+        displayname = "Lead Source"
+        source field name = "Lead_Source"
+        values = {"Advertisement","Chat","Cold Call","Employee Referral","External Referral","Partner","Public Relations","Search Engine","Trade Show","Web Form"}
+        search operators = {startsWith}
+    )
+    mailing_city
+    (
+        type = text
+        displayname = "Mailing City"
+        source field name = "Mailing_City"
+        search operators = {startsWith}
+    )
+    mailing_country
+    (
+        type = text
+        displayname = "Mailing Country"
+        source field name = "Mailing_Country"
+        search operators = {startsWith}
+    )
+    mailing_state
+    (
+        type = text
+        displayname = "Mailing State"
+        source field name = "Mailing_State"
+        search operators = {startsWith}
+    )
+    mailing_street
+    (
+        type = text
+        displayname = "Mailing Street"
+        source field name = "Mailing_Street"
+        search operators = {startsWith}
+    )
+    mailing_zip
+    (
+        type = text
+        displayname = "Mailing Zip"
+        source field name = "Mailing_Zip"
+        search operators = {startsWith}
+    )
+    mobile
+    (
+        type = text
+        displayname = "Mobile"
+        source field name = "Mobile"
+        search operators = {startsWith}
+    )
+    other_city
+    (
+        type = text
+        displayname = "Other City"
+        source field name = "Other_City"
+        search operators = {startsWith}
+    )
+    other_country
+    (
+        type = text
+        displayname = "Other Country"
+        source field name = "Other_Country"
+        search operators = {startsWith}
+    )
+    other_phone
+    (
+        type = text
+        displayname = "Other Phone"
+        source field name = "Other_Phone"
+        search operators = {startsWith}
+    )
+    other_state
+    (
+        type = text
+        displayname = "Other State"
+        source field name = "Other_State"
+        search operators = {startsWith}
+    )
+    other_street
+    (
+        type = text
+        displayname = "Other Street"
+        source field name = "Other_Street"
+        search operators = {startsWith}
+    )
+    other_zip
+    (
+        type = text
+        displayname = "Other Zip"
+        source field name = "Other_Zip"
+        search operators = {startsWith}
+    )
+    phone
+    (
+        type = text
+        displayname = "Phone"
+        source field name = "Phone"
+        search operators = {startsWith}
+    )
+    reports_to
+    (
+        type = text
+        displayname = "Reports To"
+        source field name = "Reporting_To"
+        search operators = {startsWith}
+    )
+    secondary_email
+    (
+        type = email
+        displayname = "Secondary Email"
+        source field name = "Secondary_Email"
+        search operators = {startsWith}
+    )
+    skype_id
+    (
+        type = text
+        displayname = "Skype ID"
+        source field name = "Skype_ID"
+        search operators = {startsWith}
+    )
+    title
+    (
+        type = text
+        displayname = "Title"
+        source field name = "Title"
+        search operators = {startsWith}
+    )
+    twitter
+    (
+        type = text
+        displayname = "Twitter"
+        source field name = "Twitter"
+        search operators = {startsWith}
+    )
+    vendor_name
+    (
+        type = text
+        displayname = "Vendor Name"
+        source field name = "Vendor_Name"
+        search operators = {startsWith}
+    )
+}

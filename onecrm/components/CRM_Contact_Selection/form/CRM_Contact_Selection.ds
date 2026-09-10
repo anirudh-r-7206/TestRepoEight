@@ -1,0 +1,56 @@
+form CRM_Contact_Selection
+{
+    displayname = "CRM Contact Selection"
+
+    Contact_Details
+    (
+        type = section
+        displayname = "Contact Details"
+        row = 1
+        column = 0
+        width = medium
+    )
+    must have CRM_Contact
+    (
+        type = picklist
+        displayname = "CRM Contact"
+        datasource = zohocrm1_contacts
+        displayformat = [last_name]
+        row = 1
+        column = 1
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        displayname = "Notes"
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

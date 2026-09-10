@@ -1,0 +1,456 @@
+application "onecrm"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form CRM_Contact_Selection
+		{
+		    displayname = "CRM Contact Selection"
+		
+		    Contact_Details
+		    (
+		        type = section
+		        displayname = "Contact Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have CRM_Contact
+		    (
+		        type = picklist
+		        displayname = "CRM Contact"
+		        datasource = zohocrm1_contacts
+		        displayformat = [last_name]
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		list CRM_Contact_Selections
+		{
+		    displayName = "CRM Contact Selections"
+		    show all rows from CRM_Contact_Selection
+		    (
+		        CRM_Contact
+		        Notes
+		    )
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form CRM_Contact_Selection
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report CRM_Contact_Selections
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    CRM_Contact
+		                    Notes
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    CRM_Contact
+		                    Notes
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Main_Navigation
+	    {
+	        displayname = "Main Navigation"
+	        icon = "business-briefcase-24"
+	
+	        section CRM_Section
+	        {
+	            displayname = "CRM"
+	            icon = "users-multiple-11"
+	
+	            form CRM_Contact_Selection
+	            {
+	                icon = "users-single-body"
+	            }
+	            report CRM_Contact_Selections
+	            {
+	                icon = "business-chart-bar-33"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = space,section,component
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "11"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+
+	connections
+	{
+		zohocrm1_connection
+		(
+		    displayname = "Zoho CRM Connection"
+		    user access = true
+		    connector = zohocrm1
+		    permissions = {"create_accounts_record","create_campaigns_record","create_cases_record","create_contacts_record","create_deals_record","create_invoices_record","create_leads_record","create_products_record","create_purchase_orders_record","create_quotes_record","create_sales_orders_record","create_solutions_record","create_vendors_record","fetch_accounts_record","fetch_all_accounts_records","fetch_all_campaigns_records","fetch_all_cases_records","fetch_all_contacts_records","fetch_all_deals_records","fetch_all_invoices_records","fetch_all_leads_records","fetch_all_products_records","fetch_all_purchase_orders_records","fetch_all_quotes_records","fetch_all_sales_orders_records","fetch_all_solutions_records","fetch_all_vendors_records","fetch_campaigns_record","fetch_cases_record","fetch_contacts_record","fetch_deals_record","fetch_invoices_record","fetch_leads_record","fetch_products_record","fetch_purchase_orders_record","fetch_quotes_record","fetch_sales_orders_record","fetch_solutions_record","fetch_vendors_record","list_all","search_accounts_record","search_campaigns_record","search_cases_record","search_contacts_record","search_deals_record","search_invoices_record","search_leads_record","search_products_record","search_purchase_orders_record","search_quotes_record","search_sales_orders_record","search_solutions_record","search_vendors_record","sync_accounts_record","sync_campaigns_record","sync_cases_record","sync_contacts_record","sync_deals_record","sync_invoices_record","sync_leads_record","sync_products_record","sync_purchase_orders_record","sync_quotes_record","sync_sales_orders_record","sync_solutions_record","sync_vendors_record","update_accounts_record","update_campaigns_record","update_cases_record","update_contacts_record","update_deals_record","update_invoices_record","update_leads_record","update_products_record","update_purchase_orders_record","update_quotes_record","update_sales_orders_record","update_solutions_record","update_vendors_record"}
+		)
+	}
+
+	datasources
+	{
+		zohocrm1_contacts
+		{
+		    displayname = "Zoho CRM Contacts"
+		    module = Contacts
+		    connection = zohocrm1_connection
+		
+		    account_name
+		    (
+		        type = text
+		        displayname = "Account Name"
+		        source field name = "Account_Name"
+		        search operators = {startsWith}
+		    )
+		    contactid
+		    (
+		        type = text
+		        displayname = "Contact ID"
+		        source field name = "CONTACTID"
+		        primary = true
+		        report only = true
+		    )
+		    date_of_birth
+		    (
+		        type = date
+		        displayname = "Date of Birth"
+		        source field name = "Date_of_Birth"
+		        display format = "yyyy-MM-dd"
+		        search operators = {equals}
+		    )
+		    department
+		    (
+		        type = text
+		        displayname = "Department"
+		        source field name = "Department"
+		        search operators = {startsWith}
+		    )
+		    description
+		    (
+		        type = textarea
+		        displayname = "Description"
+		        source field name = "Description"
+		    )
+		    email
+		    (
+		        type = email
+		        displayname = "Email"
+		        source field name = "Email"
+		        search operators = {startsWith}
+		    )
+		    fax
+		    (
+		        type = text
+		        displayname = "Fax"
+		        source field name = "Fax"
+		        search operators = {startsWith}
+		    )
+		    first_name
+		    (
+		        type = text
+		        displayname = "First Name"
+		        source field name = "First_Name"
+		        search operators = {startsWith}
+		    )
+		    home_phone
+		    (
+		        type = text
+		        displayname = "Home Phone"
+		        source field name = "Home_Phone"
+		        search operators = {startsWith}
+		    )
+		    must have last_name
+		    (
+		        type = text
+		        displayname = "Last Name"
+		        source field name = "Last_Name"
+		        search operators = {startsWith}
+		    )
+		    lead_source
+		    (
+		        type = picklist
+		        displayname = "Lead Source"
+		        source field name = "Lead_Source"
+		        values = {"Advertisement","Chat","Cold Call","Employee Referral","External Referral","Partner","Public Relations","Search Engine","Trade Show","Web Form"}
+		        search operators = {startsWith}
+		    )
+		    mailing_city
+		    (
+		        type = text
+		        displayname = "Mailing City"
+		        source field name = "Mailing_City"
+		        search operators = {startsWith}
+		    )
+		    mailing_country
+		    (
+		        type = text
+		        displayname = "Mailing Country"
+		        source field name = "Mailing_Country"
+		        search operators = {startsWith}
+		    )
+		    mailing_state
+		    (
+		        type = text
+		        displayname = "Mailing State"
+		        source field name = "Mailing_State"
+		        search operators = {startsWith}
+		    )
+		    mailing_street
+		    (
+		        type = text
+		        displayname = "Mailing Street"
+		        source field name = "Mailing_Street"
+		        search operators = {startsWith}
+		    )
+		    mailing_zip
+		    (
+		        type = text
+		        displayname = "Mailing Zip"
+		        source field name = "Mailing_Zip"
+		        search operators = {startsWith}
+		    )
+		    mobile
+		    (
+		        type = text
+		        displayname = "Mobile"
+		        source field name = "Mobile"
+		        search operators = {startsWith}
+		    )
+		    other_city
+		    (
+		        type = text
+		        displayname = "Other City"
+		        source field name = "Other_City"
+		        search operators = {startsWith}
+		    )
+		    other_country
+		    (
+		        type = text
+		        displayname = "Other Country"
+		        source field name = "Other_Country"
+		        search operators = {startsWith}
+		    )
+		    other_phone
+		    (
+		        type = text
+		        displayname = "Other Phone"
+		        source field name = "Other_Phone"
+		        search operators = {startsWith}
+		    )
+		    other_state
+		    (
+		        type = text
+		        displayname = "Other State"
+		        source field name = "Other_State"
+		        search operators = {startsWith}
+		    )
+		    other_street
+		    (
+		        type = text
+		        displayname = "Other Street"
+		        source field name = "Other_Street"
+		        search operators = {startsWith}
+		    )
+		    other_zip
+		    (
+		        type = text
+		        displayname = "Other Zip"
+		        source field name = "Other_Zip"
+		        search operators = {startsWith}
+		    )
+		    phone
+		    (
+		        type = text
+		        displayname = "Phone"
+		        source field name = "Phone"
+		        search operators = {startsWith}
+		    )
+		    reports_to
+		    (
+		        type = text
+		        displayname = "Reports To"
+		        source field name = "Reporting_To"
+		        search operators = {startsWith}
+		    )
+		    secondary_email
+		    (
+		        type = email
+		        displayname = "Secondary Email"
+		        source field name = "Secondary_Email"
+		        search operators = {startsWith}
+		    )
+		    skype_id
+		    (
+		        type = text
+		        displayname = "Skype ID"
+		        source field name = "Skype_ID"
+		        search operators = {startsWith}
+		    )
+		    title
+		    (
+		        type = text
+		        displayname = "Title"
+		        source field name = "Title"
+		        search operators = {startsWith}
+		    )
+		    twitter
+		    (
+		        type = text
+		        displayname = "Twitter"
+		        source field name = "Twitter"
+		        search operators = {startsWith}
+		    )
+		    vendor_name
+		    (
+		        type = text
+		        displayname = "Vendor Name"
+		        source field name = "Vendor_Name"
+		        search operators = {startsWith}
+		    )
+		}
+	}
+}
