@@ -1,0 +1,11 @@
+customize
+{
+
+		icon
+		{
+			icon = "zc-ab-finance2"
+			background color = "#F0477B"
+			foreground color = "#ffffff"
+		}
+	
+}
