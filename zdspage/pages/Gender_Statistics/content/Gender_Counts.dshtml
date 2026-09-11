@@ -1,0 +1,106 @@
+<%
+  maleCount = Students[Gender == "Male"].count();
+  femaleCount = Students[Gender == "Female"].count();
+  nonBinaryCount = Students[Gender == "Non-binary"].count();
+  preferNotToSayCount = Students[Gender == "Prefer not to say"].count();
+%>
+<style>
+:root {
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-light-bg-color: var(--zcs_brand_light_color);
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-border-color: var(--zcs_tertiary_border_color);
+  --zcs-white-color: #FFFFFF;
+  --zcs-surface: var(--zcs-white-color);
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.zcs-color-theme { color: var(--zcs-theme-brand-color); }
+.zcs-color-blue { color: #09598E; }
+.zcs-color-green { color: #179E6C; }
+.zcs-color-d-blue { color: #1328CD; }
+.zcs-color-yellow { color: #B8770D; }
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--zcs-text-1);
+  margin: 0 0 4px;
+}
+.zcs-page-header__sub {
+  font-size: 14px;
+  color: var(--zcs-text-2);
+  margin: 0;
+}
+.zcs-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.zcs-kpi-card {
+  background: var(--zcs-surface);
+  border: 1px solid var(--zcs-border-color);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+}
+.zcs-kpi-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--zcs-text-2);
+}
+.zcs-kpi-card__value {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 6px 0 4px;
+  line-height: 1;
+}
+.zcs-kpi-card__sub {
+  font-size: 12px;
+  color: var(--zcs-text-3);
+}
+.gender-statistics {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px;
+}
+@media (max-width: 576px) {
+  .gender-statistics { padding: 16px; }
+}
+</style>
+<section class="gender-statistics" aria-labelledby="gender-statistics-title">
+  <div class="zcs-page-header">
+    <h1 class="zcs-page-header__title" id="gender-statistics-title">Students by Gender</h1>
+    <p class="zcs-page-header__sub">Current student totals for each configured gender category.</p>
+  </div>
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Male</div>
+      <div class="zcs-kpi-card__value zcs-color-blue"><%= maleCount %></div>
+      <div class="zcs-kpi-card__sub">Students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Female</div>
+      <div class="zcs-kpi-card__value zcs-color-green"><%= femaleCount %></div>
+      <div class="zcs-kpi-card__sub">Students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Non-binary</div>
+      <div class="zcs-kpi-card__value zcs-color-d-blue"><%= nonBinaryCount %></div>
+      <div class="zcs-kpi-card__sub">Students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Prefer not to say</div>
+      <div class="zcs-kpi-card__value zcs-color-yellow"><%= preferNotToSayCount %></div>
+      <div class="zcs-kpi-card__sub">Students</div>
+    </div>
+  </div>
+</section>

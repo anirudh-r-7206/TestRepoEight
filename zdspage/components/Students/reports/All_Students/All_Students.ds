@@ -1,0 +1,26 @@
+default list All_Students
+{
+    displayName = "All Students"
+    show all rows from Students
+    (
+        Student_Name
+        Age
+        Gender
+    )
+    filters
+    (
+        Gender
+    )
+    group by
+    (
+        properties
+        (
+            display record count = true
+        )
+        Gender ascending
+    )
+    sort by
+    (
+        Student_Name ascending
+    )
+}

@@ -1,0 +1,20 @@
+<page linkname = "Gender_Statistics" displayname = "Students by Gender"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Gender_Counts' elementName='Gender_Counts'>
+          <![CDATA[htmlpage Gender_Counts()
+            content
+            <%{%>
+              <file name:Gender_Counts.dshtml/>
+            <%
+            }%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

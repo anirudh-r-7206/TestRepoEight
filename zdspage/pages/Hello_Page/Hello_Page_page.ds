@@ -1,0 +1,20 @@
+<page linkname = "Hello_Page" displayname = "Hello"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Hello_Message' elementName='Hello_Message'>
+          <![CDATA[htmlpage Hello_Message()
+content
+<%{%>
+    <file name:Hello_Message.dshtml/>
+<%
+}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>
