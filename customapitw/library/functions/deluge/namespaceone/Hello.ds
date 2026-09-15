@@ -1,0 +1,4 @@
+void namespaceone.Hello()
+{
+	info "Hello";
+}

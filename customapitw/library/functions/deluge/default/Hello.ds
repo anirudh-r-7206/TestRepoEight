@@ -1,4 +1,0 @@
-void Hello()
-{
-	info "Hello";
-}

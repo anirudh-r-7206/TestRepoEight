@@ -7,6 +7,6 @@ api Info_Hello
 	scope = "All users"
 	actions
 	(
-		Student_Registry.Hello();
+		customapitw.namespaceone.Hello();
 	)
 }

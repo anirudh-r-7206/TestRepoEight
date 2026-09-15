@@ -102,7 +102,7 @@ application "customapitw"
 	{
 		Deluge
 		{
-			void Hello()
+			void namespaceone.Hello()
 			{
 				info "Hello";
 			}
