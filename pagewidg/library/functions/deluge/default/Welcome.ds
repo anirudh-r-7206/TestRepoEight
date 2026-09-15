@@ -1,0 +1,4 @@
+void Welcome()
+{
+	info "Welcome";
+}

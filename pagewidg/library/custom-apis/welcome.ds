@@ -1,0 +1,12 @@
+api welcome
+{
+	display name = "Welcome"
+	description = "Logs Welcome through a custom API endpoint."
+	method = GET
+	authentication = OAuth2
+	scope = "Admin only"
+	actions
+	(
+		pagewidg.Default.Welcome();
+	)
+}

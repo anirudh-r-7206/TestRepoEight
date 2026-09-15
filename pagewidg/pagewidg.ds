@@ -126,6 +126,11 @@ application "pagewidg"
 			{
 				info "Hello";
 			}
+
+			void Welcome()
+			{
+				info "Welcome";
+			}
 		}
 	}
 
