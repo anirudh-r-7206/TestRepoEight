@@ -122,12 +122,12 @@ application "pagewidg"
 	{
 		Deluge
 		{
-			void Hello()
+			void namespaceone.Hello()
 			{
 				info "Hello";
 			}
 
-			void Welcome()
+			void namespaceone.Welcome()
 			{
 				info "Welcome";
 			}

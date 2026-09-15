@@ -7,6 +7,6 @@ api hello
 	scope = "Admin only"
 	actions
 	(
-		pagewidg.Default.Hello();
+		pagewidg.namespaceone.Hello();
 	)
 }

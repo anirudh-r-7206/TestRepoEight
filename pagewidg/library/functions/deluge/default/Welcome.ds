@@ -1,4 +1,0 @@
-void Welcome()
-{
-	info "Welcome";
-}
