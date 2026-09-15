@@ -7,6 +7,6 @@ api welcome
 	scope = "Admin only"
 	actions
 	(
-		pagewidg.namespaceone.Welcome();
+		pagewidg.namespaceone.Welcome()
 	)
 }
