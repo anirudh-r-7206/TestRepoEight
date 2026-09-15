@@ -1,4 +1,4 @@
-hello
+api hello
 {
 	display name = "Hello"
 	description = "Logs Hello through a custom API endpoint."
