@@ -1,0 +1,12 @@
+api Info_Hello
+{
+	display name = "Info Hello"
+	description = "Invokes the Hello logging function."
+	method = GET
+	authentication = Public_Key
+	scope = "All users"
+	actions
+	(
+		Student_Registry.Hello();
+	)
+}

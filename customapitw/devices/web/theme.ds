@@ -1,0 +1,18 @@
+customize
+{
+    layout
+    {
+        theme = "theme_2"
+        variant = "variant_2"
+    }
+
+    font = "lato"
+
+    color options
+    {
+        name = "Academic Blue"
+        brand color = "#2563EB"
+        type = "custom"
+        dark mode color = "#60A5FA"
+    }
+}
