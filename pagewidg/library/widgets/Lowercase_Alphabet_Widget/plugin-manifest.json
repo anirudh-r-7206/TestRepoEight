@@ -1,0 +1,8 @@
+{
+  "service": "CREATOR",
+  "name": "Lowercase_Alphabet_Widget",
+  "type": "applications",
+  "cspDomains": {
+    "connect-src": []
+  }
+}

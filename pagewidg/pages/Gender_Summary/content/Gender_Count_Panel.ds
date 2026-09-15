@@ -1,0 +1,80 @@
+<panel elementName='Gender_Count_Panel' bgColor='#FFFFFF'>
+  <pr width='fill' height='auto'>
+    <pc width='100%' padding='24px' hAlign='left' vAlign='middle' bgColor='#FFFFFF'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#1F2937' size='24px' bold='true' type='Text' value='Students by Gender'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#6B7280' size='14px' type='Text' value='Current student record distribution across configured gender choices'> </text>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc width='33%' padding='10px' hAlign='left' vAlign='middle' bgColor='#EFF6FF' cornerRadius='12px' borderColor='#DBEAFE' borderWidth='1px'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#1D4ED8' size='32px' bold='true' type='variable' value='${maleCount}'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Male'> </text>
+        </pc>
+      </pr>
+    </pc>
+    <pc width='33%' padding='10px' hAlign='left' vAlign='middle' bgColor='#FDF2F8' cornerRadius='12px' borderColor='#FCE7F3' borderWidth='1px'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#BE185D' size='32px' bold='true' type='variable' value='${femaleCount}'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Female'> </text>
+        </pc>
+      </pr>
+    </pc>
+    <pc width='34%' padding='10px' hAlign='left' vAlign='middle' bgColor='#F5F3FF' cornerRadius='12px' borderColor='#EDE9FE' borderWidth='1px'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#6D28D9' size='32px' bold='true' type='variable' value='${nonBinaryCount}'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Non-binary'> </text>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc width='50%' padding='10px' hAlign='left' vAlign='middle' bgColor='#F0FDFA' cornerRadius='12px' borderColor='#CCFBF1' borderWidth='1px'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#0F766E' size='32px' bold='true' type='variable' value='${preferNotCount}'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Prefer not to say'> </text>
+        </pc>
+      </pr>
+    </pc>
+    <pc width='50%' padding='10px' hAlign='left' vAlign='middle' bgColor='#FFF7ED' cornerRadius='12px' borderColor='#FFEDD5' borderWidth='1px'>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#C2410C' size='32px' bold='true' type='variable' value='${otherCount}'> </text>
+        </pc>
+      </pr>
+      <pr>
+        <pc padding='5px' hAlign='left' bgColor='transparent'>
+          <text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Other'> </text>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+</panel>

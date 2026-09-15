@@ -1,0 +1,19 @@
+<page linkname = "Gender_Summary" parameters = "int femaleCount, int maleCount, int nonBinaryCount, int otherCount, int preferNotCount" displayname = "Gender Summary"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <file name:Gender_Count_Panel.ds/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>
+<script>
+femaleCount = Students[Gender == "Female"].count();
+maleCount = Students[Gender == "Male"].count();
+nonBinaryCount = Students[Gender == "Non-binary"].count();
+otherCount = Students[Gender == "Other"].count();
+preferNotCount = Students[Gender == "Prefer not to say"].count();
+</script>

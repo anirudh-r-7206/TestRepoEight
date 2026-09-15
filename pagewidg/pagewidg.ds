@@ -1,0 +1,281 @@
+application "pagewidg"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    displayname = "Students"
+		    Student_Information
+		    (
+		        type = section
+		        displayname = "Student Information"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = picklist
+		        displayname = "Gender"
+		        values = {"Male", "Female", "Non-binary", "Prefer not to say", "Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		        Gender
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Gender_Summary(int femaleCount, int maleCount, int nonBinaryCount, int otherCount, int preferNotCount)
+		{
+					displayname = "Gender Summary"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<panel elementName='Gender_Count_Panel' bgColor='#FFFFFF'>\n\t<pr width='fill' height='auto'>\n\t\t<pc width='100%' padding='24px' hAlign='left' vAlign='middle' bgColor='#FFFFFF'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#1F2937' size='24px' bold='true' type='Text' value='Students by Gender'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#6B7280' size='14px' type='Text' value='Current student record distribution across configured gender choices'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t</pr>\n\t<pr width='fill' height='auto'>\n\t\t<pc width='33%' padding='10px' hAlign='left' vAlign='middle' bgColor='#EFF6FF' cornerRadius='12px' borderColor='#DBEAFE' borderWidth='1px'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#1D4ED8' size='32px' bold='true' type='variable' value='${maleCount}'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Male'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t\t<pc width='33%' padding='10px' hAlign='left' vAlign='middle' bgColor='#FDF2F8' cornerRadius='12px' borderColor='#FCE7F3' borderWidth='1px'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#BE185D' size='32px' bold='true' type='variable' value='${femaleCount}'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Female'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t\t<pc width='34%' padding='10px' hAlign='left' vAlign='middle' bgColor='#F5F3FF' cornerRadius='12px' borderColor='#EDE9FE' borderWidth='1px'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#6D28D9' size='32px' bold='true' type='variable' value='${nonBinaryCount}'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Non-binary'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t</pr>\n\t<pr width='fill' height='auto'>\n\t\t<pc width='50%' padding='10px' hAlign='left' vAlign='middle' bgColor='#F0FDFA' cornerRadius='12px' borderColor='#CCFBF1' borderWidth='1px'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#0F766E' size='32px' bold='true' type='variable' value='${preferNotCount}'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Prefer not to say'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t\t<pc width='50%' padding='10px' hAlign='left' vAlign='middle' bgColor='#FFF7ED' cornerRadius='12px' borderColor='#FFEDD5' borderWidth='1px'>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#C2410C' size='32px' bold='true' type='variable' value='${otherCount}'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t\t<pr>\n\t\t\t\t<pc padding='5px' hAlign='left' bgColor='transparent'>\n\t\t\t\t\t<text margin='0px' padding='0px' color='#374151' size='15px' bold='true' type='Text' value='Other'> </text>\n\t\t\t\t</pc>\n\t\t\t</pr>\n\t\t</pc>\n\t</pr>\n</panel>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+					script
+					{
+						femaleCount = Students[Gender == "Female"].count();
+						maleCount = Students[Gender == "Male"].count();
+						nonBinaryCount = Students[Gender == "Non-binary"].count();
+						otherCount = Students[Gender == "Other"].count();
+						preferNotCount = Students[Gender == "Prefer not to say"].count();
+					}
+		}
+
+		page Lowercase_Alphabet
+		{
+					displayname = "Lowercase Alphabet"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<widgets elementName='Lowercase Alphabet Widget' importedTemplate='false' heightType='auto' linkName='Lowercase_Alphabet_Widget' bgColor='#FFFFFF' />\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Hub
+	    {
+	        displayname = "Student Hub"
+	        icon = "education-school"
+	
+	        section Learning_Resources
+	        {
+	            displayname = "Learning Resources"
+	            icon = "education-book-open"
+	
+	            page Gender_Summary
+	            {
+	                icon = "users-woman-man"
+	            }
+	            page Lowercase_Alphabet
+	            {
+	                icon = "education-abc"
+	            }
+	        }
+	
+	        section Student_Records
+	        {
+	            displayname = "Student Records"
+	            icon = "users-multiple-11"
+	
+	            form Students
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = space,section,component
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_2"
+	        variant = "variant_2"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        name = "Campus Blue Teal"
+	        brand color = "#167D8D"
+	        type = "custom"
+	        dark mode color = "#75D3D8"
+	    }
+	}
+	}
+}

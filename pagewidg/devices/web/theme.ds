@@ -1,0 +1,18 @@
+customize
+{
+    layout
+    {
+        theme = "theme_2"
+        variant = "variant_2"
+    }
+
+    font = "lato"
+
+    color options
+    {
+        name = "Campus Blue Teal"
+        brand color = "#167D8D"
+        type = "custom"
+        dark mode color = "#75D3D8"
+    }
+}

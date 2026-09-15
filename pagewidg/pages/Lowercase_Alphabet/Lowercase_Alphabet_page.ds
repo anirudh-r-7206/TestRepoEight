@@ -1,0 +1,12 @@
+<page linkname = "Lowercase_Alphabet" displayname = "Lowercase Alphabet"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <widgets elementName='Lowercase Alphabet Widget' importedTemplate='false' heightType='auto' linkName='Lowercase_Alphabet_Widget' bgColor='#FFFFFF' />
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

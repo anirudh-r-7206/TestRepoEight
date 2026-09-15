@@ -1,0 +1,54 @@
+menu
+{
+    space Student_Hub
+    {
+        displayname = "Student Hub"
+        icon = "education-school"
+
+        section Learning_Resources
+        {
+            displayname = "Learning Resources"
+            icon = "education-book-open"
+
+            page Gender_Summary
+            {
+                icon = "users-woman-man"
+            }
+            page Lowercase_Alphabet
+            {
+                icon = "education-abc"
+            }
+        }
+
+        section Student_Records
+        {
+            displayname = "Student Records"
+            icon = "users-multiple-11"
+
+            form Students
+            {
+                icon = "users-add-27"
+            }
+            report All_Students
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = space,section,component
+        }
+    }
+}

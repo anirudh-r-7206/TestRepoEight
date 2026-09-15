@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lowercase Alphabet</title>
+  <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+  <main class="alphabet-card" aria-labelledby="alphabet-heading">
+    <div class="heading-group">
+      <p class="eyebrow">Letter reference</p>
+      <h1 id="alphabet-heading">Lowercase Alphabet</h1>
+      <p class="subtitle">The 26 English letters from a through z.</p>
+    </div>
+    <div id="alphabet-grid" class="alphabet-grid" aria-label="Lowercase English alphabet"></div>
+  </main>
+
+  <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+  <script>
+    function renderAlphabet() {
+      const grid = document.getElementById("alphabet-grid");
+      grid.replaceChildren();
+      for (let code = 97; code <= 122; code += 1) {
+        const tile = document.createElement("span");
+        tile.className = "letter-tile";
+        tile.textContent = String.fromCharCode(code);
+        grid.appendChild(tile);
+      }
+    }
+
+    ZOHO.CREATOR.init().then(renderAlphabet).catch(renderAlphabet);
+  </script>
+</body>
+</html>
