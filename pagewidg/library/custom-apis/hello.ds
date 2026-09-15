@@ -1,0 +1,12 @@
+hello
+{
+	display name = "Hello"
+	description = "Logs Hello through a custom API endpoint."
+	method = GET
+	authentication = OAuth2
+	scope = "Admin only"
+	actions
+	(
+		pagewidg.Default.Hello()
+	)
+}

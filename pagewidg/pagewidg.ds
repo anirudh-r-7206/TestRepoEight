@@ -118,6 +118,17 @@ application "pagewidg"
 		}
 	}
 
+	functions
+	{
+		Deluge
+		{
+			void Hello()
+			{
+				info "Hello";
+			}
+		}
+	}
+
 	web
 	{
 	forms
