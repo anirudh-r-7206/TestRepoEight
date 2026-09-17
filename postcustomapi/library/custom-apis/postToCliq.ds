@@ -1,0 +1,13 @@
+api postToCliq
+{
+    display name = "Post To Cliq"
+    method = POST
+    content type = application/json
+    argument type = "Key and Value"
+    authentication = OAuth2
+    scope = "All users"
+    actions
+    (
+        Student_Registry.func.postToCliq();
+    )
+}
