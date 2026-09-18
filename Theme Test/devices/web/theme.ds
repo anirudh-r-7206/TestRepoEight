@@ -1,0 +1,13 @@
+customize
+{
+    font = "quicksand"
+    color options
+    {
+        color = "11"
+    }
+    logo
+    {
+        preference = "none"
+        placement = "left"
+    }
+}

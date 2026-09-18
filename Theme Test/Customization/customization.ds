@@ -1,0 +1,16 @@
+customize
+{
+    new theme = 11
+    new theme color = 11
+    font = "quicksand"
+    color options
+    {
+        color = "3"
+    }
+    icons = true
+    logo
+    {
+        preference = "none"
+        placement = "left"
+    }
+}
