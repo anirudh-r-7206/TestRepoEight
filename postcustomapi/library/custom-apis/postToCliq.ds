@@ -2,8 +2,8 @@ api postToCliq
 {
     display name = "Post To Cliq"
     method = POST
-    content type = application/json
-    argument type = "Key and Value"
+    content type = json
+    argument type = "Key-Value"
     authentication = OAuth2
     scope = "all account users"
     actions
