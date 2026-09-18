@@ -1,0 +1,20 @@
+customize
+{
+    layout
+    {
+        theme = "theme_11"
+    }
+
+    font = "nunito"
+
+    color options
+    {
+        color = "1"
+    }
+
+    logo
+    {
+        preference = "none"
+        placement = "left"
+    }
+}
