@@ -5,7 +5,7 @@ api postToCliq
     content type = application/json
     argument type = "Key and Value"
     authentication = OAuth2
-    scope = "All users"
+    scope = "all account users"
     actions
     (
         Student_Registry.func.postToCliq();
