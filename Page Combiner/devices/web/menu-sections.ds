@@ -1,0 +1,43 @@
+menu
+{
+    space Student_Registry
+    {
+        displayname = "Student Registry"
+        icon = "education-school"
+
+        section Student_Management
+        {
+            displayname = "Student Management"
+            icon = "users-multiple-11"
+
+            page Student_Overview
+            {
+                icon = "education-chalkboard"
+            }
+            form Students
+            {
+                icon = "users-add-27"
+            }
+            report All_Students
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = space,section,component
+        }
+    }
+}

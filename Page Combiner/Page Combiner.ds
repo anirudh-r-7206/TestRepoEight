@@ -1,0 +1,258 @@
+application "Page-Combiner"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    Student_Details
+		    (
+		        type = section
+		        displayname = "Student Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = radiobuttons
+		        displayname = "Gender"
+		        values = {"Male", "Female", "Other", "Prefer not to say"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		        Gender
+		    )
+		    filters
+		    (
+		        Gender
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Student_Overview
+		{
+					displayname = "Student Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Student_Counts' elementName='Student_Counts'>\n\t\t\t\t\t<![CDATA[htmlpage Student_Counts()\ncontent\n&lt;%{%&gt;\n\t\t&lt;%\n\ttotalStudents = Students[ID != 0].count();\n\tmaleStudents = Students[Gender == &quot;Male&quot;].count();\n\tfemaleStudents = Students[Gender == &quot;Female&quot;].count();\n\totherStudents = Students[Gender == &quot;Other&quot;].count();\n\tpreferNotToSayStudents = Students[Gender == &quot;Prefer not to say&quot;].count();\n%&gt;\n&lt;style&gt;\n.zcs-page {\n\tfont-family: var(--zcs-font, Arial, sans-serif);\n\tbackground: var(--zcs-bg, #f5f6f8);\n\tmin-height: 100vh;\n\tpadding: 32px;\n\tbox-sizing: border-box;\n}\n.zcs-page-header { margin-bottom: 24px; }\n.zcs-page-header__eyebrow {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tgap: 8px;\n\tmargin-bottom: 10px;\n\tcolor: var(--zcs_brand_color, #3768d9);\n\tfont-size: 12px;\n\tfont-weight: 700;\n\tletter-spacing: .08em;\n\ttext-transform: uppercase;\n}\n.zcs-page-header__title {\n\tfont-size: 26px;\n\tfont-weight: 700;\n\tcolor: var(--zcs-text-1, var(--zcs_primary_text_color, #202124));\n\tmargin: 0 0 7px;\n}\n.zcs-page-header__sub {\n\tmax-width: 680px;\n\tfont-size: 14px;\n\tline-height: 1.55;\n\tcolor: var(--zcs-text-2, var(--zcs_secondary_text_color, #666a73));\n\tmargin: 0;\n}\n.zcs-kpi-grid {\n\tdisplay: grid;\n\tgrid-template-columns: repeat(auto-fit, minmax(190px, 1fr));\n\tgap: 16px;\n\tmargin-bottom: 24px;\n}\n.zcs-kpi-card {\n\tposition: relative;\n\toverflow: hidden;\n\tbackground: var(--zcs-surface, #ffffff);\n\tborder: 1px solid var(--zcs_tertiary_border_color, #e6e8ec);\n\tborder-radius: var(--zcs-radius, 14px);\n\tbox-shadow: var(--zcs-shadow, 0 5px 18px rgba(25, 32, 56, .07));\n\tpadding: 20px 24px;\n\tmin-height: 130px;\n\tbox-sizing: border-box;\n}\n.zcs-kpi-card::before {\n\tcontent: &quot;&quot;;\n\tposition: absolute;\n\tinset: 0 auto 0 0;\n\twidth: 4px;\n\tbackground: var(--metric-color, var(--zcs_brand_color, #3768d9));\n}\n.zcs-kpi-card__top {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tgap: 12px;\n}\n.zcs-kpi-card__icon {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: center;\n\twidth: 34px;\n\theight: 34px;\n\tborder-radius: 10px;\n\tcolor: var(--metric-color, var(--zcs_brand_color, #3768d9));\n\tbackground: color-mix(in srgb, var(--metric-color, #3768d9) 11%, transparent);\n\tfont-size: 18px;\n}\n.zcs-kpi-card__label {\n\tfont-size: 11px;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: .6px;\n\tcolor: var(--zcs-text-2, var(--zcs_secondary_text_color, #666a73));\n}\n.zcs-kpi-card__value {\n\tfont-size: 34px;\n\tfont-weight: 700;\n\tmargin: 14px 0 5px;\n\tline-height: 1;\n\tcolor: var(--metric-color, var(--zcs_brand_color, #3768d9));\n}\n.zcs-kpi-card__sub {\n\tfont-size: 12px;\n\tcolor: var(--zcs-text-3, var(--zcs_tertiary_text_color, #8a8e98));\n}\n.zcs-kpi-card--total { --metric-color: var(--zcs_brand_color, #3768d9); grid-column: span 2; }\n.zcs-kpi-card--male { --metric-color: #2274a5; }\n.zcs-kpi-card--female { --metric-color: #b84a78; }\n.zcs-kpi-card--other { --metric-color: #6d55a3; }\n.zcs-kpi-card--private { --metric-color: #68717c; }\n@media (max-width: 720px) {\n\t.zcs-page { padding: 20px; }\n\t.zcs-kpi-card--total { grid-column: span 1; }\n}\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;div class=&quot;zcs-page-header__eyebrow&quot;&gt;&lt;i class=&quot;zc-li-outline users-1-multiple-11&quot;&gt;&lt;/i&gt;&lt;span&gt;Student dashboard&lt;/span&gt;&lt;/div&gt;\n\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Student Overview&lt;/h1&gt;\n\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A current snapshot of the student population, with enrollment totals grouped by each available gender choice.&lt;/p&gt;\n\t&lt;/div&gt;\n\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card zcs-kpi-card--total&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total Students&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-1-multiple-11&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= totalStudents %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;All student records&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card zcs-kpi-card--male&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Male&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-1-single-body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= maleStudents %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Students selecting Male&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card zcs-kpi-card--female&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Female&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-1-single-body&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= femaleStudents %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Students selecting Female&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card zcs-kpi-card--other&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Other&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-circle-08&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= otherStudents %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Students selecting Other&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card zcs-kpi-card--private&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Prefer Not to Say&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-lock-circle&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= preferNotToSayStudents %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Students withholding a response&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n<%\n}%>\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Registry
+	    {
+	        displayname = "Student Registry"
+	        icon = "education-school"
+	
+	        section Student_Management
+	        {
+	            displayname = "Student Management"
+	            icon = "users-multiple-11"
+	
+	            page Student_Overview
+	            {
+	                icon = "education-chalkboard"
+	            }
+	            form Students
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = space,section,component
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "3"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}
