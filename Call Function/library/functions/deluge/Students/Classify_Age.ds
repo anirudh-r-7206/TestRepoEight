@@ -1,0 +1,12 @@
+string Students.Classify_Age(int age)
+{
+	if(age < 13)
+	{
+		return "Child";
+	}
+	else if(age < 18)
+	{
+		return "Teen";
+	}
+	return "Adult";
+}

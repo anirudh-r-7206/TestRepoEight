@@ -1,0 +1,13 @@
+string Students.Build_Student_Summary(string student_name, int age)
+{
+	if(student_name is null || student_name == "")
+	{
+		return "A student name is required.";
+	}
+	if(age is null || age <= 0)
+	{
+		return "Age must be greater than zero.";
+	}
+	category = thisapp.Students.Classify_Age(age);
+	return student_name + " is " + age + " years old and is categorized as " + category + ".";
+}

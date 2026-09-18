@@ -1,0 +1,269 @@
+application "Call-Function"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    Student_Details
+		    (
+		        type = section
+		        displayname = "Student Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Student_Overview
+		{
+					displayname = "Student Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Student_Overview_Snippet' elementName='Student_Overview_Snippet'>\n\t\t\t\t\t<![CDATA[htmlpage Student_Overview_Snippet()\n\t\t\t\t\t\tcontent\n\t\t\t\t\t\t&lt;%{%&gt;\n\t\t\t\t\t\t\t&lt;%\n\tstudentRecords = Students[ID != 0];\n\ttotalStudents = studentRecords.count();\n%&gt;\n&lt;style&gt;\n:root {\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-light-bg-color: var(--zcs_brand_light_color);\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-border-color: var(--zcs_tertiary_border_color);\n\t--zcs-white-color: #FFFFFF;\n\t--zcs-bg: var(--zcs-page-bg-color, #F3F3F4);\n\t--zcs-surface: var(--zcs-white-color);\n\t--zcs-text-1: var(--zcs-primary-text-color);\n\t--zcs-text-2: var(--zcs-secondary-text-color);\n\t--zcs-text-3: var(--zcs-teritiary-text-color);\n\t--zcs-radius: 12px;\n\t--zcs-shadow: 0 4px 18px rgba(28, 28, 64, 0.08);\n\tfont-size: 16px;\n\tline-height: 1.5;\n}\n.zcs-page {\n\tfont-family: var(--zcs-font);\n\tbackground: var(--zcs-bg);\n\tmin-height: 100vh;\n\tpadding: 24px;\n\tbox-sizing: border-box;\n}\n.zcs-page-header { margin-bottom: 24px; }\n.zcs-page-header__title {\n\tfont-size: 22px;\n\tfont-weight: 600;\n\tcolor: var(--zcs-text-1);\n\tmargin: 0 0 4px;\n}\n.zcs-page-header__sub {\n\tfont-size: 14px;\n\tcolor: var(--zcs-text-2);\n\tmargin: 0;\n}\n.zcs-overview-grid {\n\tdisplay: grid;\n\tgrid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.6fr);\n\tgap: 20px;\n\talign-items: stretch;\n}\n.zcs-kpi-card {\n\tbackground: var(--zcs-surface);\n\tborder: 1px solid var(--zcs-border-color);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n\tbox-sizing: border-box;\n}\n.zcs-kpi-card__label {\n\tfont-size: 11px;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.6px;\n\tcolor: var(--zcs-text-2);\n}\n.zcs-kpi-card__value {\n\tfont-size: 32px;\n\tfont-weight: 700;\n\tmargin: 10px 0 6px;\n\tline-height: 1;\n}\n.zcs-kpi-card__sub {\n\tfont-size: 12px;\n\tcolor: var(--zcs-text-3);\n}\n.zcs-color-theme { color: var(--zcs-theme-brand-color); }\n.zcs-notes-wrapper {\n\tbackground: var(--zcs-surface);\n\tborder: 1px solid var(--zcs-border-color);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n\tbox-sizing: border-box;\n}\n.zcs-notes-title {\n\tdisplay: block;\n\tcolor: var(--zcs-text-1);\n\tfont-size: 14px;\n\tfont-weight: 600;\n}\n.zcs-notes-wrapper ul {\n\tlist-style-type: disc;\n\tmargin: 6px 0 0;\n\tpadding-left: 22px;\n}\n.zcs-notes-wrapper ul li::marker { color: var(--zcs-teritiary-text-color); }\n.zcs-notes-text {\n\tmargin: 0;\n\tpadding-top: 8px;\n\tcolor: var(--zcs-text-2);\n\tfont-size: 14px;\n\tline-height: 1.5;\n}\n@media (max-width: 700px) {\n\t.zcs-page { padding: 16px; }\n\t.zcs-overview-grid { grid-template-columns: 1fr; }\n}\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Student Overview&lt;/h1&gt;\n\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A quick snapshot of the student registry.&lt;/p&gt;\n\t&lt;/div&gt;\n\t&lt;div class=&quot;zcs-overview-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total students&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-theme&quot;&gt;&lt;%=totalStudents%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Students currently recorded in the registry&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-notes-wrapper&quot;&gt;\n\t\t\t&lt;span class=&quot;zcs-notes-title&quot;&gt;Using the registry&lt;/span&gt;\n\t\t\t&lt;ul&gt;\n\t\t\t\t&lt;li&gt;&lt;p class=&quot;zcs-notes-text&quot;&gt;Keep each student record up to date so the overview remains accurate.&lt;/p&gt;&lt;/li&gt;\n\t\t\t\t&lt;li&gt;&lt;p class=&quot;zcs-notes-text&quot;&gt;Use the age categories Child, Teen, and Adult when classifying students.&lt;/p&gt;&lt;/li&gt;\n\t\t\t&lt;/ul&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n\t\t\t\t\t\t<%\n}%>\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	functions
+	{
+		Deluge
+		{
+			string Students.Build_Student_Summary(string student_name, int age)
+			{
+				if(student_name is null || student_name == "")
+				{
+					return "A student name is required.";
+				}
+				if(age is null || age <= 0)
+				{
+					return "Age must be greater than zero.";
+				}
+				category = thisapp.Students.Classify_Age(age);
+				return student_name + " is " + age + " years old and is categorized as " + category + ".";
+			}
+
+			string Students.Classify_Age(int age)
+			{
+				if(age < 13)
+				{
+					return "Child";
+				}
+				else if(age < 18)
+				{
+					return "Teen";
+				}
+				return "Adult";
+			}
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Main_Navigation
+	    {
+	        displayname = "Main Navigation"
+	        icon = "education-school"
+	
+	        page Student_Overview
+	        {
+	            icon = "business-chart"
+	        }
+	        form Students
+	        {
+	            icon = "users-add-27"
+	        }
+	        report All_Students
+	        {
+	            icon = "users-multiple-19"
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = space,section,component
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	        variant = "variant_1"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        name = "Restrained Blue"
+	        brand color = "#2563EB"
+	        type = "custom"
+	        dark mode color = "#60A5FA"
+	    }
+	}
+	}
+}

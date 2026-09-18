@@ -1,0 +1,126 @@
+<%
+  studentRecords = Students[ID != 0];
+  totalStudents = studentRecords.count();
+%>
+<style>
+:root {
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-light-bg-color: var(--zcs_brand_light_color);
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-border-color: var(--zcs_tertiary_border_color);
+  --zcs-white-color: #FFFFFF;
+  --zcs-bg: var(--zcs-page-bg-color, #F3F3F4);
+  --zcs-surface: var(--zcs-white-color);
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 4px 18px rgba(28, 28, 64, 0.08);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.zcs-page {
+  font-family: var(--zcs-font);
+  background: var(--zcs-bg);
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--zcs-text-1);
+  margin: 0 0 4px;
+}
+.zcs-page-header__sub {
+  font-size: 14px;
+  color: var(--zcs-text-2);
+  margin: 0;
+}
+.zcs-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.6fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.zcs-kpi-card {
+  background: var(--zcs-surface);
+  border: 1px solid var(--zcs-border-color);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+.zcs-kpi-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--zcs-text-2);
+}
+.zcs-kpi-card__value {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 10px 0 6px;
+  line-height: 1;
+}
+.zcs-kpi-card__sub {
+  font-size: 12px;
+  color: var(--zcs-text-3);
+}
+.zcs-color-theme { color: var(--zcs-theme-brand-color); }
+.zcs-notes-wrapper {
+  background: var(--zcs-surface);
+  border: 1px solid var(--zcs-border-color);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+.zcs-notes-title {
+  display: block;
+  color: var(--zcs-text-1);
+  font-size: 14px;
+  font-weight: 600;
+}
+.zcs-notes-wrapper ul {
+  list-style-type: disc;
+  margin: 6px 0 0;
+  padding-left: 22px;
+}
+.zcs-notes-wrapper ul li::marker { color: var(--zcs-teritiary-text-color); }
+.zcs-notes-text {
+  margin: 0;
+  padding-top: 8px;
+  color: var(--zcs-text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+@media (max-width: 700px) {
+  .zcs-page { padding: 16px; }
+  .zcs-overview-grid { grid-template-columns: 1fr; }
+}
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header">
+    <h1 class="zcs-page-header__title">Student Overview</h1>
+    <p class="zcs-page-header__sub">A quick snapshot of the student registry.</p>
+  </div>
+  <div class="zcs-overview-grid">
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Total students</div>
+      <div class="zcs-kpi-card__value zcs-color-theme"><%=totalStudents%></div>
+      <div class="zcs-kpi-card__sub">Students currently recorded in the registry</div>
+    </div>
+    <div class="zcs-notes-wrapper">
+      <span class="zcs-notes-title">Using the registry</span>
+      <ul>
+        <li><p class="zcs-notes-text">Keep each student record up to date so the overview remains accurate.</p></li>
+        <li><p class="zcs-notes-text">Use the age categories Child, Teen, and Adult when classifying students.</p></li>
+      </ul>
+    </div>
+  </div>
+</div>
