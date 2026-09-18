@@ -3,7 +3,7 @@ api Get_Student_Summary
     display name = "Get Student Summary"
     description = "Returns a readable student summary and age category for the supplied student name and age."
     method = POST
-    content type = application/json
+    content type = json
     argument type = Key-Value
     authentication = OAuth2
     scope = "All users"
