@@ -1,0 +1,193 @@
+Student_Profile_Template
+{
+    displayname = "Student Profile"
+    content = {
+        "pageNumberOption": null,
+        "orientation": "null",
+        "images": [
+            { "fileName": "", "imageId": "", "imageType": "", "fileId": "" }
+        ],
+        "imageId": "",
+        "isFooterEnabled": false,
+        "containerStyle": "padding: 36px;",
+        "templateStyle": "text-align: left; width: 793.7px; background-image: none; border-top: 8px solid #0093FF;",
+        "version": "2",
+        "layout": "1",
+        "mainLayout": [
+            {
+                "elements": [
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000001",
+                            "elemStyle": "",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "type": "text",
+                                            "element": {
+                                                "id": "u_elem_1000000002",
+                                                "fields": [],
+                                                "content": "<div style=\"padding: 18px 22px; background: #EAF6FF; border-radius: 8px;\"><h1 style=\"color: #075985; font-weight: 700; text-align: center; margin: 0;\"><font style=\"font-size: 30px\">Student Profile</font></h1><p style=\"color: #0369A1; text-align: center; margin: 8px 0 0;\"><font style=\"font-size: 14px\">Student Directory Record</font></p></div>"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000003",
+                            "elemStyle": "",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "type": "spacer",
+                                            "element": {
+                                                "id": "u_elem_1000000004",
+                                                "height": "28"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "35,65",
+                            "id": "u_elem_1000000005",
+                            "elemStyle": "",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000006",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "1",
+                                                "labelText": "Student Image",
+                                                "Label_Name": "Student_Image",
+                                                "labelStyle": "width: 0%",
+                                                "valueStyle": "width: 100%",
+                                                "labelTextStyle": "",
+                                                "valueTextStyle": "text-align: center;",
+                                                "wrapperStyle": "padding: 16px; border: 1px solid #BAE6FD; border-radius: 8px; background: #F8FCFF;"
+                                            }
+                                        }
+                                    ],
+                                    "style": "padding-right: 20px;"
+                                },
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000007",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Student Name",
+                                                "Label_Name": "Student_Name",
+                                                "labelStyle": "width: 38%",
+                                                "valueStyle": "width: 62%",
+                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+                                                "valueTextStyle": "font-size: 18px; color: #0F172A;",
+                                                "wrapperStyle": "padding: 14px 10px; border-bottom: 1px solid #E2E8F0;"
+                                            }
+                                        },
+                                        {
+                                            "id": "u_elem_1000000008",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Age",
+                                                "Label_Name": "Age",
+                                                "labelStyle": "width: 38%",
+                                                "valueStyle": "width: 62%",
+                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+                                                "valueTextStyle": "color: #0F172A;",
+                                                "wrapperStyle": "padding: 14px 10px; border-bottom: 1px solid #E2E8F0;"
+                                            }
+                                        },
+                                        {
+                                            "id": "u_elem_1000000009",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Gender",
+                                                "Label_Name": "Gender",
+                                                "labelStyle": "width: 38%",
+                                                "valueStyle": "width: 62%",
+                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+                                                "valueTextStyle": "color: #0F172A;",
+                                                "wrapperStyle": "padding: 14px 10px;"
+                                            }
+                                        }
+                                    ],
+                                    "style": "padding: 8px 18px; border: 1px solid #BAE6FD; border-radius: 8px;"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000010",
+                            "elemStyle": "",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "type": "spacer",
+                                            "element": {
+                                                "id": "u_elem_1000000011",
+                                                "height": "36"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000012",
+                            "elemStyle": "",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "type": "text",
+                                            "element": {
+                                                "id": "u_elem_1000000013",
+                                                "fields": [],
+                                                "content": "<div style=\"border-top: 1px solid #CBD5E1; padding-top: 12px;\"><p style=\"color: #64748B; text-align: center; margin: 0;\"><font style=\"font-size: 12px\">Generated from the Student Directory</font></p></div>"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": 1
+            }
+        ],
+        "resize": "a4",
+        "themeFont": "lato",
+        "isHeaderEnabled": false
+    }
+}

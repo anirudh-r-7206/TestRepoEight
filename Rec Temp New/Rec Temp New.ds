@@ -1,0 +1,484 @@
+application "Rec-Temp-New"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    title
+		    {
+		        displayname = "Students"
+		        on add = "Add Student"
+		        on edit = "Edit Student"
+		    }
+		    success message = "Student record saved successfully."
+		
+		    Personal_Information
+		    (
+		        type = section
+		        displayname = "Personal Information"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        maxchar = 3
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = radiobuttons
+		        values = {"Female","Male","Non-binary","Prefer not to say"}
+		        layout = 2
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Student_Image
+		    (
+		        type = image
+		        displayname = "Student Image"
+		        source = file,camera
+		        aspect ratio = square
+		        compression = true
+		        camera = secondary
+		        switch camera = true
+		        show gallery = true
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+			print template
+			{
+				Student_Profile_Template
+				{
+				    displayname = "Student Profile"
+				    content = {
+				        "pageNumberOption": null,
+				        "orientation": "null",
+				        "images": [
+				            { "fileName": "", "imageId": "", "imageType": "", "fileId": "" }
+				        ],
+				        "imageId": "",
+				        "isFooterEnabled": false,
+				        "containerStyle": "padding: 36px;",
+				        "templateStyle": "text-align: left; width: 793.7px; background-image: none; border-top: 8px solid #0093FF;",
+				        "version": "2",
+				        "layout": "1",
+				        "mainLayout": [
+				            {
+				                "elements": [
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000001",
+				                            "elemStyle": "",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "type": "text",
+				                                            "element": {
+				                                                "id": "u_elem_1000000002",
+				                                                "fields": [],
+				                                                "content": "<div style=\"padding: 18px 22px; background: #EAF6FF; border-radius: 8px;\"><h1 style=\"color: #075985; font-weight: 700; text-align: center; margin: 0;\"><font style=\"font-size: 30px\">Student Profile</font></h1><p style=\"color: #0369A1; text-align: center; margin: 8px 0 0;\"><font style=\"font-size: 14px\">Student Directory Record</font></p></div>"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000003",
+				                            "elemStyle": "",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "type": "spacer",
+				                                            "element": {
+				                                                "id": "u_elem_1000000004",
+				                                                "height": "28"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "35,65",
+				                            "id": "u_elem_1000000005",
+				                            "elemStyle": "",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000006",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "1",
+				                                                "labelText": "Student Image",
+				                                                "Label_Name": "Student_Image",
+				                                                "labelStyle": "width: 0%",
+				                                                "valueStyle": "width: 100%",
+				                                                "labelTextStyle": "",
+				                                                "valueTextStyle": "text-align: center;",
+				                                                "wrapperStyle": "padding: 16px; border: 1px solid #BAE6FD; border-radius: 8px; background: #F8FCFF;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": "padding-right: 20px;"
+				                                },
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000007",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Student Name",
+				                                                "Label_Name": "Student_Name",
+				                                                "labelStyle": "width: 38%",
+				                                                "valueStyle": "width: 62%",
+				                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+				                                                "valueTextStyle": "font-size: 18px; color: #0F172A;",
+				                                                "wrapperStyle": "padding: 14px 10px; border-bottom: 1px solid #E2E8F0;"
+				                                            }
+				                                        },
+				                                        {
+				                                            "id": "u_elem_1000000008",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Age",
+				                                                "Label_Name": "Age",
+				                                                "labelStyle": "width: 38%",
+				                                                "valueStyle": "width: 62%",
+				                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+				                                                "valueTextStyle": "color: #0F172A;",
+				                                                "wrapperStyle": "padding: 14px 10px; border-bottom: 1px solid #E2E8F0;"
+				                                            }
+				                                        },
+				                                        {
+				                                            "id": "u_elem_1000000009",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Gender",
+				                                                "Label_Name": "Gender",
+				                                                "labelStyle": "width: 38%",
+				                                                "valueStyle": "width: 62%",
+				                                                "labelTextStyle": "font-weight: 700; color: #075985;",
+				                                                "valueTextStyle": "color: #0F172A;",
+				                                                "wrapperStyle": "padding: 14px 10px;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": "padding: 8px 18px; border: 1px solid #BAE6FD; border-radius: 8px;"
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000010",
+				                            "elemStyle": "",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "type": "spacer",
+				                                            "element": {
+				                                                "id": "u_elem_1000000011",
+				                                                "height": "36"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000012",
+				                            "elemStyle": "",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "type": "text",
+				                                            "element": {
+				                                                "id": "u_elem_1000000013",
+				                                                "fields": [],
+				                                                "content": "<div style=\"border-top: 1px solid #CBD5E1; padding-top: 12px;\"><p style=\"color: #64748B; text-align: center; margin: 0;\"><font style=\"font-size: 12px\">Generated from the Student Directory</font></p></div>"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    }
+				                ],
+				                "id": 1
+				            }
+				        ],
+				        "resize": "a4",
+				        "themeFont": "lato",
+				        "isHeaderEnabled": false
+				    }
+				}
+			}
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    print template = Student_Profile_Template
+		    show all rows from Students
+		    (
+		        Student_Image
+		        Student_Name
+		        Age
+		        Gender
+		    )
+		    filters
+		    (
+		        Gender
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#0093FF"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Image
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Image
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Directory_Space
+	    {
+	        displayname = "Student Directory"
+	        icon = "education-school"
+	
+	        section Student_Records_Section
+	        {
+	            displayname = "Student Records"
+	            icon = "education-backpack-57"
+	
+	            form Students
+	            {
+	                icon = "education-pencil-47"
+	            }
+	            report All_Students
+	            {
+	                icon = "education-books-46"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

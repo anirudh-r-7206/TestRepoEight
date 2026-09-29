@@ -1,0 +1,21 @@
+default list All_Students
+{
+    displayName = "All Students"
+    print template = Student_Profile_Template
+    show all rows from Students
+    (
+        Student_Image
+        Student_Name
+        Age
+        Gender
+    )
+    filters
+    (
+        Gender
+        Age
+    )
+    sort by
+    (
+        Student_Name ascending
+    )
+}
