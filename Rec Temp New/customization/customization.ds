@@ -1,5 +1,9 @@
 customize
 {
+    layout
+    {
+        theme = "theme_1"
+    }
     icon
     {
         icon = "zc-ab-education-1"
