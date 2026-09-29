@@ -1,0 +1,419 @@
+application "Simple-To-Do"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Tasks
+		{
+		    success message = "Task saved successfully."
+		
+		    Task_Details
+		    (
+		        type = section
+		        displayname = "Task Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Task_Name
+		    (
+		        type = text
+		        displayname = "Task"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        height = 100px
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Priority
+		    (
+		        type = picklist
+		        values = {"Low", "Medium", "High"}
+		        initial value = "Medium"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        values = {"To Do", "In Progress", "Completed"}
+		        initial value = "To Do"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Completed
+		    (
+		        type = checkbox
+		        initial value = false
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Tasks
+		{
+		    displayName = "All Tasks"
+		    show all rows from Tasks
+		    (
+		        Task_Name
+		        Priority
+		        Due_Date
+		        Status
+		        Completed
+		    )
+		    filters
+		    (
+		        Priority
+		        Status
+		        Due_Date
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		        Priority descending
+		    )
+		}
+
+		kanban Task_Board
+		{
+		    displayName = "Task Board"
+		    show all rows from Tasks
+		    (
+		        Task_Name
+		        Priority
+		        Due_Date
+		        Status
+		    )
+		    filters
+		    (
+		        Priority
+		        Status
+		    )
+		    options
+		    (
+		        display field = Status
+		        sort order = ascending
+		        record count = enable
+		    )
+		}
+	}
+
+	pages
+	{
+		page To_Do_Overview
+		{
+					displayname = "To-Do Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='To_Do_Summary' elementName='To_Do_Summary'>\n\t\t\t\t\t<![CDATA[htmlpage To_Do_Summary()\ncontent\n&lt;%{%&gt;\n\t&lt;%\nallTasks = Tasks[ID != 0];\ntotalCount = allTasks.count();\ntoDoCount = Tasks[Status == &quot;To Do&quot;].count();\ninProgressCount = Tasks[Status == &quot;In Progress&quot;].count();\ncompletedCount = Tasks[Status == &quot;Completed&quot;].count();\noverdueCount = Tasks[Status != &quot;Completed&quot; &amp;&amp; Due_Date != null &amp;&amp; Due_Date &lt; zoho.currentdate].count();\nhighCount = Tasks[Priority == &quot;High&quot;].count();\nmediumCount = Tasks[Priority == &quot;Medium&quot;].count();\nlowCount = Tasks[Priority == &quot;Low&quot;].count();\ntoDoPct = 0;\ninProgressPct = 0;\ncompletedPct = 0;\nif(totalCount &gt; 0)\n{\n\t\ttoDoPct = (toDoCount * 100.0 / totalCount).round(0);\n\t\tinProgressPct = (inProgressCount * 100.0 / totalCount).round(0);\n\t\tcompletedPct = (completedCount * 100.0 / totalCount).round(0);\n}\nupcomingTasks = Tasks[Status != &quot;Completed&quot; &amp;&amp; Due_Date != null] sort by Due_Date asc range from 1 to 6;\n%&gt;\n&lt;style&gt;\n:root {\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-light-bg-color: var(--zcs_brand_light_color);\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-border-color: var(--zcs_tertiary_border_color);\n\t--zcs-white-color: #fff;\n\t--zcs-text-1: var(--zcs_primary_text_color);\n\t--zcs-text-2: var(--zcs_secondary_text_color);\n\t--zcs-text-3: var(--zcs_tertiary_text_color);\n\t--zcs-bg: var(--zcs_page_background_color, #f5f6f8);\n\t--zcs-surface: var(--zcs_component_background_color, #fff);\n\t--zcs-radius: 12px;\n\t--zcs-shadow: 0 1px 3px rgba(18,19,43,.08);\n\t--zcs-green: #16835f; --zcs-green-bg: #e7f6f0;\n\t--zcs-red: #c43e50; --zcs-red-bg: #fdecef;\n\t--zcs-orange: #9a6500; --zcs-orange-bg: #fff3d6;\n\t--zcs-blue: #1769aa; --zcs-blue-bg: #e9f3fb;\n\t--zcs_component_hover_color: var(--zcs_brand_light_color, #eef2f7);\n}\n* { box-sizing: border-box; }\n.zcs-flex { display:flex; } .zcs-direction-column { flex-direction:column; }\n.zcs-align-items-center { align-items:center; } .zcs-justify-space-between { justify-content:space-between; }\n.zcs-gap-6 { gap:.375rem; } .zcs-gap-8 { gap:.5rem; }\n.zcs-w-full { width:100%; } .zcs-m-0 { margin:0; }\n.zcs-font-12 { font-size:.75rem; } .zcs-font-14 { font-size:.875rem; }\n.zcs-font-medium { font-weight:500; } .zcs-font-normal { font-weight:400; }\n.zcs-lh-body { line-height:1.5; } .zcs-color-primary { color:var(--zcs-primary-text-color); }\n.zcs-color-secondary { color:var(--zcs-secondary-text-color); }\n.zcs-text-left { text-align:left; } .zcs-box-border { box-sizing:border-box; }\n.zcs-px-16 { padding-left:1rem; padding-right:1rem; } .zcs-py-8 { padding-top:.5rem; padding-bottom:.5rem; }\n.zcs-p-2 { padding:.125rem; } .zcs-rounded-sm { border-radius:.25rem; }\n.zcs-relative { position:relative; } .zcs-sticky { position:sticky; }\n.zcs-page { font-family:var(--zcs-font); background:var(--zcs-bg); min-height:100vh; padding:24px; box-sizing:border-box; }\n.zcs-page-header { margin-bottom:24px; }\n.zcs-page-header__title { font-size:22px; font-weight:600; color:var(--zcs-text-1); margin:0 0 4px; }\n.zcs-page-header__sub { font-size:14px; color:var(--zcs-text-2); margin:0; }\n.zcs-kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px; margin-bottom:24px; }\n.zcs-kpi-card { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; border:1px solid var(--zcs-border-color); }\n.zcs-kpi-card__label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--zcs-text-2); }\n.zcs-kpi-card__value { font-size:32px; font-weight:700; margin:6px 0 4px; line-height:1; color:var(--zcs_brand_color); }\n.zcs-kpi-card__sub { font-size:12px; color:var(--zcs-text-3); }\n.zcs-section { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; margin-bottom:16px; border:1px solid var(--zcs-border-color); }\n.zcs-section__heading { font-size:15px; font-weight:600; color:var(--zcs-text-1); margin:0 0 14px; }\n.zcs-badge { display:inline-block; font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; line-height:1.4; }\n.zcs-badge--success { background:var(--zcs-green-bg); color:var(--zcs-green); }\n.zcs-badge--danger { background:var(--zcs-red-bg); color:var(--zcs-red); }\n.zcs-badge--warning { background:var(--zcs-orange-bg); color:var(--zcs-orange); }\n.zcs-badge--info { background:var(--zcs-blue-bg); color:var(--zcs-blue); }\n.zcs-badge--neutral { background:var(--zcs_component_hover_color); color:var(--zcs-text-2); }\n.zcs-progress-bar { height:8px; background-color:var(--zcs_component_hover_color); border-radius:4px; overflow:hidden; }\n.zcs-progress-bar-indicator { height:inherit; border-radius:inherit; background-color:var(--zcs_brand_color); }\n.zcs-empty-state { text-align:center; padding:40px 24px; }\n.zcs-empty-state__title { font-size:16px; font-weight:600; color:var(--zcs-text-2); margin:0 0 6px; }\n.zcs-empty-state__body { font-size:14px; color:var(--zcs-text-3); }\n.zcs-alert { display:flex; align-items:flex-start; gap:10px; border-radius:8px; padding:12px 16px; font-size:14px; margin-bottom:16px; }\n.zcs-alert--info { background:var(--zcs-blue-bg); color:#1e5180; }\n.zcs-alert__title { font-weight:600; margin-bottom:2px; } .zcs-alert__body { opacity:.85; }\n.overview-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr); gap:16px; }\n.progress-item + .progress-item { margin-top:16px; }\n.priority-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }\n.priority-card { border:1px solid var(--zcs-border-color); border-radius:10px; padding:14px; text-align:center; }\n.priority-card strong { display:block; margin-top:8px; font-size:24px; color:var(--zcs-text-1); }\n.zcs-table-wrapper { border:1px solid var(--zcs_tertiary_border_color); background-color:var(--zcs-white-color); overflow:auto; }\n.zcs-table-wrapper table { line-height:normal; border-collapse:collapse; min-width:620px; }\n.zcs-table-wrapper table thead { top:0; }\n.zcs-table-wrapper table thead th { background:#f8f9fc; border-bottom:1px solid var(--zcs_tertiary_border_color); white-space:nowrap; }\n.zcs-table-wrapper table tbody td { border-top:1px solid var(--zcs_tertiary_border_color); }\n.zcs-table-wrapper table tbody tr:first-child td { border-color:transparent; }\n.zcs-table-wrapper table tbody tr:hover td { background:var(--zcs_component_hover_color); }\n.task-name { font-weight:600; color:var(--zcs-text-1); }\n.due-overdue { color:var(--zcs-red); font-weight:600; }\n.empty-icon { font-size:28px; color:var(--zcs_brand_color); display:block; margin-bottom:10px; }\n@media (max-width:800px) { .overview-grid { grid-template-columns:1fr; } }\n@media (max-width:560px) { .zcs-page { padding:16px; } .priority-grid { grid-template-columns:1fr; } }\n&lt;/style&gt;\n\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;To-Do Overview&lt;/h1&gt;\n\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;See workload, progress, priorities, and the next tasks that need attention.&lt;/p&gt;\n\t&lt;/div&gt;\n\n&lt;% if(totalCount == 0) { %&gt;\n\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;\n\t\t\t&lt;i class=&quot;zc-li-outline ui-1-check-circle-08 empty-icon&quot;&gt;&lt;/i&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No tasks yet&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Add your first task, choose a priority and due date, then use status updates to keep this overview current.&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;% } else { %&gt;\n\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total tasks&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=totalCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Everything on the list&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;To Do&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=toDoCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Ready to be started&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;In Progress&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=inProgressCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Currently underway&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Completed&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=completedCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=completedPct%&gt;% of all tasks&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Overdue open&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=overdueCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Past due and not completed&lt;/div&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;overview-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Status breakdown&lt;/h2&gt;\n\t\t\t&lt;div class=&quot;progress-item zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=toDoPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-lh-body zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;To Do&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=toDoCount%&gt; (&lt;%=toDoPct%&gt;%)&lt;/span&gt;&lt;/p&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;progress-item zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=inProgressPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-lh-body zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;In Progress&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=inProgressCount%&gt; (&lt;%=inProgressPct%&gt;%)&lt;/span&gt;&lt;/p&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;progress-item zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=completedPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-lh-body zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;Completed&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=completedCount%&gt; (&lt;%=completedPct%&gt;%)&lt;/span&gt;&lt;/p&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\n\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Priority summary&lt;/h2&gt;\n\t\t\t&lt;div class=&quot;priority-grid&quot;&gt;\n\t\t\t\t&lt;div class=&quot;priority-card&quot;&gt;&lt;span class=&quot;zcs-badge zcs-badge--danger&quot;&gt;High&lt;/span&gt;&lt;strong&gt;&lt;%=highCount%&gt;&lt;/strong&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;priority-card&quot;&gt;&lt;span class=&quot;zcs-badge zcs-badge--warning&quot;&gt;Medium&lt;/span&gt;&lt;strong&gt;&lt;%=mediumCount%&gt;&lt;/strong&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;priority-card&quot;&gt;&lt;span class=&quot;zcs-badge zcs-badge--neutral&quot;&gt;Low&lt;/span&gt;&lt;strong&gt;&lt;%=lowCount%&gt;&lt;/strong&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-alert zcs-alert--info&quot;&gt;\n\t\t&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;\n\t\t&lt;div&gt;&lt;div class=&quot;zcs-alert__title&quot;&gt;Keep the list useful&lt;/div&gt;&lt;div class=&quot;zcs-alert__body&quot;&gt;Start with overdue and high-priority work, keep due dates realistic, and mark tasks completed as soon as they are done.&lt;/div&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Upcoming open tasks&lt;/h2&gt;\n\t&lt;% if(upcomingTasks.count() == 0) { %&gt;\n\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No dated open tasks&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Add due dates to open tasks to see the nearest items here.&lt;/div&gt;&lt;/div&gt;\n\t&lt;% } else { %&gt;\n\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative&quot;&gt;\n\t\t\t&lt;table class=&quot;zcs-w-full&quot;&gt;\n\t\t\t\t&lt;thead class=&quot;zcs-sticky&quot;&gt;&lt;tr&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Task&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Due date&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Status&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Priority&lt;/th&gt;\n\t\t\t\t&lt;/tr&gt;&lt;/thead&gt;\n\t\t\t\t&lt;tbody&gt;\n\t\t\t\t&lt;% for each task in upcomingTasks { \n\t\t\t\t\t\t safeName = task.Task_Name.replaceAll(&quot;&amp;&quot;,&quot;&amp;amp;&quot;).replaceAll(&quot;&lt;&quot;,&quot;&amp;lt;&quot;).replaceAll(&quot;&gt;&quot;,&quot;&amp;gt;&quot;);\n\t\t\t\t\t\t dueClass = &quot;&quot;;\n\t\t\t\t\t\t if(task.Due_Date &lt; zoho.currentdate) { dueClass = &quot;due-overdue&quot;; }\n\t\t\t\t\t\t statusClass = &quot;zcs-badge--info&quot;;\n\t\t\t\t\t\t if(task.Status == &quot;To Do&quot;) { statusClass = &quot;zcs-badge--neutral&quot;; }\n\t\t\t\t\t\t priorityClass = &quot;zcs-badge--neutral&quot;;\n\t\t\t\t\t\t if(task.Priority == &quot;High&quot;) { priorityClass = &quot;zcs-badge--danger&quot;; }\n\t\t\t\t\t\t else if(task.Priority == &quot;Medium&quot;) { priorityClass = &quot;zcs-badge--warning&quot;; }\n\t\t\t\t%&gt;\n\t\t\t\t\t&lt;tr&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-lh-body&quot;&gt;&lt;span class=&quot;task-name&quot;&gt;&lt;%=safeName%&gt;&lt;/span&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-lh-body &lt;%=dueClass%&gt;&quot;&gt;&lt;%=task.Due_Date.toString(&quot;dd MMM yyyy&quot;)%&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=statusClass%&gt;&quot;&gt;&lt;%=task.Status%&gt;&lt;/span&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=priorityClass%&gt;&quot;&gt;&lt;%=task.Priority%&gt;&lt;/span&gt;&lt;/td&gt;\n\t\t\t\t\t&lt;/tr&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t\t&lt;/tbody&gt;\n\t\t\t&lt;/table&gt;\n\t\t&lt;/div&gt;\n\t&lt;% } %&gt;\n\t&lt;/div&gt;\n&lt;% } %&gt;\n&lt;/div&gt;\n&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-project-mgmt1"
+	        background color = "#0093FF"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Tasks
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Tasks
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Task_Name
+		                    Priority
+		                    Due_Date
+		                    Status
+		                    Completed
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Name
+		                    Priority
+		                    Due_Date
+		                    Status
+		                    Completed
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	
+		report Task_Board
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Task_Name
+		                    Priority
+		                    Due_Date
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Name
+		                    Priority
+		                    Due_Date
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space To_Do_Space
+	    {
+	        displayname = "To-Do"
+	        icon = "business-agenda"
+	
+	        section Overview_Section
+	        {
+	            displayname = "Overview"
+	            icon = "business-chart"
+	
+	            page To_Do_Overview
+	            {
+	                icon = "business-chart-pie-36"
+	            }
+	        }
+	
+	        section Tasks_Section
+	        {
+	            displayname = "Tasks"
+	            icon = "business-agenda"
+	
+	            form Tasks
+	            {
+	                icon = "business-notes"
+	            }
+	            report All_Tasks
+	            {
+	                icon = "business-board-27"
+	            }
+	            report Task_Board
+	            {
+	                icon = "business-progress"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}
