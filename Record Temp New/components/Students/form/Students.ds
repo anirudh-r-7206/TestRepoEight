@@ -1,0 +1,91 @@
+form Students
+{
+    title
+    {
+        displayname = "Students"
+        on add = "Add Student"
+        on edit = "Edit Student"
+    }
+    success message = "Student record saved successfully."
+
+    Student_Information
+    (
+        type = section
+        displayname = "Student Information"
+        row = 1
+        column = 0
+    )
+    must have Student_Name
+    (
+        type = text
+        displayname = "Student Name"
+        maxchar = 150
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Age
+    (
+        type = number
+        maxchar = 3
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Gender
+    (
+        type = picklist
+        values = {"Male", "Female", "Non-binary", "Prefer not to say", "Other"}
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Student_Image
+    (
+        type = image
+        displayname = "Student Image"
+        source = file,camera
+        aspect ratio = square
+        camera = secondary
+        switch camera = true
+        show gallery = true
+        personal data = true
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+                tooltip = "Save student record"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+                tooltip = "Update student record"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

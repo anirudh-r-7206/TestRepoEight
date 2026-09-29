@@ -1,0 +1,156 @@
+Student_Profile_Card
+{
+    displayname = "Student Profile Card"
+    content = {
+        "pageNumberOption": null,
+        "orientation": "null",
+        "images": [
+            {"fileName": "", "imageId": "", "imageType": "", "fileId": ""}
+        ],
+        "imageId": "",
+        "isFooterEnabled": false,
+        "containerStyle": "padding: 36px;",
+        "templateStyle": "text-align: left; width: 793.7px; background-color: rgb(248, 250, 252); background-image: none",
+        "version": "2",
+        "layout": "1",
+        "mainLayout": [
+            {
+                "elements": [
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000001",
+                            "elemStyle": "background-color: rgb(37, 99, 235); border-radius: 14px 14px 0 0; padding: 24px;",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "type": "text",
+                                            "element": {
+                                                "id": "u_elem_1000000002",
+                                                "fields": [],
+                                                "content": "<div style=\"padding: 0px\"><h1 style=\"color: rgb(255, 255, 255); font-weight: 700; text-align: center; margin: 0\"><font style=\"font-size: 30px\">STUDENT PROFILE</font></h1><p style=\"color: rgb(219, 234, 254); text-align: center; margin: 8px 0 0\"><font style=\"font-size: 14px\">Student Directory Record</font></p></div>"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000003",
+                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 28px 40px 12px;",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000004",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "1",
+                                                "labelText": "Student Image",
+                                                "Label_Name": "Student_Image",
+                                                "labelStyle": "display: none;",
+                                                "valueStyle": "width: 100%; text-align: center;",
+                                                "labelTextStyle": "",
+                                                "valueTextStyle": "display: block; margin: 0 auto; max-width: 220px; border-radius: 14px;",
+                                                "wrapperStyle": "text-align: center;"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "100",
+                            "id": "u_elem_1000000005",
+                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 12px 40px;",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000006",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Student Name",
+                                                "Label_Name": "Student_Name",
+                                                "labelStyle": "width: 35%;",
+                                                "valueStyle": "width: 65%;",
+                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+                                                "valueTextStyle": "font-size: 18px; font-weight: 700; color: rgb(15, 23, 42);",
+                                                "wrapperStyle": "border-bottom: 1px solid rgb(226, 232, 240); padding: 14px 0;"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "columns",
+                        "element": {
+                            "split": "50,50",
+                            "id": "u_elem_1000000007",
+                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 12px 40px 30px; border-radius: 0 0 14px 14px;",
+                            "collayouts": [
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000008",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Age",
+                                                "Label_Name": "Age",
+                                                "labelStyle": "width: 40%;",
+                                                "valueStyle": "width: 60%;",
+                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+                                                "valueTextStyle": "font-weight: 600; color: rgb(15, 23, 42);",
+                                                "wrapperStyle": "padding: 12px; background-color: rgb(239, 246, 255); border-radius: 8px; margin-right: 8px;"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                },
+                                {
+                                    "colElements": [
+                                        {
+                                            "id": "u_elem_1000000009",
+                                            "type": "fields",
+                                            "element": {
+                                                "fieldLayoutType": "2",
+                                                "labelText": "Gender",
+                                                "Label_Name": "Gender",
+                                                "labelStyle": "width: 40%;",
+                                                "valueStyle": "width: 60%;",
+                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+                                                "valueTextStyle": "font-weight: 600; color: rgb(15, 23, 42);",
+                                                "wrapperStyle": "padding: 12px; background-color: rgb(239, 246, 255); border-radius: 8px; margin-left: 8px;"
+                                            }
+                                        }
+                                    ],
+                                    "style": ""
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "id": 1
+            }
+        ],
+        "resize": "a4",
+        "themeFont": "poppins",
+        "isHeaderEnabled": false
+    }
+}

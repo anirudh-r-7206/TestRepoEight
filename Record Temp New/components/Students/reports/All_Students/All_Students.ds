@@ -1,0 +1,21 @@
+default list All_Students
+{
+    displayName = "All Students"
+    template = Student_Profile_Card
+    show all rows from Students
+    (
+        Student_Image
+        Student_Name
+        Age
+        Gender
+    )
+    filters
+    (
+        Age
+        Gender
+    )
+    sort by
+    (
+        Student_Name ascending
+    )
+}

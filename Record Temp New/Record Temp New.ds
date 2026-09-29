@@ -1,0 +1,449 @@
+application "Record-Temp-New"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    title
+		    {
+		        displayname = "Students"
+		        on add = "Add Student"
+		        on edit = "Edit Student"
+		    }
+		    success message = "Student record saved successfully."
+		
+		    Student_Information
+		    (
+		        type = section
+		        displayname = "Student Information"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 150
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        maxchar = 3
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = picklist
+		        values = {"Male", "Female", "Non-binary", "Prefer not to say", "Other"}
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Student_Image
+		    (
+		        type = image
+		        displayname = "Student Image"
+		        source = file,camera
+		        aspect ratio = square
+		        camera = secondary
+		        switch camera = true
+		        show gallery = true
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		                tooltip = "Save student record"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		                tooltip = "Update student record"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+			print template
+			{
+				Student_Profile_Card
+				{
+				    displayname = "Student Profile Card"
+				    content = {
+				        "pageNumberOption": null,
+				        "orientation": "null",
+				        "images": [
+				            {"fileName": "", "imageId": "", "imageType": "", "fileId": ""}
+				        ],
+				        "imageId": "",
+				        "isFooterEnabled": false,
+				        "containerStyle": "padding: 36px;",
+				        "templateStyle": "text-align: left; width: 793.7px; background-color: rgb(248, 250, 252); background-image: none",
+				        "version": "2",
+				        "layout": "1",
+				        "mainLayout": [
+				            {
+				                "elements": [
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000001",
+				                            "elemStyle": "background-color: rgb(37, 99, 235); border-radius: 14px 14px 0 0; padding: 24px;",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "type": "text",
+				                                            "element": {
+				                                                "id": "u_elem_1000000002",
+				                                                "fields": [],
+				                                                "content": "<div style=\"padding: 0px\"><h1 style=\"color: rgb(255, 255, 255); font-weight: 700; text-align: center; margin: 0\"><font style=\"font-size: 30px\">STUDENT PROFILE</font></h1><p style=\"color: rgb(219, 234, 254); text-align: center; margin: 8px 0 0\"><font style=\"font-size: 14px\">Student Directory Record</font></p></div>"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000003",
+				                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 28px 40px 12px;",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000004",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "1",
+				                                                "labelText": "Student Image",
+				                                                "Label_Name": "Student_Image",
+				                                                "labelStyle": "display: none;",
+				                                                "valueStyle": "width: 100%; text-align: center;",
+				                                                "labelTextStyle": "",
+				                                                "valueTextStyle": "display: block; margin: 0 auto; max-width: 220px; border-radius: 14px;",
+				                                                "wrapperStyle": "text-align: center;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "100",
+				                            "id": "u_elem_1000000005",
+				                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 12px 40px;",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000006",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Student Name",
+				                                                "Label_Name": "Student_Name",
+				                                                "labelStyle": "width: 35%;",
+				                                                "valueStyle": "width: 65%;",
+				                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+				                                                "valueTextStyle": "font-size: 18px; font-weight: 700; color: rgb(15, 23, 42);",
+				                                                "wrapperStyle": "border-bottom: 1px solid rgb(226, 232, 240); padding: 14px 0;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    },
+				                    {
+				                        "type": "columns",
+				                        "element": {
+				                            "split": "50,50",
+				                            "id": "u_elem_1000000007",
+				                            "elemStyle": "background-color: rgb(255, 255, 255); padding: 12px 40px 30px; border-radius: 0 0 14px 14px;",
+				                            "collayouts": [
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000008",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Age",
+				                                                "Label_Name": "Age",
+				                                                "labelStyle": "width: 40%;",
+				                                                "valueStyle": "width: 60%;",
+				                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+				                                                "valueTextStyle": "font-weight: 600; color: rgb(15, 23, 42);",
+				                                                "wrapperStyle": "padding: 12px; background-color: rgb(239, 246, 255); border-radius: 8px; margin-right: 8px;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                },
+				                                {
+				                                    "colElements": [
+				                                        {
+				                                            "id": "u_elem_1000000009",
+				                                            "type": "fields",
+				                                            "element": {
+				                                                "fieldLayoutType": "2",
+				                                                "labelText": "Gender",
+				                                                "Label_Name": "Gender",
+				                                                "labelStyle": "width: 40%;",
+				                                                "valueStyle": "width: 60%;",
+				                                                "labelTextStyle": "font-weight: 600; color: rgb(71, 85, 105);",
+				                                                "valueTextStyle": "font-weight: 600; color: rgb(15, 23, 42);",
+				                                                "wrapperStyle": "padding: 12px; background-color: rgb(239, 246, 255); border-radius: 8px; margin-left: 8px;"
+				                                            }
+				                                        }
+				                                    ],
+				                                    "style": ""
+				                                }
+				                            ]
+				                        }
+				                    }
+				                ],
+				                "id": 1
+				            }
+				        ],
+				        "resize": "a4",
+				        "themeFont": "poppins",
+				        "isHeaderEnabled": false
+				    }
+				}
+			}
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    template = Student_Profile_Card
+		    show all rows from Students
+		    (
+		        Student_Image
+		        Student_Name
+		        Age
+		        Gender
+		    )
+		    filters
+		    (
+		        Age
+		        Gender
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    new theme color = 2
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#2967F5"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Image
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                title = "Student Information"
+		                fields
+		                (
+		                    Student_Image
+		                    Student_Name
+		                    Age
+		                    Gender
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Directory_Space
+	    {
+	        displayname = "Student Directory"
+	        icon = "education-school"
+	
+	        section Student_Records
+	        {
+	            displayname = "Student Records"
+	            icon = "users-multiple-19"
+	
+	            form Students
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-square-31"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "2"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}
