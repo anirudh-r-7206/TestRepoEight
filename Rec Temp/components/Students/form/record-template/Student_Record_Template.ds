@@ -55,7 +55,7 @@ Student_Record_Template
                                             "element": {
                                                 "fieldLayoutType": "2",
                                                 "labelText": "Student Name",
-                                                "Label_Student_Name": "Student Name",
+                                                "Student_Name": "Student Name",
                                                 "labelStyle": "width: 35%",
                                                 "valueStyle": "width: 65%",
                                                 "labelTextStyle": "font-weight: 600; color: rgb(60, 70, 80)",
@@ -85,7 +85,7 @@ Student_Record_Template
                                             "element": {
                                                 "fieldLayoutType": "2",
                                                 "labelText": "Age",
-                                                "Label_Age": "Age",
+                                                "Age": "Age",
                                                 "labelStyle": "width: 35%",
                                                 "valueStyle": "width: 65%",
                                                 "labelTextStyle": "font-weight: 600; color: rgb(60, 70, 80)",
@@ -115,7 +115,7 @@ Student_Record_Template
                                             "element": {
                                                 "fieldLayoutType": "2",
                                                 "labelText": "Gender",
-                                                "Label_Gender": "Gender",
+                                                "Gender": "Gender",
                                                 "labelStyle": "width: 35%",
                                                 "valueStyle": "width: 65%",
                                                 "labelTextStyle": "font-weight: 600; color: rgb(60, 70, 80)",
