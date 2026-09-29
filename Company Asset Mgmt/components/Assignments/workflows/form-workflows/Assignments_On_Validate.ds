@@ -1,0 +1,68 @@
+Assignments_On_Validate as "Assignments On Validate"
+{
+    type = form
+    form = Assignments
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                validation_failed = false;
+                if(input.Assigned_Date > zoho.currentdate)
+                {
+                    alert "Assigned Date cannot be in the future.";
+                    validation_failed = true;
+                }
+                existing_assignment = Assignments[ID == input.ID];
+                if(existing_assignment.count() > 0)
+                {
+                    if(existing_assignment.Asset != input.Asset || existing_assignment.Assigned_To != input.Assigned_To)
+                    {
+                        alert "Asset and Assigned To cannot be changed after the assignment is created.";
+                        validation_failed = true;
+                    }
+                    if(existing_assignment.Assignment_Status == "Returned" && input.Assignment_Status != "Returned")
+                    {
+                        alert "A Returned assignment cannot be reopened.";
+                        validation_failed = true;
+                    }
+                }
+                if(input.Assignment_Status == "Active")
+                {
+                    selected_asset = Assets[ID == input.Asset];
+                    if(selected_asset.Asset_Status != "Available")
+                    {
+                        alert "An Active assignment requires an Available asset.";
+                        validation_failed = true;
+                    }
+                    overlapping_count = Assignments[Asset == input.Asset && Assignment_Status == "Active" && ID != input.ID].count();
+                    if(overlapping_count > 0)
+                    {
+                        alert "This asset already has an Active assignment.";
+                        validation_failed = true;
+                    }
+                }
+                if(input.Assignment_Status == "Returned")
+                {
+                    if(input.Return_Date == null || input.Condition_On_Return == null)
+                    {
+                        alert "Returned assignments require Return Date and Condition On Return.";
+                        validation_failed = true;
+                    }
+                    if(input.Return_Date != null && input.Return_Date < input.Assigned_Date)
+                    {
+                        alert "Return Date cannot precede Assigned Date.";
+                        validation_failed = true;
+                    }
+                }
+                if(validation_failed)
+                {
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

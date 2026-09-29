@@ -1,0 +1,146 @@
+form Onboarding_Tasks
+{
+    displayname = "Onboarding Tasks"
+
+    Task_Details
+    (
+        type = section
+        displayname = "Task Details"
+        row = 1
+        column = 0
+    )
+    must have New_Hire
+    (
+        type = picklist
+        displayname = "New Hire"
+        values = New_Hires.ID
+        displayformat = [Full_Name]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Task_Name
+    (
+        type = text
+        displayname = "Task Name"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Category
+    (
+        type = picklist
+        displayname = "Category"
+        values = {"HR","IT","Manager"}
+        row = 1
+        column = 1
+        width = medium
+    )
+    Description
+    (
+        type = textarea
+        displayname = "Description"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Assignee_Email
+    (
+        type = email
+        displayname = "Assignee Email"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Due_Date
+    (
+        type = date
+        displayname = "Due Date"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Priority
+    (
+        type = picklist
+        displayname = "Priority"
+        values = {"Low","Normal","High","Critical"}
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Status
+    (
+        type = picklist
+        displayname = "Status"
+        values = {"Not Started","In Progress","Blocked","Complete"}
+        initial value = "Not Started"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Completion_Date
+    (
+        type = date
+        displayname = "Completion Date"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Completion_Notes
+    (
+        type = textarea
+        displayname = "Completion Notes"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Last_Reminder_Date
+    (
+        type = date
+        displayname = "Last Reminder Date"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Reminder_Level
+    (
+        type = number
+        displayname = "Reminder Level"
+        initial value = 0
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

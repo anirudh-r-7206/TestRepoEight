@@ -1,0 +1,15 @@
+default list Purchase_Request_Line_Register
+{
+    displayName = "Purchase Request Line Register"
+    show all rows from Purchase_Request_Lines
+    (
+        Catalog_Item
+        Quantity
+        Unit_Of_Measure
+        Unit_Price
+        Tax_Rate
+        Line_Subtotal
+        Tax_Amount
+        Line_Total
+    )
+}

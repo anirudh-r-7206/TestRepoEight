@@ -1,0 +1,16 @@
+list Maintenance_Assets
+{
+    displayName = "Maintenance Assets"
+    show all rows from Assets [Asset_Status == "In Maintenance"]
+    (
+        Asset_Tag
+        Asset_Type
+        Serial_Number
+        Asset_Status
+        Condition
+    )
+    sort by
+    (
+        Asset_Tag ascending
+    )
+}

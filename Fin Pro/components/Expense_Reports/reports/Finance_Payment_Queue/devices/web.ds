@@ -1,0 +1,41 @@
+report Finance_Payment_Queue
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Payment_Reference  "Start Payment"  "Mark Paid" )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete  "Start Payment"  "Mark Paid" )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Payment_Reference  "Start Payment"  "Mark Paid" )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete  "Start Payment"  "Mark Paid" )
+        )
+    )
+}

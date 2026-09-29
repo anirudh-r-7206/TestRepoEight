@@ -1,0 +1,110 @@
+form Audit_Log
+{
+    displayname = "Audit Log"
+
+    Audit_Details
+    (
+        type = section
+        displayname = "Audit Details"
+        row = 1
+        column = 0
+    )
+    must have Event_Time
+    (
+        type = datetime
+        displayname = "Event Time"
+        initial value = "${zoho.currenttime}"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have User_Email
+    (
+        type = email
+        displayname = "User Email"
+        row = 1
+        column = 2
+        width = medium
+    )
+    User_Profile
+    (
+        type = text
+        displayname = "User Profile"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Action
+    (
+        type = text
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Component
+    (
+        type = text
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Record_ID
+    (
+        type = number
+        displayname = "Record ID"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Reference_Number
+    (
+        type = text
+        displayname = "Reference Number"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Before_Value
+    (
+        type = textarea
+        displayname = "Before Value"
+        row = 1
+        column = 2
+        width = medium
+    )
+    After_Value
+    (
+        type = textarea
+        displayname = "After Value"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+        }
+    }
+}

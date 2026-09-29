@@ -1,0 +1,27 @@
+kanban Project_Status_Board
+{
+    displayName = "Project Status Board"
+    show all rows from Projects
+    (
+        Project_Name
+        Client
+        Due_Date
+        Billed_Hours
+        Status
+    )
+    filters
+    (
+        Client
+        Status
+    )
+    sort by
+    (
+        Due_Date ascending
+    )
+    options
+    (
+        display field = Status
+        sort order = custom
+        record count = enable
+    )
+}

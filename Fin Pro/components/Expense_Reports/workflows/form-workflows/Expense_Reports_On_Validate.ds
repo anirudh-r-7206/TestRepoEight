@@ -1,0 +1,43 @@
+Expense_Reports_On_Validate as "Expense Reports On Validate"
+{
+    type = form
+    form = Expense_Reports
+    record event = on add
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Amount == null || input.Amount <= 0)
+                {
+                    alert(Amount, "Amount must be greater than zero.");
+                    cancel submit;
+                }
+                if(input.Expense_Date > zoho.currentdate)
+                {
+                    alert(Expense_Date, "Expense date cannot be in the future.");
+                    cancel submit;
+                }
+                if(input.Amount > 500)
+                {
+                    if(input.Department_Head == null)
+                    {
+                        alert(Department_Head, "Select an active Department Head for expenses over $500.");
+                        cancel submit;
+                    }
+                    else
+                    {
+                        selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+                        if(selectedHead.count() == 0)
+                        {
+                            alert(Department_Head, "The selected Department Head is not active or valid.");
+                            cancel submit;
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

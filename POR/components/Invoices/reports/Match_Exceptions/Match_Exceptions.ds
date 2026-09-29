@@ -1,0 +1,25 @@
+list Match_Exceptions
+{
+    displayName = "Match Exceptions"
+    show all rows from Invoices [Match_Status == "Exception"]
+    (
+        Invoice_Number
+        Purchase_Order
+        Vendor
+        Invoice_Date
+        Due_Date
+        Invoice_Total
+        Match_Status
+        Amount_Variance
+        Exception_Details
+    )
+    filters
+    (
+        Vendor
+        Invoice_Date
+    )
+    sort by
+    (
+        Invoice_Date descending
+    )
+}

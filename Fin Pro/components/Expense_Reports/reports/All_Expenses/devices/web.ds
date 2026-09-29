@@ -1,0 +1,41 @@
+report All_Expenses
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields ( Expense_Number  Expense_Date  Category  Amount  Receipt  Department_Head  Approval_Status  Payment_Status  Submitted_By  Payment_Reference  Paid_Date )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields ( Expense_Number  Expense_Date  Category  Amount  Receipt  Description  Department_Head  Approval_Status  Payment_Status  Submitted_By  Approved_or_Rejected_By  Decision_Date  Decision_Notes  Payment_Reference  Paid_Date )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

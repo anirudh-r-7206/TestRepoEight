@@ -1,0 +1,26 @@
+Expense_Reports_On_Success as "Expense Reports On Success"
+{
+    type = form
+    form = Expense_Reports
+    record event = on add
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Amount > 500)
+                {
+                    input.Approval_Status = "Pending Department Head";
+                    input.Payment_Status = "Not Ready";
+                }
+                else
+                {
+                    input.Approval_Status = "Approved";
+                    input.Payment_Status = "Unpaid";
+                }
+            )
+        }
+    }
+}

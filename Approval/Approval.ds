@@ -1,0 +1,254 @@
+application "Approval"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Approvers
+		{
+		    success message = "Approver saved successfully."
+		
+		    Approver_Details
+		    (
+		        type = section
+		        displayname = "Approver Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Approver_Name
+		    (
+		        type = text
+		        displayname = "Approver Name"
+		        maxchar = 255
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Email_ID
+		    (
+		        type = email
+		        displayname = "Email ID"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Approvers
+		{
+		    displayName = "All Approvers"
+		    show all rows from Approvers
+		    (
+		        Approver_Name
+		        Email_ID
+		    )
+		    sort by
+		    (
+		        Approver_Name ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    new theme = 1
+	    new theme color = 1
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    icon
+	    {
+	        icon = "zc-ab-approval1"
+	        background color = "#2563EB"
+	        foreground color = "#FFFFFF"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Approvers
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Approvers
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Approver_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Approver_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Approval_Management
+	    {
+	        displayname = "Approval Management"
+	        icon = "business-signature"
+	
+	        section Approvers_Section
+	        {
+	            displayname = "Approvers"
+	            icon = "users-multiple-11"
+	
+	            form Approvers
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Approvers
+	            {
+	                icon = "business-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

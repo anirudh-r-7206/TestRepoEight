@@ -1,0 +1,11 @@
+forms
+{
+    form Clients
+    {
+        label placement = top
+    }
+    form Projects
+    {
+        label placement = top
+    }
+}

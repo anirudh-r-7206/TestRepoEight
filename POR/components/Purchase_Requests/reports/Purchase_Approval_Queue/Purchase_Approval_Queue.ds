@@ -1,0 +1,34 @@
+list Purchase_Approval_Queue
+{
+    displayName = "Purchase Approval Queue"
+    show all rows from Purchase_Requests [Status == "Pending Manager Approval"]
+    (
+        Request_Number
+        Requester
+        Request_Date
+        Vendor
+        Request_Total
+        Needed_By
+        Assigned_Approver
+        Status
+    )
+    filters
+    (
+        Assigned_Approver
+        Vendor
+        Status
+    )
+    sort by
+    (
+        Needed_By ascending
+    )
+    conditional formatting
+    (
+        "Pending Manager Approval"
+        {
+            condition = (Status == "Pending Manager Approval")
+            fields = [Request_Number, Needed_By, Status]
+            format = "background-color:#FFF7E0;color:#8A5700"
+        }
+    )
+}

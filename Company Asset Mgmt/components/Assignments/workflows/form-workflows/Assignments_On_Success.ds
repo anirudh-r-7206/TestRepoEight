@@ -1,0 +1,42 @@
+Assignments_On_Success as "Assignments On Success"
+{
+    type = form
+    form = Assignments
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Assignment_Status == "Active")
+                {
+                    update Assets[ID == input.Asset]
+                    [
+                        Current_Holder = input.Assigned_To
+                        Current_Assignment_ID = input.Assignment_ID
+                        Asset_Status = "Assigned"
+                        Condition = input.Condition_On_Issue
+                    ];
+                }
+                else if(input.Assignment_Status == "Returned")
+                {
+                    open_maintenance_count = Maintenance[Asset == input.Asset && (Maintenance_Status == "Open" || Maintenance_Status == "In Progress")].count();
+                    restored_status = "Available";
+                    if(open_maintenance_count > 0)
+                    {
+                        restored_status = "In Maintenance";
+                    }
+                    update Assets[ID == input.Asset]
+                    [
+                        Current_Holder = null
+                        Current_Assignment_ID = null
+                        Asset_Status = restored_status
+                        Condition = input.Condition_On_Return
+                    ];
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,266 @@
+application "ACtual-Ap"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form People
+		{
+		    success message = "Person saved successfully."
+		
+		    Person_Details
+		    (
+		        type = section
+		        displayname = "Person Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Full_Name
+		    (
+		        type = text
+		        displayname = "Full Name"
+		        maxchar = 100
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = radiobuttons
+		        displayname = "Gender"
+		        values = {"Female", "Male", "Non-binary", "Prefer not to say"}
+		        layout = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_People
+		{
+		    displayName = "All People"
+		    show all rows from People
+		    (
+		        Full_Name
+		        Gender
+		        Age
+		    )
+		    filters
+		    (
+		        Gender
+		        Age
+		    )
+		    sort by
+		    (
+		        Full_Name ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    new theme color = 1
+	
+	    icon
+	    {
+	        icon = "zc-ab-users-contacts"
+	        background color = "#5051F9"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form People
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_People
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Full_Name
+		                    Gender
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Full_Name
+		                    Gender
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space People_Directory
+	    {
+	        displayname = "People Directory"
+	        icon = "users-contacts"
+	
+	        section People_Section
+	        {
+	            displayname = "People"
+	            icon = "users-multiple-11"
+	
+	            form People
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_People
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

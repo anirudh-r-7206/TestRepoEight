@@ -1,0 +1,31 @@
+Catalog_Item_On_User_Input as "Catalog Item On User Input"
+{
+    type = form
+    form = Purchase_Request_Lines
+    record event = on add or edit
+
+    on user input of Catalog_Item
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Catalog_Item != null)
+                {
+                    catalog_item = Vendor_Items[ID == input.Catalog_Item];
+                    input.Item_Description = catalog_item.Item_Description;
+                    input.Unit_Of_Measure = catalog_item.Unit_Of_Measure;
+                    input.Unit_Price = catalog_item.Unit_Price;
+                    input.Tax_Rate = catalog_item.Tax_Rate;
+                }
+                else
+                {
+                    input.Item_Description = null;
+                    input.Unit_Of_Measure = null;
+                    input.Unit_Price = null;
+                    input.Tax_Rate = 0;
+                }
+            )
+        }
+    }
+}

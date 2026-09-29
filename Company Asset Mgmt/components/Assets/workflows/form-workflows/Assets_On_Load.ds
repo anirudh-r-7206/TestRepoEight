@@ -1,0 +1,18 @@
+Assets_On_Load as "Assets On Load"
+{
+    type = form
+    form = Assets
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                disable Current_Holder;
+                disable Current_Assignment_ID;
+            )
+        }
+    }
+}

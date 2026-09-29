@@ -1,0 +1,39 @@
+Maintenance_On_Load as "Maintenance On Load"
+{
+    type = form
+    form = Maintenance
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Asset != null)
+                {
+                    selectedAsset = Assets[ID == input.Asset];
+                    input.Condition_Before = selectedAsset.Condition;
+                }
+                if(input.Maintenance_Status == "Completed")
+                {
+                    show Completed_Date;
+                    show Work_Performed;
+                    show Condition_After;
+                    enable Completed_Date;
+                    enable Work_Performed;
+                    enable Condition_After;
+                }
+                else
+                {
+                    hide Completed_Date;
+                    hide Work_Performed;
+                    hide Condition_After;
+                    disable Completed_Date;
+                    disable Work_Performed;
+                    disable Condition_After;
+                }
+            )
+        }
+    }
+}

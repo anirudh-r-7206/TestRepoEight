@@ -1,0 +1,19 @@
+default list All_Students
+{
+    displayName = "All Students"
+    template = Student_Record_Template
+    show all rows from Students
+    (
+        Student_Name
+        Age
+        Gender
+    )
+    filters
+    (
+        Gender
+    )
+    sort by
+    (
+        Student_Name ascending
+    )
+}

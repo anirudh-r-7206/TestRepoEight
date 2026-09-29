@@ -1,0 +1,245 @@
+application "Sample-APp"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form People
+		{
+		    Personal_Information
+		    (
+		        type = section
+		        displayname = "Personal Information"
+		        row = 1
+		        column = 0
+		    )
+		    must have Name
+		    (
+		        type = text
+		        displayname = "Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Gender
+		    (
+		        type = picklist
+		        displayname = "Gender"
+		        values = {"Male", "Female", "Non-binary", "Prefer not to say"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_People
+		{
+		    displayName = "All People"
+		    show all rows from People
+		    (
+		        Name
+		        Gender
+		        Age
+		    )
+		    filters
+		    (
+		        Gender
+		        Age
+		    )
+		    sort by
+		    (
+		        Name ascending
+		    )
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form People
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_People
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Name
+		                    Gender
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Name
+		                    Gender
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space People_Space
+	    {
+	        displayname = "People Registry"
+	        icon = "users-multiple-11"
+	
+	        section People_Section
+	        {
+	            displayname = "People"
+	            icon = "users-contacts"
+	
+	            form People
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_People
+	            {
+	                icon = "users-square-33"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_name"
+	        placement = "left"
+	    }
+	}
+	}
+}

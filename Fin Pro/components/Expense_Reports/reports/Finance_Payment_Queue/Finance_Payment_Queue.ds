@@ -1,0 +1,37 @@
+list Finance_Payment_Queue
+{
+    displayName = "Finance Payment Queue"
+    show all rows from Expense_Reports [Approval_Status == "Approved" && Payment_Status != "Paid"]
+    (
+        Expense_Number
+        Submitted_By
+        Expense_Date
+        Category
+        Amount
+        Approval_Status
+        Payment_Status
+        Payment_Reference
+        custom action "Start Payment"
+        (
+            workflow = Expense_Start_Payment_Action
+            show action in edit record menu = true
+            column header = "Start Payment"
+            condition = (Approval_Status == "Approved" && Payment_Status == "Unpaid")
+        )
+        custom action "Mark Paid"
+        (
+            workflow = Expense_Mark_Paid_Action
+            show action in edit record menu = true
+            column header = "Mark Paid"
+            condition = (Approval_Status == "Approved" && (Payment_Status == "Processing" || Payment_Status == "Unpaid"))
+        )
+    )
+    group by
+    (
+        Payment_Status ascending
+    )
+    sort by
+    (
+        Expense_Date ascending
+    )
+}

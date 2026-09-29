@@ -1,0 +1,41 @@
+report Head_Approval_Queue
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Department_Head  Receipt  Description  Approval_Status  Payment_Status  "Approve"  "Reject" )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete  "Approve"  "Reject" )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Department_Head  Receipt  Description  Approval_Status  Payment_Status  "Approve"  "Reject" )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete  "Approve"  "Reject" )
+        )
+    )
+}

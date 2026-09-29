@@ -1,0 +1,255 @@
+application "Maran-IT"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form System_Admins
+		{
+		    title
+		    {
+		        displayname = "System Admins"
+		        on add = "Add System Admin"
+		        on edit = "Edit System Admin"
+		    }
+		    success message = "System administrator saved successfully."
+		
+		    Admin_Details
+		    (
+		        type = section
+		        displayname = "Admin Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Admin_Name
+		    (
+		        type = text
+		        displayname = "Admin Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Email_ID
+		    (
+		        type = email
+		        displayname = "Email ID"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_System_Admins
+		{
+		    displayName = "All System Admins"
+		    show all rows from System_Admins
+		    (
+		        Admin_Name
+		        Email_ID
+		    )
+		    filters
+		    (
+		        Admin_Name
+		        Email_ID
+		    )
+		    sort by
+		    (
+		        Admin_Name ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    new theme = 1
+	    new theme color = 5
+	    font = "poppins"
+	
+	    icon
+	    {
+	        icon = "zc-ab-intel-it1"
+	        background color = "#0093FF"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form System_Admins
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_System_Admins
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Admin_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Admin_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space IT_Management
+	    {
+	        displayname = "IT Management"
+	        icon = "tech-computer"
+	
+	        section System_Administration
+	        {
+	            displayname = "System Administration"
+	            icon = "users-multiple-11"
+	
+	            form System_Admins
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_System_Admins
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

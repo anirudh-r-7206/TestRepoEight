@@ -1,0 +1,26 @@
+default list Vendor_Catalog
+{
+    displayName = "Vendor Catalog"
+    show all rows from Vendor_Items
+    (
+        Item_Code
+        Vendor
+        Item_Name
+        Unit_Of_Measure
+        Unit_Price
+        Tax_Rate
+        Active
+        Effective_From
+        Effective_To
+    )
+    filters
+    (
+        Vendor
+        Active
+    )
+    sort by
+    (
+        Vendor ascending
+        Item_Name ascending
+    )
+}

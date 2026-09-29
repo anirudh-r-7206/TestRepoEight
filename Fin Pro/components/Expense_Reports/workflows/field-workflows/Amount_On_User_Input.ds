@@ -1,0 +1,24 @@
+Amount_On_User_Input as "Amount On User Input"
+{
+    type = form
+    form = Expense_Reports
+    record event = on add or edit
+
+    on user input of Amount
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Amount != null && input.Amount > 500)
+                {
+                    show Department_Head;
+                }
+                else
+                {
+                    hide Department_Head;
+                }
+            )
+        }
+    }
+}

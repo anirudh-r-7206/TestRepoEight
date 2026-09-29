@@ -1,0 +1,15 @@
+customize
+{
+    font = "poppins"
+
+    color options
+    {
+        color = "5"
+    }
+
+    logo
+    {
+        preference = "app_icon"
+        placement = "left"
+    }
+}

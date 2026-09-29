@@ -1,0 +1,22 @@
+default list ID_Document_Register
+{
+    displayName = "ID Document Register"
+    show all rows from ID_Documents
+    (
+        New_Hire
+        Document_Type
+        Expiry_Date
+        Verification_Status
+        Verified_By
+        Verified_Date
+    )
+    filters
+    (
+        Document_Type
+        Verification_Status
+    )
+    sort by
+    (
+        New_Hire ascending
+    )
+}

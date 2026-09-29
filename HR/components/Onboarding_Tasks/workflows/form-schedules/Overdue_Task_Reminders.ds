@@ -1,0 +1,82 @@
+Overdue_Task_Reminders as "Overdue Task Reminders"
+{
+    type = schedule
+    form = Onboarding_Tasks[Due_Date < zoho.currentdate && Status != "Complete"]
+    start = Due_Date at "09:00:00"
+    frequency = daily
+    time zone = "UTC"
+
+    on start
+    {
+        actions
+        {
+            on load
+            (
+                if(input.Due_Date != null && input.Assignee_Email != null && input.Status != "Complete")
+                {
+                    days_overdue = input.Due_Date.daysBetween(zoho.currentdate);
+                    reminder_due = false;
+                    target_level = 0;
+                    if(days_overdue == 1 && input.Reminder_Level < 1)
+                    {
+                        reminder_due = true;
+                        target_level = 1;
+                    }
+                    else if(days_overdue == 3 && input.Reminder_Level < 3)
+                    {
+                        reminder_due = true;
+                        target_level = 3;
+                    }
+                    else if(days_overdue == 7 && input.Reminder_Level < 7)
+                    {
+                        reminder_due = true;
+                        target_level = 7;
+                    }
+
+                    already_sent_today = input.Last_Reminder_Date != null && input.Last_Reminder_Date == zoho.currentdate;
+                    if(reminder_due && !already_sent_today)
+                    {
+                        hire_name = "New Hire";
+                        hr_owner_email = "";
+                        if(input.New_Hire != null)
+                        {
+                            hire_records = New_Hires[ID == input.New_Hire] range from 0 to 0;
+                            if(hire_records.count() > 0)
+                            {
+                                hire_name = hire_records.Full_Name;
+                                hr_owner_email = hire_records.HR_Owner_Email;
+                            }
+                        }
+                        report_link = "#Report:All_Onboarding_Tasks";
+                        mail_subject = "Onboarding task overdue: " + input.Task_Name;
+                        mail_message = "<p>An onboarding task is overdue.</p><p><strong>New hire:</strong> " + hire_name + "<br><strong>Task:</strong> " + input.Task_Name + "<br><strong>Due date:</strong> " + input.Due_Date + "<br><strong>Days overdue:</strong> " + days_overdue + "</p><p><a href='" + report_link + "'>Open onboarding tasks</a></p>";
+
+                        if(days_overdue == 7 && hr_owner_email != null && hr_owner_email != "")
+                        {
+                            sendmail
+                            (
+                                from : zoho.adminuserid
+                                to : input.Assignee_Email
+                                cc : hr_owner_email
+                                subject : mail_subject
+                                message : mail_message
+                            )
+                        }
+                        else
+                        {
+                            sendmail
+                            (
+                                from : zoho.adminuserid
+                                to : input.Assignee_Email
+                                subject : mail_subject
+                                message : mail_message
+                            )
+                        }
+                        input.Last_Reminder_Date = zoho.currentdate;
+                        input.Reminder_Level = target_level;
+                    }
+                }
+            )
+        }
+    }
+}

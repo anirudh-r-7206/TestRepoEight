@@ -1,0 +1,87 @@
+"Finance"
+{
+    name        = "Finance"
+    type        = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+    description = "Finance users who view all approved expenses and maintain payment state."
+
+    ModulePermissions
+    {
+        Department_Heads
+        {
+            enabled          = Create,Viewall,Modifyall,View,Edit,Delete,Search,Tab
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Active_Department_Heads={"View","Edit","Delete"}
+            }
+            FieldPermissions
+            {
+                Directory_Details{visibility:true,readonly:true}
+                Head_Name{visibility:true,readonly:false}
+                Head_Email{visibility:true,readonly:false}
+                Department{visibility:true,readonly:false}
+                Active{visibility:true,readonly:false}
+            }
+        }
+
+        Expense_Reports
+        {
+            enabled          = Viewall,View,Search,Tab
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Finance_Payment_Queue={"View","Edit"}
+                All_Expenses={"View"}
+            }
+            FieldPermissions
+            {
+                Expense_Details{visibility:true,readonly:true}
+                Expense_Number{visibility:true,readonly:true}
+                Expense_Date{visibility:true,readonly:true}
+                Category{visibility:true,readonly:true}
+                Amount{visibility:true,readonly:true}
+                Receipt{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Approval_and_Payment{visibility:true,readonly:true}
+                Department_Head{visibility:true,readonly:true}
+                Approval_Status{visibility:true,readonly:true}
+                Payment_Status{visibility:true,readonly:true}
+                Submitted_By{visibility:true,readonly:true}
+                Approved_or_Rejected_By{visibility:true,readonly:true}
+                Decision_Date{visibility:true,readonly:true}
+                Decision_Notes{visibility:true,readonly:true}
+                Payment_Reference{visibility:true,readonly:true}
+                Paid_Date{visibility:true,readonly:true}
+            }
+        }
+
+        Expense_Audit
+        {
+            enabled          = Viewall,View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Expense_Audit_Trail={"View"}
+            }
+            FieldPermissions
+            {
+                Audit_Details{visibility:true,readonly:true}
+                Expense{visibility:true,readonly:true}
+                Action{visibility:true,readonly:true}
+                Actor_Email{visibility:true,readonly:true}
+                Action_Time{visibility:true,readonly:true}
+                Previous_Approval_Status{visibility:true,readonly:true}
+                New_Approval_Status{visibility:true,readonly:true}
+                Previous_Payment_Status{visibility:true,readonly:true}
+                New_Payment_Status{visibility:true,readonly:true}
+                Notes{visibility:true,readonly:true}
+            }
+        }
+
+        Expense_Dashboard
+        {
+            enabled = tab
+        }
+    }
+}

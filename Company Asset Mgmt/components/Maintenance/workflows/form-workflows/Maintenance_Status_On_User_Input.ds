@@ -1,0 +1,34 @@
+Maintenance_Status_On_User_Input as "Maintenance Status On User Input"
+{
+    type = form
+    form = Maintenance
+    record event = on add or edit
+
+    on user input of Maintenance_Status
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Maintenance_Status == "Completed")
+                {
+                    show Completed_Date;
+                    show Work_Performed;
+                    show Condition_After;
+                    enable Completed_Date;
+                    enable Work_Performed;
+                    enable Condition_After;
+                }
+                else
+                {
+                    hide Completed_Date;
+                    hide Work_Performed;
+                    hide Condition_After;
+                    disable Completed_Date;
+                    disable Work_Performed;
+                    disable Condition_After;
+                }
+            )
+        }
+    }
+}

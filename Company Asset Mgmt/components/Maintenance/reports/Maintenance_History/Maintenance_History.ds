@@ -1,0 +1,30 @@
+default list Maintenance_History
+{
+    displayName = "Maintenance History"
+    show all rows from Maintenance
+    (
+        Maintenance_ID
+        Asset
+        Reported_Date
+        Maintenance_Status
+        Issue_Description
+        Service_Provider
+        Service_Cost
+        Completed_Date
+        Condition_Before
+        Condition_After
+    )
+    filters
+    (
+        Asset
+        Maintenance_Status
+    )
+    group by
+    (
+        Asset ascending
+    )
+    sort by
+    (
+        Reported_Date descending
+    )
+}

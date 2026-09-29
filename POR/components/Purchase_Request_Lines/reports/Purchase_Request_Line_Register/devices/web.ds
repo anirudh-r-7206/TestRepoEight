@@ -1,0 +1,5 @@
+report Purchase_Request_Line_Register
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Catalog_Item Quantity Unit_Of_Measure Unit_Price Tax_Rate Line_Subtotal Tax_Amount Line_Total ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+ detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Catalog_Item Quantity Unit_Of_Measure Unit_Price Tax_Rate Line_Subtotal Tax_Amount Line_Total ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+}

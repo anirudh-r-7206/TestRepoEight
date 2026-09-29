@@ -1,0 +1,62 @@
+report Returned_Assignments
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Asset
+                    Assigned_To
+                    Assigned_Date
+                    Return_Date
+                    Assignment_Status
+                    Condition_On_Issue
+                    Condition_On_Return
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Assignment_ID
+                    Asset
+                    Assigned_To
+                    Assigned_Date
+                    Condition_On_Issue
+                    Assignment_Status
+                    Return_Date
+                    Condition_On_Return
+                    Assignment_Notes
+                    Return_Notes
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

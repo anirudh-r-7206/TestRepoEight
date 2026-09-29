@@ -1,0 +1,25 @@
+list Active_Onboarding
+{
+    displayName = "Active Onboarding"
+    show all rows from New_Hires [Status != "Complete"]
+    (
+        Employee_ID
+        Full_Name
+        Personal_Email
+        Job_Title
+        Department
+        Start_Date
+        Manager_Name
+        Status
+    )
+    filters
+    (
+        Department
+        Start_Date
+        Status
+    )
+    sort by
+    (
+        Start_Date descending
+    )
+}

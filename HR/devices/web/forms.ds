@@ -1,0 +1,31 @@
+forms
+{
+    form New_Hires
+    {
+        label placement = top
+    }
+    form Checklist_Templates
+    {
+        label placement = top
+    }
+    form Training_Content
+    {
+        label placement = top
+    }
+    form Onboarding_Tasks
+    {
+        label placement = top
+    }
+    form ID_Documents
+    {
+        label placement = top
+    }
+    form Training_Assignments
+    {
+        label placement = top
+    }
+    form Handbook_Acknowledgements
+    {
+        label placement = top
+    }
+}

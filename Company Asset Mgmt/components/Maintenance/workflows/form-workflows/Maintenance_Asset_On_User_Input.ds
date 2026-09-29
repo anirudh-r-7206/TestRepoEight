@@ -1,0 +1,21 @@
+Maintenance_Asset_On_User_Input as "Maintenance Asset On User Input"
+{
+    type = form
+    form = Maintenance
+    record event = on add or edit
+
+    on user input of Asset
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Asset != null)
+                {
+                    selectedAsset = Assets[ID == input.Asset];
+                    input.Condition_Before = selectedAsset.Condition;
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,110 @@
+Invoices_On_Validate as "Invoices On Validate"
+{
+    type = form
+    form = Invoices
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                duplicateInvoices = Invoices[Invoice_Number == input.Invoice_Number && Vendor == input.Vendor && ID != input.ID];
+                if(duplicateInvoices.count() > 0)
+                {
+                    alert "This invoice number already exists for the selected vendor.";
+                    cancel submit;
+                }
+                poRecord = Purchase_Requests[ID == input.Purchase_Order];
+                if(poRecord.ID == null)
+                {
+                    alert "Select a valid issued purchase order.";
+                    cancel submit;
+                }
+                if(input.Vendor != poRecord.Vendor)
+                {
+                    alert "Invoice vendor must match the purchase order vendor.";
+                    cancel submit;
+                }
+                if(input.Invoice_Lines == null || input.Invoice_Lines.isEmpty())
+                {
+                    alert "Add at least one invoice line.";
+                    cancel submit;
+                }
+
+                subtotalValue = 0.0;
+                taxValue = 0.0;
+                exceptionText = "";
+                for each invoiceLine in input.Invoice_Lines
+                {
+                    if(invoiceLine.Catalog_Item == null || invoiceLine.Invoiced_Quantity == null || invoiceLine.Invoiced_Quantity <= 0)
+                    {
+                        alert "Every invoice line requires an item and positive quantity.";
+                        cancel submit;
+                    }
+                    lineSubtotalValue = invoiceLine.Invoiced_Quantity * ifnull(invoiceLine.Unit_Price,0);
+                    lineTaxValue = lineSubtotalValue * ifnull(invoiceLine.Tax_Rate,0) / 100;
+                    subtotalValue = subtotalValue + lineSubtotalValue;
+                    taxValue = taxValue + lineTaxValue;
+
+                    orderedQty = 0.0;
+                    expectedPrice = 0.0;
+                    expectedTax = 0.0;
+                    itemFoundOnPO = false;
+                    for each poLine in poRecord.Requested_Items
+                    {
+                        if(poLine.Catalog_Item == invoiceLine.Catalog_Item)
+                        {
+                            itemFoundOnPO = true;
+                            orderedQty = orderedQty + ifnull(poLine.Quantity,0);
+                            expectedPrice = ifnull(poLine.Unit_Price,0);
+                            expectedTax = ifnull(poLine.Tax_Rate,0);
+                        }
+                    }
+                    priorQty = 0.0;
+                    priorInvoices = Invoices[Purchase_Order == input.Purchase_Order && Match_Status != "Exception" && ID != input.ID];
+                    for each priorInvoice in priorInvoices
+                    {
+                        for each priorLine in priorInvoice.Invoice_Lines
+                        {
+                            if(priorLine.Catalog_Item == invoiceLine.Catalog_Item)
+                            {
+                                priorQty = priorQty + ifnull(priorLine.Invoiced_Quantity,0);
+                            }
+                        }
+                    }
+                    if(!itemFoundOnPO)
+                    {
+                        exceptionText = exceptionText + "Item not present on PO; ";
+                    }
+                    if(priorQty + invoiceLine.Invoiced_Quantity > orderedQty + 0.01)
+                    {
+                        exceptionText = exceptionText + "Quantity exceeds remaining PO quantity; ";
+                    }
+                    if(itemFoundOnPO && (ifnull(invoiceLine.Unit_Price,0) - expectedPrice > 0.01 || ifnull(invoiceLine.Unit_Price,0) - expectedPrice < -0.01))
+                    {
+                        exceptionText = exceptionText + "Unit price differs from PO; ";
+                    }
+                    if(itemFoundOnPO && (ifnull(invoiceLine.Tax_Rate,0) - expectedTax > 0.01 || ifnull(invoiceLine.Tax_Rate,0) - expectedTax < -0.01))
+                    {
+                        exceptionText = exceptionText + "Tax rate differs from PO; ";
+                    }
+                }
+                input.Invoice_Subtotal = subtotalValue;
+                input.Invoice_Tax = taxValue;
+                input.Invoice_Total = subtotalValue + taxValue;
+                priorTotal = Invoices[Purchase_Order == input.Purchase_Order && Match_Status != "Exception" && ID != input.ID].sum(Invoice_Total);
+                priorTotal = ifnull(priorTotal,0);
+                cumulativeTotal = priorTotal + input.Invoice_Total;
+                input.Amount_Variance = cumulativeTotal - ifnull(poRecord.PO_Total,0);
+                if(cumulativeTotal > ifnull(poRecord.PO_Total,0) + 0.01)
+                {
+                    exceptionText = exceptionText + "Cumulative invoice total exceeds PO total; ";
+                }
+                input.Match_Status = "Pending Match";
+                input.Exception_Details = exceptionText;
+            )
+        }
+    }
+}

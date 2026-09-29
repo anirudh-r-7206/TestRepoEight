@@ -1,0 +1,71 @@
+form People
+{
+    success message = "Person saved successfully."
+
+    Person_Details
+    (
+        type = section
+        displayname = "Person Details"
+        row = 1
+        column = 0
+    )
+    must have Full_Name
+    (
+        type = text
+        displayname = "Full Name"
+        maxchar = 100
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Gender
+    (
+        type = radiobuttons
+        displayname = "Gender"
+        values = {"Female", "Male", "Non-binary", "Prefer not to say"}
+        layout = 1
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Age
+    (
+        type = number
+        displayname = "Age"
+        maxchar = 3
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

@@ -1,0 +1,58 @@
+kanban Purchase_Request_Board
+{
+    displayName = "Purchase Request Board"
+    show all rows from Purchase_Requests
+    (
+        Request_Number
+        Requester
+        Vendor
+        Request_Total
+        Needed_By
+        Assigned_Approver
+        Status
+    )
+    filters
+    (
+        Vendor
+        Assigned_Approver
+        Status
+    )
+    sort by
+    (
+        Needed_By ascending
+    )
+    options
+    (
+        display field = Status
+        filter type = manual
+        sort order = custom
+        record count = enable
+    )
+    conditional formatting
+    (
+        "Rejected"
+        {
+            condition = (Status == "Rejected")
+            fields = [Request_Number, Status]
+            format = "background-color:#FDE8E8;color:#B42318"
+        }
+        "Match Exception"
+        {
+            condition = (Status == "Match Exception")
+            fields = [Request_Number, Status]
+            format = "background-color:#FFF1F0;color:#C62828;font-weight:bold"
+        }
+        "Pending"
+        {
+            condition = (Status == "Pending Manager Approval" || Status == "Pending Finance Approval")
+            fields = [Request_Number, Status]
+            format = "background-color:#FFF7E0;color:#7A4D00"
+        }
+        "Matched"
+        {
+            condition = (Status == "Matched")
+            fields = [Request_Number, Status]
+            format = "background-color:#E7F6EC;color:#137333"
+        }
+    )
+}

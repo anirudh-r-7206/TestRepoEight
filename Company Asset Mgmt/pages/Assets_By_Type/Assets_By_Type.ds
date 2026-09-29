@@ -1,0 +1,24 @@
+<page linkname = "Assets_By_Type" displayname = "Assets by Type"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <file name:Assets_By_Type_Header.ds/>
+      </column>
+    </row>
+    <row>
+      <column width='100%'>
+        <dsp id='Assets_By_Type_Groups' elementName='Assets_By_Type_Groups'>
+          <![CDATA[htmlpage Assets_By_Type_Groups()
+            content
+            <%{%>
+              <file name:Assets_By_Type_Groups.dshtml/>
+            <%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

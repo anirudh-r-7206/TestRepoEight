@@ -1,0 +1,102 @@
+<%
+active_hires = New_Hires[Status != "Complete"].count();
+overdue_tasks = Onboarding_Tasks[Due_Date < zoho.currentdate && Status != "Complete"].count();
+next_week = zoho.currentdate.addDay(7);
+due_soon_tasks = Onboarding_Tasks[Due_Date >= zoho.currentdate && Due_Date <= next_week && Status != "Complete"].count();
+completed_hires = New_Hires[Status == "Complete"].count();
+total_hires = New_Hires.count();
+preboarding_count = New_Hires[Status == "Pre-boarding"].count();
+in_progress_count = New_Hires[Status == "In Progress"].count();
+awaiting_count = New_Hires[Status == "Awaiting Sign-off"].count();
+on_hold_count = New_Hires[Status == "On Hold"].count();
+hr_tasks = Onboarding_Tasks[Category == "HR" && Status != "Complete"].count();
+it_tasks = Onboarding_Tasks[Category == "IT" && Status != "Complete"].count();
+manager_tasks = Onboarding_Tasks[Category == "Manager" && Status != "Complete"].count();
+open_tasks = hr_tasks + it_tasks + manager_tasks;
+preboarding_pct = 0;
+in_progress_pct = 0;
+awaiting_pct = 0;
+complete_pct = 0;
+on_hold_pct = 0;
+if(total_hires > 0)
+{
+    preboarding_pct = (preboarding_count * 100) / total_hires;
+    in_progress_pct = (in_progress_count * 100) / total_hires;
+    awaiting_pct = (awaiting_count * 100) / total_hires;
+    complete_pct = (completed_hires * 100) / total_hires;
+    on_hold_pct = (on_hold_count * 100) / total_hires;
+}
+hr_pct = 0;
+it_pct = 0;
+manager_pct = 0;
+if(open_tasks > 0)
+{
+    hr_pct = (hr_tasks * 100) / open_tasks;
+    it_pct = (it_tasks * 100) / open_tasks;
+    manager_pct = (manager_tasks * 100) / open_tasks;
+}
+%>
+<style>
+/* zcs-global.css: included once for this page */
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-white-color:#fff;--zcs-red:#c9364f;--zcs-red-bg:#fdecef;--zcs-orange:#9a6510;--zcs-orange-bg:#fff4d6;--zcs-blue:#1769aa;--zcs-blue-bg:#eaf4ff;--zcs-green:#157a55;--zcs-green-bg:#e9f8f1;--zcs-text-1:var(--zcs_primary_text_color);--zcs-text-2:var(--zcs_secondary_text_color);--zcs-text-3:var(--zcs_tertiary_text_color);--zcs-surface:#fff;--zcs-bg:#f5f7fa;--zcs-radius:12px;--zcs-shadow:0 2px 12px rgba(22,35,55,.08)}
+.zcs-w-full{width:100%}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-p-2{padding:.125rem}.zcs-box-border{box-sizing:border-box}.zcs-text-left{text-align:left}.zcs-font-14{font-size:.875rem}.zcs-font-medium{font-weight:500}.zcs-font-normal{font-weight:400}.zcs-lh-body{line-height:1.5}.zcs-color-primary{color:var(--zcs-primary-text-color)}.zcs-rounded-sm{border-radius:.25rem}.zcs-relative{position:relative}.zcs-sticky{position:sticky}.zcs-color-blue{color:#09598e}.zcs-color-red{color:#c9364f}.zcs-color-green{color:#157a55}.zcs-color-yellow{color:#9a6510}a{text-decoration:none}
+.zcs-page{font-family:var(--zcs-font,Arial,sans-serif);background:var(--zcs-bg);min-height:100vh;padding:24px;box-sizing:border-box}.zcs-page-header{margin-bottom:20px}.zcs-page-header__title{font-size:22px;font-weight:600;color:var(--zcs-text-1);margin:0 0 4px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:20px}.zcs-kpi-card{background:var(--zcs-surface);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px;border-top:3px solid var(--zcs-theme-brand-color)}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:32px;font-weight:700;margin:6px 0 4px;line-height:1}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.zcs-section{background:var(--zcs-surface);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px;margin-bottom:16px;min-width:0}.zcs-section__heading{font-size:15px;font-weight:600;color:var(--zcs-text-1);margin:0}.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4}.zcs-badge--success{background:var(--zcs-green-bg);color:var(--zcs-green)}.zcs-badge--danger{background:var(--zcs-red-bg);color:var(--zcs-red)}.zcs-badge--warning{background:var(--zcs-orange-bg);color:var(--zcs-orange)}.zcs-badge--info{background:var(--zcs-blue-bg);color:var(--zcs-blue)}.zcs-badge--neutral{background:#f3f4f6;color:var(--zcs-text-2)}
+.zcs-table-wrapper{border:1px solid var(--zcs_tertiary_border_color,#dde2e8);background:#fff;overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse}.zcs-table-wrapper table thead{top:0}.zcs-table-wrapper table thead th{background:#f9fafe;box-shadow:0 -1px 0 var(--zcs_tertiary_border_color,#dde2e8) inset;white-space:nowrap}.zcs-table-wrapper table tbody td{border-top:1px solid var(--zcs_tertiary_border_color,#dde2e8)}.zcs-table-wrapper table tbody tr:hover td{background:#f9fafe}
+.od-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.od-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.od-link{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid var(--zcs_tertiary_border_color,#d8dee6);border-radius:8px;color:var(--zcs-text-1);background:#fff;font-size:13px;font-weight:600}.od-link--primary{background:var(--zcs-theme-brand-color);border-color:var(--zcs-theme-brand-color);color:var(--zcs_brand_foreground_color,#fff)}.od-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.od-grid--wide{grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr)}.od-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.od-section-head a{font-size:12px;font-weight:600;color:var(--zcs-theme-brand-color)}.od-stat{display:grid;grid-template-columns:125px minmax(80px,1fr) 36px;align-items:center;gap:10px;margin:11px 0;font-size:13px;color:var(--zcs-text-2)}.od-bar{height:8px;background:#edf0f3;border-radius:10px;overflow:hidden}.od-fill{display:block;height:100%;background:var(--zcs-theme-brand-color);border-radius:10px}.od-fill--teal{background:#159c91}.od-fill--gold{background:#d99a28}.od-fill--green{background:#1b9a69}.od-fill--slate{background:#7c8796}.od-list{display:grid;gap:10px}.od-list-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--zcs_tertiary_border_color,#e2e6eb)}.od-list-item:last-child{border-bottom:0}.od-name{font-size:14px;font-weight:600;color:var(--zcs-text-1)}.od-meta{font-size:12px;color:var(--zcs-text-2);margin-top:2px}.od-date{text-align:right;white-space:nowrap;font-size:13px;font-weight:600;color:var(--zcs-text-1)}.od-empty{padding:22px;text-align:center;color:var(--zcs-text-2);font-size:13px}.od-tables{display:grid;gap:16px}.od-note{font-size:11px;color:var(--zcs-text-3);margin-top:12px}.od-icon{font-size:17px;color:var(--zcs-theme-brand-color)}
+@media(max-width:980px){.od-header{display:block}.od-actions{justify-content:flex-start;margin-top:14px}.od-grid,.od-grid--wide{grid-template-columns:1fr}}@media(max-width:600px){.zcs-page{padding:14px}.zcs-section{padding:16px}.od-stat{grid-template-columns:100px minmax(60px,1fr) 30px}.od-link{width:100%;box-sizing:border-box}.od-actions{display:grid;grid-template-columns:1fr 1fr}.od-list-item{align-items:flex-start}.od-date{white-space:normal}}
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header od-header">
+    <div><h1 class="zcs-page-header__title">Onboarding command center</h1><p class="zcs-page-header__sub">Progress, deadlines, training, and handbook completion as of <%=zoho.currentdate.toString("dd MMM yyyy")%>.</p></div>
+    <div class="od-actions">
+      <a class="od-link od-link--primary" href="#Report:Active_Onboarding"><i class="zc-li-outline users-1_multiple-19 od-icon"></i> Active onboarding</a>
+      <a class="od-link" href="#Report:Onboarding_Task_Board"><i class="zc-li-outline design_bullet-list-67 od-icon"></i> Task board</a>
+      <a class="od-link" href="#Report:Onboarding_Due_Calendar"><i class="zc-li-outline ui-1_calendar-60 od-icon"></i> Due calendar</a>
+    </div>
+  </div>
+
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Active hires</div><div class="zcs-kpi-card__value zcs-color-blue"><%=ifnull(active_hires,0)%></div><div class="zcs-kpi-card__sub">Not yet complete</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Overdue tasks</div><div class="zcs-kpi-card__value zcs-color-red"><%=ifnull(overdue_tasks,0)%></div><div class="zcs-kpi-card__sub">Past due and open</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Due next 7 days</div><div class="zcs-kpi-card__value zcs-color-yellow"><%=ifnull(due_soon_tasks,0)%></div><div class="zcs-kpi-card__sub">Open work approaching deadline</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Completed onboardings</div><div class="zcs-kpi-card__value zcs-color-green"><%=ifnull(completed_hires,0)%></div><div class="zcs-kpi-card__sub">All requirements satisfied</div></div>
+  </div>
+
+  <div class="od-grid">
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Hire status distribution</h2><a href="#Report:Active_Onboarding">View hires</a></div>
+      <div class="od-stat"><span>Pre-boarding</span><span class="od-bar"><span class="od-fill" style="width:<%=preboarding_pct%>%"></span></span><strong><%=preboarding_count%></strong></div>
+      <div class="od-stat"><span>In progress</span><span class="od-bar"><span class="od-fill od-fill--teal" style="width:<%=in_progress_pct%>%"></span></span><strong><%=in_progress_count%></strong></div>
+      <div class="od-stat"><span>Awaiting sign-off</span><span class="od-bar"><span class="od-fill od-fill--gold" style="width:<%=awaiting_pct%>%"></span></span><strong><%=awaiting_count%></strong></div>
+      <div class="od-stat"><span>Complete</span><span class="od-bar"><span class="od-fill od-fill--green" style="width:<%=complete_pct%>%"></span></span><strong><%=completed_hires%></strong></div>
+      <div class="od-stat"><span>On hold</span><span class="od-bar"><span class="od-fill od-fill--slate" style="width:<%=on_hold_pct%>%"></span></span><strong><%=on_hold_count%></strong></div>
+    </div>
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Open tasks by owner category</h2><a href="#Report:Onboarding_Task_Board">Open board</a></div>
+      <div class="od-stat"><span>Human Resources</span><span class="od-bar"><span class="od-fill" style="width:<%=hr_pct%>%"></span></span><strong><%=hr_tasks%></strong></div>
+      <div class="od-stat"><span>IT</span><span class="od-bar"><span class="od-fill od-fill--teal" style="width:<%=it_pct%>%"></span></span><strong><%=it_tasks%></strong></div>
+      <div class="od-stat"><span>Managers</span><span class="od-bar"><span class="od-fill od-fill--gold" style="width:<%=manager_pct%>%"></span></span><strong><%=manager_tasks%></strong></div>
+      <p class="od-note">Counts include Not Started, In Progress, and Blocked tasks.</p>
+    </div>
+  </div>
+
+  <div class="od-grid od-grid--wide">
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Overdue tasks</h2><a href="#Report:Onboarding_Task_Board">View all tasks</a></div>
+      <div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full"><thead class="zcs-sticky"><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Hire and task</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Owner</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Due</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Severity</th></tr></thead><tbody>
+      <% overdue_rows = Onboarding_Tasks[Due_Date < zoho.currentdate && Status != "Complete"] sort by Due_Date asc range from 0 to 7; if(overdue_rows.count() == 0) { %><tr><td colspan="4" class="od-empty">No overdue onboarding tasks.</td></tr><% } else { for each task in overdue_rows { days_late = task.Due_Date.daysBetween(zoho.currentdate); severity_label = "Watch"; severity_class = "zcs-badge--warning"; if(days_late >= 7) { severity_label = "Critical"; severity_class = "zcs-badge--danger"; } %>
+      <tr><td class="zcs-px-16 zcs-py-8 zcs-font-14"><div class="od-name"><%=ifnull(task.New_Hire.Full_Name,"Unassigned hire")%></div><div class="od-meta"><%=ifnull(task.Task_Name,"Untitled task")%> · <%=ifnull(task.Category,"Uncategorized")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(task.Assignee_Email,"Not assigned")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(task.Due_Date.toString("dd MMM yyyy"),"No date")%></td><td class="zcs-px-16 zcs-py-8"><span class="zcs-badge <%=severity_class%>"><%=severity_label%> · <%=days_late%>d</span></td></tr><% } } %>
+      </tbody></table></div>
+    </div>
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Upcoming starts</h2><a href="#Report:Active_Onboarding">View schedule</a></div><div class="od-list">
+      <% upcoming_rows = New_Hires[Start_Date >= zoho.currentdate && Status != "Complete"] sort by Start_Date asc range from 0 to 7; if(upcoming_rows.count() == 0) { %><div class="od-empty">No upcoming start dates.</div><% } else { for each hire in upcoming_rows { %><div class="od-list-item"><div><div class="od-name"><%=ifnull(hire.Full_Name,"Unnamed hire")%></div><div class="od-meta"><%=ifnull(hire.Job_Title,"Job title pending")%> · <%=ifnull(hire.Department,"Department pending")%></div></div><div class="od-date"><%=ifnull(hire.Start_Date.toString("dd MMM yyyy"),"No date")%><div class="od-meta"><%=ifnull(hire.Status,"No status")%></div></div></div><% } } %>
+    </div></div>
+  </div>
+
+  <div class="od-tables">
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Outstanding training</h2><a href="#Report:Outstanding_Training">Open training register</a></div><div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Hire</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Training</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Due</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Status</th></tr></thead><tbody>
+      <% training_rows = Training_Assignments[Status != "Completed" && Status != "Waived"] sort by Due_Date asc range from 0 to 7; if(training_rows.count() == 0) { %><tr><td colspan="4" class="od-empty">No outstanding training assignments.</td></tr><% } else { for each assignment in training_rows { training_status = ifnull(assignment.Status,"Assigned"); training_badge = "zcs-badge--info"; if(assignment.Due_Date != null && assignment.Due_Date < zoho.currentdate) { training_badge = "zcs-badge--danger"; } %><tr><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(assignment.New_Hire.Full_Name,"Unnamed hire")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(assignment.Training_Item.Training_Title,"Untitled training")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(assignment.Due_Date.toString("dd MMM yyyy"),"No date")%></td><td class="zcs-px-16 zcs-py-8"><span class="zcs-badge <%=training_badge%>"><%=training_status%></span></td></tr><% } } %>
+      </tbody></table></div></div>
+
+    <div class="zcs-section"><div class="od-section-head"><h2 class="zcs-section__heading">Recent handbook acknowledgements</h2><a href="#Report:Handbook_Signoff_Register">Open sign-off register</a></div><div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Hire</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Version</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Signed</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Witness</th></tr></thead><tbody>
+      <% handbook_rows = Handbook_Acknowledgements[ID != 0] sort by Signed_Date desc range from 0 to 7; if(handbook_rows.count() == 0) { %><tr><td colspan="4" class="od-empty">No handbook acknowledgements recorded.</td></tr><% } else { for each ack in handbook_rows { %><tr><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(ack.New_Hire.Full_Name,"Unnamed hire")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(ack.Handbook_Version,"Not specified")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(ack.Signed_Date.toString("dd MMM yyyy"),"No date")%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(ack.Witnessed_By,"Not recorded")%></td></tr><% } } %>
+      </tbody></table></div><p class="od-note">This dashboard shows acknowledgement metadata only. Signature, handbook file, and identity-document data are not displayed.</p></div>
+  </div>
+</div>

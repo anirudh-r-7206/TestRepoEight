@@ -1,0 +1,65 @@
+report Open_Maintenance
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Asset
+                    Maintenance_Status
+                    Issue_Description
+                    Reported_Date
+                    Started_Date
+                    Completed_Date
+                    Service_Provider
+                    Service_Cost
+                    Condition_Before
+                    Condition_After
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Asset
+                    Maintenance_Status
+                    Issue_Description
+                    Reported_Date
+                    Started_Date
+                    Completed_Date
+                    Service_Provider
+                    Service_Cost
+                    Condition_Before
+                    Condition_After
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

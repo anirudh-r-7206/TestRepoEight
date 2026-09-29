@@ -1,0 +1,1494 @@
+application "Fin-Pro"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Department_Heads
+		{
+		    Directory_Details
+		    (
+		        type = section
+		        displayname = "Directory Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Head_Name
+		    (
+		        type = text
+		        displayname = "Head Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Head_Email
+		    (
+		        type = email
+		        displayname = "Head Email"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Department
+		    (
+		        type = text
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Active
+		    (
+		        type = checkbox
+		        initial value = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Expense_Audit
+		{
+		    title
+		    {
+		        displayname = "Expense Audit"
+		        on add = "Add Expense Audit"
+		        on edit = "Edit Expense Audit"
+		    }
+		
+		    Audit_Details
+		    (
+		        type = section
+		        displayname = "Audit Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Expense
+		    (
+		        type = picklist
+		        values = Expense_Reports.ID
+		        displayformat = [Expense_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Action
+		    (
+		        type = text
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Actor_Email
+		    (
+		        type = email
+		        displayname = "Actor Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Action_Time
+		    (
+		        type = datetime
+		        displayname = "Action Time"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Previous_Approval_Status
+		    (
+		        type = text
+		        displayname = "Previous Approval Status"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    New_Approval_Status
+		    (
+		        type = text
+		        displayname = "New Approval Status"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Previous_Payment_Status
+		    (
+		        type = text
+		        displayname = "Previous Payment Status"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    New_Payment_Status
+		    (
+		        type = text
+		        displayname = "New Payment Status"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Expense_Reports
+		{
+		    success message = "Expense report submitted successfully."
+		    record owner = Added_User
+		
+		    Expense_Details
+		    (
+		        type = section
+		        displayname = "Expense Details"
+		        row = 1
+		        column = 0
+		    )
+		    Expense_Number
+		    (
+		        type = autonumber
+		        displayname = "Expense Number"
+		        start index = 1
+		        row = 1
+		        column = 1
+		    )
+		    must have Expense_Date
+		    (
+		        type = date
+		        displayname = "Expense Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Category
+		    (
+		        type = picklist
+		        values = {"Travel", "Meals", "Lodging", "Office Supplies", "Training", "Client Entertainment", "Other"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Amount
+		    (
+		        type = USD
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Receipt
+		    (
+		        type = upload file
+		        file count = 1
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    Approval_and_Payment
+		    (
+		        type = section
+		        displayname = "Approval and Payment"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Department_Head
+		    (
+		        type = picklist
+		        displayname = "Department Head"
+		        values = Department_Heads.ID
+		        displayformat = [Head_Name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Approval_Status
+		    (
+		        type = picklist
+		        displayname = "Approval Status"
+		        values = {"Pending Department Head", "Approved", "Rejected"}
+		        initial value = "Approved"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Payment_Status
+		    (
+		        type = picklist
+		        displayname = "Payment Status"
+		        values = {"Not Ready", "Unpaid", "Processing", "Paid"}
+		        initial value = "Unpaid"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Submitted_By
+		    (
+		        type = email
+		        displayname = "Submitted By"
+		        initial value = "${zoho.loginuserid}"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Approved_or_Rejected_By
+		    (
+		        type = email
+		        displayname = "Approved or Rejected By"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Decision_Date
+		    (
+		        type = date
+		        displayname = "Decision Date"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Decision_Notes
+		    (
+		        type = textarea
+		        displayname = "Decision Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Payment_Reference
+		    (
+		        type = text
+		        displayname = "Payment Reference"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Paid_Date
+		    (
+		        type = date
+		        displayname = "Paid Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list Active_Department_Heads
+		{
+		    displayName = "Active Department Heads"
+		    show all rows from Department_Heads [Active == true]
+		    (
+		        Head_Name
+		        Head_Email
+		        Department
+		        Active
+		    )
+		    filters
+		    (
+		        Department
+		        Active
+		    )
+		    sort by
+		    (
+		        Head_Name ascending
+		    )
+		}
+
+		default list Expense_Audit_Trail
+		{
+		    displayName = "Expense Audit Trail"
+		    show all rows from Expense_Audit
+		    (
+		        Expense
+		        Action
+		        Actor_Email
+		        Action_Time
+		        Previous_Approval_Status
+		        New_Approval_Status
+		        Previous_Payment_Status
+		        New_Payment_Status
+		        Notes
+		    )
+		    filters
+		    (
+		        Action
+		        Actor_Email
+		        Action_Time
+		    )
+		    sort by
+		    (
+		        Action_Time descending
+		    )
+		}
+
+		list All_Expenses
+		{
+		    displayName = "All Expenses"
+		    show all rows from Expense_Reports
+		    (
+		        Expense_Number
+		        Expense_Date
+		        Category
+		        Amount
+		        (
+		            display = total
+		        )
+		        Receipt
+		        Description
+		        Department_Head
+		        Approval_Status
+		        Payment_Status
+		        Submitted_By
+		        Approved_or_Rejected_By
+		        Decision_Date
+		        Decision_Notes
+		        Payment_Reference
+		        Paid_Date
+		    )
+		    group by
+		    (
+		        Approval_Status ascending
+		        Payment_Status ascending
+		    )
+		    sort by
+		    (
+		        Expense_Date descending
+		    )
+		}
+
+		list Finance_Payment_Queue
+		{
+		    displayName = "Finance Payment Queue"
+		    show all rows from Expense_Reports [Approval_Status == "Approved" && Payment_Status != "Paid"]
+		    (
+		        Expense_Number
+		        Submitted_By
+		        Expense_Date
+		        Category
+		        Amount
+		        Approval_Status
+		        Payment_Status
+		        Payment_Reference
+		        custom action "Start Payment"
+		        (
+		            workflow = Expense_Start_Payment_Action
+		            show action in edit record menu = true
+		            column header = "Start Payment"
+		            condition = (Approval_Status == "Approved" && Payment_Status == "Unpaid")
+		        )
+		        custom action "Mark Paid"
+		        (
+		            workflow = Expense_Mark_Paid_Action
+		            show action in edit record menu = true
+		            column header = "Mark Paid"
+		            condition = (Approval_Status == "Approved" && (Payment_Status == "Processing" || Payment_Status == "Unpaid"))
+		        )
+		    )
+		    group by
+		    (
+		        Payment_Status ascending
+		    )
+		    sort by
+		    (
+		        Expense_Date ascending
+		    )
+		}
+
+		list Head_Approval_Queue
+		{
+		    displayName = "Head Approval Queue"
+		    show all rows from Expense_Reports [Amount > 500 && Approval_Status == "Pending Department Head"]
+		    (
+		        Expense_Number
+		        Submitted_By
+		        Expense_Date
+		        Category
+		        Amount
+		        Department_Head
+		        Receipt
+		        Description
+		        Approval_Status
+		        Payment_Status
+		        custom action "Approve"
+		        (
+		            workflow = Expense_Approve_Action
+		            show action in edit record menu = true
+		            column header = "Approve"
+		            condition = (Amount > 500 && Approval_Status == "Pending Department Head")
+		        )
+		        custom action "Reject"
+		        (
+		            workflow = Expense_Reject_Action
+		            show action in edit record menu = true
+		            column header = "Reject"
+		            condition = (Amount > 500 && Approval_Status == "Pending Department Head")
+		        )
+		    )
+		    sort by
+		    (
+		        Expense_Date ascending
+		    )
+		}
+
+		default list My_Expenses
+		{
+		    displayName = "My Expenses"
+		    show all rows from Expense_Reports [Added_User == zoho.loginuser]
+		    (
+		        Expense_Number
+		        Expense_Date
+		        Category
+		        Amount
+		        Approval_Status
+		        Payment_Status
+		        Department_Head
+		        Receipt
+		    )
+		    filters
+		    (
+		        Category
+		        Approval_Status
+		        Payment_Status
+		        Expense_Date
+		    )
+		    sort by
+		    (
+		        Expense_Date descending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Expense_Dashboard
+		{
+					displayname = "Expense Dashboard"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Expense_Dashboard_View' elementName='Expense_Dashboard_View'>\n\t\t\t\t\t<![CDATA[htmlpage Expense_Dashboard_View()\n\t\t\t\t\t\tcontent\n\t\t\t\t\t\t&lt;%{%&gt;\n\t\t\t\t\t\t\t&lt;%\n\tvisibleExpenses = Expense_Reports[ID != 0];\n\ttotalSubmitted = ifnull(visibleExpenses.sum(Amount),0.00);\n\tpendingCount = Expense_Reports[Approval_Status == &quot;Pending Department Head&quot;].count();\n\tapprovedUnpaid = ifnull(Expense_Reports[Approval_Status == &quot;Approved&quot; &amp;&amp; (Payment_Status == &quot;Unpaid&quot; || Payment_Status == &quot;Processing&quot;)].sum(Amount),0.00);\n\tpaidAmount = ifnull(Expense_Reports[Payment_Status == &quot;Paid&quot;].sum(Amount),0.00);\n\tunpaidCount = Expense_Reports[Approval_Status == &quot;Approved&quot; &amp;&amp; Payment_Status == &quot;Unpaid&quot;].count();\n\tprocessingCount = Expense_Reports[Approval_Status == &quot;Approved&quot; &amp;&amp; Payment_Status == &quot;Processing&quot;].count();\n\tpaidCount = Expense_Reports[Payment_Status == &quot;Paid&quot;].count();\n\trejectedCount = Expense_Reports[Approval_Status == &quot;Rejected&quot;].count();\n\tpipelineTotal = unpaidCount + processingCount + paidCount;\n\tcategories = {&quot;Travel&quot;,&quot;Meals&quot;,&quot;Lodging&quot;,&quot;Office Supplies&quot;,&quot;Training&quot;,&quot;Client Entertainment&quot;,&quot;Other&quot;};\n\trecentExpenses = Expense_Reports[ID != 0] sort by Added_Time desc range from 1 to 8;\n\tdisplayUser = zoho.loginuser;\n\tif(displayUser == null || displayUser == &quot;&quot;)\n\t{\n\t\tdisplayUser = zoho.loginuserid;\n\t}\n%&gt;\n&lt;style&gt;\n/* ZCS shared global stylesheet: included once on this page */\n:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-light-bg-color:var(--zcs_brand_light_color);--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-teritiary-text-color:var(--zcs_tertiary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-white-color:#fff;--zcs-page-bg-color:#f3f5f8;--zcs-surface:var(--zcs-white-color);--zcs-bg:var(--zcs-page-bg-color);--zcs-text-1:var(--zcs-primary-text-color);--zcs-text-2:var(--zcs-secondary-text-color);--zcs-text-3:var(--zcs-teritiary-text-color);--zcs-radius:12px;--zcs-shadow:0 2px 10px rgba(22,34,51,.07);--zcs-green:#147d58;--zcs-green-bg:#e7f6ef;--zcs-red:#b73535;--zcs-red-bg:#fdecec;--zcs-orange:#a45f08;--zcs-orange-bg:#fff2dc;--zcs-blue:#17699b;--zcs-blue-bg:#e8f3fa}\n.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-space-between{justify-content:space-between}.zcs-gap-6{gap:.375rem}.zcs-gap-8{gap:.5rem}.zcs-w-full{width:100%}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-font-12{font-size:.75rem}.zcs-font-14{font-size:.875rem}.zcs-font-medium{font-weight:500}.zcs-font-normal{font-weight:400}.zcs-lh-body{line-height:1.5}.zcs-color-primary{color:var(--zcs-primary-text-color)}.zcs-color-secondary{color:var(--zcs-secondary-text-color)}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-box-border{box-sizing:border-box}.zcs-rounded-sm{border-radius:.25rem}.zcs-relative{position:relative}.zcs-sticky{position:sticky}.zcs-m-0{margin:0}\n.zcs-page{font-family:var(--zcs-font,Arial,sans-serif);background:var(--zcs-bg);min-height:100vh;padding:24px;box-sizing:border-box;color:var(--zcs-text-1)}\n.zcs-page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.zcs-page-header__title{font-size:24px;font-weight:650;color:var(--zcs-text-1);margin:0 0 4px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.dashboard-date{font-size:12px;color:var(--zcs-text-3);white-space:nowrap;padding-top:6px}\n.zcs-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 22px;border:1px solid var(--zcs-border-color)}.zcs-kpi-card__top{display:flex;align-items:center;justify-content:space-between;gap:10px}.zcs-kpi-card__icon{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--zcs-blue-bg);color:var(--zcs-blue);font-size:18px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:30px;font-weight:700;margin:10px 0 5px;line-height:1.05}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.zcs-color-blue{color:#17699b}.zcs-color-yellow{color:#a45f08}.zcs-color-green{color:#147d58}.zcs-color-d_blue{color:#3046a5}\n.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:16px;align-items:start}.zcs-section{background:var(--zcs-surface);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px;margin-bottom:16px;border:1px solid var(--zcs-border-color)}.zcs-section__head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.zcs-section__heading{font-size:15px;font-weight:600;color:var(--zcs-text-1);margin:0}.section-note{font-size:12px;color:var(--zcs-text-3)}\n.category-row{margin-bottom:15px}.category-meta{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:13px;margin-bottom:6px}.zcs-progress-bar{height:8px;background:var(--zcs_component_hover_color,#edf0f4);border-radius:5px;overflow:hidden}.zcs-progress-bar-indicator{height:inherit;border-radius:inherit;background:var(--zcs_brand_color,#2878bd);min-width:0}.pipeline{display:grid;gap:10px}.pipeline-row{display:grid;grid-template-columns:34px 1fr auto;gap:11px;align-items:center;padding:11px 0;border-bottom:1px solid var(--zcs-border-color)}.pipeline-row:last-child{border-bottom:0}.pipeline-icon{width:32px;height:32px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;background:var(--zcs-blue-bg);color:var(--zcs-blue)}.pipeline-label{font-size:13px;font-weight:600}.pipeline-sub{font-size:11px;color:var(--zcs-text-3);margin-top:2px}.pipeline-count{font-size:20px;font-weight:700}\n.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4;white-space:nowrap}.zcs-badge--success{background:var(--zcs-green-bg);color:var(--zcs-green)}.zcs-badge--danger{background:var(--zcs-red-bg);color:var(--zcs-red)}.zcs-badge--warning{background:var(--zcs-orange-bg);color:var(--zcs-orange)}.zcs-badge--info{background:var(--zcs-blue-bg);color:var(--zcs-blue)}.zcs-badge--neutral{background:#f3f4f6;color:var(--zcs-text-2)}\n.quick-links{display:grid;gap:9px}.quick-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;border:1px solid var(--zcs-border-color);border-radius:9px;color:var(--zcs-text-1);text-decoration:none;background:var(--zcs-surface)}.quick-link__label{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600}.quick-link i{color:var(--zcs-theme-brand-color)}\n.zcs-table-wrapper{border:1px solid var(--zcs-border-color);background:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse;min-width:780px}.zcs-table-wrapper table thead{top:0}.zcs-table-wrapper th{background:#f9fafe;box-shadow:0 -1px 0 var(--zcs-border-color) inset;white-space:nowrap}.zcs-table-wrapper td{border-top:1px solid var(--zcs-border-color);vertical-align:middle}.zcs-table-wrapper tbody tr:first-child td{border-top-color:transparent}.zcs-table-wrapper tbody tr:hover td{background:#f9fafe}.expense-link{color:var(--zcs-theme-brand-color);font-weight:600;text-decoration:none}.empty-state{text-align:center;padding:34px 16px;color:var(--zcs-text-2)}.empty-state i{font-size:28px;color:var(--zcs-text-3);display:block;margin-bottom:8px}\n@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr}.zcs-page{padding:18px}.zcs-page-header{flex-direction:column}.dashboard-date{padding-top:0}}\n@media(max-width:560px){.zcs-page{padding:12px}.zcs-section{padding:17px 16px}.zcs-kpi-card{padding:18px}.zcs-kpi-card__value{font-size:26px}.zcs-page-header__title{font-size:21px}}\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;div&gt;\n\t\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Expense dashboard&lt;/h1&gt;\n\t\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;Spend, approvals and payments visible to &lt;%=displayUser%&gt;.&lt;/p&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;dashboard-date&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-calendar-60&quot;&gt;&lt;/i&gt; Updated &lt;%=zoho.currentdate.toString(&quot;MMM d, yyyy&quot;)%&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Submitted spend&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline business-money-coins&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-blue&quot;&gt;$&lt;%=totalSubmitted.toString(&quot;#,##0.00&quot;)%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Total amount in your accessible expense records&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Pending Department Head&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-yellow&quot;&gt;&lt;%=pendingCount%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Claims waiting for an approval decision&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Approved and unpaid&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline business-money-bag-09&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-d_blue&quot;&gt;$&lt;%=approvedUnpaid.toString(&quot;#,##0.00&quot;)%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Approved claims not yet marked paid&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Paid claims&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-green&quot;&gt;$&lt;%=paidAmount.toString(&quot;#,##0.00&quot;)%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=paidCount%&gt; claim(s) completed&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;dashboard-grid&quot;&gt;\n\t\t&lt;div&gt;\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Spend by category&lt;/h2&gt;&lt;span class=&quot;section-note&quot;&gt;Share of submitted spend&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;% for each categoryName in categories {\n\t\t\t\t\t\t categoryAmount = ifnull(Expense_Reports[Category == categoryName].sum(Amount),0.00);\n\t\t\t\t\t\t categoryPercent = 0;\n\t\t\t\t\t\t if(totalSubmitted &gt; 0) { categoryPercent = ((categoryAmount * 100.0) / totalSubmitted).round(1); }\n\t\t\t\t%&gt;\n\t\t\t\t&lt;div class=&quot;category-row&quot;&gt;\n\t\t\t\t\t&lt;div class=&quot;category-meta&quot;&gt;&lt;span&gt;&lt;%=categoryName%&gt;&lt;/span&gt;&lt;strong&gt;$&lt;%=categoryAmount.toString(&quot;#,##0.00&quot;)%&gt; · &lt;%=categoryPercent%&gt;%&lt;/strong&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;zcs-progress-bar&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=categoryPercent%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\n\t\t&lt;div&gt;\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Payment pipeline&lt;/h2&gt;&lt;span class=&quot;zcs-badge zcs-badge--info&quot;&gt;&lt;%=pipelineTotal%&gt; active or paid&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;pipeline&quot;&gt;\n\t\t\t\t\t&lt;div class=&quot;pipeline-row&quot;&gt;&lt;span class=&quot;pipeline-icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;div&gt;&lt;div class=&quot;pipeline-label&quot;&gt;Unpaid&lt;/div&gt;&lt;div class=&quot;pipeline-sub&quot;&gt;Ready for Finance&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pipeline-count&quot;&gt;&lt;%=unpaidCount%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;pipeline-row&quot;&gt;&lt;span class=&quot;pipeline-icon&quot;&gt;&lt;i class=&quot;zc-li-outline arrows-1-refresh-69&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;div&gt;&lt;div class=&quot;pipeline-label&quot;&gt;Processing&lt;/div&gt;&lt;div class=&quot;pipeline-sub&quot;&gt;Payment in progress&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pipeline-count&quot;&gt;&lt;%=processingCount%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;pipeline-row&quot;&gt;&lt;span class=&quot;pipeline-icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;div&gt;&lt;div class=&quot;pipeline-label&quot;&gt;Paid&lt;/div&gt;&lt;div class=&quot;pipeline-sub&quot;&gt;Payment completed&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pipeline-count&quot;&gt;&lt;%=paidCount%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;pipeline-row&quot;&gt;&lt;span class=&quot;pipeline-icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-simple-remove&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;div&gt;&lt;div class=&quot;pipeline-label&quot;&gt;Rejected&lt;/div&gt;&lt;div class=&quot;pipeline-sub&quot;&gt;Not eligible for payment&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pipeline-count&quot;&gt;&lt;%=rejectedCount%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Work queues&lt;/h2&gt;\n\t\t\t\t&lt;div class=&quot;quick-links&quot;&gt;\n\t\t\t\t\t&lt;a class=&quot;quick-link&quot; href=&quot;#Report:My_Expenses&quot;&gt;&lt;span class=&quot;quick-link__label&quot;&gt;&lt;i class=&quot;zc-li-outline files-single-copy-04&quot;&gt;&lt;/i&gt; My expenses&lt;/span&gt;&lt;i class=&quot;zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;&lt;/a&gt;\n\t\t\t\t\t&lt;a class=&quot;quick-link&quot; href=&quot;#Report:Head_Approval_Queue&quot;&gt;&lt;span class=&quot;quick-link__label&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-square-11&quot;&gt;&lt;/i&gt; Head approval queue&lt;/span&gt;&lt;i class=&quot;zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;&lt;/a&gt;\n\t\t\t\t\t&lt;a class=&quot;quick-link&quot; href=&quot;#Report:Finance_Payment_Queue&quot;&gt;&lt;span class=&quot;quick-link__label&quot;&gt;&lt;i class=&quot;zc-li-outline business-money-coins&quot;&gt;&lt;/i&gt; Finance payment queue&lt;/span&gt;&lt;i class=&quot;zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;&lt;/a&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Recent expenses&lt;/h2&gt;&lt;a class=&quot;expense-link&quot; href=&quot;#Report:My_Expenses&quot;&gt;View report &lt;i class=&quot;zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/div&gt;\n\t\t&lt;% if(recentExpenses.count() == 0) { %&gt;\n\t\t\t&lt;div class=&quot;empty-state&quot;&gt;&lt;i class=&quot;zc-li-outline files-single-copy-04&quot;&gt;&lt;/i&gt;No expense records are currently visible.&lt;/div&gt;\n\t\t&lt;% } else { %&gt;\n\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative&quot;&gt;\n\t\t\t&lt;table class=&quot;zcs-w-full&quot;&gt;\n\t\t\t\t&lt;thead class=&quot;zcs-sticky&quot;&gt;&lt;tr&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Expense&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Date&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Category&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium&quot;&gt;Amount&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Approval&lt;/th&gt;\n\t\t\t\t\t&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Payment&lt;/th&gt;\n\t\t\t\t&lt;/tr&gt;&lt;/thead&gt;\n\t\t\t\t&lt;tbody&gt;\n\t\t\t\t&lt;% for each expense in recentExpenses {\n\t\t\t\t\t\t approvalBadge = &quot;zcs-badge--neutral&quot;;\n\t\t\t\t\t\t if(expense.Approval_Status == &quot;Approved&quot;) { approvalBadge = &quot;zcs-badge--success&quot;; }\n\t\t\t\t\t\t else if(expense.Approval_Status == &quot;Rejected&quot;) { approvalBadge = &quot;zcs-badge--danger&quot;; }\n\t\t\t\t\t\t else if(expense.Approval_Status == &quot;Pending Department Head&quot;) { approvalBadge = &quot;zcs-badge--warning&quot;; }\n\t\t\t\t\t\t paymentBadge = &quot;zcs-badge--neutral&quot;;\n\t\t\t\t\t\t if(expense.Payment_Status == &quot;Paid&quot;) { paymentBadge = &quot;zcs-badge--success&quot;; }\n\t\t\t\t\t\t else if(expense.Payment_Status == &quot;Processing&quot;) { paymentBadge = &quot;zcs-badge--info&quot;; }\n\t\t\t\t\t\t else if(expense.Payment_Status == &quot;Unpaid&quot;) { paymentBadge = &quot;zcs-badge--warning&quot;; }\n\t\t\t\t%&gt;\n\t\t\t\t\t&lt;tr&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14&quot;&gt;&lt;a class=&quot;expense-link&quot; href=&quot;#Report:My_Expenses?ID=&lt;%=expense.ID%&gt;&quot;&gt;#&lt;%=expense.Expense_Number%&gt;&lt;/a&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14&quot;&gt;&lt;%=expense.Expense_Date.toString(&quot;MMM d, yyyy&quot;)%&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14&quot;&gt;&lt;%=expense.Category%&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14&quot;&gt;$&lt;%=expense.Amount.toString(&quot;#,##0.00&quot;)%&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=approvalBadge%&gt;&quot;&gt;&lt;%=expense.Approval_Status%&gt;&lt;/span&gt;&lt;/td&gt;\n\t\t\t\t\t\t&lt;td class=&quot;zcs-px-16 zcs-py-8&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=paymentBadge%&gt;&quot;&gt;&lt;%=expense.Payment_Status%&gt;&lt;/span&gt;&lt;/td&gt;\n\t\t\t\t\t&lt;/tr&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t\t&lt;/tbody&gt;\n\t\t\t&lt;/table&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;% } %&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n\t\t\t\t\t\t&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Amount_On_User_Input as "Amount On User Input"
+			{
+			    type = form
+			    form = Expense_Reports
+			    record event = on add or edit
+			
+			    on user input of Amount
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Amount != null && input.Amount > 500)
+			                {
+			                    show Department_Head;
+			                }
+			                else
+			                {
+			                    hide Department_Head;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Reports_On_Load as "Expense Reports On Load"
+			{
+			    type = form
+			    form = Expense_Reports
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Approval_Status, Payment_Status, Submitted_By, Approved_or_Rejected_By, Decision_Date, Decision_Notes, Payment_Reference, Paid_Date;
+			                if(input.Amount != null && input.Amount > 500)
+			                {
+			                    show Department_Head;
+			                }
+			                else
+			                {
+			                    hide Department_Head;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Reports_On_Success as "Expense Reports On Success"
+			{
+			    type = form
+			    form = Expense_Reports
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Amount > 500)
+			                {
+			                    input.Approval_Status = "Pending Department Head";
+			                    input.Payment_Status = "Not Ready";
+			                }
+			                else
+			                {
+			                    input.Approval_Status = "Approved";
+			                    input.Payment_Status = "Unpaid";
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Reports_On_Validate as "Expense Reports On Validate"
+			{
+			    type = form
+			    form = Expense_Reports
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Amount == null || input.Amount <= 0)
+			                {
+			                    alert(Amount, "Amount must be greater than zero.");
+			                    cancel submit;
+			                }
+			                if(input.Expense_Date > zoho.currentdate)
+			                {
+			                    alert(Expense_Date, "Expense date cannot be in the future.");
+			                    cancel submit;
+			                }
+			                if(input.Amount > 500)
+			                {
+			                    if(input.Department_Head == null)
+			                    {
+			                        alert(Department_Head, "Select an active Department Head for expenses over $500.");
+			                        cancel submit;
+			                    }
+			                    else
+			                    {
+			                        selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+			                        if(selectedHead.count() == 0)
+			                        {
+			                            alert(Department_Head, "The selected Department Head is not active or valid.");
+			                            cancel submit;
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+
+		functions
+		{
+			Expense_Mark_Paid_Action as "Mark Paid"
+			{
+			    type = functions
+			    form = Expense_Reports
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                priorApproval = input.Approval_Status;
+			                priorPayment = input.Payment_Status;
+			                validPaymentState = input.Payment_Status == "Processing" || input.Payment_Status == "Unpaid";
+			                if(!thisapp.permissions.isUserInProfile("Finance") || input.Approval_Status != "Approved" || !validPaymentState)
+			                {
+			                    info "Mark paid action blocked: invalid profile or expense state.";
+			                }
+			                else
+			                {
+			                    input.Payment_Status = "Paid";
+			                    input.Paid_Date = zoho.currentdate;
+			                    insert into Expense_Audit
+			                    [
+			                        Expense = input.ID
+			                        Action = "Marked Paid"
+			                        Actor_Email = zoho.loginuserid
+			                        Action_Time = zoho.currenttime
+			                        Previous_Approval_Status = priorApproval
+			                        New_Approval_Status = priorApproval
+			                        Previous_Payment_Status = priorPayment
+			                        New_Payment_Status = "Paid"
+			                        Notes = input.Payment_Reference
+			                    ];
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Start_Payment_Action as "Start Payment"
+			{
+			    type = functions
+			    form = Expense_Reports
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                priorApproval = input.Approval_Status;
+			                priorPayment = input.Payment_Status;
+			                if(!thisapp.permissions.isUserInProfile("Finance") || input.Approval_Status != "Approved" || input.Payment_Status != "Unpaid")
+			                {
+			                    info "Start payment action blocked: invalid profile or expense state.";
+			                }
+			                else
+			                {
+			                    input.Payment_Status = "Processing";
+			                    insert into Expense_Audit
+			                    [
+			                        Expense = input.ID
+			                        Action = "Payment Started"
+			                        Actor_Email = zoho.loginuserid
+			                        Action_Time = zoho.currenttime
+			                        Previous_Approval_Status = priorApproval
+			                        New_Approval_Status = priorApproval
+			                        Previous_Payment_Status = priorPayment
+			                        New_Payment_Status = "Processing"
+			                        Notes = input.Payment_Reference
+			                    ];
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Approve_Action as "Approve"
+			{
+			    type = functions
+			    form = Expense_Reports
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                priorApproval = input.Approval_Status;
+			                priorPayment = input.Payment_Status;
+			                selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+			                if(input.Amount <= 500 || input.Approval_Status != "Pending Department Head" || selectedHead.count() == 0 || selectedHead.Head_Email != zoho.loginuserid)
+			                {
+			                    info "Approval action blocked: unauthorized user or expense is no longer pending.";
+			                }
+			                else
+			                {
+			                    input.Approval_Status = "Approved";
+			                    input.Payment_Status = "Unpaid";
+			                    input.Approved_or_Rejected_By = zoho.loginuserid;
+			                    input.Decision_Date = zoho.currentdate;
+			                    input.Decision_Notes = "Approved by Department Head.";
+			                    insert into Expense_Audit
+			                    [
+			                        Expense = input.ID
+			                        Action = "Approved"
+			                        Actor_Email = zoho.loginuserid
+			                        Action_Time = zoho.currenttime
+			                        Previous_Approval_Status = priorApproval
+			                        New_Approval_Status = "Approved"
+			                        Previous_Payment_Status = priorPayment
+			                        New_Payment_Status = "Unpaid"
+			                        Notes = input.Decision_Notes
+			                    ];
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Expense_Reject_Action as "Reject"
+			{
+			    type = functions
+			    form = Expense_Reports
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                priorApproval = input.Approval_Status;
+			                priorPayment = input.Payment_Status;
+			                selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+			                if(input.Amount <= 500 || input.Approval_Status != "Pending Department Head" || selectedHead.count() == 0 || selectedHead.Head_Email != zoho.loginuserid)
+			                {
+			                    info "Rejection action blocked: unauthorized user or expense is no longer pending.";
+			                }
+			                else
+			                {
+			                    input.Approval_Status = "Rejected";
+			                    input.Payment_Status = "Not Ready";
+			                    input.Approved_or_Rejected_By = zoho.loginuserid;
+			                    input.Decision_Date = zoho.currentdate;
+			                    input.Decision_Notes = "Rejected by Department Head.";
+			                    insert into Expense_Audit
+			                    [
+			                        Expense = input.ID
+			                        Action = "Rejected"
+			                        Actor_Email = zoho.loginuserid
+			                        Action_Time = zoho.currenttime
+			                        Previous_Approval_Status = priorApproval
+			                        New_Approval_Status = "Rejected"
+			                        Previous_Payment_Status = priorPayment
+			                        New_Payment_Status = "Not Ready"
+			                        Notes = input.Decision_Notes
+			                    ];
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	share_settings
+	{
+	"Department_Head"
+	{
+	    name        = "Department_Head"
+	    type        = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+	    description = "Department heads who review expenses routed to them and approve or reject high-value submissions."
+	
+	    ModulePermissions
+	    {
+	        Department_Heads
+	        {
+	            enabled          = View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Department_Heads={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Directory_Details{visibility:true,readonly:true}
+	                Head_Name{visibility:true,readonly:true}
+	                Head_Email{visibility:true,readonly:true}
+	                Department{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	
+	        Expense_Reports
+	        {
+	            enabled          = View,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Head_Approval_Queue={"View","Edit"}
+	            }
+	            FieldPermissions
+	            {
+	                Expense_Details{visibility:true,readonly:true}
+	                Expense_Number{visibility:true,readonly:true}
+	                Expense_Date{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Amount{visibility:true,readonly:true}
+	                Receipt{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Approval_and_Payment{visibility:true,readonly:true}
+	                Department_Head{visibility:true,readonly:true}
+	                Approval_Status{visibility:true,readonly:true}
+	                Payment_Status{visibility:true,readonly:true}
+	                Submitted_By{visibility:true,readonly:true}
+	                Approved_or_Rejected_By{visibility:true,readonly:true}
+	                Decision_Date{visibility:true,readonly:true}
+	                Decision_Notes{visibility:true,readonly:true}
+	                Payment_Reference{visibility:false}
+	                Paid_Date{visibility:false}
+	            }
+	        }
+	
+	        Expense_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	"Employee"
+	{
+	    name        = "Employee"
+	    type        = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+	    description = "Employees who create expenses, manage only their own eligible records, and view their own expense status."
+	
+	    ModulePermissions
+	    {
+	        Department_Heads
+	        {
+	            enabled          = View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Department_Heads={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Directory_Details{visibility:true,readonly:true}
+	                Head_Name{visibility:true,readonly:true}
+	                Head_Email{visibility:true,readonly:true}
+	                Department{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	
+	        Expense_Reports
+	        {
+	            enabled          = Create,View,Edit,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                My_Expenses={"View","Edit"}
+	            }
+	            FieldPermissions
+	            {
+	                Expense_Details{visibility:true,readonly:true}
+	                Expense_Number{visibility:true,readonly:true}
+	                Expense_Date{visibility:true,readonly:false}
+	                Category{visibility:true,readonly:false}
+	                Amount{visibility:true,readonly:false}
+	                Receipt{visibility:true,readonly:false}
+	                Description{visibility:true,readonly:false}
+	                Approval_and_Payment{visibility:true,readonly:true}
+	                Department_Head{visibility:true,readonly:false}
+	                Approval_Status{visibility:true,readonly:true}
+	                Payment_Status{visibility:true,readonly:true}
+	                Submitted_By{visibility:true,readonly:true}
+	                Approved_or_Rejected_By{visibility:true,readonly:true}
+	                Decision_Date{visibility:true,readonly:true}
+	                Decision_Notes{visibility:true,readonly:true}
+	                Payment_Reference{visibility:true,readonly:true}
+	                Paid_Date{visibility:true,readonly:true}
+	            }
+	        }
+	
+	        Expense_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	"Finance"
+	{
+	    name        = "Finance"
+	    type        = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+	    description = "Finance users who view all approved expenses and maintain payment state."
+	
+	    ModulePermissions
+	    {
+	        Department_Heads
+	        {
+	            enabled          = Create,Viewall,Modifyall,View,Edit,Delete,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Department_Heads={"View","Edit","Delete"}
+	            }
+	            FieldPermissions
+	            {
+	                Directory_Details{visibility:true,readonly:true}
+	                Head_Name{visibility:true,readonly:false}
+	                Head_Email{visibility:true,readonly:false}
+	                Department{visibility:true,readonly:false}
+	                Active{visibility:true,readonly:false}
+	            }
+	        }
+	
+	        Expense_Reports
+	        {
+	            enabled          = Viewall,View,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Finance_Payment_Queue={"View","Edit"}
+	                All_Expenses={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Expense_Details{visibility:true,readonly:true}
+	                Expense_Number{visibility:true,readonly:true}
+	                Expense_Date{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Amount{visibility:true,readonly:true}
+	                Receipt{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Approval_and_Payment{visibility:true,readonly:true}
+	                Department_Head{visibility:true,readonly:true}
+	                Approval_Status{visibility:true,readonly:true}
+	                Payment_Status{visibility:true,readonly:true}
+	                Submitted_By{visibility:true,readonly:true}
+	                Approved_or_Rejected_By{visibility:true,readonly:true}
+	                Decision_Date{visibility:true,readonly:true}
+	                Decision_Notes{visibility:true,readonly:true}
+	                Payment_Reference{visibility:true,readonly:true}
+	                Paid_Date{visibility:true,readonly:true}
+	            }
+	        }
+	
+	        Expense_Audit
+	        {
+	            enabled          = Viewall,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Expense_Audit_Trail={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Audit_Details{visibility:true,readonly:true}
+	                Expense{visibility:true,readonly:true}
+	                Action{visibility:true,readonly:true}
+	                Actor_Email{visibility:true,readonly:true}
+	                Action_Time{visibility:true,readonly:true}
+	                Previous_Approval_Status{visibility:true,readonly:true}
+	                New_Approval_Status{visibility:true,readonly:true}
+	                Previous_Payment_Status{visibility:true,readonly:true}
+	                New_Payment_Status{visibility:true,readonly:true}
+	                Notes{visibility:true,readonly:true}
+	            }
+	        }
+	
+	        Expense_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Department_Heads
+	    {
+	        label placement = top
+	    }
+	    form Expense_Reports
+	    {
+	        label placement = top
+	    }
+	    form Expense_Audit
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report Active_Department_Heads
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Head_Name  Head_Email  Department  Active )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Head_Name  Head_Email  Department  Active )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Expense_Audit_Trail
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Expense  Action  Actor_Email  Action_Time  Previous_Approval_Status  New_Approval_Status  Previous_Payment_Status  New_Payment_Status  Notes )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Expense  Action  Actor_Email  Action_Time  Previous_Approval_Status  New_Approval_Status  Previous_Payment_Status  New_Payment_Status  Notes )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report All_Expenses
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Expense_Number  Expense_Date  Category  Amount  Receipt  Department_Head  Approval_Status  Payment_Status  Submitted_By  Payment_Reference  Paid_Date )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Expense_Number  Expense_Date  Category  Amount  Receipt  Description  Department_Head  Approval_Status  Payment_Status  Submitted_By  Approved_or_Rejected_By  Decision_Date  Decision_Notes  Payment_Reference  Paid_Date )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Finance_Payment_Queue
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Payment_Reference  "Start Payment"  "Mark Paid" )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete  "Start Payment"  "Mark Paid" )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Payment_Reference  "Start Payment"  "Mark Paid" )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete  "Start Payment"  "Mark Paid" )
+		        )
+		    )
+		}
+	
+		report Head_Approval_Queue
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Department_Head  Receipt  Description  Approval_Status  Payment_Status  "Approve"  "Reject" )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete  "Approve"  "Reject" )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Expense_Number  Submitted_By  Expense_Date  Category  Amount  Department_Head  Receipt  Description  Approval_Status  Payment_Status  "Approve"  "Reject" )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete  "Approve"  "Reject" )
+		        )
+		    )
+		}
+	
+		report My_Expenses
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields ( Expense_Number  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Department_Head  Receipt )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields ( Expense_Number  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Department_Head  Receipt )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    unused
+	    {
+	        form Expense_Audit
+	        {
+	            icon = "business-safe"
+	        }
+	    }
+	
+	    space Expense_Management
+	    {
+	        displayname = "Expense Management"
+	        icon = "business-wallet-90"
+	
+	        section Dashboard
+	        {
+	            displayname = "Dashboard"
+	            icon = "business-chart"
+	
+	            page Expense_Dashboard
+	            {
+	                icon = "business-chart-bar-33"
+	            }
+	        }
+	
+	        section Employee_Expenses
+	        {
+	            displayname = "Employee Expenses"
+	            icon = "business-wallet-43"
+	
+	            form Expense_Reports
+	            {
+	                icon = "business-notes"
+	            }
+	            report My_Expenses
+	            {
+	                icon = "business-currency-dollar"
+	            }
+	        }
+	
+	        section Approvals
+	        {
+	            displayname = "Approvals"
+	            icon = "business-signature"
+	
+	            report Head_Approval_Queue
+	            {
+	                icon = "business-badge"
+	            }
+	        }
+	
+	        section Finance
+	        {
+	            displayname = "Finance"
+	            icon = "business-bank"
+	
+	            report Finance_Payment_Queue
+	            {
+	                icon = "business-payment"
+	            }
+	            report All_Expenses
+	            {
+	                icon = "business-calculator"
+	            }
+	        }
+	
+	        section Administration
+	        {
+	            displayname = "Administration"
+	            icon = "business-briefcase-25"
+	
+	            form Department_Heads
+	            {
+	                icon = "users-multiple-11"
+	            }
+	            report Active_Department_Heads
+	            {
+	                icon = "business-business-contact-89"
+	            }
+	            report Expense_Audit_Trail
+	            {
+	                icon = "business-safe"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "2"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

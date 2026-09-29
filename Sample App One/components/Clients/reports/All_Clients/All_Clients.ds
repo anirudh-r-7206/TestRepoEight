@@ -1,0 +1,19 @@
+default list All_Clients
+{
+    displayName = "All Clients"
+    show all rows from Clients
+    (
+        Client_Name
+        Company
+        Email
+        Hourly_Rate
+    )
+    filters
+    (
+        Company
+    )
+    sort by
+    (
+        Client_Name ascending
+    )
+}

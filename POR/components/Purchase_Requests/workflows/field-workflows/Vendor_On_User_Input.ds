@@ -1,0 +1,17 @@
+Vendor_On_User_Input as "Vendor On User Input"
+{
+    type = form
+    form = Purchase_Requests
+    record event = on add or edit
+
+    on user input of Vendor
+    {
+        actions
+        {
+            custom deluge script
+            (
+                input.Requested_Items.clear();
+            )
+        }
+    }
+}

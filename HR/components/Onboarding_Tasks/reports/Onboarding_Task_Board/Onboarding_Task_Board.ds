@@ -1,0 +1,26 @@
+kanban Onboarding_Task_Board
+{
+    displayName = "Onboarding Task Board"
+    show all rows from Onboarding_Tasks
+    (
+        New_Hire
+        Task_Name
+        Category
+        Assignee_Email
+        Due_Date
+        Priority
+        Status
+    )
+    filters
+    (
+        Category
+        Assignee_Email
+        Priority
+    )
+    options
+    (
+        display field = Status
+        sort order = custom
+        record count = enable
+    )
+}

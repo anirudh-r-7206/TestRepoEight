@@ -1,0 +1,19 @@
+list Available_Assets
+{
+    displayName = "Available Assets"
+    show all rows from Assets [Asset_Status == "Available"]
+    (
+        Asset_ID
+        Asset_Tag
+        Asset_Type
+        Manufacturer
+        Model
+        Serial_Number
+        Asset_Status
+        Condition
+    )
+    sort by
+    (
+        Asset_Tag ascending
+    )
+}

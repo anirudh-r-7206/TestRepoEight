@@ -1,0 +1,18 @@
+customize
+{
+    font = "lato"
+
+    color options
+    {
+        name = "IT Operations Blue Teal"
+        brand color = "#167C80"
+        type = "custom"
+        dark mode color = "#12303A"
+    }
+
+    logo
+    {
+        preference = "app_icon"
+        placement = "left"
+    }
+}

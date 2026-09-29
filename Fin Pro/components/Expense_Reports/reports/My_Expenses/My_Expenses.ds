@@ -1,0 +1,26 @@
+default list My_Expenses
+{
+    displayName = "My Expenses"
+    show all rows from Expense_Reports [Added_User == zoho.loginuser]
+    (
+        Expense_Number
+        Expense_Date
+        Category
+        Amount
+        Approval_Status
+        Payment_Status
+        Department_Head
+        Receipt
+    )
+    filters
+    (
+        Category
+        Approval_Status
+        Payment_Status
+        Expense_Date
+    )
+    sort by
+    (
+        Expense_Date descending
+    )
+}

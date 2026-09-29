@@ -1,0 +1,139 @@
+<%
+  total_assets = Assets.count();
+  available_assets = Assets[Asset_Status == "Available"].count();
+  assigned_assets = Assets[Asset_Status == "Assigned"].count();
+  maintenance_assets = Assets[Asset_Status == "In Maintenance"].count();
+  retired_assets = Assets[Asset_Status == "Retired"].count();
+  lost_assets = Assets[Asset_Status == "Lost"].count();
+  damaged_assets = Assets[Condition == "Damaged"].count();
+  unusable_assets = Assets[Condition == "Unusable"].count();
+  risk_assets = damaged_assets + unusable_assets;
+  active_assignments = Assignments[Assignment_Status == "Active"].count();
+  open_repairs = Maintenance[Maintenance_Status == "Open" || Maintenance_Status == "In Progress"].count();
+
+  laptop_count = Assets[Asset_Type == "Laptop"].count();
+  monitor_count = Assets[Asset_Type == "Monitor"].count();
+  desktop_count = Assets[Asset_Type == "Desktop"].count();
+  tablet_count = Assets[Asset_Type == "Tablet"].count();
+  mobile_count = Assets[Asset_Type == "Mobile Phone"].count();
+  dock_count = Assets[Asset_Type == "Dock"].count();
+  peripheral_count = Assets[Asset_Type == "Peripheral"].count();
+  other_count = Assets[Asset_Type == "Other"].count();
+
+  status_base = total_assets;
+  if(status_base == 0)
+  {
+    status_base = 1;
+  }
+  available_pct = available_assets * 100 / status_base;
+  assigned_pct = assigned_assets * 100 / status_base;
+  maintenance_pct = maintenance_assets * 100 / status_base;
+  retired_pct = retired_assets * 100 / status_base;
+  lost_pct = lost_assets * 100 / status_base;
+  laptop_pct = laptop_count * 100 / status_base;
+  monitor_pct = monitor_count * 100 / status_base;
+  desktop_pct = desktop_count * 100 / status_base;
+  tablet_pct = tablet_count * 100 / status_base;
+  mobile_pct = mobile_count * 100 / status_base;
+  dock_pct = dock_count * 100 / status_base;
+  peripheral_pct = peripheral_count * 100 / status_base;
+  other_pct = other_count * 100 / status_base;
+
+  custody_records = Assets[Asset_Status == "Assigned"] sort by Asset_Tag asc;
+  repair_records = Maintenance[Maintenance_Status == "Open" || Maintenance_Status == "In Progress"] sort by Reported_Date desc;
+%>
+<style>
+/* zcs-global critical utilities, included once for this page */
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-white-color:#fff;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-surface:var(--zcs-white-color);--zcs-text-1:var(--zcs_primary_text_color);--zcs-text-2:var(--zcs_secondary_text_color);--zcs-text-3:var(--zcs_tertiary_text_color);--zcs-radius:12px;--zcs-shadow:0 1px 3px rgba(18,19,43,.12);--zcs-green:#116b4c;--zcs-green-bg:#e4f5ee;--zcs-red:#a51d31;--zcs-red-bg:#fde8ec;--zcs-orange:#875900;--zcs-orange-bg:#fff0cf;--zcs-blue:#09598e;--zcs-blue-bg:#e5f2fb}
+.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:.5rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-sm{border-radius:.25rem}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:.875rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-lh-body{line-height:1.5}.zcs-w-full{width:100%}.zcs-text-left{text-align:left}.zcs-color-primary{color:var(--zcs-primary-text-color)}
+.hw-dashboard{box-sizing:border-box;background:var(--zcs-page-bg-color,#f4f6f8);color:var(--zcs-text-1);font-family:Arial,sans-serif;padding:24px;min-height:100%;width:100%}.hw-dashboard *{box-sizing:border-box}.zcs-page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}.zcs-page-header__title{font-size:22px;font-weight:600;color:var(--zcs-text-1);margin:0 0 4px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.hw-actions{display:flex;gap:8px;flex-wrap:wrap}.zcs-button{width:auto;min-width:5rem;min-height:36px;text-decoration:none}.zcs-primary-button{background:var(--zcs_brand_color);color:var(--zcs_brand_foreground_color)}.zcs-primary-outline-button{border:1px solid var(--zcs_brand_color);background:var(--zcs-white-color);color:var(--zcs_brand_color)}.zcs-button:hover{filter:brightness(.96)}.zcs-button:focus{outline:2px solid var(--zcs_brand_color);outline-offset:2px}.zcs-button-icon{width:16px;max-height:16px}
+.zcs-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border:1px solid var(--zcs-border-color);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:32px;font-weight:700;margin:6px 0 4px;line-height:1}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.tone-blue{color:#09598e}.tone-green{color:#116b4c}.tone-orange{color:#875900}.tone-red{color:#a51d31}.tone-purple{color:#5f46a8}
+.hw-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.hw-span-4{grid-column:span 4}.hw-span-6{grid-column:span 6}.hw-span-8{grid-column:span 8}.zcs-section{background:var(--zcs-surface);border:1px solid var(--zcs-border-color);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px;margin-bottom:0}.zcs-section__heading{font-size:15px;font-weight:600;color:var(--zcs-text-1);margin:0}.hw-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.hw-section-link{font-size:13px;color:var(--zcs_brand_color);font-weight:600;text-decoration:none}.hw-bars{display:grid;gap:12px}.hw-bar-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:4px}.hw-track{height:9px;border-radius:8px;background:#e8ebef;overflow:hidden}.hw-fill{height:100%;border-radius:8px;background:var(--zcs_brand_color)}.hw-fill.green{background:#19875f}.hw-fill.orange{background:#b8790e}.hw-fill.red{background:#b72c43}.hw-fill.gray{background:#68717d}.hw-fill.purple{background:#6750a4}.hw-risk{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hw-risk-item{border:1px solid var(--zcs-border-color);border-radius:10px;padding:16px}.hw-risk-value{font-size:26px;font-weight:700;margin-top:5px}.hw-risk-note{font-size:13px;color:var(--zcs-text-2);margin-top:14px;line-height:1.45}
+.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4;white-space:nowrap}.zcs-badge--success{background:var(--zcs-green-bg);color:var(--zcs-green)}.zcs-badge--danger{background:var(--zcs-red-bg);color:var(--zcs-red)}.zcs-badge--warning{background:var(--zcs-orange-bg);color:var(--zcs-orange)}.zcs-badge--info{background:var(--zcs-blue-bg);color:var(--zcs-blue)}.zcs-badge--neutral{background:#f3f4f6;color:var(--zcs-text-2)}
+.zcs-table-wrapper{border:1px solid var(--zcs-border-color);background:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse;min-width:680px}.zcs-table-wrapper th{background:#f6f8fb;white-space:nowrap;border-bottom:1px solid var(--zcs-border-color)}.zcs-table-wrapper td{border-top:1px solid var(--zcs-border-color);vertical-align:middle}.zcs-table-wrapper tbody tr:first-child td{border-top:0}.zcs-table-wrapper tbody tr:hover td{background:#f9fafe}.hw-cell{padding:10px 16px;font-size:13px;color:var(--zcs-text-1);text-align:left}.hw-issue{max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.zcs-empty-state{text-align:center;padding:40px 24px}.zcs-empty-state__title{font-size:16px;font-weight:600;color:var(--zcs-text-2);margin:0 0 6px}.zcs-empty-state__body{font-size:14px;color:var(--zcs-text-3)}
+@media(max-width:1050px){.hw-span-4,.hw-span-8{grid-column:span 6}}@media(max-width:760px){.hw-dashboard{padding:16px}.hw-span-4,.hw-span-6,.hw-span-8{grid-column:1/-1}.zcs-page-header{display:block}.hw-actions{margin-top:16px}.zcs-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.zcs-kpi-grid{grid-template-columns:1fr}.hw-actions .zcs-button{width:100%}.hw-risk{grid-template-columns:1fr}}
+</style>
+
+<main class="hw-dashboard" aria-label="Hardware operations dashboard">
+  <header class="zcs-page-header">
+    <div>
+      <h1 class="zcs-page-header__title">Hardware Overview</h1>
+      <p class="zcs-page-header__sub">Live inventory, custody, condition risk, and repair workload.</p>
+    </div>
+    <nav class="hw-actions" aria-label="Hardware reports">
+      <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Report:All_Assets"><i class="zcs-button-icon zc-li-outline ui-2-grid-45" aria-hidden="true"></i><span>All Assets</span></a>
+      <a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Report:Active_Assignments"><i class="zcs-button-icon zc-li-outline users-single-05" aria-hidden="true"></i><span>Active Assignments</span></a>
+      <a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Report:Assignment_History"><i class="zcs-button-icon zc-li-outline ui-2-time" aria-hidden="true"></i><span>Assignment History</span></a>
+      <a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Report:Open_Maintenance"><i class="zcs-button-icon zc-li-outline ui-2-settings-90" aria-hidden="true"></i><span>Open Maintenance</span></a>
+    </nav>
+  </header>
+
+  <section class="zcs-kpi-grid" aria-label="Inventory key performance indicators">
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Total Assets</div><div class="zcs-kpi-card__value tone-blue"><%=total_assets%></div><div class="zcs-kpi-card__sub">Authoritative inventory</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Available</div><div class="zcs-kpi-card__value tone-green"><%=available_assets%></div><div class="zcs-kpi-card__sub">Ready for assignment</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Assigned</div><div class="zcs-kpi-card__value tone-blue"><%=assigned_assets%></div><div class="zcs-kpi-card__sub">Assets with holders</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">In Maintenance</div><div class="zcs-kpi-card__value tone-orange"><%=maintenance_assets%></div><div class="zcs-kpi-card__sub"><%=open_repairs%> open repair records</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Damaged / Unusable</div><div class="zcs-kpi-card__value tone-red"><%=risk_assets%></div><div class="zcs-kpi-card__sub">Condition attention required</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Active Assignments</div><div class="zcs-kpi-card__value tone-purple"><%=active_assignments%></div><div class="zcs-kpi-card__sub">Open custody transactions</div></div>
+  </section>
+
+  <div class="hw-grid">
+    <section class="zcs-section hw-span-4" aria-labelledby="status-heading">
+      <div class="hw-section-head"><h2 class="zcs-section__heading" id="status-heading">Asset Status Distribution</h2><a class="hw-section-link" href="#Report:All_Assets">View records</a></div>
+      <div class="hw-bars">
+        <div><div class="hw-bar-head"><span>Available</span><strong><%=available_assets%></strong></div><div class="hw-track"><div class="hw-fill green" style="width:<%=available_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Assigned</span><strong><%=assigned_assets%></strong></div><div class="hw-track"><div class="hw-fill" style="width:<%=assigned_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>In Maintenance</span><strong><%=maintenance_assets%></strong></div><div class="hw-track"><div class="hw-fill orange" style="width:<%=maintenance_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Retired</span><strong><%=retired_assets%></strong></div><div class="hw-track"><div class="hw-fill gray" style="width:<%=retired_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Lost</span><strong><%=lost_assets%></strong></div><div class="hw-track"><div class="hw-fill red" style="width:<%=lost_pct%>%"></div></div></div>
+      </div>
+    </section>
+
+    <section class="zcs-section hw-span-4" aria-labelledby="type-heading">
+      <div class="hw-section-head"><h2 class="zcs-section__heading" id="type-heading">Asset Type Distribution</h2></div>
+      <div class="hw-bars">
+        <div><div class="hw-bar-head"><span>Laptop</span><strong><%=laptop_count%></strong></div><div class="hw-track"><div class="hw-fill" style="width:<%=laptop_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Monitor</span><strong><%=monitor_count%></strong></div><div class="hw-track"><div class="hw-fill purple" style="width:<%=monitor_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Desktop</span><strong><%=desktop_count%></strong></div><div class="hw-track"><div class="hw-fill green" style="width:<%=desktop_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Tablet / Mobile</span><strong><%=tablet_count + mobile_count%></strong></div><div class="hw-track"><div class="hw-fill orange" style="width:<%=tablet_pct + mobile_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Dock / Peripheral</span><strong><%=dock_count + peripheral_count%></strong></div><div class="hw-track"><div class="hw-fill gray" style="width:<%=dock_pct + peripheral_pct%>%"></div></div></div>
+        <div><div class="hw-bar-head"><span>Other</span><strong><%=other_count%></strong></div><div class="hw-track"><div class="hw-fill red" style="width:<%=other_pct%>%"></div></div></div>
+      </div>
+    </section>
+
+    <section class="zcs-section hw-span-4" aria-labelledby="risk-heading">
+      <div class="hw-section-head"><h2 class="zcs-section__heading" id="risk-heading">Condition Risk</h2></div>
+      <div class="hw-risk">
+        <div class="hw-risk-item"><span class="zcs-badge zcs-badge--warning">Damaged</span><div class="hw-risk-value tone-orange"><%=damaged_assets%></div></div>
+        <div class="hw-risk-item"><span class="zcs-badge zcs-badge--danger">Unusable</span><div class="hw-risk-value tone-red"><%=unusable_assets%></div></div>
+      </div>
+      <% if(risk_assets == 0) { %><div class="hw-risk-note"><i class="zc-li-outline ui-1-check-circle-08" aria-hidden="true"></i> No assets currently carry a damaged or unusable condition.</div><% } else { %><div class="hw-risk-note">Review the affected inventory records and coordinate repair, retirement, or replacement.</div><% } %>
+    </section>
+
+    <section class="zcs-section hw-span-8" aria-labelledby="custody-heading">
+      <div class="hw-section-head"><h2 class="zcs-section__heading" id="custody-heading">Current Custody</h2><a class="hw-section-link" href="#Report:Active_Assignments">View all assignments</a></div>
+      <% if(assigned_assets == 0) { %>
+        <div class="zcs-empty-state"><div class="zcs-empty-state__title">No assets are currently assigned</div><div class="zcs-empty-state__body">New active assignments will appear here automatically.</div></div>
+      <% } else { %>
+        <div class="zcs-table-wrapper zcs-rounded-sm"><table class="zcs-w-full"><thead><tr><th class="hw-cell">Asset Tag</th><th class="hw-cell">Type</th><th class="hw-cell">Serial Number</th><th class="hw-cell">Current Holder</th><th class="hw-cell">Condition</th></tr></thead><tbody>
+        <% custody_index = 0; for each asset in custody_records { if(custody_index < 10) { custody_index = custody_index + 1; holder_name = ifnull(asset.Current_Holder,"Unassigned"); condition_class = "zcs-badge--success"; if(asset.Condition == "Fair") { condition_class = "zcs-badge--warning"; } if(asset.Condition == "Damaged" || asset.Condition == "Unusable") { condition_class = "zcs-badge--danger"; } %>
+          <tr><td class="hw-cell"><strong><%=asset.Asset_Tag%></strong></td><td class="hw-cell"><%=asset.Asset_Type%></td><td class="hw-cell"><%=asset.Serial_Number%></td><td class="hw-cell"><%=holder_name%></td><td class="hw-cell"><span class="zcs-badge <%=condition_class%>"><%=asset.Condition%></span></td></tr>
+        <% } } %>
+        </tbody></table></div>
+      <% } %>
+    </section>
+
+    <section class="zcs-section hw-span-4" aria-labelledby="repairs-heading">
+      <div class="hw-section-head"><h2 class="zcs-section__heading" id="repairs-heading">Open Maintenance</h2><a class="hw-section-link" href="#Report:Open_Maintenance">View all repairs</a></div>
+      <% if(open_repairs == 0) { %>
+        <div class="zcs-empty-state"><div class="zcs-empty-state__title">No open maintenance</div><div class="zcs-empty-state__body">There are no open or in-progress repairs.</div></div>
+      <% } else { %>
+        <div class="zcs-table-wrapper zcs-rounded-sm"><table class="zcs-w-full"><thead><tr><th class="hw-cell">Asset</th><th class="hw-cell">Status</th><th class="hw-cell">Issue</th><th class="hw-cell">Reported Date</th></tr></thead><tbody>
+        <% repair_index = 0; for each repair in repair_records { if(repair_index < 8) { repair_index = repair_index + 1; repair_class = "zcs-badge--warning"; if(repair.Maintenance_Status == "In Progress") { repair_class = "zcs-badge--info"; } %>
+          <tr><td class="hw-cell"><strong><%=repair.Asset.Asset_Tag%></strong></td><td class="hw-cell"><span class="zcs-badge <%=repair_class%>"><%=repair.Maintenance_Status%></span></td><td class="hw-cell hw-issue" title="<%=repair.Issue_Description%>"><%=repair.Issue_Description%></td><td class="hw-cell"><%=repair.Reported_Date%></td></tr>
+        <% } } %>
+        </tbody></table></div>
+      <% } %>
+    </section>
+  </div>
+</main>

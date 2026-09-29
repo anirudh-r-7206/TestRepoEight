@@ -1,0 +1,88 @@
+menu
+{
+    unused
+    {
+        form Purchase_Request_Lines { icon = "shopping-list" }
+        form Invoice_Lines { icon = "shopping-receipt-list-42" }
+        form Audit_Log { icon = "files-time" }
+    }
+
+    space Purchasing
+    {
+        displayname = "Purchasing"
+        icon = "shopping-cart-modern"
+
+        section Requests
+        {
+            displayname = "Requests"
+            icon = "shopping-list"
+            form Purchase_Requests { icon = "shopping-cart-add" }
+            report My_Purchase_Requests { icon = "files-folder-user" }
+            report Purchase_Request_Board { icon = "business-board-30" }
+            report Purchase_Request_Line_Register { icon = "files-single-content-03" }
+        }
+
+        section Approvals
+        {
+            displayname = "Approvals"
+            icon = "business-signature"
+            report Purchase_Approval_Queue { icon = "files-check" }
+            report Finance_Approval_Queue { icon = "business-scale" }
+        }
+
+        section Purchase_Orders
+        {
+            displayname = "Purchase Orders"
+            icon = "shopping-delivery"
+            report Purchase_Order_Register { icon = "shopping-receipt-list-43" }
+        }
+
+        section Invoices
+        {
+            displayname = "Invoices"
+            icon = "files-money"
+            form Invoices { icon = "business-cheque" }
+            report Invoice_Register { icon = "shopping-receipt" }
+            report Invoice_Line_Register { icon = "shopping-receipt-list-42" }
+            report Match_Exceptions { icon = "files-exclamation" }
+            report Unpaid_or_Open_Invoices { icon = "business-money-time" }
+        }
+
+        section Catalog_Administration
+        {
+            displayname = "Catalog Administration"
+            icon = "shopping-stock"
+            form Vendors { icon = "business-contacts" }
+            form Vendor_Items { icon = "shopping-tag-content" }
+            report All_Vendors { icon = "business-business-contact-88" }
+            report Active_Vendors { icon = "business-badge" }
+            report Vendor_Catalog { icon = "shopping-box" }
+            report Catalog_Price_Maintenance { icon = "shopping-tag" }
+        }
+
+        section Finance_Analytics
+        {
+            displayname = "Finance Analytics"
+            icon = "business-chart-bar-33"
+            page Purchase_Finance_Dashboard { icon = "business-chart" }
+            page Invoice_Match_Status { icon = "business-chart-bar-33" }
+            report Audit_Trail { icon = "business-notes" }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

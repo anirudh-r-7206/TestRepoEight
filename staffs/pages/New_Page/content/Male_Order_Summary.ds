@@ -1,0 +1,20 @@
+<panel elementName='Male_Order_Summary_Card'>
+  <pr width='fill' height='fill'>
+    <pc padding='20px' bgColor='#EAF3FF' borderColor='#B8D5FF' borderWidth='1px' cornerRadius='12px' width='100%' hAlign='left' vAlign='middle'>
+      <pr width='auto' height='auto'>
+        <pc padding='5px' hAlign='left'>
+          <pr>
+            <pc hAlign='left'>
+              <text margin='0px' padding='0px' color='#315A8A' size='15px' bold='true' type='Text' value='Male'> </text>
+            </pc>
+          </pr>
+          <pr>
+            <pc hAlign='left'>
+              <text margin='0px' padding='0px' marginTop='6px' color='#174A84' size='36px' bold='true' type='Form Data' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' displayType='actual' thousandsSeperator='LOCALE' decimalSeperator='DOT' numberScale='none' criteria='Gender == &quot;Male&quot;' value='thisapp.Add_Order.Gender.count'> </text>
+            </pc>
+          </pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+</panel>

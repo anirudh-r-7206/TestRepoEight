@@ -1,0 +1,19 @@
+default list All_HR_Managers
+{
+    displayName = "All HR Managers"
+    show all rows from HR_Managers
+    (
+        Manager_Name
+        Email
+        Age
+    )
+    filters
+    (
+        Manager_Name
+        Email
+    )
+    sort by
+    (
+        Manager_Name ascending
+    )
+}

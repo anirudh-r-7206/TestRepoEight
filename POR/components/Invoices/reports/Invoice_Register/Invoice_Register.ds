@@ -1,0 +1,25 @@
+default list Invoice_Register
+{
+    displayName = "Invoice Register"
+    show all rows from Invoices
+    (
+        Invoice_Number
+        Purchase_Order
+        Vendor
+        Invoice_Date
+        Due_Date
+        Invoice_Total
+        Match_Status
+        Amount_Variance
+    )
+    filters
+    (
+        Vendor
+        Match_Status
+        Invoice_Date
+    )
+    sort by
+    (
+        Invoice_Date descending
+    )
+}

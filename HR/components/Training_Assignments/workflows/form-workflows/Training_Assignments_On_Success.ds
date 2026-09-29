@@ -1,0 +1,37 @@
+Training_Assignments_On_Success as "Training Assignments On Success"
+{
+    type = form
+    form = Training_Assignments
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Status == "Completed" || input.Status == "Waived")
+                {
+                    input.Completed_Date = zoho.currentdate;
+                    input.Facilitated_By = zoho.loginuserid;
+                }
+
+                if(input.New_Hire != null)
+                {
+                    hire_id = input.New_Hire;
+                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+                    acknowledgement_count = Handbook_Acknowledgements[New_Hire == hire_id].count();
+                    if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0 && acknowledgement_count > 0)
+                    {
+                        hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+                        if(hire_records.count() > 0)
+                        {
+                            hire_records.Status = "Complete";
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,31 @@
+default list All_Assets
+{
+    displayName = "All Assets"
+    show all rows from Assets
+    (
+        Asset_ID
+        Asset_Tag
+        Asset_Type
+        Manufacturer
+        Model
+        Serial_Number
+        Condition
+        Asset_Status
+        Current_Holder
+    )
+    filters
+    (
+        Asset_Type
+        Condition
+        Asset_Status
+        Current_Holder
+    )
+    group by
+    (
+        Asset_Type ascending
+    )
+    sort by
+    (
+        Asset_Tag ascending
+    )
+}

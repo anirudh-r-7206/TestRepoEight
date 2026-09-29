@@ -1,0 +1,103 @@
+menu
+{
+    unused
+    {
+        form Expense_Audit
+        {
+            icon = "business-safe"
+        }
+    }
+
+    space Expense_Management
+    {
+        displayname = "Expense Management"
+        icon = "business-wallet-90"
+
+        section Dashboard
+        {
+            displayname = "Dashboard"
+            icon = "business-chart"
+
+            page Expense_Dashboard
+            {
+                icon = "business-chart-bar-33"
+            }
+        }
+
+        section Employee_Expenses
+        {
+            displayname = "Employee Expenses"
+            icon = "business-wallet-43"
+
+            form Expense_Reports
+            {
+                icon = "business-notes"
+            }
+            report My_Expenses
+            {
+                icon = "business-currency-dollar"
+            }
+        }
+
+        section Approvals
+        {
+            displayname = "Approvals"
+            icon = "business-signature"
+
+            report Head_Approval_Queue
+            {
+                icon = "business-badge"
+            }
+        }
+
+        section Finance
+        {
+            displayname = "Finance"
+            icon = "business-bank"
+
+            report Finance_Payment_Queue
+            {
+                icon = "business-payment"
+            }
+            report All_Expenses
+            {
+                icon = "business-calculator"
+            }
+        }
+
+        section Administration
+        {
+            displayname = "Administration"
+            icon = "business-briefcase-25"
+
+            form Department_Heads
+            {
+                icon = "users-multiple-11"
+            }
+            report Active_Department_Heads
+            {
+                icon = "business-business-contact-89"
+            }
+            report Expense_Audit_Trail
+            {
+                icon = "business-safe"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

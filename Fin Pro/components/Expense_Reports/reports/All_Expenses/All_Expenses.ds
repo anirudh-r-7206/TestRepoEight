@@ -1,0 +1,34 @@
+list All_Expenses
+{
+    displayName = "All Expenses"
+    show all rows from Expense_Reports
+    (
+        Expense_Number
+        Expense_Date
+        Category
+        Amount
+        (
+            display = total
+        )
+        Receipt
+        Description
+        Department_Head
+        Approval_Status
+        Payment_Status
+        Submitted_By
+        Approved_or_Rejected_By
+        Decision_Date
+        Decision_Notes
+        Payment_Reference
+        Paid_Date
+    )
+    group by
+    (
+        Approval_Status ascending
+        Payment_Status ascending
+    )
+    sort by
+    (
+        Expense_Date descending
+    )
+}

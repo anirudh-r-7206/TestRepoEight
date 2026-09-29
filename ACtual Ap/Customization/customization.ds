@@ -1,0 +1,11 @@
+customize
+{
+    new theme color = 1
+
+    icon
+    {
+        icon = "zc-ab-users-contacts"
+        background color = "#5051F9"
+        foreground color = "#ffffff"
+    }
+}

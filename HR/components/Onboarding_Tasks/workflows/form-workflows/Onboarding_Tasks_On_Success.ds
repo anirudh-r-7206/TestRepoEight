@@ -1,0 +1,54 @@
+Onboarding_Tasks_On_Success as "Onboarding Tasks On Success"
+{
+    type = form
+    form = Onboarding_Tasks
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Status == "Complete")
+                {
+                    if(input.Completion_Date == null)
+                    {
+                        input.Completion_Date = zoho.currentdate;
+                    }
+                }
+                else
+                {
+                    input.Completion_Date = null;
+                }
+
+                if(input.New_Hire != null)
+                {
+                    hire_id = input.New_Hire;
+                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+                    acknowledgement_count = Handbook_Acknowledgements[New_Hire == hire_id].count();
+                    hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+                    if(hire_records.count() > 0)
+                    {
+                        if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0)
+                        {
+                            if(acknowledgement_count > 0)
+                            {
+                                hire_records.Status = "Complete";
+                            }
+                            else
+                            {
+                                hire_records.Status = "Awaiting Sign-off";
+                            }
+                        }
+                        else
+                        {
+                            hire_records.Status = "In Progress";
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

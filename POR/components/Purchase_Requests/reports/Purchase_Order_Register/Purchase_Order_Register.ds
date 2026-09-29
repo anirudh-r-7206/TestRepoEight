@@ -1,0 +1,45 @@
+list Purchase_Order_Register
+{
+    displayName = "Purchase Order Register"
+    show all rows from Purchase_Requests [PO_Number is not null]
+    (
+        PO_Number
+        PO_Date
+        Vendor
+        PO_Total
+        Invoiced_Total
+        Remaining_To_Invoice
+        Status
+    )
+    filters
+    (
+        Vendor
+        Status
+        PO_Date
+    )
+    sort by
+    (
+        PO_Date descending
+    )
+    conditional formatting
+    (
+        "Match Exception"
+        {
+            condition = (Status == "Match Exception")
+            fields = [PO_Number, Remaining_To_Invoice, Status]
+            format = "background-color:#FFF1F0;color:#C62828;font-weight:bold"
+        }
+        "Matched"
+        {
+            condition = (Status == "Matched")
+            fields = [PO_Number, Remaining_To_Invoice, Status]
+            format = "background-color:#E7F6EC;color:#137333"
+        }
+        "Pending Invoice"
+        {
+            condition = (Status == "PO Issued" || Status == "Partially Invoiced")
+            fields = [PO_Number, Remaining_To_Invoice, Status]
+            format = "background-color:#FFF7E0;color:#8A5700"
+        }
+    )
+}

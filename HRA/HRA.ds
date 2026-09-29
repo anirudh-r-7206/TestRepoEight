@@ -1,0 +1,253 @@
+application "HRA"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form HR_Managers
+		{
+		    title
+		    {
+		        displayname = "HR Managers"
+		        on add = "Add HR Manager"
+		        on edit = "Edit HR Manager"
+		    }
+		
+		    Manager_Details
+		    (
+		        type = section
+		        displayname = "Manager Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Manager_Name
+		    (
+		        type = text
+		        displayname = "Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Email
+		    (
+		        type = email
+		        displayname = "Email"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_HR_Managers
+		{
+		    displayName = "All HR Managers"
+		    show all rows from HR_Managers
+		    (
+		        Manager_Name
+		        Email
+		        Age
+		    )
+		    filters
+		    (
+		        Manager_Name
+		        Email
+		    )
+		    sort by
+		    (
+		        Manager_Name ascending
+		    )
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form HR_Managers
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_HR_Managers
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Manager_Name
+		                    Email
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Manager_Name
+		                    Email
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space HR_Space
+	    {
+	        displayname = "HR"
+	        icon = "users-multiple-11"
+	
+	        section Managers_Section
+	        {
+	            displayname = "Managers"
+	            icon = "business-hierarchy-56"
+	
+	            form HR_Managers
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_HR_Managers
+	            {
+	                icon = "business-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "3"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

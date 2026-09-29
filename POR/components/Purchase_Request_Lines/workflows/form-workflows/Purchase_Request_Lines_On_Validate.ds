@@ -1,0 +1,26 @@
+Purchase_Request_Lines_On_Validate as "Purchase Request Lines On Validate"
+{
+    type = form
+    form = Purchase_Request_Lines
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Quantity <= 0)
+                {
+                    alert(Quantity, "Quantity must be greater than zero.");
+                    cancel submit;
+                }
+                if(input.Unit_Price < 0)
+                {
+                    alert(Unit_Price, "Unit Price cannot be negative.");
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

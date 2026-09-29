@@ -1,0 +1,19 @@
+<page linkname = "Freelancer_Dashboard" displayname = "Freelancer Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Freelancer_Dashboard_Workspace' elementName='Freelancer_Dashboard_Workspace'>
+          <![CDATA[htmlpage Freelancer_Dashboard_Workspace()
+            content
+            <%{%>
+              <file name:Freelancer_Dashboard_Workspace.dshtml/>
+            <%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

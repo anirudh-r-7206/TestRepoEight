@@ -1,0 +1,120 @@
+Invoices_On_Success as "Invoices On Success"
+{
+    type = form
+    form = Invoices
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                poRecord = Purchase_Requests[ID == input.Purchase_Order];
+                priorTotal = Invoices[Purchase_Order == input.Purchase_Order && Match_Status != "Exception" && ID != input.ID].sum(Invoice_Total);
+                priorTotal = ifnull(priorTotal,0);
+                cumulativeTotal = priorTotal + ifnull(input.Invoice_Total,0);
+                varianceValue = cumulativeTotal - ifnull(poRecord.PO_Total,0);
+                exceptionText = ifnull(input.Exception_Details,"");
+                hasException = exceptionText != "";
+                allQuantitiesSatisfied = true;
+
+                for each poLine in poRecord.Requested_Items
+                {
+                    orderedQty = ifnull(poLine.Quantity,0);
+                    billedQty = 0.0;
+                    relatedInvoices = Invoices[Purchase_Order == input.Purchase_Order && ID != input.ID];
+                    for each relatedInvoice in relatedInvoices
+                    {
+                        if(relatedInvoice.Match_Status != "Exception")
+                        {
+                            for each relatedLine in relatedInvoice.Invoice_Lines
+                            {
+                                if(relatedLine.Catalog_Item == poLine.Catalog_Item)
+                                {
+                                    billedQty = billedQty + ifnull(relatedLine.Invoiced_Quantity,0);
+                                }
+                            }
+                        }
+                    }
+                    for each currentLine in input.Invoice_Lines
+                    {
+                        if(currentLine.Catalog_Item == poLine.Catalog_Item)
+                        {
+                            billedQty = billedQty + ifnull(currentLine.Invoiced_Quantity,0);
+                        }
+                    }
+                    if(billedQty - orderedQty > 0.01 || orderedQty - billedQty > 0.01)
+                    {
+                        allQuantitiesSatisfied = false;
+                    }
+                }
+
+                matchStatusValue = "Partial Match";
+                poStatusValue = "Partially Invoiced";
+                if(hasException || varianceValue > 0.01 || (varianceValue < -0.01 && allQuantitiesSatisfied))
+                {
+                    matchStatusValue = "Exception";
+                    poStatusValue = "Match Exception";
+                    if(exceptionText == "")
+                    {
+                        exceptionText = "Cumulative invoice total or line-level match differs from the PO.";
+                    }
+                }
+                else if(allQuantitiesSatisfied && varianceValue <= 0.01 && varianceValue >= -0.01)
+                {
+                    matchStatusValue = "Matched";
+                    poStatusValue = "Matched";
+                }
+
+                update Invoices[ID == input.ID]
+                [
+                    Match_Status = matchStatusValue
+                    Amount_Variance = varianceValue
+                    Exception_Details = exceptionText
+                    Matched_On = zoho.currentdate
+                    Matched_By = zoho.loginuser
+                ];
+                acceptedTotal = cumulativeTotal;
+                if(matchStatusValue == "Exception")
+                {
+                    acceptedTotal = priorTotal;
+                }
+                remainingValue = ifnull(poRecord.PO_Total,0) - acceptedTotal;
+                update Purchase_Requests[ID == input.Purchase_Order]
+                [
+                    Invoiced_Total = acceptedTotal
+                    Remaining_To_Invoice = remainingValue
+                    Last_Match_Date = zoho.currentdate
+                    Status = poStatusValue
+                ];
+
+                profileName = thisapp.permissions.loginUserProfile();
+                captureAuditId = insert into Audit_Log
+                [
+                    Event_Time = zoho.currenttime
+                    User_Email = zoho.loginuserid
+                    User_Profile = profileName
+                    Action = "Invoice Captured"
+                    Component = "Invoices"
+                    Record_ID = input.ID
+                    Reference_Number = input.Invoice_Number
+                    After_Value = "Total: " + input.Invoice_Total
+                    Notes = "Invoice captured against PO " + poRecord.PO_Number
+                ];
+                matchAuditId = insert into Audit_Log
+                [
+                    Event_Time = zoho.currenttime
+                    User_Email = zoho.loginuserid
+                    User_Profile = profileName
+                    Action = "Invoice Match Result"
+                    Component = "Invoices"
+                    Record_ID = input.ID
+                    Reference_Number = input.Invoice_Number
+                    After_Value = "Status: " + matchStatusValue + ", Variance: " + varianceValue
+                    Notes = exceptionText
+                ];
+            )
+        }
+    }
+}

@@ -1,0 +1,103 @@
+"Procurement_Admin"
+{
+    name = "Procurement_Admin"
+    type = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+    description = "Procurement administrators have full operational access; the audit trail remains immutable and read-only."
+
+    ModulePermissions
+    {
+        Vendors
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                All_Vendors={"View","Edit","Delete"}
+                Active_Vendors={"View","Edit","Delete"}
+            }
+        }
+        Vendor_Items
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                Vendor_Catalog={"View","Edit","Delete"}
+                Catalog_Price_Maintenance={"View","Edit","Delete"}
+            }
+        }
+        Purchase_Request_Lines
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                Purchase_Request_Line_Register={"View","Edit","Delete"}
+            }
+        }
+        Purchase_Requests
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                My_Purchase_Requests={"View","Edit","Delete"}
+                Purchase_Approval_Queue={"View","Edit","Delete"}
+                Finance_Approval_Queue={"View","Edit","Delete"}
+                Purchase_Order_Register={"View","Edit","Delete"}
+                Purchase_Request_Board={"View","Edit","Delete"}
+            }
+        }
+        Invoice_Lines
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                Invoice_Line_Register={"View","Edit","Delete"}
+            }
+        }
+        Invoices
+        {
+            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                Invoice_Register={"View","Edit","Delete"}
+                Match_Exceptions={"View","Edit","Delete"}
+                Unpaid_or_Open_Invoices={"View","Edit","Delete"}
+            }
+        }
+        Audit_Log
+        {
+            enabled = Viewall,Export,Tab,View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Audit_Trail={"View"}
+            }
+            FieldPermissions
+            {
+                Event_Time{visibility:true,readonly:true}
+                User_Email{visibility:true,readonly:true}
+                User_Profile{visibility:true,readonly:true}
+                Action{visibility:true,readonly:true}
+                Component{visibility:true,readonly:true}
+                Record_ID{visibility:true,readonly:true}
+                Reference_Number{visibility:true,readonly:true}
+                Before_Value{visibility:true,readonly:true}
+                After_Value{visibility:true,readonly:true}
+                Notes{visibility:true,readonly:true}
+            }
+        }
+        Purchase_Finance_Dashboard
+        {
+            enabled = tab
+        }
+        Invoice_Match_Status
+        {
+            enabled = tab
+        }
+    }
+}

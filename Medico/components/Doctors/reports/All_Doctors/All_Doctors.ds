@@ -1,0 +1,18 @@
+default list All_Doctors
+{
+    displayName = "All Doctors"
+    show all rows from Doctors
+    (
+        Doctor_Name
+        Email_ID
+    )
+    filters
+    (
+        Doctor_Name
+        Email_ID
+    )
+    sort by
+    (
+        Doctor_Name ascending
+    )
+}

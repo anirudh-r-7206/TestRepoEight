@@ -1,0 +1,18 @@
+Task_Status_On_User_Input as "Task Status On User Input"
+{
+    type = form
+    form = Onboarding_Tasks
+    record event = on add or edit
+
+    on user input of Status
+    {
+        actions ( Status == "Complete" )
+        {
+            show Completion_Date, Completion_Notes;
+        }
+        actions ( Status != "Complete" )
+        {
+            hide Completion_Date, Completion_Notes;
+        }
+    }
+}

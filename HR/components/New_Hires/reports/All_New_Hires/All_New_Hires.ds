@@ -1,0 +1,23 @@
+default list All_New_Hires
+{
+    displayName = "All New Hires"
+    show all rows from New_Hires
+    (
+        Employee_ID
+        Full_Name
+        Personal_Email
+        Job_Title
+        Department
+        Start_Date
+        Manager_Name
+        Status
+    )
+    group by
+    (
+        Status ascending
+    )
+    sort by
+    (
+        Start_Date descending
+    )
+}

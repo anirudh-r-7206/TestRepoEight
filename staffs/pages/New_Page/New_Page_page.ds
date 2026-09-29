@@ -1,0 +1,18 @@
+<page linkname = "New_Page" displayname = "New Page"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='33%'>
+        <file name:Male_Order_Summary.ds/>
+      </column>
+      <column width='34%'>
+        <file name:Female_Order_Summary.ds/>
+      </column>
+      <column width='33%'>
+        <file name:Other_Gender_Order_Summary.ds/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

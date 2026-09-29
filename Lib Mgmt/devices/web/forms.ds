@@ -1,0 +1,7 @@
+forms
+{
+    form Books
+    {
+        label placement = left
+    }
+}

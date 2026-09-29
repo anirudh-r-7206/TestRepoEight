@@ -1,0 +1,7 @@
+forms
+{
+    form HR_Managers
+    {
+        label placement = left
+    }
+}

@@ -1,0 +1,103 @@
+form Handbook_Acknowledgements
+{
+    Acknowledgement_Details
+    (
+        type = section
+        displayname = "Acknowledgement Details"
+        row = 1
+        column = 0
+    )
+    must have New_Hire
+    (
+        type = picklist
+        displayname = "New Hire"
+        values = New_Hires.ID
+        displayformat = [Full_Name]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Handbook_Version
+    (
+        type = text
+        displayname = "Handbook Version"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Handbook_File
+    (
+        type = upload file
+        displayname = "Handbook File"
+        file count = 1
+        browse = local_drive, google_docs, zoho_docs
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Employee_Signature
+    (
+        type = signature
+        displayname = "Employee Signature"
+        personal data = true
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Signed_Date
+    (
+        type = date
+        displayname = "Signed Date"
+        initial value = "${zoho.currentdate}"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Witnessed_By
+    (
+        type = email
+        displayname = "Witnessed By"
+        initial value = "${zoho.loginuserid}"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

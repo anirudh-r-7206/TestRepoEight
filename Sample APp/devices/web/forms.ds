@@ -1,0 +1,7 @@
+forms
+{
+    form People
+    {
+        label placement = left
+    }
+}

@@ -1,0 +1,43 @@
+Expense_Approve_Action as "Approve"
+{
+    type = functions
+    form = Expense_Reports
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                priorApproval = input.Approval_Status;
+                priorPayment = input.Payment_Status;
+                selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+                if(input.Amount <= 500 || input.Approval_Status != "Pending Department Head" || selectedHead.count() == 0 || selectedHead.Head_Email != zoho.loginuserid)
+                {
+                    info "Approval action blocked: unauthorized user or expense is no longer pending.";
+                }
+                else
+                {
+                    input.Approval_Status = "Approved";
+                    input.Payment_Status = "Unpaid";
+                    input.Approved_or_Rejected_By = zoho.loginuserid;
+                    input.Decision_Date = zoho.currentdate;
+                    input.Decision_Notes = "Approved by Department Head.";
+                    insert into Expense_Audit
+                    [
+                        Expense = input.ID
+                        Action = "Approved"
+                        Actor_Email = zoho.loginuserid
+                        Action_Time = zoho.currenttime
+                        Previous_Approval_Status = priorApproval
+                        New_Approval_Status = "Approved"
+                        Previous_Payment_Status = priorPayment
+                        New_Payment_Status = "Unpaid"
+                        Notes = input.Decision_Notes
+                    ];
+                }
+            )
+        }
+    }
+}

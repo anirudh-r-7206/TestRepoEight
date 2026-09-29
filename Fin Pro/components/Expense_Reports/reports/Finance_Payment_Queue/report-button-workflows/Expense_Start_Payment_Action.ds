@@ -1,0 +1,38 @@
+Expense_Start_Payment_Action as "Start Payment"
+{
+    type = functions
+    form = Expense_Reports
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                priorApproval = input.Approval_Status;
+                priorPayment = input.Payment_Status;
+                if(!thisapp.permissions.isUserInProfile("Finance") || input.Approval_Status != "Approved" || input.Payment_Status != "Unpaid")
+                {
+                    info "Start payment action blocked: invalid profile or expense state.";
+                }
+                else
+                {
+                    input.Payment_Status = "Processing";
+                    insert into Expense_Audit
+                    [
+                        Expense = input.ID
+                        Action = "Payment Started"
+                        Actor_Email = zoho.loginuserid
+                        Action_Time = zoho.currenttime
+                        Previous_Approval_Status = priorApproval
+                        New_Approval_Status = priorApproval
+                        Previous_Payment_Status = priorPayment
+                        New_Payment_Status = "Processing"
+                        Notes = input.Payment_Reference
+                    ];
+                }
+            )
+        }
+    }
+}

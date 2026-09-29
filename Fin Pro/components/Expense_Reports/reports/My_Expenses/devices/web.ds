@@ -1,0 +1,41 @@
+report My_Expenses
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields ( Expense_Number  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Department_Head  Receipt )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields ( Expense_Number  Expense_Date  Category  Amount  Approval_Status  Payment_Status  Department_Head  Receipt )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

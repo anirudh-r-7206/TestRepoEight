@@ -1,0 +1,14 @@
+default list Invoice_Line_Register
+{
+    displayName = "Invoice Line Register"
+    show all rows from Invoice_Lines
+    (
+        Catalog_Item
+        Invoiced_Quantity
+        Unit_Price
+        Tax_Rate
+        Line_Subtotal
+        Tax_Amount
+        Line_Total
+    )
+}

@@ -1,0 +1,12 @@
+<page linkname = "Onboarding_Dashboard" displayname = "Onboarding Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <file name:Onboarding_Dashboard_Page.ds/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

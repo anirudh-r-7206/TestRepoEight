@@ -1,0 +1,19 @@
+ID_Documents_On_Load as "ID Documents On Load"
+{
+    type = form
+    form = ID_Documents
+    record event = on add or edit
+
+    on load
+    {
+        actions ( Verification_Status == "Verified" )
+        {
+            show Verified_By, Verified_Date;
+            enable Verified_By, Verified_Date;
+        }
+        actions ( Verification_Status != "Verified" )
+        {
+            hide Verified_By, Verified_Date;
+        }
+    }
+}

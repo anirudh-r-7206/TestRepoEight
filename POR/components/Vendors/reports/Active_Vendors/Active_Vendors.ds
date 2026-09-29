@@ -1,0 +1,19 @@
+list Active_Vendors
+{
+    displayName = "Active Vendors"
+    show all rows from Vendors [Active == true]
+    (
+        Vendor_ID
+        Vendor_Name
+        Contact_Name
+        Contact_Email
+        Contact_Phone
+        Payment_Terms
+        Currency
+        Active
+    )
+    sort by
+    (
+        Vendor_Name ascending
+    )
+}

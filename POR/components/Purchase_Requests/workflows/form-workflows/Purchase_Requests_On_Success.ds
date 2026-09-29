@@ -1,0 +1,34 @@
+Purchase_Requests_On_Success as "Purchase Requests On Success"
+{
+    type = form
+    form = Purchase_Requests
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                actionName = "Purchase Request Updated";
+                if(input.Added_Time == input.Modified_Time)
+                {
+                    actionName = "Purchase Request Created";
+                }
+                profileName = thisapp.permissions.loginUserProfile();
+                auditId = insert into Audit_Log
+                [
+                    Event_Time = zoho.currenttime
+                    User_Email = zoho.loginuserid
+                    User_Profile = profileName
+                    Action = actionName
+                    Component = "Purchase_Requests"
+                    Record_ID = input.ID
+                    Reference_Number = input.Request_Number.toString()
+                    After_Value = "Status: " + input.Status + ", Total: " + input.Request_Total
+                    Notes = "Purchase request saved."
+                ];
+            )
+        }
+    }
+}

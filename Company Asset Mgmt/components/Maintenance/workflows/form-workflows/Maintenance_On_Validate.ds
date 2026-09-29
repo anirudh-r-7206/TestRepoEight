@@ -1,0 +1,58 @@
+Maintenance_On_Validate as "Maintenance On Validate"
+{
+    type = form
+    form = Maintenance
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Maintenance_Status == "Completed")
+                {
+                    if(input.Completed_Date == null)
+                    {
+                        alert(Completed_Date, "Completed Date is required when maintenance is completed.");
+                        cancel submit;
+                    }
+                    if(input.Work_Performed == null || input.Work_Performed == "")
+                    {
+                        alert(Work_Performed, "Work Performed is required when maintenance is completed.");
+                        cancel submit;
+                    }
+                    if(input.Condition_After == null)
+                    {
+                        alert(Condition_After, "Condition After is required when maintenance is completed.");
+                        cancel submit;
+                    }
+                }
+                if(input.Started_Date != null && input.Started_Date < input.Reported_Date)
+                {
+                    alert(Started_Date, "Started Date cannot be before Reported Date.");
+                    cancel submit;
+                }
+                if(input.Completed_Date != null && input.Completed_Date < input.Reported_Date)
+                {
+                    alert(Completed_Date, "Completed Date cannot be before Reported Date.");
+                    cancel submit;
+                }
+                if(input.Completed_Date != null && input.Started_Date != null && input.Completed_Date < input.Started_Date)
+                {
+                    alert(Completed_Date, "Completed Date cannot be before Started Date.");
+                    cancel submit;
+                }
+                if(input.Maintenance_Status != "Completed" && input.Maintenance_Status != "Cancelled")
+                {
+                    duplicateCount = Maintenance[Asset == input.Asset && Maintenance_Status != "Completed" && Maintenance_Status != "Cancelled" && ID != input.ID].count();
+                    if(duplicateCount > 0)
+                    {
+                        alert(Asset, "This asset already has an open maintenance record.");
+                        cancel submit;
+                    }
+                }
+            )
+        }
+    }
+}

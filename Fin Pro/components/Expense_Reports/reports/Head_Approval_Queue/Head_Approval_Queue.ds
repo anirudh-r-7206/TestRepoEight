@@ -1,0 +1,35 @@
+list Head_Approval_Queue
+{
+    displayName = "Head Approval Queue"
+    show all rows from Expense_Reports [Amount > 500 && Approval_Status == "Pending Department Head"]
+    (
+        Expense_Number
+        Submitted_By
+        Expense_Date
+        Category
+        Amount
+        Department_Head
+        Receipt
+        Description
+        Approval_Status
+        Payment_Status
+        custom action "Approve"
+        (
+            workflow = Expense_Approve_Action
+            show action in edit record menu = true
+            column header = "Approve"
+            condition = (Amount > 500 && Approval_Status == "Pending Department Head")
+        )
+        custom action "Reject"
+        (
+            workflow = Expense_Reject_Action
+            show action in edit record menu = true
+            column header = "Reject"
+            condition = (Amount > 500 && Approval_Status == "Pending Department Head")
+        )
+    )
+    sort by
+    (
+        Expense_Date ascending
+    )
+}

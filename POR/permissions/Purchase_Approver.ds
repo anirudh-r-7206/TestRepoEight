@@ -1,0 +1,148 @@
+"Purchase_Approver"
+{
+    name = "Purchase_Approver"
+    type = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+    description = "Approvers review assigned purchase requests and execute manager approval decisions."
+
+    ModulePermissions
+    {
+        Vendors
+        {
+            enabled = View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Active_Vendors={"View"}
+            }
+            FieldPermissions
+            {
+                Vendor_ID{visibility:true,readonly:true}
+                Vendor_Name{visibility:true,readonly:true}
+                Tax_Registration_Number{visibility:true,readonly:true}
+                Contact_Name{visibility:true,readonly:true}
+                Contact_Email{visibility:true,readonly:true}
+                Contact_Phone{visibility:true,readonly:true}
+                Payment_Terms{visibility:true,readonly:true}
+                Currency{visibility:true,readonly:true}
+                Active{visibility:true,readonly:true}
+                Notes{visibility:false}
+            }
+        }
+        Vendor_Items
+        {
+            enabled = View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Vendor_Catalog={"View"}
+            }
+            FieldPermissions
+            {
+                Item_Code{visibility:true,readonly:true}
+                Vendor{visibility:true,readonly:true}
+                Item_Name{visibility:true,readonly:true}
+                Item_Description{visibility:true,readonly:true}
+                Unit_Of_Measure{visibility:true,readonly:true}
+                Unit_Price{visibility:true,readonly:true}
+                Tax_Rate{visibility:true,readonly:true}
+                Active{visibility:true,readonly:true}
+                Effective_From{visibility:true,readonly:true}
+                Effective_To{visibility:true,readonly:true}
+            }
+        }
+        Purchase_Request_Lines
+        {
+            enabled = View,Search
+            allFieldsVisible = false
+            FieldPermissions
+            {
+                Catalog_Item{visibility:true,readonly:true}
+                Item_Description{visibility:true,readonly:true}
+                Quantity{visibility:true,readonly:true}
+                Unit_Of_Measure{visibility:true,readonly:true}
+                Unit_Price{visibility:true,readonly:true}
+                Tax_Rate{visibility:true,readonly:true}
+                Line_Subtotal{visibility:true,readonly:true}
+                Tax_Amount{visibility:true,readonly:true}
+                Line_Total{visibility:true,readonly:true}
+            }
+        }
+        Purchase_Requests
+        {
+            enabled = View,Edit,Search,Tab
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Purchase_Approval_Queue={"View","Edit"}
+            }
+            FieldPermissions
+            {
+                Request_Number{visibility:true,readonly:true}
+                Requester{visibility:true,readonly:true}
+                Department{visibility:true,readonly:true}
+                Request_Date{visibility:true,readonly:true}
+                Needed_By{visibility:true,readonly:true}
+                Vendor{visibility:true,readonly:true}
+                Assigned_Approver{visibility:true,readonly:true}
+                Business_Justification{visibility:true,readonly:true}
+                Quote_Attachment{visibility:true,readonly:true}
+                Requested_Items{visibility:true,readonly:true}
+                Subtotal{visibility:true,readonly:true}
+                Tax_Total{visibility:true,readonly:true}
+                Request_Total{visibility:true,readonly:true}
+                Status{visibility:true,readonly:true}
+                Rejection_Reason{visibility:true,readonly:false}
+                PO_Number{visibility:true,readonly:true}
+                PO_Date{visibility:true,readonly:true}
+                PO_Total{visibility:true,readonly:true}
+                Invoiced_Total{visibility:true,readonly:true}
+                Remaining_To_Invoice{visibility:true,readonly:true}
+                Last_Match_Date{visibility:true,readonly:true}
+            }
+        }
+        Invoice_Lines
+        {
+            enabled = View,Search
+            allFieldsVisible = false
+            FieldPermissions
+            {
+                Catalog_Item{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Invoiced_Quantity{visibility:true,readonly:true}
+                Unit_Price{visibility:true,readonly:true}
+                Tax_Rate{visibility:true,readonly:true}
+                Line_Subtotal{visibility:true,readonly:true}
+                Tax_Amount{visibility:true,readonly:true}
+                Line_Total{visibility:true,readonly:true}
+            }
+        }
+        Invoices
+        {
+            enabled = View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Invoice_Register={"View"}
+            }
+            FieldPermissions
+            {
+                Invoice_Number{visibility:true,readonly:true}
+                Purchase_Order{visibility:true,readonly:true}
+                Vendor{visibility:true,readonly:true}
+                Invoice_Date{visibility:true,readonly:true}
+                Due_Date{visibility:true,readonly:true}
+                Invoice_File{visibility:true,readonly:true}
+                Invoice_Lines{visibility:true,readonly:true}
+                Invoice_Subtotal{visibility:true,readonly:true}
+                Invoice_Tax{visibility:true,readonly:true}
+                Invoice_Total{visibility:true,readonly:true}
+                Match_Status{visibility:true,readonly:true}
+                Amount_Variance{visibility:true,readonly:true}
+                Exception_Details{visibility:true,readonly:true}
+                Matched_On{visibility:true,readonly:true}
+                Matched_By{visibility:true,readonly:true}
+            }
+        }
+    }
+}

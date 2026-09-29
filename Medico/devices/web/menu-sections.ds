@@ -1,0 +1,39 @@
+menu
+{
+    space Medical_Directory
+    {
+        displayname = "Medical Directory"
+        icon = "health-hospital-33"
+
+        section Doctors_Section
+        {
+            displayname = "Doctors"
+            icon = "health-doctor"
+
+            form Doctors
+            {
+                icon = "users-add-27"
+            }
+            report All_Doctors
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = solid
+            show = {space,section,component}
+        }
+    }
+}

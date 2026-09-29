@@ -1,0 +1,29 @@
+default list Assignment_History
+{
+    displayName = "Assignment History"
+    show all rows from Assignments
+    (
+        Assignment_ID
+        Asset
+        Assigned_To
+        Assigned_Date
+        Assignment_Status
+        Return_Date
+        Condition_On_Issue
+        Condition_On_Return
+    )
+    filters
+    (
+        Asset
+        Assigned_To
+        Assignment_Status
+    )
+    group by
+    (
+        Asset ascending
+    )
+    sort by
+    (
+        Assigned_Date descending
+    )
+}

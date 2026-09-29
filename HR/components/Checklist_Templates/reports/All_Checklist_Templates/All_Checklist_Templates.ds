@@ -1,0 +1,26 @@
+default list All_Checklist_Templates
+{
+    displayName = "All Checklist Templates"
+    show all rows from Checklist_Templates
+    (
+        Task_Name
+        Category
+        Offset_Days
+        Priority
+        Active
+    )
+    filters
+    (
+        Category
+        Priority
+        Active
+    )
+    group by
+    (
+        Category ascending
+    )
+    sort by
+    (
+        Task_Name ascending
+    )
+}

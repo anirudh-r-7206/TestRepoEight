@@ -1,0 +1,96 @@
+<%
+managerPending = Purchase_Requests[Status == "Pending Manager Approval"].count();
+financePending = Purchase_Requests[Status == "Pending Finance Approval"].count();
+openPOs = Purchase_Requests[Status == "PO Issued" || Status == "Partially Invoiced" || Status == "Match Exception"];
+openPOValue = ifnull(openPOs.sum(PO_Total),0);
+remainingValue = ifnull(openPOs.sum(Remaining_To_Invoice),0);
+exceptions = Invoices[Match_Status == "Exception"];
+exceptionCount = exceptions.count();
+matchedInvoiceValue = ifnull(Invoices[Match_Status == "Matched"].sum(Invoice_Total),0);
+allRequests = Purchase_Requests[ID != 0];
+allRequestCount = allRequests.count();
+issuedCount = Purchase_Requests[PO_Number is not null].count();
+matchedCount = Invoices[Match_Status == "Matched"].count();
+statusTotal = managerPending + financePending + issuedCount + exceptionCount + matchedCount;
+if(statusTotal == 0)
+{
+ statusTotal = 1;
+}
+managerPct = (managerPending * 100.0 / statusTotal).round(1);
+financePct = (financePending * 100.0 / statusTotal).round(1);
+issuedPct = (issuedCount * 100.0 / statusTotal).round(1);
+exceptionPct = (exceptionCount * 100.0 / statusTotal).round(1);
+matchedPct = (matchedCount * 100.0 / statusTotal).round(1);
+trendRows = List();
+trendMax = 1;
+for each offset in {5,4,3,2,1,0}
+{
+ monthStart = zoho.currentdate.addMonth(0 - offset).toStartOfMonth();
+ monthEnd = monthStart.addMonth(1).addDay(-1);
+ requestedAmount = ifnull(Purchase_Requests[Request_Date >= monthStart && Request_Date <= monthEnd].sum(Request_Total),0);
+ invoicedAmount = ifnull(Invoices[Invoice_Date >= monthStart && Invoice_Date <= monthEnd].sum(Invoice_Total),0);
+ if(requestedAmount > trendMax)
+ {
+  trendMax = requestedAmount;
+ }
+ if(invoicedAmount > trendMax)
+ {
+  trendMax = invoicedAmount;
+ }
+ trendRows.add({"label":monthStart.toString("MMM"),"requested":requestedAmount,"invoiced":invoicedAmount});
+}
+vendorRows = List();
+for each vendor in Vendors[Active == true]
+{
+ vendorPOValue = ifnull(Purchase_Requests[Vendor == vendor.ID && PO_Number is not null].sum(PO_Total),0);
+ if(vendorPOValue > 0)
+ {
+  vendorRows.add({"name":vendor.Vendor_Name,"value":vendorPOValue});
+ }
+}
+vendorRows.sort(false);
+recentLogs = Audit_Log[ID != 0] sort by Event_Time desc range from 0 to 5;
+exceptionRows = Invoices[Match_Status == "Exception"] sort by Invoice_Date asc range from 0 to 7;
+%>
+<style>
+/* zcs-global.css: included once for this page */
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-white-color:#fff;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-surface:#fff;--zcs-bg:#f4f6f8;--zcs-text-1:var(--zcs_primary_text_color);--zcs-text-2:var(--zcs_secondary_text_color);--zcs-text-3:var(--zcs_tertiary_text_color);--zcs-radius:12px;--zcs-shadow:0 2px 12px rgba(20,25,40,.07)}
+.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-space-between{justify-content:space-between}.zcs-color-blue{color:#09598e}.zcs-color-green{color:#179e6c}.zcs-color-red{color:#fe455d}.zcs-color-yellow{color:#b8770d}.zcs-page{font-family:var(--zcs-font,Arial,sans-serif);background:var(--zcs-bg);min-height:100vh;padding:24px;box-sizing:border-box;color:var(--zcs-text-1)}
+.zcs-page-header{margin-bottom:24px}.zcs-page-header__title{font-size:22px;font-weight:600;color:var(--zcs-text-1);margin:0 0 4px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.pf-date{font-size:13px;color:var(--zcs-text-2);white-space:nowrap}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:30px;font-weight:700;margin:6px 0 4px;line-height:1}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}
+.pf-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:16px}.pf-card{background:var(--zcs-surface);border:1px solid var(--zcs-border-color);border-radius:12px;padding:18px;box-shadow:var(--zcs-shadow);box-sizing:border-box}.pf-card h2{font-size:16px;margin:0 0 16px}.pf-span-4{grid-column:span 4}.pf-span-5{grid-column:span 5}.pf-span-7{grid-column:span 7}.pf-span-8{grid-column:span 8}.pf-span-12{grid-column:span 12}
+.pf-donut{width:170px;height:170px;border-radius:50%;margin:auto;background:conic-gradient(#f0b429 0 <%=managerPct%>%,#2a6ffc <%=managerPct%>% <%=managerPct + financePct%>%,#1094c5 <%=managerPct + financePct%>% <%=managerPct + financePct + issuedPct%>%,#fe455d <%=managerPct + financePct + issuedPct%>% <%=managerPct + financePct + issuedPct + exceptionPct%>%,#179e6c <%=managerPct + financePct + issuedPct + exceptionPct%>% 100%);display:grid;place-items:center}.pf-donut:after{content:'<%=statusTotal%>';width:105px;height:105px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:25px;font-weight:700}.pf-legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px;font-size:12px;color:var(--zcs-text-2)}.pf-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px}.pf-trend{height:220px;display:flex;align-items:flex-end;gap:12px;border-bottom:1px solid var(--zcs-border-color);padding:12px 6px 0}.pf-month{height:100%;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:4px;position:relative}.pf-bar{width:18px;min-height:2px;border-radius:5px 5px 0 0}.pf-requested{background:var(--zcs_brand_color)}.pf-invoiced{background:#179e6c}.pf-month-label{position:absolute;bottom:-24px;font-size:11px;color:var(--zcs-text-2)}.pf-chart-legend{margin:30px 0 0;font-size:12px;color:var(--zcs-text-2)}
+.pf-vendor{margin:12px 0}.pf-vendor-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}.pf-track{height:8px;background:#edf0f4;border-radius:10px;overflow:hidden}.pf-fill{height:100%;background:var(--zcs_brand_color);border-radius:10px}.zcs-table-wrapper{border:1px solid var(--zcs-border-color);border-radius:6px;background:#fff;overflow:auto}.zcs-table-wrapper table{width:100%;border-collapse:collapse}.zcs-table-wrapper th{background:#f9fafe;font-size:12px;text-align:left;padding:10px 14px;white-space:nowrap}.zcs-table-wrapper td{border-top:1px solid var(--zcs-border-color);font-size:13px;padding:11px 14px}.zcs-badge{display:inline-flex;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600}.pf-danger{background:#fff0f2;color:#b42335}.pf-warning{background:#fff5df;color:#8c5a00}.pf-neutral{background:#edf4ff;color:#09598e}
+.zcs-timeline-wrapper ul,.zcs-quick-actions-wrapper ul{list-style:none;padding:0;margin:0}.zcs-tl-li{position:relative;padding:0 0 16px 20px;border-left:1px solid var(--zcs-border-color)}.zcs-tl-li:before{content:'';position:absolute;left:-5px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--zcs_brand_color)}.pf-log-title{font-size:13px;font-weight:600}.pf-log-meta{font-size:11px;color:var(--zcs-text-2);margin-top:3px}.zcs-quick-actions-wrapper{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.zcs-quick-action-item{list-style:none;border:1px solid var(--zcs-border-color);border-radius:10px}.zcs-quick-action-link{display:flex;align-items:center;gap:9px;padding:12px;color:var(--zcs-text-1);font-size:13px;text-decoration:none}.zcs-quick-action-item:hover{border-color:var(--zcs_brand_color)}.zcs-quick-action-item:hover a{color:var(--zcs_brand_color)}
+@media(max-width:900px){.pf-span-4,.pf-span-5,.pf-span-7,.pf-span-8{grid-column:span 12}.pf-head{align-items:flex-start;gap:12px}.pf-date{white-space:normal}}@media(max-width:600px){.zcs-page{padding:14px}.pf-legend{grid-template-columns:1fr}.pf-bar{width:10px}.zcs-page-header__title{font-size:19px}}
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header pf-head zcs-flex zcs-align-items-center zcs-justify-space-between">
+    <div><h1 class="zcs-page-header__title">Purchase Finance Dashboard</h1><p class="zcs-page-header__sub">Track requests through approval, PO issue, invoice capture and three-way match resolution.</p></div>
+    <div class="pf-date"><i class="zc-li-outline ui-1-calendar-60"></i> <%=zoho.currentdate.toString("dd MMM yyyy")%></div>
+  </div>
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Pending Manager Approval</div><div class="zcs-kpi-card__value zcs-color-yellow"><%=managerPending%></div><div class="zcs-kpi-card__sub">Awaiting operational approval</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Pending Finance Approval</div><div class="zcs-kpi-card__value zcs-color-blue"><%=financePending%></div><div class="zcs-kpi-card__sub">Awaiting budget validation</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Open PO Value</div><div class="zcs-kpi-card__value zcs-color-blue"><%=openPOValue.round(2)%></div><div class="zcs-kpi-card__sub">Issued and not fully closed</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Remaining to Invoice</div><div class="zcs-kpi-card__value zcs-color-yellow"><%=remainingValue.round(2)%></div><div class="zcs-kpi-card__sub">Open PO commitment</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Match Exceptions</div><div class="zcs-kpi-card__value zcs-color-red"><%=exceptionCount%></div><div class="zcs-kpi-card__sub">Require finance review</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Matched Invoice Value</div><div class="zcs-kpi-card__value zcs-color-green"><%=matchedInvoiceValue.round(2)%></div><div class="zcs-kpi-card__sub">Successfully matched</div></div>
+  </div>
+  <div class="pf-grid">
+    <section class="pf-card pf-span-4"><h2>Status distribution</h2><div class="pf-donut"></div><div class="pf-legend"><span><i class="pf-dot" style="background:#f0b429"></i>Manager <%=managerPending%></span><span><i class="pf-dot" style="background:#2a6ffc"></i>Finance <%=financePending%></span><span><i class="pf-dot" style="background:#1094c5"></i>PO issued <%=issuedCount%></span><span><i class="pf-dot" style="background:#fe455d"></i>Exception <%=exceptionCount%></span><span><i class="pf-dot" style="background:#179e6c"></i>Matched <%=matchedCount%></span></div></section>
+    <section class="pf-card pf-span-8"><h2>Monthly requested vs invoiced</h2><div class="pf-trend"><% for each trend in trendRows { requestedHeight = (trend.get("requested") * 100.0 / trendMax).round(0); invoicedHeight = (trend.get("invoiced") * 100.0 / trendMax).round(0); %><div class="pf-month"><div class="pf-bar pf-requested" style="height:<%=requestedHeight%>%" title="Requested <%=trend.get("requested")%>"></div><div class="pf-bar pf-invoiced" style="height:<%=invoicedHeight%>%" title="Invoiced <%=trend.get("invoiced")%>"></div><span class="pf-month-label"><%=trend.get("label")%></span></div><% } %></div><div class="pf-chart-legend"><i class="pf-dot" style="background:var(--zcs_brand_color)"></i>Requested value &nbsp; <i class="pf-dot" style="background:#179e6c"></i>Invoiced value</div></section>
+  </div>
+  <div class="pf-grid">
+    <section class="pf-card pf-span-5"><h2>Top vendors by PO value</h2><% vendorIndex = 0; topVendorValue = 1; if(vendorRows.size() > 0){ topVendorValue = vendorRows.get(0).get("value"); } for each vendorRow in vendorRows { if(vendorIndex < 5){ vendorWidth = (vendorRow.get("value") * 100.0 / topVendorValue).round(0); %><div class="pf-vendor"><div class="pf-vendor-head"><span><%=vendorRow.get("name")%></span><strong><%=vendorRow.get("value").round(2)%></strong></div><div class="pf-track"><div class="pf-fill" style="width:<%=vendorWidth%>%"></div></div></div><% } vendorIndex = vendorIndex + 1; } if(vendorRows.size() == 0){ %><p class="zcs-page-header__sub">No issued purchase orders yet.</p><% } %></section>
+    <section class="pf-card pf-span-7"><h2>Recent activity</h2><div class="zcs-timeline-wrapper"><ul><% for each log in recentLogs { %><li class="zcs-tl-li"><div class="pf-log-title"><%=log.Action%> · <%=log.Reference_Number%></div><div class="pf-log-meta"><%=log.Component%> by <%=log.User_Email%> · <%=log.Event_Time.toString("dd MMM, HH:mm")%></div></li><% } %></ul></div></section>
+  </div>
+  <section class="pf-card" style="margin-bottom:16px"><h2>Exception queue</h2><div class="zcs-table-wrapper"><table><thead><tr><th>Invoice</th><th>PO</th><th>Vendor</th><th>Variance</th><th>Age</th><th>Status</th></tr></thead><tbody><% for each inv in exceptionRows { ageDays = inv.Invoice_Date.daysBetween(zoho.currentdate); ageClass = "pf-neutral"; ageLabel = "New"; if(ageDays > 14){ageClass="pf-danger";ageLabel="Overdue";} else if(ageDays > 7){ageClass="pf-warning";ageLabel="Aging";} %><tr><td><%=inv.Invoice_Number%></td><td><%=inv.Purchase_Order.PO_Number%></td><td><%=inv.Vendor.Vendor_Name%></td><td><%=ifnull(inv.Amount_Variance,0).round(2)%></td><td><span class="zcs-badge <%=ageClass%>"><%=ageDays%> days</span></td><td><span class="zcs-badge pf-danger"><%=ageLabel%> · Exception</span></td></tr><% } if(exceptionCount == 0){ %><tr><td colspan="6">No match exceptions are currently open.</td></tr><% } %></tbody></table></div></section>
+  <section class="pf-card"><h2>Quick links</h2><div class="zcs-quick-actions-wrapper">
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Form:Purchase_Requests"><i class="zc-li-outline ui-1-simple-add"></i><span>Create purchase request</span></a></div>
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Report:Purchase_Approval_Queue"><i class="zc-li-outline ui-1-check-circle-08"></i><span>Manager approval queue</span></a></div>
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Report:Finance_Approval_Queue"><i class="zc-li-outline business-coins"></i><span>Finance approval queue</span></a></div>
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Report:Purchase_Order_Register"><i class="zc-li-outline files-2-doc"></i><span>PO register</span></a></div>
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Form:Invoices"><i class="zc-li-outline files-2-file-add"></i><span>Invoice entry</span></a></div>
+    <div class="zcs-quick-action-item"><a class="zcs-quick-action-link" href="#Report:Match_Exceptions"><i class="zc-li-outline ui-3-alert"></i><span>Match exceptions</span></a></div>
+  </div></section>
+</div>

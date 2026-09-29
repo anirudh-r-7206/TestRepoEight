@@ -1,0 +1,35 @@
+default list All_Projects
+{
+    displayName = "All Projects"
+    show all rows from Projects
+    (
+        Project_Name
+        Client
+        Status
+        Due_Date
+        (
+            displayformat = fulldate
+        )
+        Billed_Hours
+        (
+            display = total
+        )
+    )
+    filters
+    (
+        Client
+        Status
+    )
+    group by
+    (
+        properties
+        (
+            display record count = true
+        )
+        Status ascending
+    )
+    sort by
+    (
+        Due_Date ascending
+    )
+}

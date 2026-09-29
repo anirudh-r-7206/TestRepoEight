@@ -1,0 +1,64 @@
+Assets_On_Validate as "Assets On Validate"
+{
+    type = form
+    form = Assets
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                active_assignment_count = 0;
+                active_assignment_id = null;
+                active_holder = null;
+                if(input.ID != null)
+                {
+                    active_assignment_count = Assignments[Asset == input.ID && Assignment_Status == "Active"].count();
+                    if(active_assignment_count > 0)
+                    {
+                        active_assignment_id = Assignments[Asset == input.ID && Assignment_Status == "Active"].ID;
+                        active_holder = Assignments[Asset == input.ID && Assignment_Status == "Active"].Assigned_To;
+                    }
+                }
+
+                if(input.Asset_Status == "Assigned" && input.Current_Holder == null)
+                {
+                    alert(Current_Holder, "Current Holder is required when Asset Status is Assigned.");
+                    cancel submit;
+                }
+                if(active_assignment_count == 0 && input.Current_Holder != null && input.Asset_Status != "Assigned")
+                {
+                    alert(Current_Holder, "Only an active custody transaction may retain a Current Holder for this status.");
+                    cancel submit;
+                }
+                if(active_assignment_count > 0 && (input.Asset_Status == "Available" || input.Asset_Status == "Retired" || input.Asset_Status == "Lost"))
+                {
+                    alert(Asset_Status, "This status contradicts the active Assignment for this asset.");
+                    cancel submit;
+                }
+                if(active_assignment_count == 0 && input.Asset_Status == "Assigned")
+                {
+                    alert(Asset_Status, "Assigned status requires an active Assignment record.");
+                    cancel submit;
+                }
+                if(active_assignment_count > 0 && input.Current_Holder != active_holder)
+                {
+                    alert(Current_Holder, "Current Holder must match the holder on the active Assignment.");
+                    cancel submit;
+                }
+                if(active_assignment_count > 0 && input.Current_Assignment_ID != active_assignment_id)
+                {
+                    alert(Current_Assignment_ID, "Current Assignment ID is system-managed and must match the active Assignment.");
+                    cancel submit;
+                }
+                if(active_assignment_count == 0 && input.Current_Assignment_ID != null)
+                {
+                    alert(Current_Assignment_ID, "Current Assignment ID is system-managed and must be empty without an active Assignment.");
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

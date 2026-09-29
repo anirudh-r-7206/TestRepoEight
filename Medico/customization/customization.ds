@@ -1,0 +1,13 @@
+customize
+{
+    layout
+    {
+        theme = "theme_10"
+    }
+    icon
+    {
+        icon = "zc-ab-health-doctor"
+        background color = "#00C1C1"
+        foreground color = "#ffffff"
+    }
+}

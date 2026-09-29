@@ -1,0 +1,31 @@
+Invoice_Lines_On_Validate as "Invoice Lines On Validate"
+{
+    type = form
+    form = Invoice_Lines
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Invoiced_Quantity == null || input.Invoiced_Quantity <= 0)
+                {
+                    alert(Invoiced_Quantity, "Invoiced quantity must be greater than zero.");
+                    cancel submit;
+                }
+                if(input.Unit_Price == null || input.Unit_Price < 0)
+                {
+                    alert(Unit_Price, "Unit price cannot be negative.");
+                    cancel submit;
+                }
+                if(input.Tax_Rate != null && input.Tax_Rate < 0)
+                {
+                    alert(Tax_Rate, "Tax rate cannot be negative.");
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

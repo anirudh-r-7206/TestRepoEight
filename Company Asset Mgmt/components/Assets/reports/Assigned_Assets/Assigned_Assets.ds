@@ -1,0 +1,18 @@
+list Assigned_Assets
+{
+    displayName = "Assigned Assets"
+    show all rows from Assets [Asset_Status == "Assigned"]
+    (
+        Asset_Tag
+        Asset_Type
+        Serial_Number
+        Asset_Status
+        Current_Holder
+        Condition
+    )
+    sort by
+    (
+        Current_Holder ascending
+        Asset_Tag ascending
+    )
+}

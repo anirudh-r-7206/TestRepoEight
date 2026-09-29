@@ -1,0 +1,12 @@
+customize
+{
+    new theme = 10
+    new theme color = 12
+
+    icon
+    {
+        icon = "zc-ab-hr-mgmt1"
+        background color = "#16A263"
+        foreground color = "#ffffff"
+    }
+}

@@ -1,0 +1,39 @@
+menu
+{
+    space HR_Management
+    {
+        displayname = "HR Management"
+        icon = "users-multiple-11"
+
+        section Manager_Directory
+        {
+            displayname = "Manager Directory"
+            icon = "business-business-contact-88"
+
+            form HR_Managers
+            {
+                icon = "users-add-27"
+            }
+            report All_HR_Managers
+            {
+                icon = "business-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

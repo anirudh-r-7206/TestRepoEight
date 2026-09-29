@@ -1,0 +1,123 @@
+form Vendors
+{
+    Vendor_Details
+    (
+        type = section
+        displayname = "Vendor Details"
+        row = 1
+        column = 0
+    )
+    Vendor_ID
+    (
+        type = autonumber
+        displayname = "Vendor ID"
+        start index = 1000
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have unique Vendor_Name
+    (
+        type = text
+        displayname = "Vendor Name"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Tax_Registration_Number
+    (
+        type = text
+        displayname = "Tax Registration Number"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Contact_Name
+    (
+        type = text
+        displayname = "Contact Name"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Contact_Email
+    (
+        type = email
+        displayname = "Contact Email"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Contact_Phone
+    (
+        type = phonenumber
+        displayname = "Contact Phone"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Payment_Terms
+    (
+        type = picklist
+        displayname = "Payment Terms"
+        values = {"Net 15", "Net 30", "Net 45", "Net 60", "Due on Receipt"}
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Currency
+    (
+        type = picklist
+        displayname = "Currency"
+        values = {"USD", "EUR", "GBP", "INR", "CAD", "AUD"}
+        row = 1
+        column = 1
+        width = medium
+    )
+    Active
+    (
+        type = checkbox
+        initial value = true
+        row = 1
+        column = 2
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        height = 100px
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

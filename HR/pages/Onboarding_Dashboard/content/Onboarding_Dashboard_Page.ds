@@ -1,0 +1,8 @@
+<dsp id='Onboarding_Dashboard_Snippet' elementName='Onboarding_Dashboard_Snippet'>
+  <![CDATA[htmlpage Onboarding_Dashboard_Snippet()
+content
+<%{%>
+  <file name:Onboarding_Dashboard.dshtml/>
+<%}%>
+  ]]>
+</dsp>

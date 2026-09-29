@@ -1,0 +1,21 @@
+list Active_Assignments
+{
+    displayName = "Active Assignments"
+    show all rows from Assignments [Assignment_Status == "Active"]
+    (
+        Asset
+        Assigned_To
+        Assigned_Date
+        Assignment_Status
+        Condition_On_Issue
+    )
+    filters
+    (
+        Asset
+        Assigned_To
+    )
+    sort by
+    (
+        Assigned_Date descending
+    )
+}

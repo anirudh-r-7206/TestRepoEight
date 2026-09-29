@@ -1,0 +1,27 @@
+spreadsheet Catalog_Price_Maintenance
+{
+    displayName = "Catalog Price Maintenance"
+    show all rows from Vendor_Items
+    (
+        Item_Code
+        Vendor
+        Item_Name
+        Item_Description
+        Unit_Of_Measure
+        Unit_Price
+        Tax_Rate
+        Active
+        Effective_From
+        Effective_To
+    )
+    filters
+    (
+        Vendor
+        Active
+    )
+    sort by
+    (
+        Vendor ascending
+        Item_Name ascending
+    )
+}

@@ -1,0 +1,40 @@
+Expense_Mark_Paid_Action as "Mark Paid"
+{
+    type = functions
+    form = Expense_Reports
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                priorApproval = input.Approval_Status;
+                priorPayment = input.Payment_Status;
+                validPaymentState = input.Payment_Status == "Processing" || input.Payment_Status == "Unpaid";
+                if(!thisapp.permissions.isUserInProfile("Finance") || input.Approval_Status != "Approved" || !validPaymentState)
+                {
+                    info "Mark paid action blocked: invalid profile or expense state.";
+                }
+                else
+                {
+                    input.Payment_Status = "Paid";
+                    input.Paid_Date = zoho.currentdate;
+                    insert into Expense_Audit
+                    [
+                        Expense = input.ID
+                        Action = "Marked Paid"
+                        Actor_Email = zoho.loginuserid
+                        Action_Time = zoho.currenttime
+                        Previous_Approval_Status = priorApproval
+                        New_Approval_Status = priorApproval
+                        Previous_Payment_Status = priorPayment
+                        New_Payment_Status = "Paid"
+                        Notes = input.Payment_Reference
+                    ];
+                }
+            )
+        }
+    }
+}

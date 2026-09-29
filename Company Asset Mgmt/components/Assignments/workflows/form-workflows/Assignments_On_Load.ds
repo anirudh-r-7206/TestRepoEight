@@ -1,0 +1,54 @@
+Assignments_On_Load as "Assignments On Load"
+{
+    type = form
+    form = Assignments
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Asset != null && input.Condition_On_Issue == null)
+                {
+                    selected_asset = Assets[ID == input.Asset];
+                    input.Condition_On_Issue = selected_asset.Condition;
+                }
+                if(input.ID == null)
+                {
+                    hide Return_Date;
+                    hide Condition_On_Return;
+                    hide Return_Notes;
+                    disable Return_Date;
+                    disable Condition_On_Return;
+                    disable Return_Notes;
+                }
+                else if(input.Assignment_Status == "Active")
+                {
+                    show Return_Date;
+                    show Condition_On_Return;
+                    show Return_Notes;
+                    enable Return_Date;
+                    enable Condition_On_Return;
+                    enable Return_Notes;
+                }
+                else
+                {
+                    show Return_Date;
+                    show Condition_On_Return;
+                    show Return_Notes;
+                    disable Asset;
+                    disable Assigned_To;
+                    disable Assigned_Date;
+                    disable Condition_On_Issue;
+                    disable Assignment_Status;
+                    disable Return_Date;
+                    disable Condition_On_Return;
+                    disable Assignment_Notes;
+                    disable Return_Notes;
+                }
+            )
+        }
+    }
+}

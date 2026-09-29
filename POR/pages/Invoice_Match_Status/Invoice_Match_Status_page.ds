@@ -1,0 +1,19 @@
+<page linkname = "Invoice_Match_Status" displayname = "Invoice Match Status"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dspZml id='Invoice_Match_Status_Snippet' elementName='Invoice_Match_Status_Snippet'>
+          <![CDATA[htmlpage Invoice_Match_Status_Snippet()
+            content
+             <%{%>
+                 <file name:Invoice_Match_Status_Snippet.zml/>
+             <%}%>
+          ]]>
+        </dspZml>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

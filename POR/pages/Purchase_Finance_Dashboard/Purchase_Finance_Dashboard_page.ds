@@ -1,0 +1,19 @@
+<page linkname = "Purchase_Finance_Dashboard" displayname = "Purchase Finance Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Purchase_Finance_Dashboard_UI' elementName='Purchase_Finance_Dashboard_UI'>
+          <![CDATA[htmlpage Purchase_Finance_Dashboard_UI()
+content
+<%{%>
+            <file name:Purchase_Finance_Dashboard_UI.dshtml/>
+<%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

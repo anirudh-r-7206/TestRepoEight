@@ -1,0 +1,39 @@
+menu
+{
+    space HR_Space
+    {
+        displayname = "HR"
+        icon = "users-multiple-11"
+
+        section HR_Management
+        {
+            displayname = "HR Management"
+            icon = "business-hierarchy-56"
+
+            form HR_Managers
+            {
+                icon = "business-business-contact-89"
+            }
+            report All_HR_Managers
+            {
+                icon = "business-chart-bar-33"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

@@ -1,0 +1,23 @@
+customize
+{
+    layout
+    {
+        theme = "theme_11"
+    }
+
+    font = "lato"
+
+    color options
+    {
+        name = "HR Blue Teal"
+        brand color = "#1F6F8B"
+        type = "custom"
+        dark mode color = "#0F4C5C"
+    }
+
+    logo
+    {
+        preference = "app_icon"
+        placement = "left"
+    }
+}

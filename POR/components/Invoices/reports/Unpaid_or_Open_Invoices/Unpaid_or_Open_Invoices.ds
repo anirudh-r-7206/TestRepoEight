@@ -1,0 +1,25 @@
+list Unpaid_or_Open_Invoices
+{
+    displayName = "Unpaid or Open Invoices"
+    show all rows from Invoices [Match_Status == "Partial Match" || Match_Status == "Exception" || Match_Status == "Pending Match"]
+    (
+        Invoice_Number
+        Purchase_Order
+        Vendor
+        Invoice_Date
+        Due_Date
+        Invoice_Total
+        Match_Status
+        Amount_Variance
+    )
+    filters
+    (
+        Vendor
+        Match_Status
+        Due_Date
+    )
+    sort by
+    (
+        Due_Date ascending
+    )
+}

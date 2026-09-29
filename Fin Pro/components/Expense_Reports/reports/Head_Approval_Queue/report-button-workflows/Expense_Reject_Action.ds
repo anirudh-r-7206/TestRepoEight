@@ -1,0 +1,43 @@
+Expense_Reject_Action as "Reject"
+{
+    type = functions
+    form = Expense_Reports
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                priorApproval = input.Approval_Status;
+                priorPayment = input.Payment_Status;
+                selectedHead = Department_Heads[ID == input.Department_Head && Active == true];
+                if(input.Amount <= 500 || input.Approval_Status != "Pending Department Head" || selectedHead.count() == 0 || selectedHead.Head_Email != zoho.loginuserid)
+                {
+                    info "Rejection action blocked: unauthorized user or expense is no longer pending.";
+                }
+                else
+                {
+                    input.Approval_Status = "Rejected";
+                    input.Payment_Status = "Not Ready";
+                    input.Approved_or_Rejected_By = zoho.loginuserid;
+                    input.Decision_Date = zoho.currentdate;
+                    input.Decision_Notes = "Rejected by Department Head.";
+                    insert into Expense_Audit
+                    [
+                        Expense = input.ID
+                        Action = "Rejected"
+                        Actor_Email = zoho.loginuserid
+                        Action_Time = zoho.currenttime
+                        Previous_Approval_Status = priorApproval
+                        New_Approval_Status = "Rejected"
+                        Previous_Payment_Status = priorPayment
+                        New_Payment_Status = "Not Ready"
+                        Notes = input.Decision_Notes
+                    ];
+                }
+            )
+        }
+    }
+}

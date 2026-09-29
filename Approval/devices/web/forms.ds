@@ -1,0 +1,7 @@
+forms
+{
+    form Approvers
+    {
+        label placement = left
+    }
+}

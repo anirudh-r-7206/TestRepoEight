@@ -1,0 +1,25 @@
+Expense_Reports_On_Load as "Expense Reports On Load"
+{
+    type = form
+    form = Expense_Reports
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                disable Approval_Status, Payment_Status, Submitted_By, Approved_or_Rejected_By, Decision_Date, Decision_Notes, Payment_Reference, Paid_Date;
+                if(input.Amount != null && input.Amount > 500)
+                {
+                    show Department_Head;
+                }
+                else
+                {
+                    hide Department_Head;
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,57 @@
+report Training_Assignment_Register
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    New_Hire
+                    Training_Item
+                    Due_Date
+                    Status
+                    Completed_Date
+                    Facilitated_By
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    New_Hire
+                    Training_Item
+                    Due_Date
+                    Status
+                    Completed_Date
+                    Facilitated_By
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

@@ -1,0 +1,169 @@
+form Maintenance
+{
+    title
+    {
+        displayname = "Hardware Maintenance"
+        on add = "Add Hardware Maintenance"
+        on edit = "Edit Hardware Maintenance"
+    }
+
+    Service_Details
+    (
+        type = section
+        displayname = "Service Details"
+        row = 1
+        column = 0
+    )
+    Maintenance_ID
+    (
+        type = autonumber
+        displayname = "Maintenance ID"
+        start index = 1
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Asset
+    (
+        type = picklist
+        values = Assets.ID
+        displayformat = [Asset_Tag]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Reported_Date
+    (
+        type = date
+        displayname = "Reported Date"
+        initial value = "${zoho.currentdate}"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Maintenance_Status
+    (
+        type = picklist
+        displayname = "Maintenance Status"
+        values = {"Open", "In Progress", "Completed", "Cancelled"}
+        initial value = "Open"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Issue_Description
+    (
+        type = textarea
+        displayname = "Issue Description"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Service_Provider
+    (
+        type = text
+        displayname = "Service Provider"
+        maxchar = 150
+        row = 1
+        column = 1
+        width = medium
+    )
+    Service_Cost
+    (
+        type = decimal
+        displayname = "Service Cost"
+        decimalplace = 2
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Condition_Before
+    (
+        type = picklist
+        displayname = "Condition Before"
+        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    Resolution_Details
+    (
+        type = section
+        displayname = "Resolution Details"
+        visibility = true
+        row = 2
+        column = 1
+    )
+    Started_Date
+    (
+        type = date
+        displayname = "Started Date"
+        row = 2
+        column = 1
+        width = medium
+    )
+    Completed_Date
+    (
+        type = date
+        displayname = "Completed Date"
+        row = 2
+        column = 2
+        width = medium
+    )
+    Work_Performed
+    (
+        type = textarea
+        displayname = "Work Performed"
+        row = 2
+        column = 1
+        width = medium
+    )
+    Condition_After
+    (
+        type = picklist
+        displayname = "Condition After"
+        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+        row = 2
+        column = 2
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        row = 2
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

@@ -1,0 +1,19 @@
+<page linkname = "Hardware_Overview" displayname = "Hardware Overview"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Hardware_Overview_Dashboard' elementName='Hardware_Overview_Dashboard'>
+          <![CDATA[htmlpage Hardware_Overview_Dashboard()
+            content
+            <%{%>
+              <file name:Hardware_Overview_Dashboard.dshtml/>
+            <%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

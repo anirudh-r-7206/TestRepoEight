@@ -1,0 +1,2013 @@
+application "Company-Asset-Mgmt"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Assets
+		{
+		    title
+		    {
+		        displayname = "Assets"
+		        on add = "Add Asset"
+		        on edit = "Edit Asset"
+		    }
+		
+		    Asset_Details
+		    (
+		        type = section
+		        displayname = "Asset Details"
+		        row = 1
+		        column = 0
+		    )
+		    Asset_ID
+		    (
+		        type = autonumber
+		        displayname = "Asset ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Asset_Tag
+		    (
+		        type = text
+		        displayname = "Asset Tag"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Asset_Type
+		    (
+		        type = picklist
+		        displayname = "Asset Type"
+		        values = {"Laptop", "Monitor", "Desktop", "Tablet", "Mobile Phone", "Dock", "Peripheral", "Other"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Manufacturer
+		    (
+		        type = text
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Model
+		    (
+		        type = text
+		        maxchar = 150
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have unique Serial_Number
+		    (
+		        type = text
+		        displayname = "Serial Number"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    Custody_Status
+		    (
+		        type = section
+		        displayname = "Custody Status"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have Condition
+		    (
+		        type = picklist
+		        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+		        initial value = "Good"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Asset_Status
+		    (
+		        type = picklist
+		        displayname = "Asset Status"
+		        values = {"Available", "Assigned", "In Maintenance", "Retired", "Lost"}
+		        initial value = "Available"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Current_Holder
+		    (
+		        type = users
+		        displayname = "Current Holder"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Current_Assignment_ID
+		    (
+		        type = number
+		        displayname = "Current Assignment ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Assignments
+		{
+		    title
+		    {
+		        displayname = "Asset Assignments"
+		        on add = "Add Asset Assignment"
+		        on edit = "Edit Asset Assignment"
+		    }
+		
+		    Assignment_Details
+		    (
+		        type = section
+		        displayname = "Assignment Details"
+		        row = 1
+		        column = 0
+		    )
+		    Assignment_ID
+		    (
+		        type = autonumber
+		        displayname = "Assignment ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Asset
+		    (
+		        type = picklist
+		        values = Assets.ID
+		        displayformat = [Asset_Tag]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assigned_To
+		    (
+		        type = users
+		        displayname = "Assigned To"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assigned_Date
+		    (
+		        type = date
+		        displayname = "Assigned Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Condition_On_Issue
+		    (
+		        type = picklist
+		        displayname = "Condition On Issue"
+		        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assignment_Status
+		    (
+		        type = picklist
+		        displayname = "Assignment Status"
+		        values = {"Active", "Returned"}
+		        initial value = "Active"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Assignment_Notes
+		    (
+		        type = textarea
+		        displayname = "Assignment Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    Return_Details
+		    (
+		        type = section
+		        displayname = "Return Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Return_Date
+		    (
+		        type = date
+		        displayname = "Return Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Condition_On_Return
+		    (
+		        type = picklist
+		        displayname = "Condition On Return"
+		        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Return_Notes
+		    (
+		        type = textarea
+		        displayname = "Return Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Maintenance
+		{
+		    title
+		    {
+		        displayname = "Hardware Maintenance"
+		        on add = "Add Hardware Maintenance"
+		        on edit = "Edit Hardware Maintenance"
+		    }
+		
+		    Service_Details
+		    (
+		        type = section
+		        displayname = "Service Details"
+		        row = 1
+		        column = 0
+		    )
+		    Maintenance_ID
+		    (
+		        type = autonumber
+		        displayname = "Maintenance ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Asset
+		    (
+		        type = picklist
+		        values = Assets.ID
+		        displayformat = [Asset_Tag]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Reported_Date
+		    (
+		        type = date
+		        displayname = "Reported Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Maintenance_Status
+		    (
+		        type = picklist
+		        displayname = "Maintenance Status"
+		        values = {"Open", "In Progress", "Completed", "Cancelled"}
+		        initial value = "Open"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Issue_Description
+		    (
+		        type = textarea
+		        displayname = "Issue Description"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Service_Provider
+		    (
+		        type = text
+		        displayname = "Service Provider"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Service_Cost
+		    (
+		        type = decimal
+		        displayname = "Service Cost"
+		        decimalplace = 2
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Condition_Before
+		    (
+		        type = picklist
+		        displayname = "Condition Before"
+		        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    Resolution_Details
+		    (
+		        type = section
+		        displayname = "Resolution Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Started_Date
+		    (
+		        type = date
+		        displayname = "Started Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Completed_Date
+		    (
+		        type = date
+		        displayname = "Completed Date"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Work_Performed
+		    (
+		        type = textarea
+		        displayname = "Work Performed"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Condition_After
+		    (
+		        type = picklist
+		        displayname = "Condition After"
+		        values = {"New", "Good", "Fair", "Damaged", "Unusable"}
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Assets
+		{
+		    displayName = "All Assets"
+		    show all rows from Assets
+		    (
+		        Asset_ID
+		        Asset_Tag
+		        Asset_Type
+		        Manufacturer
+		        Model
+		        Serial_Number
+		        Condition
+		        Asset_Status
+		        Current_Holder
+		    )
+		    filters
+		    (
+		        Asset_Type
+		        Condition
+		        Asset_Status
+		        Current_Holder
+		    )
+		    group by
+		    (
+		        Asset_Type ascending
+		    )
+		    sort by
+		    (
+		        Asset_Tag ascending
+		    )
+		}
+
+		list Assigned_Assets
+		{
+		    displayName = "Assigned Assets"
+		    show all rows from Assets [Asset_Status == "Assigned"]
+		    (
+		        Asset_Tag
+		        Asset_Type
+		        Serial_Number
+		        Asset_Status
+		        Current_Holder
+		        Condition
+		    )
+		    sort by
+		    (
+		        Current_Holder ascending
+		        Asset_Tag ascending
+		    )
+		}
+
+		list Available_Assets
+		{
+		    displayName = "Available Assets"
+		    show all rows from Assets [Asset_Status == "Available"]
+		    (
+		        Asset_ID
+		        Asset_Tag
+		        Asset_Type
+		        Manufacturer
+		        Model
+		        Serial_Number
+		        Asset_Status
+		        Condition
+		    )
+		    sort by
+		    (
+		        Asset_Tag ascending
+		    )
+		}
+
+		list Maintenance_Assets
+		{
+		    displayName = "Maintenance Assets"
+		    show all rows from Assets [Asset_Status == "In Maintenance"]
+		    (
+		        Asset_Tag
+		        Asset_Type
+		        Serial_Number
+		        Asset_Status
+		        Condition
+		    )
+		    sort by
+		    (
+		        Asset_Tag ascending
+		    )
+		}
+
+		list Active_Assignments
+		{
+		    displayName = "Active Assignments"
+		    show all rows from Assignments [Assignment_Status == "Active"]
+		    (
+		        Asset
+		        Assigned_To
+		        Assigned_Date
+		        Assignment_Status
+		        Condition_On_Issue
+		    )
+		    filters
+		    (
+		        Asset
+		        Assigned_To
+		    )
+		    sort by
+		    (
+		        Assigned_Date descending
+		    )
+		}
+
+		default list Assignment_History
+		{
+		    displayName = "Assignment History"
+		    show all rows from Assignments
+		    (
+		        Assignment_ID
+		        Asset
+		        Assigned_To
+		        Assigned_Date
+		        Assignment_Status
+		        Return_Date
+		        Condition_On_Issue
+		        Condition_On_Return
+		    )
+		    filters
+		    (
+		        Asset
+		        Assigned_To
+		        Assignment_Status
+		    )
+		    group by
+		    (
+		        Asset ascending
+		    )
+		    sort by
+		    (
+		        Assigned_Date descending
+		    )
+		}
+
+		list Returned_Assignments
+		{
+		    displayName = "Returned Assignments"
+		    show all rows from Assignments [Assignment_Status == "Returned"]
+		    (
+		        Assignment_ID
+		        Asset
+		        Assigned_To
+		        Assigned_Date
+		        Condition_On_Issue
+		        Assignment_Status
+		        Return_Date
+		        Condition_On_Return
+		        Assignment_Notes
+		        Return_Notes
+		    )
+		    filters
+		    (
+		        Asset
+		        Assigned_To
+		    )
+		    sort by
+		    (
+		        Return_Date descending
+		    )
+		}
+
+		default list Maintenance_History
+		{
+		    displayName = "Maintenance History"
+		    show all rows from Maintenance
+		    (
+		        Maintenance_ID
+		        Asset
+		        Reported_Date
+		        Maintenance_Status
+		        Issue_Description
+		        Service_Provider
+		        Service_Cost
+		        Completed_Date
+		        Condition_Before
+		        Condition_After
+		    )
+		    filters
+		    (
+		        Asset
+		        Maintenance_Status
+		    )
+		    group by
+		    (
+		        Asset ascending
+		    )
+		    sort by
+		    (
+		        Reported_Date descending
+		    )
+		}
+
+		list Open_Maintenance
+		{
+		    displayName = "Open Maintenance"
+		    show all rows from Maintenance [Maintenance_Status == "Open" || Maintenance_Status == "In Progress"]
+		    (
+		        Asset
+		        Maintenance_Status
+		        Issue_Description
+		        Reported_Date
+		        Started_Date
+		        Completed_Date
+		        Service_Provider
+		        Service_Cost
+		        Condition_Before
+		        Condition_After
+		    )
+		    filters
+		    (
+		        Asset
+		        Maintenance_Status
+		    )
+		    sort by
+		    (
+		        Reported_Date descending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Hardware_Overview
+		{
+					displayname = "Hardware Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Hardware_Overview_Dashboard' elementName='Hardware_Overview_Dashboard'>\n\t\t\t\t\t<![CDATA[htmlpage Hardware_Overview_Dashboard()\n\t\t\t\t\t\tcontent\n\t\t\t\t\t\t&lt;%{%&gt;\n\t\t\t\t\t\t\t&lt;%\n\ttotal_assets = Assets.count();\n\tavailable_assets = Assets[Asset_Status == &quot;Available&quot;].count();\n\tassigned_assets = Assets[Asset_Status == &quot;Assigned&quot;].count();\n\tmaintenance_assets = Assets[Asset_Status == &quot;In Maintenance&quot;].count();\n\tretired_assets = Assets[Asset_Status == &quot;Retired&quot;].count();\n\tlost_assets = Assets[Asset_Status == &quot;Lost&quot;].count();\n\tdamaged_assets = Assets[Condition == &quot;Damaged&quot;].count();\n\tunusable_assets = Assets[Condition == &quot;Unusable&quot;].count();\n\trisk_assets = damaged_assets + unusable_assets;\n\tactive_assignments = Assignments[Assignment_Status == &quot;Active&quot;].count();\n\topen_repairs = Maintenance[Maintenance_Status == &quot;Open&quot; || Maintenance_Status == &quot;In Progress&quot;].count();\n\n\tlaptop_count = Assets[Asset_Type == &quot;Laptop&quot;].count();\n\tmonitor_count = Assets[Asset_Type == &quot;Monitor&quot;].count();\n\tdesktop_count = Assets[Asset_Type == &quot;Desktop&quot;].count();\n\ttablet_count = Assets[Asset_Type == &quot;Tablet&quot;].count();\n\tmobile_count = Assets[Asset_Type == &quot;Mobile Phone&quot;].count();\n\tdock_count = Assets[Asset_Type == &quot;Dock&quot;].count();\n\tperipheral_count = Assets[Asset_Type == &quot;Peripheral&quot;].count();\n\tother_count = Assets[Asset_Type == &quot;Other&quot;].count();\n\n\tstatus_base = total_assets;\n\tif(status_base == 0)\n\t{\n\t\tstatus_base = 1;\n\t}\n\tavailable_pct = available_assets * 100 / status_base;\n\tassigned_pct = assigned_assets * 100 / status_base;\n\tmaintenance_pct = maintenance_assets * 100 / status_base;\n\tretired_pct = retired_assets * 100 / status_base;\n\tlost_pct = lost_assets * 100 / status_base;\n\tlaptop_pct = laptop_count * 100 / status_base;\n\tmonitor_pct = monitor_count * 100 / status_base;\n\tdesktop_pct = desktop_count * 100 / status_base;\n\ttablet_pct = tablet_count * 100 / status_base;\n\tmobile_pct = mobile_count * 100 / status_base;\n\tdock_pct = dock_count * 100 / status_base;\n\tperipheral_pct = peripheral_count * 100 / status_base;\n\tother_pct = other_count * 100 / status_base;\n\n\tcustody_records = Assets[Asset_Status == &quot;Assigned&quot;] sort by Asset_Tag asc;\n\trepair_records = Maintenance[Maintenance_Status == &quot;Open&quot; || Maintenance_Status == &quot;In Progress&quot;] sort by Reported_Date desc;\n%&gt;\n&lt;style&gt;\n/* zcs-global critical utilities, included once for this page */\n:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-white-color:#fff;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-surface:var(--zcs-white-color);--zcs-text-1:var(--zcs_primary_text_color);--zcs-text-2:var(--zcs_secondary_text_color);--zcs-text-3:var(--zcs_tertiary_text_color);--zcs-radius:12px;--zcs-shadow:0 1px 3px rgba(18,19,43,.12);--zcs-green:#116b4c;--zcs-green-bg:#e4f5ee;--zcs-red:#a51d31;--zcs-red-bg:#fde8ec;--zcs-orange:#875900;--zcs-orange-bg:#fff0cf;--zcs-blue:#09598e;--zcs-blue-bg:#e5f2fb}\n.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:.5rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-sm{border-radius:.25rem}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:.875rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-lh-body{line-height:1.5}.zcs-w-full{width:100%}.zcs-text-left{text-align:left}.zcs-color-primary{color:var(--zcs-primary-text-color)}\n.hw-dashboard{box-sizing:border-box;background:var(--zcs-page-bg-color,#f4f6f8);color:var(--zcs-text-1);font-family:Arial,sans-serif;padding:24px;min-height:100%;width:100%}.hw-dashboard *{box-sizing:border-box}.zcs-page-header{margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}.zcs-page-header__title{font-size:22px;font-weight:600;color:var(--zcs-text-1);margin:0 0 4px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.hw-actions{display:flex;gap:8px;flex-wrap:wrap}.zcs-button{width:auto;min-width:5rem;min-height:36px;text-decoration:none}.zcs-primary-button{background:var(--zcs_brand_color);color:var(--zcs_brand_foreground_color)}.zcs-primary-outline-button{border:1px solid var(--zcs_brand_color);background:var(--zcs-white-color);color:var(--zcs_brand_color)}.zcs-button:hover{filter:brightness(.96)}.zcs-button:focus{outline:2px solid var(--zcs_brand_color);outline-offset:2px}.zcs-button-icon{width:16px;max-height:16px}\n.zcs-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border:1px solid var(--zcs-border-color);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:32px;font-weight:700;margin:6px 0 4px;line-height:1}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.tone-blue{color:#09598e}.tone-green{color:#116b4c}.tone-orange{color:#875900}.tone-red{color:#a51d31}.tone-purple{color:#5f46a8}\n.hw-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.hw-span-4{grid-column:span 4}.hw-span-6{grid-column:span 6}.hw-span-8{grid-column:span 8}.zcs-section{background:var(--zcs-surface);border:1px solid var(--zcs-border-color);border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 24px;margin-bottom:0}.zcs-section__heading{font-size:15px;font-weight:600;color:var(--zcs-text-1);margin:0}.hw-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.hw-section-link{font-size:13px;color:var(--zcs_brand_color);font-weight:600;text-decoration:none}.hw-bars{display:grid;gap:12px}.hw-bar-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:4px}.hw-track{height:9px;border-radius:8px;background:#e8ebef;overflow:hidden}.hw-fill{height:100%;border-radius:8px;background:var(--zcs_brand_color)}.hw-fill.green{background:#19875f}.hw-fill.orange{background:#b8790e}.hw-fill.red{background:#b72c43}.hw-fill.gray{background:#68717d}.hw-fill.purple{background:#6750a4}.hw-risk{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hw-risk-item{border:1px solid var(--zcs-border-color);border-radius:10px;padding:16px}.hw-risk-value{font-size:26px;font-weight:700;margin-top:5px}.hw-risk-note{font-size:13px;color:var(--zcs-text-2);margin-top:14px;line-height:1.45}\n.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4;white-space:nowrap}.zcs-badge--success{background:var(--zcs-green-bg);color:var(--zcs-green)}.zcs-badge--danger{background:var(--zcs-red-bg);color:var(--zcs-red)}.zcs-badge--warning{background:var(--zcs-orange-bg);color:var(--zcs-orange)}.zcs-badge--info{background:var(--zcs-blue-bg);color:var(--zcs-blue)}.zcs-badge--neutral{background:#f3f4f6;color:var(--zcs-text-2)}\n.zcs-table-wrapper{border:1px solid var(--zcs-border-color);background:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse;min-width:680px}.zcs-table-wrapper th{background:#f6f8fb;white-space:nowrap;border-bottom:1px solid var(--zcs-border-color)}.zcs-table-wrapper td{border-top:1px solid var(--zcs-border-color);vertical-align:middle}.zcs-table-wrapper tbody tr:first-child td{border-top:0}.zcs-table-wrapper tbody tr:hover td{background:#f9fafe}.hw-cell{padding:10px 16px;font-size:13px;color:var(--zcs-text-1);text-align:left}.hw-issue{max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.zcs-empty-state{text-align:center;padding:40px 24px}.zcs-empty-state__title{font-size:16px;font-weight:600;color:var(--zcs-text-2);margin:0 0 6px}.zcs-empty-state__body{font-size:14px;color:var(--zcs-text-3)}\n@media(max-width:1050px){.hw-span-4,.hw-span-8{grid-column:span 6}}@media(max-width:760px){.hw-dashboard{padding:16px}.hw-span-4,.hw-span-6,.hw-span-8{grid-column:1/-1}.zcs-page-header{display:block}.hw-actions{margin-top:16px}.zcs-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.zcs-kpi-grid{grid-template-columns:1fr}.hw-actions .zcs-button{width:100%}.hw-risk{grid-template-columns:1fr}}\n&lt;/style&gt;\n\n&lt;main class=&quot;hw-dashboard&quot; aria-label=&quot;Hardware operations dashboard&quot;&gt;\n\t&lt;header class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;div&gt;\n\t\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Hardware Overview&lt;/h1&gt;\n\t\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;Live inventory, custody, condition risk, and repair workload.&lt;/p&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;nav class=&quot;hw-actions&quot; aria-label=&quot;Hardware reports&quot;&gt;\n\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Report:All_Assets&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-2-grid-45&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;All Assets&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;a class=&quot;zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Report:Active_Assignments&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline users-single-05&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;Active Assignments&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;a class=&quot;zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Report:Assignment_History&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-2-time&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;Assignment History&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;a class=&quot;zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Report:Open_Maintenance&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-2-settings-90&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;Open Maintenance&lt;/span&gt;&lt;/a&gt;\n\t\t&lt;/nav&gt;\n\t&lt;/header&gt;\n\n\t&lt;section class=&quot;zcs-kpi-grid&quot; aria-label=&quot;Inventory key performance indicators&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total Assets&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-blue&quot;&gt;&lt;%=total_assets%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Authoritative inventory&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Available&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-green&quot;&gt;&lt;%=available_assets%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Ready for assignment&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Assigned&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-blue&quot;&gt;&lt;%=assigned_assets%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Assets with holders&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;In Maintenance&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-orange&quot;&gt;&lt;%=maintenance_assets%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=open_repairs%&gt; open repair records&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Damaged / Unusable&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-red&quot;&gt;&lt;%=risk_assets%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Condition attention required&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Active Assignments&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value tone-purple&quot;&gt;&lt;%=active_assignments%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Open custody transactions&lt;/div&gt;&lt;/div&gt;\n\t&lt;/section&gt;\n\n\t&lt;div class=&quot;hw-grid&quot;&gt;\n\t\t&lt;section class=&quot;zcs-section hw-span-4&quot; aria-labelledby=&quot;status-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;hw-section-head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot; id=&quot;status-heading&quot;&gt;Asset Status Distribution&lt;/h2&gt;&lt;a class=&quot;hw-section-link&quot; href=&quot;#Report:All_Assets&quot;&gt;View records&lt;/a&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;hw-bars&quot;&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Available&lt;/span&gt;&lt;strong&gt;&lt;%=available_assets%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill green&quot; style=&quot;width:&lt;%=available_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Assigned&lt;/span&gt;&lt;strong&gt;&lt;%=assigned_assets%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill&quot; style=&quot;width:&lt;%=assigned_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;In Maintenance&lt;/span&gt;&lt;strong&gt;&lt;%=maintenance_assets%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill orange&quot; style=&quot;width:&lt;%=maintenance_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Retired&lt;/span&gt;&lt;strong&gt;&lt;%=retired_assets%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill gray&quot; style=&quot;width:&lt;%=retired_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Lost&lt;/span&gt;&lt;strong&gt;&lt;%=lost_assets%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill red&quot; style=&quot;width:&lt;%=lost_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/section&gt;\n\n\t\t&lt;section class=&quot;zcs-section hw-span-4&quot; aria-labelledby=&quot;type-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;hw-section-head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot; id=&quot;type-heading&quot;&gt;Asset Type Distribution&lt;/h2&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;hw-bars&quot;&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Laptop&lt;/span&gt;&lt;strong&gt;&lt;%=laptop_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill&quot; style=&quot;width:&lt;%=laptop_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Monitor&lt;/span&gt;&lt;strong&gt;&lt;%=monitor_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill purple&quot; style=&quot;width:&lt;%=monitor_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Desktop&lt;/span&gt;&lt;strong&gt;&lt;%=desktop_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill green&quot; style=&quot;width:&lt;%=desktop_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Tablet / Mobile&lt;/span&gt;&lt;strong&gt;&lt;%=tablet_count + mobile_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill orange&quot; style=&quot;width:&lt;%=tablet_pct + mobile_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Dock / Peripheral&lt;/span&gt;&lt;strong&gt;&lt;%=dock_count + peripheral_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill gray&quot; style=&quot;width:&lt;%=dock_pct + peripheral_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div&gt;&lt;div class=&quot;hw-bar-head&quot;&gt;&lt;span&gt;Other&lt;/span&gt;&lt;strong&gt;&lt;%=other_count%&gt;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;hw-track&quot;&gt;&lt;div class=&quot;hw-fill red&quot; style=&quot;width:&lt;%=other_pct%&gt;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/section&gt;\n\n\t\t&lt;section class=&quot;zcs-section hw-span-4&quot; aria-labelledby=&quot;risk-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;hw-section-head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot; id=&quot;risk-heading&quot;&gt;Condition Risk&lt;/h2&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;hw-risk&quot;&gt;\n\t\t\t\t&lt;div class=&quot;hw-risk-item&quot;&gt;&lt;span class=&quot;zcs-badge zcs-badge--warning&quot;&gt;Damaged&lt;/span&gt;&lt;div class=&quot;hw-risk-value tone-orange&quot;&gt;&lt;%=damaged_assets%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;hw-risk-item&quot;&gt;&lt;span class=&quot;zcs-badge zcs-badge--danger&quot;&gt;Unusable&lt;/span&gt;&lt;div class=&quot;hw-risk-value tone-red&quot;&gt;&lt;%=unusable_assets%&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;% if(risk_assets == 0) { %&gt;&lt;div class=&quot;hw-risk-note&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; No assets currently carry a damaged or unusable condition.&lt;/div&gt;&lt;% } else { %&gt;&lt;div class=&quot;hw-risk-note&quot;&gt;Review the affected inventory records and coordinate repair, retirement, or replacement.&lt;/div&gt;&lt;% } %&gt;\n\t\t&lt;/section&gt;\n\n\t\t&lt;section class=&quot;zcs-section hw-span-8&quot; aria-labelledby=&quot;custody-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;hw-section-head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot; id=&quot;custody-heading&quot;&gt;Current Custody&lt;/h2&gt;&lt;a class=&quot;hw-section-link&quot; href=&quot;#Report:Active_Assignments&quot;&gt;View all assignments&lt;/a&gt;&lt;/div&gt;\n\t\t\t&lt;% if(assigned_assets == 0) { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No assets are currently assigned&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;New active assignments will appear here automatically.&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;% } else { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm&quot;&gt;&lt;table class=&quot;zcs-w-full&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th class=&quot;hw-cell&quot;&gt;Asset Tag&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Type&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Serial Number&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Current Holder&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Condition&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;\n\t\t\t\t&lt;% custody_index = 0; for each asset in custody_records { if(custody_index &lt; 10) { custody_index = custody_index + 1; holder_name = ifnull(asset.Current_Holder,&quot;Unassigned&quot;); condition_class = &quot;zcs-badge--success&quot;; if(asset.Condition == &quot;Fair&quot;) { condition_class = &quot;zcs-badge--warning&quot;; } if(asset.Condition == &quot;Damaged&quot; || asset.Condition == &quot;Unusable&quot;) { condition_class = &quot;zcs-badge--danger&quot;; } %&gt;\n\t\t\t\t\t&lt;tr&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;strong&gt;&lt;%=asset.Asset_Tag%&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;%=asset.Asset_Type%&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;%=asset.Serial_Number%&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;%=holder_name%&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=condition_class%&gt;&quot;&gt;&lt;%=asset.Condition%&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;\n\t\t\t\t&lt;% } } %&gt;\n\t\t\t\t&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;\n\t\t\t&lt;% } %&gt;\n\t\t&lt;/section&gt;\n\n\t\t&lt;section class=&quot;zcs-section hw-span-4&quot; aria-labelledby=&quot;repairs-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;hw-section-head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot; id=&quot;repairs-heading&quot;&gt;Open Maintenance&lt;/h2&gt;&lt;a class=&quot;hw-section-link&quot; href=&quot;#Report:Open_Maintenance&quot;&gt;View all repairs&lt;/a&gt;&lt;/div&gt;\n\t\t\t&lt;% if(open_repairs == 0) { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No open maintenance&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;There are no open or in-progress repairs.&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;% } else { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm&quot;&gt;&lt;table class=&quot;zcs-w-full&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th class=&quot;hw-cell&quot;&gt;Asset&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Status&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Issue&lt;/th&gt;&lt;th class=&quot;hw-cell&quot;&gt;Reported Date&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;\n\t\t\t\t&lt;% repair_index = 0; for each repair in repair_records { if(repair_index &lt; 8) { repair_index = repair_index + 1; repair_class = &quot;zcs-badge--warning&quot;; if(repair.Maintenance_Status == &quot;In Progress&quot;) { repair_class = &quot;zcs-badge--info&quot;; } %&gt;\n\t\t\t\t\t&lt;tr&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;strong&gt;&lt;%=repair.Asset.Asset_Tag%&gt;&lt;/strong&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=repair_class%&gt;&quot;&gt;&lt;%=repair.Maintenance_Status%&gt;&lt;/span&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell hw-issue&quot; title=&quot;&lt;%=repair.Issue_Description%&gt;&quot;&gt;&lt;%=repair.Issue_Description%&gt;&lt;/td&gt;&lt;td class=&quot;hw-cell&quot;&gt;&lt;%=repair.Reported_Date%&gt;&lt;/td&gt;&lt;/tr&gt;\n\t\t\t\t&lt;% } } %&gt;\n\t\t\t\t&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;\n\t\t\t&lt;% } %&gt;\n\t\t&lt;/section&gt;\n\t&lt;/div&gt;\n&lt;/main&gt;\n\t\t\t\t\t\t&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Assets_On_Load as "Assets On Load"
+			{
+			    type = form
+			    form = Assets
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Current_Holder;
+			                disable Current_Assignment_ID;
+			            )
+			        }
+			    }
+			}
+
+			Assets_On_Validate as "Assets On Validate"
+			{
+			    type = form
+			    form = Assets
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                active_assignment_count = 0;
+			                active_assignment_id = null;
+			                active_holder = null;
+			                if(input.ID != null)
+			                {
+			                    active_assignment_count = Assignments[Asset == input.ID && Assignment_Status == "Active"].count();
+			                    if(active_assignment_count > 0)
+			                    {
+			                        active_assignment_id = Assignments[Asset == input.ID && Assignment_Status == "Active"].ID;
+			                        active_holder = Assignments[Asset == input.ID && Assignment_Status == "Active"].Assigned_To;
+			                    }
+			                }
+			
+			                if(input.Asset_Status == "Assigned" && input.Current_Holder == null)
+			                {
+			                    alert(Current_Holder, "Current Holder is required when Asset Status is Assigned.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count == 0 && input.Current_Holder != null && input.Asset_Status != "Assigned")
+			                {
+			                    alert(Current_Holder, "Only an active custody transaction may retain a Current Holder for this status.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count > 0 && (input.Asset_Status == "Available" || input.Asset_Status == "Retired" || input.Asset_Status == "Lost"))
+			                {
+			                    alert(Asset_Status, "This status contradicts the active Assignment for this asset.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count == 0 && input.Asset_Status == "Assigned")
+			                {
+			                    alert(Asset_Status, "Assigned status requires an active Assignment record.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count > 0 && input.Current_Holder != active_holder)
+			                {
+			                    alert(Current_Holder, "Current Holder must match the holder on the active Assignment.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count > 0 && input.Current_Assignment_ID != active_assignment_id)
+			                {
+			                    alert(Current_Assignment_ID, "Current Assignment ID is system-managed and must match the active Assignment.");
+			                    cancel submit;
+			                }
+			                if(active_assignment_count == 0 && input.Current_Assignment_ID != null)
+			                {
+			                    alert(Current_Assignment_ID, "Current Assignment ID is system-managed and must be empty without an active Assignment.");
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Asset_On_User_Input as "Asset On User Input"
+			{
+			    type = form
+			    form = Assignments
+			    record event = on add or edit
+			
+			    on user input of Asset
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Asset != null)
+			                {
+			                    selected_asset = Assets[ID == input.Asset];
+			                    input.Condition_On_Issue = selected_asset.Condition;
+			                    if(selected_asset.Asset_Status != "Available")
+			                    {
+			                        alert "The selected asset is not currently Available.";
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Assignments_On_Load as "Assignments On Load"
+			{
+			    type = form
+			    form = Assignments
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Asset != null && input.Condition_On_Issue == null)
+			                {
+			                    selected_asset = Assets[ID == input.Asset];
+			                    input.Condition_On_Issue = selected_asset.Condition;
+			                }
+			                if(input.ID == null)
+			                {
+			                    hide Return_Date;
+			                    hide Condition_On_Return;
+			                    hide Return_Notes;
+			                    disable Return_Date;
+			                    disable Condition_On_Return;
+			                    disable Return_Notes;
+			                }
+			                else if(input.Assignment_Status == "Active")
+			                {
+			                    show Return_Date;
+			                    show Condition_On_Return;
+			                    show Return_Notes;
+			                    enable Return_Date;
+			                    enable Condition_On_Return;
+			                    enable Return_Notes;
+			                }
+			                else
+			                {
+			                    show Return_Date;
+			                    show Condition_On_Return;
+			                    show Return_Notes;
+			                    disable Asset;
+			                    disable Assigned_To;
+			                    disable Assigned_Date;
+			                    disable Condition_On_Issue;
+			                    disable Assignment_Status;
+			                    disable Return_Date;
+			                    disable Condition_On_Return;
+			                    disable Assignment_Notes;
+			                    disable Return_Notes;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Assignments_On_Success as "Assignments On Success"
+			{
+			    type = form
+			    form = Assignments
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Assignment_Status == "Active")
+			                {
+			                    update Assets[ID == input.Asset]
+			                    [
+			                        Current_Holder = input.Assigned_To
+			                        Current_Assignment_ID = input.Assignment_ID
+			                        Asset_Status = "Assigned"
+			                        Condition = input.Condition_On_Issue
+			                    ];
+			                }
+			                else if(input.Assignment_Status == "Returned")
+			                {
+			                    open_maintenance_count = Maintenance[Asset == input.Asset && (Maintenance_Status == "Open" || Maintenance_Status == "In Progress")].count();
+			                    restored_status = "Available";
+			                    if(open_maintenance_count > 0)
+			                    {
+			                        restored_status = "In Maintenance";
+			                    }
+			                    update Assets[ID == input.Asset]
+			                    [
+			                        Current_Holder = null
+			                        Current_Assignment_ID = null
+			                        Asset_Status = restored_status
+			                        Condition = input.Condition_On_Return
+			                    ];
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Assignments_On_Validate as "Assignments On Validate"
+			{
+			    type = form
+			    form = Assignments
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                validation_failed = false;
+			                if(input.Assigned_Date > zoho.currentdate)
+			                {
+			                    alert "Assigned Date cannot be in the future.";
+			                    validation_failed = true;
+			                }
+			                existing_assignment = Assignments[ID == input.ID];
+			                if(existing_assignment.count() > 0)
+			                {
+			                    if(existing_assignment.Asset != input.Asset || existing_assignment.Assigned_To != input.Assigned_To)
+			                    {
+			                        alert "Asset and Assigned To cannot be changed after the assignment is created.";
+			                        validation_failed = true;
+			                    }
+			                    if(existing_assignment.Assignment_Status == "Returned" && input.Assignment_Status != "Returned")
+			                    {
+			                        alert "A Returned assignment cannot be reopened.";
+			                        validation_failed = true;
+			                    }
+			                }
+			                if(input.Assignment_Status == "Active")
+			                {
+			                    selected_asset = Assets[ID == input.Asset];
+			                    if(selected_asset.Asset_Status != "Available")
+			                    {
+			                        alert "An Active assignment requires an Available asset.";
+			                        validation_failed = true;
+			                    }
+			                    overlapping_count = Assignments[Asset == input.Asset && Assignment_Status == "Active" && ID != input.ID].count();
+			                    if(overlapping_count > 0)
+			                    {
+			                        alert "This asset already has an Active assignment.";
+			                        validation_failed = true;
+			                    }
+			                }
+			                if(input.Assignment_Status == "Returned")
+			                {
+			                    if(input.Return_Date == null || input.Condition_On_Return == null)
+			                    {
+			                        alert "Returned assignments require Return Date and Condition On Return.";
+			                        validation_failed = true;
+			                    }
+			                    if(input.Return_Date != null && input.Return_Date < input.Assigned_Date)
+			                    {
+			                        alert "Return Date cannot precede Assigned Date.";
+			                        validation_failed = true;
+			                    }
+			                }
+			                if(validation_failed)
+			                {
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Maintenance_Asset_On_User_Input as "Maintenance Asset On User Input"
+			{
+			    type = form
+			    form = Maintenance
+			    record event = on add or edit
+			
+			    on user input of Asset
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Asset != null)
+			                {
+			                    selectedAsset = Assets[ID == input.Asset];
+			                    input.Condition_Before = selectedAsset.Condition;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Maintenance_On_Load as "Maintenance On Load"
+			{
+			    type = form
+			    form = Maintenance
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Asset != null)
+			                {
+			                    selectedAsset = Assets[ID == input.Asset];
+			                    input.Condition_Before = selectedAsset.Condition;
+			                }
+			                if(input.Maintenance_Status == "Completed")
+			                {
+			                    show Completed_Date;
+			                    show Work_Performed;
+			                    show Condition_After;
+			                    enable Completed_Date;
+			                    enable Work_Performed;
+			                    enable Condition_After;
+			                }
+			                else
+			                {
+			                    hide Completed_Date;
+			                    hide Work_Performed;
+			                    hide Condition_After;
+			                    disable Completed_Date;
+			                    disable Work_Performed;
+			                    disable Condition_After;
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Maintenance_On_Success as "Maintenance On Success"
+			{
+			    type = form
+			    form = Maintenance
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Maintenance_Status == "Open" || input.Maintenance_Status == "In Progress")
+			                {
+			                    update Assets[ID == input.Asset]
+			                    [
+			                        Asset_Status = "In Maintenance"
+			                    ];
+			                }
+			                else if(input.Maintenance_Status == "Completed")
+			                {
+			                    activeAssignments = Assignments[Asset == input.Asset && Assignment_Status == "Active"];
+			                    if(activeAssignments.count() > 0)
+			                    {
+			                        activeAssignment = activeAssignments;
+			                        update Assets[ID == input.Asset]
+			                        [
+			                            Condition = input.Condition_After
+			                            Asset_Status = "Assigned"
+			                            Current_Holder = activeAssignment.Assigned_To
+			                            Current_Assignment_ID = activeAssignment.ID
+			                        ];
+			                    }
+			                    else
+			                    {
+			                        update Assets[ID == input.Asset]
+			                        [
+			                            Condition = input.Condition_After
+			                            Asset_Status = "Available"
+			                            Current_Holder = null
+			                            Current_Assignment_ID = null
+			                        ];
+			                    }
+			                }
+			                else if(input.Maintenance_Status == "Cancelled")
+			                {
+			                    activeAssignments = Assignments[Asset == input.Asset && Assignment_Status == "Active"];
+			                    if(activeAssignments.count() > 0)
+			                    {
+			                        activeAssignment = activeAssignments;
+			                        update Assets[ID == input.Asset]
+			                        [
+			                            Asset_Status = "Assigned"
+			                            Current_Holder = activeAssignment.Assigned_To
+			                            Current_Assignment_ID = activeAssignment.ID
+			                        ];
+			                    }
+			                    else
+			                    {
+			                        update Assets[ID == input.Asset]
+			                        [
+			                            Asset_Status = "Available"
+			                            Current_Holder = null
+			                            Current_Assignment_ID = null
+			                        ];
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Maintenance_On_Validate as "Maintenance On Validate"
+			{
+			    type = form
+			    form = Maintenance
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Maintenance_Status == "Completed")
+			                {
+			                    if(input.Completed_Date == null)
+			                    {
+			                        alert(Completed_Date, "Completed Date is required when maintenance is completed.");
+			                        cancel submit;
+			                    }
+			                    if(input.Work_Performed == null || input.Work_Performed == "")
+			                    {
+			                        alert(Work_Performed, "Work Performed is required when maintenance is completed.");
+			                        cancel submit;
+			                    }
+			                    if(input.Condition_After == null)
+			                    {
+			                        alert(Condition_After, "Condition After is required when maintenance is completed.");
+			                        cancel submit;
+			                    }
+			                }
+			                if(input.Started_Date != null && input.Started_Date < input.Reported_Date)
+			                {
+			                    alert(Started_Date, "Started Date cannot be before Reported Date.");
+			                    cancel submit;
+			                }
+			                if(input.Completed_Date != null && input.Completed_Date < input.Reported_Date)
+			                {
+			                    alert(Completed_Date, "Completed Date cannot be before Reported Date.");
+			                    cancel submit;
+			                }
+			                if(input.Completed_Date != null && input.Started_Date != null && input.Completed_Date < input.Started_Date)
+			                {
+			                    alert(Completed_Date, "Completed Date cannot be before Started Date.");
+			                    cancel submit;
+			                }
+			                if(input.Maintenance_Status != "Completed" && input.Maintenance_Status != "Cancelled")
+			                {
+			                    duplicateCount = Maintenance[Asset == input.Asset && Maintenance_Status != "Completed" && Maintenance_Status != "Cancelled" && ID != input.ID].count();
+			                    if(duplicateCount > 0)
+			                    {
+			                        alert(Asset, "This asset already has an open maintenance record.");
+			                        cancel submit;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Maintenance_Status_On_User_Input as "Maintenance Status On User Input"
+			{
+			    type = form
+			    form = Maintenance
+			    record event = on add or edit
+			
+			    on user input of Maintenance_Status
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Maintenance_Status == "Completed")
+			                {
+			                    show Completed_Date;
+			                    show Work_Performed;
+			                    show Condition_After;
+			                    enable Completed_Date;
+			                    enable Work_Performed;
+			                    enable Condition_After;
+			                }
+			                else
+			                {
+			                    hide Completed_Date;
+			                    hide Work_Performed;
+			                    hide Condition_After;
+			                    disable Completed_Date;
+			                    disable Work_Performed;
+			                    disable Condition_After;
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	share_settings
+	{
+	"Administrator"
+	{
+	    name        = "Administrator"
+	    type        = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:true }
+	    description = "IT administrator-only access to the company asset management application."
+	
+	    ModulePermissions
+	    {
+	        Assets
+	        {
+	            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Assets={"View","Edit","Delete"}
+	                Available_Assets={"View","Edit","Delete"}
+	                Assigned_Assets={"View","Edit","Delete"}
+	                Maintenance_Assets={"View","Edit","Delete"}
+	            }
+	            FieldPermissions
+	            {
+	                Asset_ID{visibility:true,readonly:false}
+	                Asset_Tag{visibility:true,readonly:false}
+	                Asset_Type{visibility:true,readonly:false}
+	                Manufacturer{visibility:true,readonly:false}
+	                Model{visibility:true,readonly:false}
+	                Serial_Number{visibility:true,readonly:false}
+	                Condition{visibility:true,readonly:false}
+	                Asset_Status{visibility:true,readonly:false}
+	                Current_Holder{visibility:true,readonly:true}
+	                Current_Assignment_ID{visibility:true,readonly:true}
+	                Notes{visibility:true,readonly:false}
+	            }
+	        }
+	
+	        Assignments
+	        {
+	            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Assignment_History={"View","Edit","Delete"}
+	                Active_Assignments={"View","Edit","Delete"}
+	                Returned_Assignments={"View","Edit","Delete"}
+	            }
+	            FieldPermissions
+	            {
+	                Assignment_ID{visibility:true,readonly:false}
+	                Asset{visibility:true,readonly:false}
+	                Assigned_To{visibility:true,readonly:false}
+	                Assigned_Date{visibility:true,readonly:false}
+	                Condition_On_Issue{visibility:true,readonly:false}
+	                Assignment_Status{visibility:true,readonly:false}
+	                Assignment_Notes{visibility:true,readonly:false}
+	                Return_Date{visibility:true,readonly:false}
+	                Condition_On_Return{visibility:true,readonly:false}
+	                Return_Notes{visibility:true,readonly:false}
+	            }
+	        }
+	
+	        Maintenance
+	        {
+	            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Maintenance_History={"View","Edit","Delete"}
+	                Open_Maintenance={"View","Edit","Delete"}
+	            }
+	            FieldPermissions
+	            {
+	                Maintenance_ID{visibility:true,readonly:false}
+	                Asset{visibility:true,readonly:false}
+	                Reported_Date{visibility:true,readonly:false}
+	                Maintenance_Status{visibility:true,readonly:false}
+	                Issue_Description{visibility:true,readonly:false}
+	                Service_Provider{visibility:true,readonly:false}
+	                Service_Cost{visibility:true,readonly:false}
+	                Condition_Before{visibility:true,readonly:false}
+	                Started_Date{visibility:true,readonly:false}
+	                Completed_Date{visibility:true,readonly:false}
+	                Work_Performed{visibility:true,readonly:false}
+	                Condition_After{visibility:true,readonly:false}
+	                Notes{visibility:true,readonly:false}
+	            }
+	        }
+	
+	        Hardware_Overview
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Assets
+	    {
+	        label placement = top
+	    }
+	    form Assignments
+	    {
+	        label placement = top
+	    }
+	    form Maintenance
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_Assets
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Current_Holder
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset_ID
+		                    Asset_Tag
+		                    Asset_Type
+		                    Manufacturer
+		                    Model
+		                    Serial_Number
+		                    Condition
+		                    Asset_Status
+		                    Current_Holder
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Assigned_Assets
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Current_Holder
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Current_Holder
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Available_Assets
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Condition
+		                    Manufacturer
+		                    Model
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset_ID
+		                    Asset_Tag
+		                    Asset_Type
+		                    Manufacturer
+		                    Model
+		                    Serial_Number
+		                    Asset_Status
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Maintenance_Assets
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset_Tag
+		                    Asset_Type
+		                    Serial_Number
+		                    Asset_Status
+		                    Condition
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Active_Assignments
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Assignment_Status
+		                    Condition_On_Issue
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Assignment_Status
+		                    Condition_On_Issue
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Assignment_History
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Return_Date
+		                    Assignment_Status
+		                    Condition_On_Issue
+		                    Condition_On_Return
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Assignment_ID
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Assignment_Status
+		                    Return_Date
+		                    Condition_On_Issue
+		                    Condition_On_Return
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Returned_Assignments
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Return_Date
+		                    Assignment_Status
+		                    Condition_On_Issue
+		                    Condition_On_Return
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Assignment_ID
+		                    Asset
+		                    Assigned_To
+		                    Assigned_Date
+		                    Condition_On_Issue
+		                    Assignment_Status
+		                    Return_Date
+		                    Condition_On_Return
+		                    Assignment_Notes
+		                    Return_Notes
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Maintenance_History
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset
+		                    Maintenance_Status
+		                    Issue_Description
+		                    Reported_Date
+		                    Completed_Date
+		                    Service_Provider
+		                    Service_Cost
+		                    Condition_Before
+		                    Condition_After
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Maintenance_ID
+		                    Asset
+		                    Reported_Date
+		                    Maintenance_Status
+		                    Issue_Description
+		                    Service_Provider
+		                    Service_Cost
+		                    Completed_Date
+		                    Condition_Before
+		                    Condition_After
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Open_Maintenance
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Asset
+		                    Maintenance_Status
+		                    Issue_Description
+		                    Reported_Date
+		                    Started_Date
+		                    Completed_Date
+		                    Service_Provider
+		                    Service_Cost
+		                    Condition_Before
+		                    Condition_After
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Asset
+		                    Maintenance_Status
+		                    Issue_Description
+		                    Reported_Date
+		                    Started_Date
+		                    Completed_Date
+		                    Service_Provider
+		                    Service_Cost
+		                    Condition_Before
+		                    Condition_After
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space IT_Asset_Management
+	    {
+	        displayname = "IT Asset Management"
+	        icon = "tech-computer"
+	
+	        section Overview
+	        {
+	            displayname = "Overview"
+	            icon = "business-chart"
+	
+	            page Hardware_Overview
+	            {
+	                icon = "business-chart-bar-33"
+	            }
+	        }
+	
+	        section Inventory
+	        {
+	            displayname = "Inventory"
+	            icon = "business-stock"
+	
+	            form Assets
+	            {
+	                icon = "tech-computer-monitor"
+	            }
+	            report All_Assets
+	            {
+	                icon = "tech-desktop"
+	            }
+	            report Available_Assets
+	            {
+	                icon = "tech-laptop"
+	            }
+	            report Assigned_Assets
+	            {
+	                icon = "tech-computer"
+	            }
+	            report Maintenance_Assets
+	            {
+	                icon = "tech-computer-old"
+	            }
+	        }
+	
+	        section Custody
+	        {
+	            displayname = "Custody"
+	            icon = "users-badge-13"
+	
+	            form Assignments
+	            {
+	                icon = "business-handout"
+	            }
+	            report Active_Assignments
+	            {
+	                icon = "users-single-position"
+	            }
+	            report Assignment_History
+	            {
+	                icon = "business-agenda"
+	            }
+	            report Returned_Assignments
+	            {
+	                icon = "business-progress"
+	            }
+	        }
+	
+	        section Maintenance
+	        {
+	            displayname = "Maintenance"
+	            icon = "objects-puzzle-10"
+	
+	            form Maintenance
+	            {
+	                icon = "objects-puzzle-09"
+	            }
+	            report Open_Maintenance
+	            {
+	                icon = "objects-cone"
+	            }
+	            report Maintenance_History
+	            {
+	                icon = "business-notes"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "lato"
+	
+	    color options
+	    {
+	        name = "IT Operations Blue Teal"
+	        brand color = "#167C80"
+	        type = "custom"
+	        dark mode color = "#12303A"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

@@ -1,0 +1,12 @@
+default list All_Orders
+{
+
+			displayName = "All Orders"
+			show all rows from Add_Order    
+			(
+				Name
+				Age
+				Gender
+			)
+		
+}

@@ -1,0 +1,5 @@
+report Catalog_Price_Maintenance
+{
+ quickview ( layout ( type = -3 datablock1 ( layout type = -3 fields ( Item_Code Vendor Item_Name Item_Description Unit_Of_Measure Unit_Price Tax_Rate Active Effective_From Effective_To ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+ detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Item_Code Vendor Item_Name Item_Description Unit_Of_Measure Unit_Price Tax_Rate Active Effective_From Effective_To ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+}

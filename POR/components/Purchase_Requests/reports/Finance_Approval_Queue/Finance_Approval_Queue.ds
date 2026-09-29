@@ -1,0 +1,32 @@
+list Finance_Approval_Queue
+{
+    displayName = "Finance Approval Queue"
+    show all rows from Purchase_Requests [Status == "Pending Finance Approval"]
+    (
+        Request_Number
+        Requester
+        Request_Date
+        Vendor
+        Request_Total
+        Needed_By
+        Status
+    )
+    filters
+    (
+        Vendor
+        Status
+    )
+    sort by
+    (
+        Needed_By ascending
+    )
+    conditional formatting
+    (
+        "Pending Finance Approval"
+        {
+            condition = (Status == "Pending Finance Approval")
+            fields = [Request_Number, Request_Total, Status]
+            format = "background-color:#FFF7E0;color:#8A5700"
+        }
+    )
+}

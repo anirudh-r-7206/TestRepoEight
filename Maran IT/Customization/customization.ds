@@ -1,0 +1,13 @@
+customize
+{
+    new theme = 1
+    new theme color = 5
+    font = "poppins"
+
+    icon
+    {
+        icon = "zc-ab-intel-it1"
+        background color = "#0093FF"
+        foreground color = "#ffffff"
+    }
+}

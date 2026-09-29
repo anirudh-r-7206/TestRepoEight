@@ -1,0 +1,5 @@
+report Audit_Trail
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Event_Time as "Event Time" User_Email as "User" User_Profile as "Profile" Action Component Reference_Number as "Reference" Notes ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+ detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Event_Time as "Event Time" User_Email as "User" User_Profile as "Profile" Action Component Reference_Number as "Reference" Notes ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+}

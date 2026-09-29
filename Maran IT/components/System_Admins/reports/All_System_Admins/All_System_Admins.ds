@@ -1,0 +1,18 @@
+default list All_System_Admins
+{
+    displayName = "All System Admins"
+    show all rows from System_Admins
+    (
+        Admin_Name
+        Email_ID
+    )
+    filters
+    (
+        Admin_Name
+        Email_ID
+    )
+    sort by
+    (
+        Admin_Name ascending
+    )
+}

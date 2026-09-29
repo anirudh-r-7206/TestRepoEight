@@ -1,0 +1,71 @@
+Maintenance_On_Success as "Maintenance On Success"
+{
+    type = form
+    form = Maintenance
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Maintenance_Status == "Open" || input.Maintenance_Status == "In Progress")
+                {
+                    update Assets[ID == input.Asset]
+                    [
+                        Asset_Status = "In Maintenance"
+                    ];
+                }
+                else if(input.Maintenance_Status == "Completed")
+                {
+                    activeAssignments = Assignments[Asset == input.Asset && Assignment_Status == "Active"];
+                    if(activeAssignments.count() > 0)
+                    {
+                        activeAssignment = activeAssignments;
+                        update Assets[ID == input.Asset]
+                        [
+                            Condition = input.Condition_After
+                            Asset_Status = "Assigned"
+                            Current_Holder = activeAssignment.Assigned_To
+                            Current_Assignment_ID = activeAssignment.ID
+                        ];
+                    }
+                    else
+                    {
+                        update Assets[ID == input.Asset]
+                        [
+                            Condition = input.Condition_After
+                            Asset_Status = "Available"
+                            Current_Holder = null
+                            Current_Assignment_ID = null
+                        ];
+                    }
+                }
+                else if(input.Maintenance_Status == "Cancelled")
+                {
+                    activeAssignments = Assignments[Asset == input.Asset && Assignment_Status == "Active"];
+                    if(activeAssignments.count() > 0)
+                    {
+                        activeAssignment = activeAssignments;
+                        update Assets[ID == input.Asset]
+                        [
+                            Asset_Status = "Assigned"
+                            Current_Holder = activeAssignment.Assigned_To
+                            Current_Assignment_ID = activeAssignment.ID
+                        ];
+                    }
+                    else
+                    {
+                        update Assets[ID == input.Asset]
+                        [
+                            Asset_Status = "Available"
+                            Current_Holder = null
+                            Current_Assignment_ID = null
+                        ];
+                    }
+                }
+            )
+        }
+    }
+}

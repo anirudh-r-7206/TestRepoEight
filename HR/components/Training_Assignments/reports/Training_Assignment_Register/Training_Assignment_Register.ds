@@ -1,0 +1,27 @@
+default list Training_Assignment_Register
+{
+    displayName = "Training Assignment Register"
+    show all rows from Training_Assignments
+    (
+        New_Hire
+        Training_Item
+        Due_Date
+        Status
+        Completed_Date
+        Facilitated_By
+    )
+    filters
+    (
+        New_Hire
+        Status
+        Due_Date
+    )
+    group by
+    (
+        Status ascending
+    )
+    sort by
+    (
+        Due_Date ascending
+    )
+}

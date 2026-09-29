@@ -1,0 +1,54 @@
+Purchase_Requests_On_Validate as "Purchase Requests On Validate"
+{
+    type = form
+    form = Purchase_Requests
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Needed_By < input.Request_Date)
+                {
+                    alert "Needed By must be on or after the Request Date.";
+                    cancel submit;
+                }
+                if(input.Requested_Items == null || input.Requested_Items.isEmpty())
+                {
+                    alert "Add at least one requested item.";
+                    cancel submit;
+                }
+                subtotalValue = 0.0;
+                taxValue = 0.0;
+                for each line in input.Requested_Items
+                {
+                    if(line.Catalog_Item == null)
+                    {
+                        alert "Every requested line must have a catalog item.";
+                        cancel submit;
+                    }
+                    catalogRecord = Vendor_Items[ID == line.Catalog_Item];
+                    if(catalogRecord.ID == null || catalogRecord.Active != true || catalogRecord.Vendor != input.Vendor)
+                    {
+                        alert "Every catalog item must be active and belong to the selected vendor.";
+                        cancel submit;
+                    }
+                    if(line.Quantity == null || line.Quantity <= 0)
+                    {
+                        alert "Every requested line must have a positive quantity.";
+                        cancel submit;
+                    }
+                    lineSubtotalValue = line.Quantity * line.Unit_Price;
+                    lineTaxValue = lineSubtotalValue * ifnull(line.Tax_Rate,0) / 100;
+                    subtotalValue = subtotalValue + lineSubtotalValue;
+                    taxValue = taxValue + lineTaxValue;
+                }
+                input.Subtotal = subtotalValue;
+                input.Tax_Total = taxValue;
+                input.Request_Total = subtotalValue + taxValue;
+            )
+        }
+    }
+}

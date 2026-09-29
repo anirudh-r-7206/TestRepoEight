@@ -1,0 +1,653 @@
+application "Sample-App-One"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Clients
+		{
+		    title
+		    {
+		        displayname = "Clients"
+		        on add = "Add Client"
+		        on edit = "Edit Client"
+		    }
+		    success message = "Client saved."
+		
+		    Client_Details
+		    (
+		        type = section
+		        displayname = "Client Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Client_Name
+		    (
+		        type = text
+		        displayname = "Client Name"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Email
+		    (
+		        type = email
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Company
+		    (
+		        type = text
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Hourly_Rate
+		    (
+		        type = INR
+		        displayname = "Hourly Rate"
+		        decimalplace = 2
+		        initial value = 0
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Projects
+		{
+		    title
+		    {
+		        displayname = "Projects"
+		        on add = "Add Project"
+		        on edit = "Edit Project"
+		    }
+		    success message = "Project saved."
+		
+		    Project_Details
+		    (
+		        type = section
+		        displayname = "Project Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Client
+		    (
+		        type = picklist
+		        values = Clients.ID
+		        displayformat = [Client_Name]
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Project_Name
+		    (
+		        type = text
+		        displayname = "Project Name"
+		        maxchar = 180
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        values = {"Active", "Review", "Completed"}
+		        initial value = "Active"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Billed_Hours
+		    (
+		        type = decimal
+		        displayname = "Billed Hours"
+		        decimalplace = 2
+		        initial value = 0
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Clients
+		{
+		    displayName = "All Clients"
+		    show all rows from Clients
+		    (
+		        Client_Name
+		        Company
+		        Email
+		        Hourly_Rate
+		    )
+		    filters
+		    (
+		        Company
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		}
+
+		default list All_Projects
+		{
+		    displayName = "All Projects"
+		    show all rows from Projects
+		    (
+		        Project_Name
+		        Client
+		        Status
+		        Due_Date
+		        (
+		            displayformat = fulldate
+		        )
+		        Billed_Hours
+		        (
+		            display = total
+		        )
+		    )
+		    filters
+		    (
+		        Client
+		        Status
+		    )
+		    group by
+		    (
+		        properties
+		        (
+		            display record count = true
+		        )
+		        Status ascending
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		}
+
+		calendar Project_Due_Calendar
+		{
+		    displayName = "Project Due Calendar"
+		    show all rows from Projects
+		    (
+		        Project_Name
+		        Client
+		        Status
+		        Due_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Status
+		    )
+		    options
+		    (
+		        display type = month
+		        week start day = monday
+		        display field = Project_Name
+		        start date = Due_Date
+		        default date
+		        (
+		            day = Today
+		            month = Currentmonth
+		            year = Currentyear
+		        )
+		    )
+		}
+
+		kanban Project_Status_Board
+		{
+		    displayName = "Project Status Board"
+		    show all rows from Projects
+		    (
+		        Project_Name
+		        Client
+		        Due_Date
+		        Billed_Hours
+		        Status
+		    )
+		    filters
+		    (
+		        Client
+		        Status
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		    options
+		    (
+		        display field = Status
+		        sort order = custom
+		        record count = enable
+		    )
+		}
+	}
+
+	pages
+	{
+		page Client_Detail(int Client_ID)
+		{
+					displayname = "Client Detail"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Client_Detail_Snippet' elementName='Client_Detail_Snippet'>\n\t\t\t\t\t<![CDATA[htmlpage Client_Detail_Snippet()\ncontent\n&lt;%{%&gt;\n\t\t&lt;%\nclientMatches = Clients[ID == input.Client_ID];\nhasClient = clientMatches.count() &gt; 0;\nif(hasClient)\n{\n\t\tclient = clientMatches;\n\t\tclientProjects = Projects[Client == client.ID] sort by Due_Date asc;\n\t\ttotalProjects = clientProjects.count();\n\t\tactiveProjects = Projects[Client == client.ID &amp;&amp; Status == &quot;Active&quot;].count();\n\t\ttotalHours = 0.0;\n\t\ttotalEarnings = 0.0;\n\t\thourlyRate = ifnull(client.Hourly_Rate,0.0);\n\t\tfor each project in clientProjects\n\t\t{\n\t\t\t\tbilledHours = ifnull(project.Billed_Hours,0.0);\n\t\t\t\ttotalHours = totalHours + billedHours;\n\t\t\t\ttotalEarnings = totalEarnings + (billedHours * hourlyRate);\n\t\t}\n}\n%&gt;\n&lt;style&gt;\n:root{--zcs-white-color:#fff;--zcs-page-bg-color:#f8fafc;--zcs-primary-text-color:#0f172a;--zcs-secondary-text-color:#475569;--zcs-teritiary-text-color:#64748b;--zcs-border-color:#e2e8f0;--zcs-indigo:#4f46e5;--zcs-surface:#fff;--zcs-bg:#f8fafc;--zcs-text-1:#0f172a;--zcs-text-2:#475569;--zcs-text-3:#64748b;--zcs-radius:12px;--zcs-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.04);--zcs-green:#166534;--zcs-green-bg:#dcfce7;--zcs-blue:#3730a3;--zcs-blue-bg:#e0e7ff;--zcs-orange:#9a3412;--zcs-orange-bg:#ffedd5}\n*{box-sizing:border-box}.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:.5rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-sm{border-radius:.25rem}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:.875rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-lh-body{line-height:1.5}.zcs-w-full{width:100%}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-color-primary{color:var(--zcs-primary-text-color)}\n.zcs-page{font-family:var(--zcs-font,Inter,Arial,sans-serif);background:var(--zcs-bg);min-height:100vh;padding:28px;box-sizing:border-box}.detail-shell{max-width:1240px;margin:0 auto}.back-link{display:inline-flex;align-items:center;gap:7px;color:#475569;font-size:13px;font-weight:600;margin-bottom:18px}.back-link:hover,.project-link:hover{color:#3730a3}.zcs-page-header{margin-bottom:24px}.zcs-page-header__title{font-size:30px;font-weight:700;letter-spacing:-.025em;color:var(--zcs-text-1);margin:0 0 6px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px;margin-bottom:20px;box-shadow:var(--zcs-shadow)}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#4f46e5;margin-bottom:7px}.client-name{font-size:28px;line-height:1.15;color:#0f172a;margin:0 0 8px}.company{font-size:15px;color:#475569;margin:0}.actions{display:flex;flex-wrap:wrap;gap:10px}.zcs-button{width:auto;min-width:5rem;min-height:36px;text-decoration:none}.zcs-primary-button{background:#4f46e5;color:#fff}.zcs-primary-outline-button{border:1px solid #cbd5e1;background:#fff;color:#334155}.zcs-button:hover{filter:brightness(.96)}.profile-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:8px 10px;margin-bottom:20px}.zcs-labelvalue-wrapper ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:0;margin:0}.profile-item{padding:15px}.profile-item label{display:block;color:#64748b;font-size:12px;margin-bottom:4px}.profile-item span,.profile-item a{color:#0f172a;font-size:14px;font-weight:600;text-decoration:none;overflow-wrap:anywhere}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border:1px solid #e2e8f0;border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 22px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:30px;font-weight:700;margin:7px 0 4px;line-height:1;color:#0f172a}.zcs-kpi-card__value.indigo{color:#4f46e5}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.section-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:var(--zcs-shadow)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.section-head h2{font-size:18px;color:#0f172a;margin:0}.section-head p{font-size:13px;color:#64748b;margin:3px 0 0}.zcs-table-wrapper{border:1px solid #e2e8f0;background:#fff;overflow:auto}.zcs-table-wrapper table{border-collapse:collapse;min-width:760px}.zcs-table-wrapper th{background:#f8fafc;border-bottom:1px solid #e2e8f0;white-space:nowrap;color:#475569}.zcs-table-wrapper td{border-top:1px solid #e2e8f0;color:#334155}.zcs-table-wrapper tbody tr:first-child td{border-top:0}.zcs-table-wrapper tbody tr:hover td{background:#fafafa}.project-link{color:#4338ca;text-decoration:none;font-weight:650}.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4}.zcs-badge--success{background:#ecfdf5;color:#166534}.zcs-badge--warning{background:#fff7ed;color:#9a3412}.zcs-badge--info{background:#eef2ff;color:#3730a3}.zcs-badge--neutral{background:#f1f5f9;color:#475569}.mobile-projects{display:none}.zcs-empty-state{text-align:center;padding:48px 24px}.empty-icon{display:flex;width:48px;height:48px;border-radius:14px;background:#eef2ff;color:#4f46e5;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px}.zcs-empty-state__title{font-size:17px;font-weight:600;color:#334155;margin:0 0 6px}.zcs-empty-state__body{font-size:14px;color:#64748b;max-width:460px;margin:0 auto 18px}.invalid{max-width:620px;margin:10vh auto 0;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:var(--zcs-shadow)}\n@media(max-width:900px){.zcs-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zcs-labelvalue-wrapper ul{grid-template-columns:1fr 1fr}.hero{flex-direction:column}.actions{width:100%}}\n@media(max-width:640px){.zcs-page{padding:18px}.zcs-kpi-grid{grid-template-columns:1fr 1fr;gap:10px}.zcs-kpi-card{padding:16px}.zcs-kpi-card__value{font-size:24px}.zcs-labelvalue-wrapper ul{grid-template-columns:1fr}.desktop-table{display:none}.mobile-projects{display:grid;gap:12px}.project-card{border:1px solid #e2e8f0;border-radius:12px;padding:16px}.project-card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.project-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}.project-meta label{display:block;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.project-meta span{font-size:14px;color:#0f172a;font-weight:600}.actions .zcs-button{flex:1}.section-head{align-items:flex-start}}\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;detail-shell&quot;&gt;\n&lt;% if(!hasClient) { %&gt;\n\t\t&lt;div class=&quot;invalid&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;\n\t\t\t\t&lt;div class=&quot;empty-icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-circle-remove&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__title&quot;&gt;Client not found&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__body&quot;&gt;The client link is missing or no longer valid. Return to the dashboard to choose an available client.&lt;/div&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Page:Freelancer_Dashboard&quot;&gt;&lt;i class=&quot;zc-li-outline arrows-1-tail-left&quot;&gt;&lt;/i&gt;&lt;span&gt;Back to dashboard&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n&lt;% } else { %&gt;\n\t\t&lt;a class=&quot;back-link&quot; href=&quot;#Page:Freelancer_Dashboard&quot;&gt;&lt;i class=&quot;zc-li-outline arrows-1-tail-left&quot;&gt;&lt;/i&gt;&lt;span&gt;Back to dashboard&lt;/span&gt;&lt;/a&gt;\n\t\t&lt;section class=&quot;hero&quot;&gt;\n\t\t\t&lt;div&gt;\n\t\t\t\t&lt;div class=&quot;eyebrow&quot;&gt;Client profile&lt;/div&gt;\n\t\t\t\t&lt;h1 class=&quot;client-name&quot;&gt;&lt;%=ifnull(client.Client_Name,&quot;Unnamed client&quot;)%&gt;&lt;/h1&gt;\n\t\t\t\t&lt;p class=&quot;company&quot;&gt;&lt;%=ifnull(client.Company,&quot;Independent client&quot;)%&gt;&lt;/p&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;actions&quot;&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Form:Clients?recLinkID=&lt;%=client.ID%&gt;&amp;viewLinkName=All_Clients&amp;zc_LoadIn=dialog&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-edit-72&quot;&gt;&lt;/i&gt;&lt;span&gt;Edit client&lt;/span&gt;&lt;/a&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Form:Projects?Client=&lt;%=client.ID%&gt;&amp;zc_LoadIn=dialog&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-simple-add&quot;&gt;&lt;/i&gt;&lt;span&gt;Add project&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/section&gt;\n\t\t&lt;section class=&quot;profile-card zcs-labelvalue-wrapper&quot;&gt;\n\t\t\t&lt;ul&gt;\n\t\t\t\t&lt;li class=&quot;profile-item&quot;&gt;&lt;label&gt;Email&lt;/label&gt;&lt;span&gt;&lt;%=ifnull(client.Email,&quot;Not provided&quot;)%&gt;&lt;/span&gt;&lt;/li&gt;\n\t\t\t\t&lt;li class=&quot;profile-item&quot;&gt;&lt;label&gt;Company&lt;/label&gt;&lt;span&gt;&lt;%=ifnull(client.Company,&quot;Not provided&quot;)%&gt;&lt;/span&gt;&lt;/li&gt;\n\t\t\t\t&lt;li class=&quot;profile-item&quot;&gt;&lt;label&gt;Hourly rate&lt;/label&gt;&lt;span&gt;INR &lt;%=hourlyRate.round(2)%&gt;&lt;/span&gt;&lt;/li&gt;\n\t\t\t&lt;/ul&gt;\n\t\t&lt;/section&gt;\n\t\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total projects&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=totalProjects%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;All client work&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Active projects&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value indigo&quot;&gt;&lt;%=activeProjects%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Currently in progress&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Billed hours&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=totalHours.round(2)%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Cumulative hours&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total earnings&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value indigo&quot;&gt;INR &lt;%=totalEarnings.round(2)%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Hours multiplied by rate&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;section class=&quot;section-card&quot;&gt;\n\t\t\t&lt;div class=&quot;section-head&quot;&gt;&lt;div&gt;&lt;h2&gt;Projects&lt;/h2&gt;&lt;p&gt;Complete project history for this client&lt;/p&gt;&lt;/div&gt;&lt;span class=&quot;zcs-badge zcs-badge--neutral&quot;&gt;&lt;%=totalProjects%&gt; total&lt;/span&gt;&lt;/div&gt;\n&lt;% if(totalProjects == 0) { %&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;\n\t\t\t\t&lt;div class=&quot;empty-icon&quot;&gt;&lt;i class=&quot;zc-li-outline design-2-layout-11&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No projects yet&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Start this client’s project history. The client lookup will be filled in automatically.&lt;/div&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14&quot; href=&quot;#Form:Projects?Client=&lt;%=client.ID%&gt;&amp;zc_LoadIn=dialog&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-simple-add&quot;&gt;&lt;/i&gt;&lt;span&gt;Add first project&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;/div&gt;\n&lt;% } else { %&gt;\n\t\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative desktop-table&quot;&gt;\n\t\t\t\t&lt;table class=&quot;zcs-w-full&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Project&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Status&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium&quot;&gt;Due date&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium&quot;&gt;Billed hours&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium&quot;&gt;Earnings&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;\n&lt;% for each project in clientProjects { projectHours = ifnull(project.Billed_Hours,0.0); projectEarnings = projectHours * hourlyRate; statusClass = &quot;zcs-badge--neutral&quot;; if(project.Status == &quot;Active&quot;) { statusClass = &quot;zcs-badge--success&quot;; } else if(project.Status == &quot;Review&quot;) { statusClass = &quot;zcs-badge--warning&quot;; } else if(project.Status == &quot;Completed&quot;) { statusClass = &quot;zcs-badge--info&quot;; } %&gt;\n\t\t\t\t\t&lt;tr&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14&quot;&gt;&lt;a class=&quot;project-link&quot; href=&quot;#Report:All_Projects?recLinkID=&lt;%=project.ID%&gt;&amp;viewLinkName=All_Projects&quot;&gt;&lt;%=ifnull(project.Project_Name,&quot;Unnamed project&quot;)%&gt;&lt;/a&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=statusClass%&gt;&quot;&gt;&lt;%=ifnull(project.Status,&quot;Unspecified&quot;)%&gt;&lt;/span&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14&quot;&gt;&lt;%=ifnull(project.Due_Date,&quot;Not set&quot;)%&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14&quot;&gt;&lt;%=projectHours.round(2)%&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14&quot;&gt;INR &lt;%=projectEarnings.round(2)%&gt;&lt;/td&gt;&lt;/tr&gt;\n&lt;% } %&gt;\n\t\t\t\t&lt;/tbody&gt;&lt;/table&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;mobile-projects&quot;&gt;\n&lt;% for each project in clientProjects { projectHours = ifnull(project.Billed_Hours,0.0); projectEarnings = projectHours * hourlyRate; statusClass = &quot;zcs-badge--neutral&quot;; if(project.Status == &quot;Active&quot;) { statusClass = &quot;zcs-badge--success&quot;; } else if(project.Status == &quot;Review&quot;) { statusClass = &quot;zcs-badge--warning&quot;; } else if(project.Status == &quot;Completed&quot;) { statusClass = &quot;zcs-badge--info&quot;; } %&gt;\n\t\t\t\t&lt;article class=&quot;project-card&quot;&gt;&lt;div class=&quot;project-card-top&quot;&gt;&lt;a class=&quot;project-link&quot; href=&quot;#Report:All_Projects?recLinkID=&lt;%=project.ID%&gt;&amp;viewLinkName=All_Projects&quot;&gt;&lt;%=ifnull(project.Project_Name,&quot;Unnamed project&quot;)%&gt;&lt;/a&gt;&lt;span class=&quot;zcs-badge &lt;%=statusClass%&gt;&quot;&gt;&lt;%=ifnull(project.Status,&quot;Unspecified&quot;)%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;project-meta&quot;&gt;&lt;div&gt;&lt;label&gt;Due date&lt;/label&gt;&lt;span&gt;&lt;%=ifnull(project.Due_Date,&quot;Not set&quot;)%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;label&gt;Billed hours&lt;/label&gt;&lt;span&gt;&lt;%=projectHours.round(2)%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;label&gt;Earnings&lt;/label&gt;&lt;span&gt;INR &lt;%=projectEarnings.round(2)%&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;\n&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n&lt;% } %&gt;\n\t\t&lt;/section&gt;\n&lt;% } %&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+
+		page Freelancer_Dashboard
+		{
+					displayname = "Freelancer Dashboard"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Freelancer_Dashboard_Workspace' elementName='Freelancer_Dashboard_Workspace'>\n\t\t\t\t\t<![CDATA[htmlpage Freelancer_Dashboard_Workspace()\n\t\t\t\t\t\tcontent\n\t\t\t\t\t\t&lt;%{%&gt;\n\t\t\t\t\t\t\t&lt;%\nclients = Clients[ID != 0];\nprojects = Projects[ID != 0];\nclientCount = clients.count();\nprojectCount = projects.count();\nactiveCount = Projects[Status == &quot;Active&quot;].count();\nreviewCount = Projects[Status == &quot;Review&quot;].count();\ncompletedCount = Projects[Status == &quot;Completed&quot;].count();\ntotalHours = 0;\ntotalEarnings = 0;\nfor each projectRec in projects\n{\n\t\tbilledHours = ifnull(projectRec.Billed_Hours,0);\n\t\thourlyRate = 0;\n\t\tif(projectRec.Client != null)\n\t\t{\n\t\t\t\thourlyRate = ifnull(projectRec.Client.Hourly_Rate,0);\n\t\t}\n\t\ttotalHours = totalHours + billedHours;\n\t\ttotalEarnings = totalEarnings + (billedHours * hourlyRate);\n}\n%&gt;\n&lt;style&gt;\n:root {\n\t--zcs-theme-brand-color:#4F46E5; --zcs-brand-color:#4F46E5;\n\t--zcs-white-color:#FFFFFF; --zcs-primary-text-color:#0F172A;\n\t--zcs-secondary-text-color:#475569; --zcs-teritiary-text-color:#64748B;\n\t--zcs-border-color:#E2E8F0; --zcs-surface:#FFFFFF; --zcs-radius:12px;\n\t--zcs-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05);\n\t--zcs-text-1:#0F172A; --zcs-text-2:#475569; --zcs-text-3:#64748B;\n}\n*{box-sizing:border-box}.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:8px}.zcs-px-16{padding-left:16px;padding-right:16px}.zcs-py-8{padding-top:8px;padding-bottom:8px}.zcs-rounded-md{border-radius:6px}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:14px}.zcs-font-normal{font-weight:400}.zcs-lh-body{line-height:1.5}.zcs-card{background:#fff;border:1px solid #E2E8F0;border-radius:12px}\na{text-decoration:none}.fd-page{min-height:100%;background:#fff;color:#0F172A;font-family:Inter,Lato,Arial,sans-serif;padding:clamp(24px,4vw,56px)}.fd-shell{max-width:1440px;margin:0 auto}.fd-editorial{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px}.zcs-page-header{margin:0}.zcs-page-header__eyebrow{margin:0 0 10px;color:#4F46E5;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.zcs-page-header__title{font-size:clamp(30px,4vw,48px);font-weight:700;letter-spacing:-.035em;color:#0F172A;margin:0 0 10px;line-height:1.05}.zcs-page-header__sub{max-width:680px;font-size:15px;line-height:1.65;color:#64748B;margin:0}.fd-actions{display:flex;flex-wrap:wrap;gap:10px}.zcs-button{width:auto;min-width:5rem;min-height:40px}.zcs-primary-button{background:#4F46E5;color:#fff;font-weight:600;box-shadow:0 6px 14px rgba(79,70,229,.18)}.zcs-primary-button:hover{background:#4338CA}.zcs-primary-button:focus{outline:3px solid rgba(79,70,229,.25);outline-offset:2px}.zcs-button-icon{width:16px;max-height:16px}.fd-summary{border:1px solid #E2E8F0;border-top:4px solid #4F46E5;border-radius:14px;padding:22px 24px;margin-bottom:46px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.03)}.fd-summary-label{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:#334155;font-size:13px;font-weight:700}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:0;margin:0}.zcs-kpi-card{background:#fff;border-left:1px solid #E2E8F0;padding:8px 20px;box-shadow:none;border-radius:0}.zcs-kpi-card:first-child{border-left:0;padding-left:0}.zcs-kpi-card__label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#64748B}.zcs-kpi-card__value{font-size:clamp(22px,2.4vw,31px);font-weight:700;margin:7px 0 4px;line-height:1;color:#0F172A}.zcs-kpi-card__value.fd-indigo{color:#4F46E5}.zcs-kpi-card__sub{font-size:11px;color:#94A3B8}.fd-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}.fd-section-head h2{font-size:22px;letter-spacing:-.02em;margin:0 0 4px}.fd-section-head p{font-size:13px;color:#64748B;margin:0}.fd-count{color:#4F46E5;font-size:13px;font-weight:700}.fd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.fd-client{display:flex;flex-direction:column;min-height:310px;padding:24px;color:#0F172A;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.fd-client:hover{border-color:#A5B4FC;box-shadow:0 14px 35px rgba(15,23,42,.08);transform:translateY(-2px)}.fd-client:focus{outline:3px solid rgba(79,70,229,.25);outline-offset:2px}.fd-client-top{display:flex;justify-content:space-between;gap:18px;padding-bottom:20px;border-bottom:1px solid #E2E8F0}.fd-client-name{font-size:20px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px}.fd-company{font-size:13px;color:#64748B;margin:0}.fd-arrow{color:#4F46E5;font-size:18px}.fd-contact{display:grid;gap:9px;padding:17px 0;color:#475569;font-size:13px}.fd-contact span{display:flex;align-items:center;gap:8px;min-width:0}.fd-contact i{color:#64748B;width:16px}.fd-contact .fd-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fd-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:auto}.fd-stat{padding:12px;background:#F8FAFC;border:1px solid #F1F5F9;border-radius:9px}.fd-stat-label{display:block;color:#64748B;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}.fd-stat-value{display:block;color:#0F172A;font-size:16px;font-weight:700}.fd-stat.fd-earned{background:#EEF2FF;border-color:#E0E7FF}.fd-stat.fd-earned .fd-stat-value{color:#4338CA}.zcs-empty-state{border:1px dashed #CBD5E1;border-radius:14px;text-align:center;padding:48px 24px;background:#F8FAFC}.zcs-empty-state__icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:#EEF2FF;color:#4F46E5;font-size:22px;margin-bottom:14px}.zcs-empty-state__title{font-size:17px;font-weight:700;color:#334155;margin:0 0 7px}.zcs-empty-state__body{font-size:14px;color:#64748B;margin-bottom:18px}.fd-project-empty{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-24px 0 38px;padding:14px 16px;border:1px solid #E0E7FF;border-radius:10px;background:#EEF2FF;color:#3730A3;font-size:13px}.fd-project-empty strong{display:block;margin-bottom:2px}.fd-project-empty a{color:#3730A3;font-weight:700;white-space:nowrap}\n@media(max-width:1100px){.zcs-kpi-grid{grid-template-columns:repeat(3,1fr);gap:16px}.zcs-kpi-card,.zcs-kpi-card:first-child{border:0;padding:14px;background:#F8FAFC;border-radius:10px}.fd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.fd-page{padding:24px 16px 40px}.fd-editorial{align-items:flex-start;flex-direction:column}.fd-actions{width:100%}.zcs-button{flex:1}.zcs-kpi-grid{grid-template-columns:repeat(2,1fr)}.fd-grid{grid-template-columns:1fr}.fd-project-empty{align-items:flex-start;flex-direction:column}}@media(max-width:420px){.zcs-kpi-grid{grid-template-columns:1fr}.fd-stats{grid-template-columns:1fr}}\n&lt;/style&gt;\n&lt;div class=&quot;fd-page&quot;&gt;\n\t&lt;div class=&quot;fd-shell&quot;&gt;\n\t\t&lt;header class=&quot;fd-editorial&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t\t\t&lt;p class=&quot;zcs-page-header__eyebrow&quot;&gt;Independent work, clearly measured&lt;/p&gt;\n\t\t\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Freelancer Dashboard&lt;/h1&gt;\n\t\t\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A focused view of workload, billable time, earnings, and every client relationship.&lt;/p&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;nav class=&quot;fd-actions&quot; aria-label=&quot;Quick actions&quot;&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body&quot; href=&quot;#Form:Clients&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-1-simple-add&quot;&gt;&lt;/i&gt;&lt;span&gt;Add client&lt;/span&gt;&lt;/a&gt;\n\t\t\t\t&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body&quot; href=&quot;#Form:Projects&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-1-simple-add&quot;&gt;&lt;/i&gt;&lt;span&gt;Add project&lt;/span&gt;&lt;/a&gt;\n\t\t\t&lt;/nav&gt;\n\t\t&lt;/header&gt;\n\t\t&lt;section class=&quot;fd-summary&quot; aria-label=&quot;Global progress summary&quot;&gt;\n\t\t\t&lt;div class=&quot;fd-summary-label&quot;&gt;&lt;i class=&quot;zc-li-outline business-chart-bar-32&quot;&gt;&lt;/i&gt;&lt;span&gt;Work and earnings summary&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Active projects&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value fd-indigo&quot;&gt;&lt;%=activeCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;In progress&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;In review&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=reviewCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Awaiting approval&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Completed&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=completedCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Delivered projects&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;All projects&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=projectCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Across all clients&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Billed hours&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=totalHours%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Recorded total&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total earnings&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value fd-indigo&quot;&gt;INR &lt;%=totalEarnings%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Hours multiplied by rate&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/section&gt;\n\t\t&lt;% if(projectCount == 0) { %&gt;\n\t\t&lt;div class=&quot;fd-project-empty&quot;&gt;&lt;div&gt;&lt;strong&gt;No projects yet&lt;/strong&gt;&lt;span&gt;Add the first project to begin tracking hours and earnings.&lt;/span&gt;&lt;/div&gt;&lt;a href=&quot;#Form:Projects&quot;&gt;Add a project&lt;/a&gt;&lt;/div&gt;\n\t\t&lt;% } %&gt;\n\t\t&lt;section aria-labelledby=&quot;clients-heading&quot;&gt;\n\t\t\t&lt;div class=&quot;fd-section-head&quot;&gt;&lt;div&gt;&lt;h2 id=&quot;clients-heading&quot;&gt;Clients&lt;/h2&gt;&lt;p&gt;Open a client to review their full relationship and project history.&lt;/p&gt;&lt;/div&gt;&lt;span class=&quot;fd-count&quot;&gt;&lt;%=clientCount%&gt; total&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;% if(clientCount == 0) { %&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;div class=&quot;zcs-empty-state__icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-single-01&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;Your client roster is ready to grow&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Add a client to create the first relationship, then connect projects and billed hours.&lt;/div&gt;&lt;a class=&quot;zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body&quot; style=&quot;display:inline-flex&quot; href=&quot;#Form:Clients&quot;&gt;&lt;i class=&quot;zcs-button-icon zc-li-outline ui-1-simple-add&quot;&gt;&lt;/i&gt;&lt;span&gt;Add first client&lt;/span&gt;&lt;/a&gt;&lt;/div&gt;\n\t\t\t&lt;% } else { %&gt;\n\t\t\t&lt;div class=&quot;fd-grid&quot;&gt;\n\t\t\t\t&lt;% for each clientRec in clients { clientProjects = Projects[Client == clientRec.ID]; clientProjectCount = clientProjects.count(); clientActiveCount = Projects[Client == clientRec.ID &amp;&amp; Status == &quot;Active&quot;].count(); clientHours = ifnull(clientProjects.sum(Billed_Hours),0); clientRate = ifnull(clientRec.Hourly_Rate,0); clientEarned = clientHours * clientRate; %&gt;\n\t\t\t\t&lt;a class=&quot;fd-client zcs-card&quot; href=&quot;#Page:Client_Detail?Client_ID=&lt;%=clientRec.ID%&gt;&quot; aria-label=&quot;Open client &lt;%=clientRec.Client_Name%&gt;&quot;&gt;\n\t\t\t\t\t&lt;div class=&quot;fd-client-top&quot;&gt;&lt;div&gt;&lt;h3 class=&quot;fd-client-name&quot;&gt;&lt;%=clientRec.Client_Name%&gt;&lt;/h3&gt;&lt;p class=&quot;fd-company&quot;&gt;&lt;%=ifnull(clientRec.Company,&quot;Independent client&quot;)%&gt;&lt;/p&gt;&lt;/div&gt;&lt;i class=&quot;fd-arrow zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;fd-contact&quot;&gt;&lt;span&gt;&lt;i class=&quot;zc-li-outline ui-1-email-85&quot;&gt;&lt;/i&gt;&lt;span class=&quot;fd-ellipsis&quot;&gt;&lt;%=clientRec.Email%&gt;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;zc-li-outline business-coins-stack&quot;&gt;&lt;/i&gt;&lt;span&gt;INR &lt;%=clientRate%&gt; per hour&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;fd-stats&quot;&gt;&lt;div class=&quot;fd-stat&quot;&gt;&lt;span class=&quot;fd-stat-label&quot;&gt;Active&lt;/span&gt;&lt;span class=&quot;fd-stat-value&quot;&gt;&lt;%=clientActiveCount%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;fd-stat&quot;&gt;&lt;span class=&quot;fd-stat-label&quot;&gt;Projects&lt;/span&gt;&lt;span class=&quot;fd-stat-value&quot;&gt;&lt;%=clientProjectCount%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;fd-stat&quot;&gt;&lt;span class=&quot;fd-stat-label&quot;&gt;Billed hours&lt;/span&gt;&lt;span class=&quot;fd-stat-value&quot;&gt;&lt;%=clientHours%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;fd-stat fd-earned&quot;&gt;&lt;span class=&quot;fd-stat-label&quot;&gt;Earned&lt;/span&gt;&lt;span class=&quot;fd-stat-value&quot;&gt;INR &lt;%=clientEarned%&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;/a&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;% } %&gt;\n\t\t&lt;/section&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n\t\t\t\t\t\t&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form Clients
+	    {
+	        label placement = top
+	    }
+	    form Projects
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_Clients
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Client_Name
+		                    Company
+		                    Hourly_Rate
+		                    Email
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Client_Name
+		                    Company
+		                    Hourly_Rate
+		                    Email
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report All_Projects
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Project_Name
+		                    Client
+		                    Status
+		                    Due_Date
+		                    Billed_Hours
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Project_Name
+		                    Client
+		                    Status
+		                    Due_Date
+		                    Billed_Hours
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Project_Due_Calendar
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Project_Name
+		                    Due_Date
+		                    Status
+		                    Client
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Project_Name
+		                    Due_Date
+		                    Status
+		                    Client
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Project_Status_Board
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Project_Name
+		                    Status
+		                    Client
+		                    Due_Date
+		                    Billed_Hours
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Project_Name
+		                    Status
+		                    Client
+		                    Due_Date
+		                    Billed_Hours
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    unused
+	    {
+	        page Client_Detail
+	        {
+	            icon = "users-square-31"
+	        }
+	    }
+	
+	    space Primary_Workspace
+	    {
+	        displayname = "Workspace"
+	        icon = "business-briefcase-25"
+	
+	        section Dashboard_Section
+	        {
+	            displayname = "Dashboard"
+	            icon = "business-chart"
+	
+	            page Freelancer_Dashboard
+	            {
+	                icon = "business-chart-pie-36"
+	            }
+	        }
+	
+	        section Clients_Section
+	        {
+	            displayname = "Clients"
+	            icon = "users-multiple-11"
+	
+	            form Clients
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Clients
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section Projects_Section
+	        {
+	            displayname = "Projects"
+	            icon = "business-briefcase-24"
+	
+	            form Projects
+	            {
+	                icon = "design-todo"
+	            }
+	            report All_Projects
+	            {
+	                icon = "design-bullet-list-68"
+	            }
+	            report Project_Status_Board
+	            {
+	                icon = "business-board-30"
+	            }
+	            report Project_Due_Calendar
+	            {
+	                icon = "business-agenda"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	}
+	}
+}

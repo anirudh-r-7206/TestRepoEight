@@ -1,0 +1,19 @@
+default list All_People
+{
+    displayName = "All People"
+    show all rows from People
+    (
+        Name
+        Gender
+        Age
+    )
+    filters
+    (
+        Gender
+        Age
+    )
+    sort by
+    (
+        Name ascending
+    )
+}

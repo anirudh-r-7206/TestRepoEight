@@ -1,0 +1,39 @@
+menu
+{
+    space People_Directory
+    {
+        displayname = "People Directory"
+        icon = "users-contacts"
+
+        section People_Section
+        {
+            displayname = "People"
+            icon = "users-multiple-11"
+
+            form People
+            {
+                icon = "users-add-27"
+            }
+            report All_People
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

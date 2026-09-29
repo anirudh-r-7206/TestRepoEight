@@ -1,0 +1,40 @@
+Purchase_Requests_On_Load as "Purchase Requests On Load"
+{
+    type = form
+    form = Purchase_Requests
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                profileName = thisapp.permissions.loginUserProfile();
+                if(input.Requester == null)
+                {
+                    input.Requester = zoho.loginuser;
+                }
+                hide Rejection_Reason;
+                disable Status, Subtotal, Tax_Total, Request_Total, PO_Number, PO_Date, PO_Total, Invoiced_Total, Remaining_To_Invoice, Last_Match_Date;
+                if(input.Status == "Rejected")
+                {
+                    show Rejection_Reason;
+                }
+                if(profileName == "Employee")
+                {
+                    disable Requester;
+                    if(input.Status != null && input.Status != "Draft")
+                    {
+                        disable Department, Request_Date, Needed_By, Vendor, Assigned_Approver, Business_Justification, Quote_Attachment;
+                        hide Requested_Items;
+                    }
+                }
+                if(profileName == "Finance" || profileName == "Procurement_Admin")
+                {
+                    enable Rejection_Reason, PO_Number, PO_Date, PO_Total, Invoiced_Total, Remaining_To_Invoice, Last_Match_Date;
+                }
+            )
+        }
+    }
+}

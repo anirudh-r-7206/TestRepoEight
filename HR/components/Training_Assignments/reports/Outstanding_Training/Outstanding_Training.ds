@@ -1,0 +1,17 @@
+list Outstanding_Training
+{
+    displayName = "Outstanding Training"
+    show all rows from Training_Assignments [Status != "Completed" && Status != "Waived"]
+    (
+        New_Hire
+        Training_Item
+        Due_Date
+        Status
+    )
+    filters
+    (
+        New_Hire
+        Due_Date
+        Status
+    )
+}

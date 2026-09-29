@@ -1,0 +1,76 @@
+<%
+  pendingInvoices = Invoices[Match_Status == "Pending Match"];
+  pendingCount = pendingInvoices.count();
+  pendingTotal = ifnull(pendingInvoices.sum(Invoice_Total),0);
+
+  partialInvoices = Invoices[Match_Status == "Partial Match"];
+  partialCount = partialInvoices.count();
+  partialTotal = ifnull(partialInvoices.sum(Invoice_Total),0);
+
+  matchedInvoices = Invoices[Match_Status == "Matched"];
+  matchedCount = matchedInvoices.count();
+  matchedTotal = ifnull(matchedInvoices.sum(Invoice_Total),0);
+
+  exceptionInvoices = Invoices[Match_Status == "Exception"];
+  exceptionCount = exceptionInvoices.count();
+  exceptionTotal = ifnull(exceptionInvoices.sum(Invoice_Total),0);
+%>
+<panel elementName='Invoice_Match_Status_Grouped_Panel'>
+  <pr width='fill' height='auto'>
+    <pc padding='22px' bgColor='#F8FAFC' width='100%' hAlign='left' vAlign='middle' cornerRadius='14px'>
+      <pr width='fill' height='auto'>
+        <pc width='8%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <image margin='0px' color='#FFFFFF' bgColor='#3157D5' width='48px' height='48px' type='icon' value='zc-li-outline business-chart-bar-33' size='24px' cornerRadius='12px'/>
+        </pc>
+        <pc padding='5px' width='92%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <pr><pc bgColor='transparent' hAlign='left'><text margin='0px' padding='0px' color='#172033' size='24px' bold='true' type='Text' value='Invoice Match Status'> </text></pc></pr>
+          <pr><pc bgColor='transparent' hAlign='left'><text marginTop='5px' padding='0px' color='#64748B' size='14px' type='Text' value='Invoice volume and value grouped by current matching outcome.'> </text></pc></pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc padding='20px' bgColor='#FFF8E6' width='100%' hAlign='left' vAlign='middle' cornerRadius='14px' borderColor='#F7D57A' borderWidth='1px'>
+      <pr width='fill' height='auto'>
+        <pc width='18%' bgColor='transparent' hAlign='center' vAlign='middle'><image margin='0px' color='#9A6700' bgColor='#FFEDB5' width='52px' height='52px' type='icon' value='zc-li-outline ui-2-time' size='25px' cornerRadius='26px'/></pc>
+        <pc padding='5px' width='82%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <pr><pc bgColor='transparent' hAlign='left'><text margin='0px' padding='0px' color='#7A5200' size='16px' bold='true' type='Text' value='Pending Match'> </text></pc></pr>
+          <pr><pc width='45%' bgColor='transparent' hAlign='left'><text marginTop='8px' padding='0px' color='#172033' size='30px' bold='true' type='Text' value='<%=pendingCount%>'> </text><text marginLeft='6px' padding='0px' color='#7A6850' size='13px' type='Text' value='invoices'> </text></pc><pc width='55%' bgColor='transparent' hAlign='right'><text marginTop='8px' padding='0px' color='#172033' size='22px' bold='true' type='Text' value='<%=pendingTotal%>'> </text><text marginLeft='6px' padding='0px' color='#7A6850' size='13px' type='Text' value='invoice total'> </text></pc></pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc padding='20px' bgColor='#EFF6FF' width='100%' hAlign='left' vAlign='middle' cornerRadius='14px' borderColor='#93C5FD' borderWidth='1px'>
+      <pr width='fill' height='auto'>
+        <pc width='18%' bgColor='transparent' hAlign='center' vAlign='middle'><image margin='0px' color='#1D4ED8' bgColor='#DBEAFE' width='52px' height='52px' type='icon' value='zc-li-outline arrows-1-refresh-69' size='25px' cornerRadius='26px'/></pc>
+        <pc padding='5px' width='82%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <pr><pc bgColor='transparent' hAlign='left'><text margin='0px' padding='0px' color='#1E40AF' size='16px' bold='true' type='Text' value='Partial Match'> </text></pc></pr>
+          <pr><pc width='45%' bgColor='transparent' hAlign='left'><text marginTop='8px' padding='0px' color='#172033' size='30px' bold='true' type='Text' value='<%=partialCount%>'> </text><text marginLeft='6px' padding='0px' color='#5D6B82' size='13px' type='Text' value='invoices'> </text></pc><pc width='55%' bgColor='transparent' hAlign='right'><text marginTop='8px' padding='0px' color='#172033' size='22px' bold='true' type='Text' value='<%=partialTotal%>'> </text><text marginLeft='6px' padding='0px' color='#5D6B82' size='13px' type='Text' value='invoice total'> </text></pc></pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc padding='20px' bgColor='#ECFDF5' width='100%' hAlign='left' vAlign='middle' cornerRadius='14px' borderColor='#86EFAC' borderWidth='1px'>
+      <pr width='fill' height='auto'>
+        <pc width='18%' bgColor='transparent' hAlign='center' vAlign='middle'><image margin='0px' color='#047857' bgColor='#D1FAE5' width='52px' height='52px' type='icon' value='zc-li-outline ui-1-check-circle-08' size='25px' cornerRadius='26px'/></pc>
+        <pc padding='5px' width='82%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <pr><pc bgColor='transparent' hAlign='left'><text margin='0px' padding='0px' color='#047857' size='16px' bold='true' type='Text' value='Matched'> </text></pc></pr>
+          <pr><pc width='45%' bgColor='transparent' hAlign='left'><text marginTop='8px' padding='0px' color='#172033' size='30px' bold='true' type='Text' value='<%=matchedCount%>'> </text><text marginLeft='6px' padding='0px' color='#587064' size='13px' type='Text' value='invoices'> </text></pc><pc width='55%' bgColor='transparent' hAlign='right'><text marginTop='8px' padding='0px' color='#172033' size='22px' bold='true' type='Text' value='<%=matchedTotal%>'> </text><text marginLeft='6px' padding='0px' color='#587064' size='13px' type='Text' value='invoice total'> </text></pc></pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+  <pr width='fill' height='auto'>
+    <pc padding='20px' bgColor='#FFF1F2' width='100%' hAlign='left' vAlign='middle' cornerRadius='14px' borderColor='#FDA4AF' borderWidth='1px'>
+      <pr width='fill' height='auto'>
+        <pc width='18%' bgColor='transparent' hAlign='center' vAlign='middle'><image margin='0px' color='#BE123C' bgColor='#FFE4E6' width='52px' height='52px' type='icon' value='zc-li-outline ui-1-alert-circle' size='25px' cornerRadius='26px'/></pc>
+        <pc padding='5px' width='82%' bgColor='transparent' hAlign='left' vAlign='middle'>
+          <pr><pc bgColor='transparent' hAlign='left'><text margin='0px' padding='0px' color='#BE123C' size='16px' bold='true' type='Text' value='Exception'> </text></pc></pr>
+          <pr><pc width='45%' bgColor='transparent' hAlign='left'><text marginTop='8px' padding='0px' color='#172033' size='30px' bold='true' type='Text' value='<%=exceptionCount%>'> </text><text marginLeft='6px' padding='0px' color='#775A62' size='13px' type='Text' value='invoices'> </text></pc><pc width='55%' bgColor='transparent' hAlign='right'><text marginTop='8px' padding='0px' color='#172033' size='22px' bold='true' type='Text' value='<%=exceptionTotal%>'> </text><text marginLeft='6px' padding='0px' color='#775A62' size='13px' type='Text' value='invoice total'> </text></pc></pr>
+        </pc>
+      </pr>
+    </pc>
+  </pr>
+</panel>

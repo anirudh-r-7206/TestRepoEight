@@ -1,0 +1,14 @@
+customize
+{
+    layout
+    {
+        theme = "theme_1"
+    }
+
+    font = "lato"
+
+    color options
+    {
+        color = "1"
+    }
+}

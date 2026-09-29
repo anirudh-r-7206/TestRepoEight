@@ -1,0 +1,25 @@
+Asset_On_User_Input as "Asset On User Input"
+{
+    type = form
+    form = Assignments
+    record event = on add or edit
+
+    on user input of Asset
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Asset != null)
+                {
+                    selected_asset = Assets[ID == input.Asset];
+                    input.Condition_On_Issue = selected_asset.Condition;
+                    if(selected_asset.Asset_Status != "Available")
+                    {
+                        alert "The selected asset is not currently Available.";
+                    }
+                }
+            )
+        }
+    }
+}

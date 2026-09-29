@@ -1,0 +1,19 @@
+Verification_Status_On_User_Input as "Verification Status On User Input"
+{
+    type = form
+    form = ID_Documents
+    record event = on add or edit
+
+    on user input of Verification_Status
+    {
+        actions ( Verification_Status == "Verified" )
+        {
+            show Verified_By, Verified_Date;
+            enable Verified_By, Verified_Date;
+        }
+        actions ( Verification_Status != "Verified" )
+        {
+            hide Verified_By, Verified_Date;
+        }
+    }
+}

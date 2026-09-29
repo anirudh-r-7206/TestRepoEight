@@ -1,0 +1,116 @@
+form ID_Documents
+{
+    displayname = "ID Documents"
+
+    Document_Details
+    (
+        type = section
+        displayname = "Document Details"
+        row = 1
+        column = 0
+    )
+    must have New_Hire
+    (
+        type = picklist
+        displayname = "New Hire"
+        values = New_Hires.ID
+        displayformat = [Full_Name]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Document_Type
+    (
+        type = picklist
+        displayname = "Document Type"
+        values = {"Passport", "National ID", "Driver License", "Tax Document", "Work Authorization", "Other"}
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Document_File
+    (
+        type = upload file
+        displayname = "Document File"
+        file count = 1
+        browse = local_drive, google_docs, zoho_docs
+        personal data = true
+        isencrypted = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    Expiry_Date
+    (
+        type = date
+        displayname = "Expiry Date"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Verification_Status
+    (
+        type = picklist
+        displayname = "Verification Status"
+        values = {"Pending", "Verified", "Rejected"}
+        initial value = "Pending"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Verified_By
+    (
+        type = email
+        displayname = "Verified By"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Verified_Date
+    (
+        type = date
+        displayname = "Verified Date"
+        row = 1
+        column = 1
+        width = medium
+    )
+    Verification_Notes
+    (
+        type = textarea
+        displayname = "Verification Notes"
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

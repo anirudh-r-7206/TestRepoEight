@@ -1,0 +1,63 @@
+"Department_Head"
+{
+    name        = "Department_Head"
+    type        = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+    description = "Department heads who review expenses routed to them and approve or reject high-value submissions."
+
+    ModulePermissions
+    {
+        Department_Heads
+        {
+            enabled          = View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Active_Department_Heads={"View"}
+            }
+            FieldPermissions
+            {
+                Directory_Details{visibility:true,readonly:true}
+                Head_Name{visibility:true,readonly:true}
+                Head_Email{visibility:true,readonly:true}
+                Department{visibility:true,readonly:true}
+                Active{visibility:true,readonly:true}
+            }
+        }
+
+        Expense_Reports
+        {
+            enabled          = View,Search,Tab
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Head_Approval_Queue={"View","Edit"}
+            }
+            FieldPermissions
+            {
+                Expense_Details{visibility:true,readonly:true}
+                Expense_Number{visibility:true,readonly:true}
+                Expense_Date{visibility:true,readonly:true}
+                Category{visibility:true,readonly:true}
+                Amount{visibility:true,readonly:true}
+                Receipt{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Approval_and_Payment{visibility:true,readonly:true}
+                Department_Head{visibility:true,readonly:true}
+                Approval_Status{visibility:true,readonly:true}
+                Payment_Status{visibility:true,readonly:true}
+                Submitted_By{visibility:true,readonly:true}
+                Approved_or_Rejected_By{visibility:true,readonly:true}
+                Decision_Date{visibility:true,readonly:true}
+                Decision_Notes{visibility:true,readonly:true}
+                Payment_Reference{visibility:false}
+                Paid_Date{visibility:false}
+            }
+        }
+
+        Expense_Dashboard
+        {
+            enabled = tab
+        }
+    }
+}

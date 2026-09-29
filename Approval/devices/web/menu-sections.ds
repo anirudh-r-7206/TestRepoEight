@@ -1,0 +1,39 @@
+menu
+{
+    space Approval_Management
+    {
+        displayname = "Approval Management"
+        icon = "business-signature"
+
+        section Approvers_Section
+        {
+            displayname = "Approvers"
+            icon = "users-multiple-11"
+
+            form Approvers
+            {
+                icon = "users-add-27"
+            }
+            report All_Approvers
+            {
+                icon = "business-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

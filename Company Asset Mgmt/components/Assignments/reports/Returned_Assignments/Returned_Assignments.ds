@@ -1,0 +1,26 @@
+list Returned_Assignments
+{
+    displayName = "Returned Assignments"
+    show all rows from Assignments [Assignment_Status == "Returned"]
+    (
+        Assignment_ID
+        Asset
+        Assigned_To
+        Assigned_Date
+        Condition_On_Issue
+        Assignment_Status
+        Return_Date
+        Condition_On_Return
+        Assignment_Notes
+        Return_Notes
+    )
+    filters
+    (
+        Asset
+        Assigned_To
+    )
+    sort by
+    (
+        Return_Date descending
+    )
+}

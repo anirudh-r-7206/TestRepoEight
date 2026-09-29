@@ -1,0 +1,22 @@
+Invoices_On_Load as "Invoices On Load"
+{
+    type = form
+    form = Invoices
+    record event = on add or edit
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                disable Match_Status, Amount_Variance, Exception_Details, Matched_On, Matched_By;
+                profileName = thisapp.permissions.loginUserProfile();
+                if(profileName == "Finance" || profileName == "Procurement_Admin")
+                {
+                    enable Match_Status, Amount_Variance, Exception_Details, Matched_On, Matched_By;
+                }
+            )
+        }
+    }
+}

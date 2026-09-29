@@ -1,0 +1,57 @@
+report ID_Document_Register
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    New_Hire
+                    Document_Type
+                    Expiry_Date
+                    Verification_Status
+                    Verified_By
+                    Verified_Date
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    New_Hire
+                    Document_Type
+                    Expiry_Date
+                    Verification_Status
+                    Verified_By
+                    Verified_Date
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

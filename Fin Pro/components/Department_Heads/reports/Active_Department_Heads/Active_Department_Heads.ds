@@ -1,0 +1,20 @@
+default list Active_Department_Heads
+{
+    displayName = "Active Department Heads"
+    show all rows from Department_Heads [Active == true]
+    (
+        Head_Name
+        Head_Email
+        Department
+        Active
+    )
+    filters
+    (
+        Department
+        Active
+    )
+    sort by
+    (
+        Head_Name ascending
+    )
+}

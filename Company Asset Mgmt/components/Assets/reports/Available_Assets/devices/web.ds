@@ -1,0 +1,60 @@
+report Available_Assets
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Asset_Tag
+                    Asset_Type
+                    Serial_Number
+                    Asset_Status
+                    Condition
+                    Manufacturer
+                    Model
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Asset_ID
+                    Asset_Tag
+                    Asset_Type
+                    Manufacturer
+                    Model
+                    Serial_Number
+                    Asset_Status
+                    Condition
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

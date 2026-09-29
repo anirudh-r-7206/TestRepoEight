@@ -1,0 +1,261 @@
+form Purchase_Requests
+{
+    record owner = Added_User
+
+    Request_Details
+    (
+        type = section
+        displayname = "Request Details"
+        row = 1
+        column = 0
+    )
+    Request_Number
+    (
+        type = autonumber
+        displayname = "Request Number"
+        start index = 10000
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Requester
+    (
+        type = users
+        displayname = "Requester"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Department
+    (
+        type = text
+        displayname = "Department"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Request_Date
+    (
+        type = date
+        displayname = "Request Date"
+        initial value = "${zoho.currentdate}"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Needed_By
+    (
+        type = date
+        displayname = "Needed By"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Vendor
+    (
+        type = picklist
+        displayname = "Vendor"
+        values = Vendors.ID
+        displayformat = [Vendor_Name]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Assigned_Approver
+    (
+        type = users
+        displayname = "Assigned Approver"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Business_Justification
+    (
+        type = textarea
+        displayname = "Business Justification"
+        height = 100px
+        row = 1
+        column = 1
+        width = medium
+    )
+    Quote_Attachment
+    (
+        type = upload file
+        displayname = "Quote Attachment"
+        browse = local_drive, google_docs, zoho_docs
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    Requested_Items_Section
+    (
+        type = section
+        displayname = "Requested Items"
+        visibility = false
+        row = 2
+        column = 1
+    )
+    must have Requested_Items
+    (
+        type = grid
+        displayname = "Requested Items"
+        values = Purchase_Request_Lines.ID
+        defaultrow = 1
+        row = 2
+        column = 1
+        width = medium
+    )
+
+    Financial_Summary
+    (
+        type = section
+        displayname = "Financial Summary"
+        visibility = true
+        row = 3
+        column = 1
+    )
+    Subtotal
+    (
+        type = decimal
+        displayname = "Subtotal"
+        decimalplace = 2
+        row = 3
+        column = 1
+        width = medium
+    )
+    Tax_Total
+    (
+        type = decimal
+        displayname = "Tax Total"
+        decimalplace = 2
+        row = 3
+        column = 2
+        width = medium
+    )
+    Request_Total
+    (
+        type = decimal
+        displayname = "Request Total"
+        decimalplace = 2
+        row = 3
+        column = 1
+        width = medium
+    )
+
+    Workflow_Details
+    (
+        type = section
+        displayname = "Workflow Details"
+        visibility = true
+        row = 4
+        column = 1
+    )
+    must have Status
+    (
+        type = picklist
+        displayname = "Status"
+        values = {"Draft","Pending Manager Approval","Pending Finance Approval","Rejected","PO Issued","Partially Invoiced","Matched","Match Exception"}
+        initial value = "Draft"
+        row = 4
+        column = 1
+        width = medium
+    )
+    Rejection_Reason
+    (
+        type = textarea
+        displayname = "Rejection Reason"
+        height = 100px
+        row = 4
+        column = 2
+        width = medium
+    )
+    unique PO_Number
+    (
+        type = text
+        displayname = "PO Number"
+        row = 4
+        column = 1
+        width = medium
+    )
+    PO_Date
+    (
+        type = date
+        displayname = "PO Date"
+        row = 4
+        column = 2
+        width = medium
+    )
+    PO_Total
+    (
+        type = decimal
+        displayname = "PO Total"
+        decimalplace = 2
+        row = 4
+        column = 1
+        width = medium
+    )
+    Invoiced_Total
+    (
+        type = decimal
+        displayname = "Invoiced Total"
+        decimalplace = 2
+        initial value = 0
+        row = 4
+        column = 2
+        width = medium
+    )
+    Remaining_To_Invoice
+    (
+        type = decimal
+        displayname = "Remaining To Invoice"
+        decimalplace = 2
+        row = 4
+        column = 1
+        width = medium
+    )
+    Last_Match_Date
+    (
+        type = date
+        displayname = "Last Match Date"
+        row = 4
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Save Draft"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+
+    blueprint components
+    {
+        stages = {"Draft","Pending Manager Approval","Pending Finance Approval","Rejected","PO Issued","Partially Invoiced","Matched","Match Exception"}
+    }
+}

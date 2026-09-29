@@ -1,0 +1,19 @@
+<page linkname = "Expense_Dashboard" displayname = "Expense Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Expense_Dashboard_View' elementName='Expense_Dashboard_View'>
+          <![CDATA[htmlpage Expense_Dashboard_View()
+            content
+            <%{%>
+              <file name:Expense_Dashboard_View.dshtml/>
+            <%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

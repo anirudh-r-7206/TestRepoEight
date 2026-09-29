@@ -1,0 +1,31 @@
+Vendor_Items_On_Validate as "Vendor Items On Validate"
+{
+    type = form
+    form = Vendor_Items
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if (input.Unit_Price < 0)
+                {
+                    alert(Unit_Price, "Unit Price must be zero or greater.");
+                    cancel submit;
+                }
+                if (input.Tax_Rate < 0)
+                {
+                    alert(Tax_Rate, "Tax Rate must be zero or greater.");
+                    cancel submit;
+                }
+                if (input.Effective_From != null && input.Effective_To != null && input.Effective_To < input.Effective_From)
+                {
+                    alert(Effective_To, "Effective To cannot be before Effective From.");
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

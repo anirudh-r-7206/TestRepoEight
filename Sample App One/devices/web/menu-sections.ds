@@ -1,0 +1,81 @@
+menu
+{
+    unused
+    {
+        page Client_Detail
+        {
+            icon = "users-square-31"
+        }
+    }
+
+    space Primary_Workspace
+    {
+        displayname = "Workspace"
+        icon = "business-briefcase-25"
+
+        section Dashboard_Section
+        {
+            displayname = "Dashboard"
+            icon = "business-chart"
+
+            page Freelancer_Dashboard
+            {
+                icon = "business-chart-pie-36"
+            }
+        }
+
+        section Clients_Section
+        {
+            displayname = "Clients"
+            icon = "users-multiple-11"
+
+            form Clients
+            {
+                icon = "users-add-27"
+            }
+            report All_Clients
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section Projects_Section
+        {
+            displayname = "Projects"
+            icon = "business-briefcase-24"
+
+            form Projects
+            {
+                icon = "design-todo"
+            }
+            report All_Projects
+            {
+                icon = "design-bullet-list-68"
+            }
+            report Project_Status_Board
+            {
+                icon = "business-board-30"
+            }
+            report Project_Due_Calendar
+            {
+                icon = "business-agenda"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

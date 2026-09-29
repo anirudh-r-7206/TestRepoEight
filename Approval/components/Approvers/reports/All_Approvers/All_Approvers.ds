@@ -1,0 +1,13 @@
+default list All_Approvers
+{
+    displayName = "All Approvers"
+    show all rows from Approvers
+    (
+        Approver_Name
+        Email_ID
+    )
+    sort by
+    (
+        Approver_Name ascending
+    )
+}

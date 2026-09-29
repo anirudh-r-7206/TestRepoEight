@@ -1,0 +1,126 @@
+form Purchase_Request_Lines
+{
+    displayname = "Purchase Request Lines"
+
+    Line_Details
+    (
+        type = section
+        displayname = "Line Details"
+        row = 1
+        column = 0
+    )
+    must have Catalog_Item
+    (
+        type = picklist
+        displayname = "Catalog Item"
+        values = Vendor_Items.ID
+        displayformat = [Item_Code]
+        searchable = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    Item_Description
+    (
+        type = textarea
+        displayname = "Item Description"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Quantity
+    (
+        type = decimal
+        decimalplace = 2
+        row = 1
+        column = 1
+        width = medium
+    )
+    Unit_Of_Measure
+    (
+        type = text
+        displayname = "Unit Of Measure"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Unit_Price
+    (
+        type = decimal
+        displayname = "Unit Price"
+        decimalplace = 2
+        row = 1
+        column = 1
+        width = medium
+    )
+    Tax_Rate
+    (
+        type = decimal
+        displayname = "Tax Rate"
+        decimalplace = 2
+        initial value = 0
+        row = 1
+        column = 2
+        width = medium
+    )
+    Line_Subtotal
+    (
+        type = formula
+        displayname = "Line Subtotal"
+        value = Quantity * Unit_Price
+        visibility = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    Tax_Amount
+    (
+        type = formula
+        displayname = "Tax Amount"
+        value = Quantity * Unit_Price * Tax_Rate / 100
+        visibility = true
+        row = 1
+        column = 2
+        width = medium
+    )
+    Line_Total
+    (
+        type = formula
+        displayname = "Line Total"
+        value = Quantity * Unit_Price + Quantity * Unit_Price * Tax_Rate / 100
+        visibility = true
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

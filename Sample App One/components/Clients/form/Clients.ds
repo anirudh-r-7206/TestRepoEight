@@ -1,0 +1,83 @@
+form Clients
+{
+    title
+    {
+        displayname = "Clients"
+        on add = "Add Client"
+        on edit = "Edit Client"
+    }
+    success message = "Client saved."
+
+    Client_Details
+    (
+        type = section
+        displayname = "Client Details"
+        row = 1
+        column = 0
+    )
+    must have Client_Name
+    (
+        type = text
+        displayname = "Client Name"
+        maxchar = 150
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have unique Email
+    (
+        type = email
+        personal data = true
+        row = 1
+        column = 2
+        width = medium
+    )
+    Company
+    (
+        type = text
+        maxchar = 150
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Hourly_Rate
+    (
+        type = INR
+        displayname = "Hourly Rate"
+        decimalplace = 2
+        initial value = 0
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

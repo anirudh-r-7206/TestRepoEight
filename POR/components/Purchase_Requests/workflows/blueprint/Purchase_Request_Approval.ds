@@ -1,0 +1,214 @@
+Purchase_Request_Approval as "Purchase Request Approval"
+{
+    type = blueprint
+    form = Purchase_Requests
+
+    start
+    {
+        start stage = "Draft"
+    }
+
+    stages
+    {
+        "Draft" { }
+        "Pending Manager Approval" { }
+        "Pending Finance Approval" { }
+        "Rejected" { }
+        "PO Issued" { }
+        "Partially Invoiced" { }
+        "Matched" { }
+        "Match Exception" { }
+    }
+
+    transitions
+    {
+        Submit_Request as "Submit Request"
+        {
+            type = normal
+            from stage = "Draft"
+            to stage = "Pending Manager Approval"
+            before
+            {
+                transition owner
+                (
+                    permissions = {"Employee"}
+                )
+            }
+            after
+            {
+                actions
+                {
+                    custom deluge script
+                    (
+                        insert into Audit_Log
+                        [
+                            Event_Time = zoho.currenttime
+                            User_Email = zoho.loginuserid
+                            User_Profile = thisapp.permissions.loginUserProfile()
+                            Action = "Submitted Request"
+                            Component = "Purchase_Requests"
+                            Record_ID = input.ID
+                            Reference_Number = input.Request_Number.toString()
+                            Notes = "Submitted for manager approval."
+                        ];
+                    )
+                }
+            }
+        }
+
+        Manager_Approve as "Manager Approve"
+        {
+            type = normal
+            from stage = "Pending Manager Approval"
+            to stage = "Pending Finance Approval"
+            before
+            {
+                transition owner
+                (
+                    permissions = {"Purchase_Approver"}
+                    userfields = {Assigned_Approver}
+                )
+            }
+            after
+            {
+                actions
+                {
+                    custom deluge script
+                    (
+                        insert into Audit_Log
+                        [
+                            Event_Time = zoho.currenttime
+                            User_Email = zoho.loginuserid
+                            User_Profile = thisapp.permissions.loginUserProfile()
+                            Action = "Manager Approved"
+                            Component = "Purchase_Requests"
+                            Record_ID = input.ID
+                            Reference_Number = input.Request_Number.toString()
+                            Notes = "Approved for Finance review."
+                        ];
+                    )
+                }
+            }
+        }
+
+        Manager_Reject as "Manager Reject"
+        {
+            type = normal
+            from stage = "Pending Manager Approval"
+            to stage = "Rejected"
+            before
+            {
+                transition owner
+                (
+                    permissions = {"Purchase_Approver"}
+                    userfields = {Assigned_Approver}
+                )
+            }
+            during
+            {
+                action = update_fields
+                workflow status = true
+                visible fields = [Rejection_Reason, Status]
+            }
+            after
+            {
+                actions
+                {
+                    custom deluge script
+                    (
+                        insert into Audit_Log
+                        [
+                            Event_Time = zoho.currenttime
+                            User_Email = zoho.loginuserid
+                            User_Profile = thisapp.permissions.loginUserProfile()
+                            Action = "Manager Rejected"
+                            Component = "Purchase_Requests"
+                            Record_ID = input.ID
+                            Reference_Number = input.Request_Number.toString()
+                            Notes = input.Rejection_Reason
+                        ];
+                    )
+                }
+            }
+        }
+
+        Finance_Issue_PO as "Finance Issue PO"
+        {
+            type = normal
+            from stage = "Pending Finance Approval"
+            to stage = "PO Issued"
+            before
+            {
+                transition owner
+                (
+                    permissions = {"Finance","Procurement_Admin"}
+                )
+            }
+            after
+            {
+                actions
+                {
+                    custom deluge script
+                    (
+                        input.PO_Number = "PO-" + input.ID.toString();
+                        input.PO_Date = zoho.currentdate;
+                        input.PO_Total = input.Request_Total;
+                        input.Remaining_To_Invoice = input.PO_Total;
+                        insert into Audit_Log
+                        [
+                            Event_Time = zoho.currenttime
+                            User_Email = zoho.loginuserid
+                            User_Profile = thisapp.permissions.loginUserProfile()
+                            Action = "PO Issued"
+                            Component = "Purchase_Requests"
+                            Record_ID = input.ID
+                            Reference_Number = input.PO_Number
+                            After_Value = "PO Total: " + input.PO_Total
+                            Notes = "Purchase order issued by Finance."
+                        ];
+                    )
+                }
+            }
+        }
+
+        Finance_Reject as "Finance Reject"
+        {
+            type = normal
+            from stage = "Pending Finance Approval"
+            to stage = "Rejected"
+            before
+            {
+                transition owner
+                (
+                    permissions = {"Finance","Procurement_Admin"}
+                )
+            }
+            during
+            {
+                action = update_fields
+                workflow status = true
+                visible fields = [Rejection_Reason, Status]
+            }
+            after
+            {
+                actions
+                {
+                    custom deluge script
+                    (
+                        insert into Audit_Log
+                        [
+                            Event_Time = zoho.currenttime
+                            User_Email = zoho.loginuserid
+                            User_Profile = thisapp.permissions.loginUserProfile()
+                            Action = "Finance Rejected"
+                            Component = "Purchase_Requests"
+                            Record_ID = input.ID
+                            Reference_Number = input.Request_Number.toString()
+                            Notes = input.Rejection_Reason
+                        ];
+                    )
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+ID_Documents_On_Success as "ID Documents On Success"
+{
+    type = form
+    form = ID_Documents
+    record event = on add or edit
+
+    on success
+    {
+        actions ( Verification_Status == "Verified" )
+        {
+            custom deluge script
+            (
+                input.Verified_By = zoho.loginuserid;
+                input.Verified_Date = zoho.currentdate;
+            )
+        }
+    }
+}

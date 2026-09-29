@@ -1,0 +1,15 @@
+customize
+{
+    layout
+    {
+        theme = "theme_1"
+    }
+    new theme color = 5
+
+    icon
+    {
+        icon = "zc-ab-education-1"
+        background color = "#0093FF"
+        foreground color = "#ffffff"
+    }
+}

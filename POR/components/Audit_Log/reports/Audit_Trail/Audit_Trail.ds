@@ -1,0 +1,18 @@
+default list Audit_Trail
+{
+    displayName = "Audit Trail"
+    show all rows from Audit_Log
+    (
+        Event_Time as "Event Time"
+        User_Email as "User"
+        User_Profile as "Profile"
+        Action
+        Component
+        Reference_Number as "Reference"
+        Notes
+    )
+    sort by
+    (
+        Event_Time descending
+    )
+}

@@ -1,0 +1,35 @@
+menu
+{
+    space Library
+    {
+        displayname = "Library"
+        icon = "education-books-46"
+
+        section Catalog
+        {
+            displayname = "Catalog"
+            icon = "education-book-open"
+
+            form Books
+            {
+                icon = "education-book-39"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

@@ -1,0 +1,11 @@
+customize
+{
+
+		icon
+		{
+			text = "STA"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	
+}

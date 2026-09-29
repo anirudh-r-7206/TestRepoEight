@@ -1,0 +1,33 @@
+calendar Onboarding_Due_Calendar
+{
+    displayName = "Onboarding Due Calendar"
+    show all rows from Onboarding_Tasks
+    (
+        Task_Name
+        Due_Date
+        New_Hire
+        Category
+        Assignee_Email
+        Priority
+        Status
+    )
+    filters
+    (
+        Category
+        Assignee_Email
+        Status
+    )
+    options
+    (
+        display type = month
+        week start day = monday
+        display field = Task_Name
+        start date = Due_Date
+        default date
+        (
+            day = Today
+            month = Currentmonth
+            year = Currentyear
+        )
+    )
+}

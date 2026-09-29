@@ -1,0 +1,91 @@
+<%
+clientMatches = Clients[ID == input.Client_ID];
+hasClient = clientMatches.count() > 0;
+if(hasClient)
+{
+    client = clientMatches;
+    clientProjects = Projects[Client == client.ID] sort by Due_Date asc;
+    totalProjects = clientProjects.count();
+    activeProjects = Projects[Client == client.ID && Status == "Active"].count();
+    totalHours = 0.0;
+    totalEarnings = 0.0;
+    hourlyRate = ifnull(client.Hourly_Rate,0.0);
+    for each project in clientProjects
+    {
+        billedHours = ifnull(project.Billed_Hours,0.0);
+        totalHours = totalHours + billedHours;
+        totalEarnings = totalEarnings + (billedHours * hourlyRate);
+    }
+}
+%>
+<style>
+:root{--zcs-white-color:#fff;--zcs-page-bg-color:#f8fafc;--zcs-primary-text-color:#0f172a;--zcs-secondary-text-color:#475569;--zcs-teritiary-text-color:#64748b;--zcs-border-color:#e2e8f0;--zcs-indigo:#4f46e5;--zcs-surface:#fff;--zcs-bg:#f8fafc;--zcs-text-1:#0f172a;--zcs-text-2:#475569;--zcs-text-3:#64748b;--zcs-radius:12px;--zcs-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.04);--zcs-green:#166534;--zcs-green-bg:#dcfce7;--zcs-blue:#3730a3;--zcs-blue-bg:#e0e7ff;--zcs-orange:#9a3412;--zcs-orange-bg:#ffedd5}
+*{box-sizing:border-box}.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:.5rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-sm{border-radius:.25rem}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:.875rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-lh-body{line-height:1.5}.zcs-w-full{width:100%}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-color-primary{color:var(--zcs-primary-text-color)}
+.zcs-page{font-family:var(--zcs-font,Inter,Arial,sans-serif);background:var(--zcs-bg);min-height:100vh;padding:28px;box-sizing:border-box}.detail-shell{max-width:1240px;margin:0 auto}.back-link{display:inline-flex;align-items:center;gap:7px;color:#475569;font-size:13px;font-weight:600;margin-bottom:18px}.back-link:hover,.project-link:hover{color:#3730a3}.zcs-page-header{margin-bottom:24px}.zcs-page-header__title{font-size:30px;font-weight:700;letter-spacing:-.025em;color:var(--zcs-text-1);margin:0 0 6px}.zcs-page-header__sub{font-size:14px;color:var(--zcs-text-2);margin:0}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:26px;margin-bottom:20px;box-shadow:var(--zcs-shadow)}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#4f46e5;margin-bottom:7px}.client-name{font-size:28px;line-height:1.15;color:#0f172a;margin:0 0 8px}.company{font-size:15px;color:#475569;margin:0}.actions{display:flex;flex-wrap:wrap;gap:10px}.zcs-button{width:auto;min-width:5rem;min-height:36px;text-decoration:none}.zcs-primary-button{background:#4f46e5;color:#fff}.zcs-primary-outline-button{border:1px solid #cbd5e1;background:#fff;color:#334155}.zcs-button:hover{filter:brightness(.96)}.profile-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:8px 10px;margin-bottom:20px}.zcs-labelvalue-wrapper ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:0;margin:0}.profile-item{padding:15px}.profile-item label{display:block;color:#64748b;font-size:12px;margin-bottom:4px}.profile-item span,.profile-item a{color:#0f172a;font-size:14px;font-weight:600;text-decoration:none;overflow-wrap:anywhere}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}.zcs-kpi-card{background:var(--zcs-surface);border:1px solid #e2e8f0;border-radius:var(--zcs-radius);box-shadow:var(--zcs-shadow);padding:20px 22px}.zcs-kpi-card__label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--zcs-text-2)}.zcs-kpi-card__value{font-size:30px;font-weight:700;margin:7px 0 4px;line-height:1;color:#0f172a}.zcs-kpi-card__value.indigo{color:#4f46e5}.zcs-kpi-card__sub{font-size:12px;color:var(--zcs-text-3)}.section-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:var(--zcs-shadow)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}.section-head h2{font-size:18px;color:#0f172a;margin:0}.section-head p{font-size:13px;color:#64748b;margin:3px 0 0}.zcs-table-wrapper{border:1px solid #e2e8f0;background:#fff;overflow:auto}.zcs-table-wrapper table{border-collapse:collapse;min-width:760px}.zcs-table-wrapper th{background:#f8fafc;border-bottom:1px solid #e2e8f0;white-space:nowrap;color:#475569}.zcs-table-wrapper td{border-top:1px solid #e2e8f0;color:#334155}.zcs-table-wrapper tbody tr:first-child td{border-top:0}.zcs-table-wrapper tbody tr:hover td{background:#fafafa}.project-link{color:#4338ca;text-decoration:none;font-weight:650}.zcs-badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;line-height:1.4}.zcs-badge--success{background:#ecfdf5;color:#166534}.zcs-badge--warning{background:#fff7ed;color:#9a3412}.zcs-badge--info{background:#eef2ff;color:#3730a3}.zcs-badge--neutral{background:#f1f5f9;color:#475569}.mobile-projects{display:none}.zcs-empty-state{text-align:center;padding:48px 24px}.empty-icon{display:flex;width:48px;height:48px;border-radius:14px;background:#eef2ff;color:#4f46e5;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px}.zcs-empty-state__title{font-size:17px;font-weight:600;color:#334155;margin:0 0 6px}.zcs-empty-state__body{font-size:14px;color:#64748b;max-width:460px;margin:0 auto 18px}.invalid{max-width:620px;margin:10vh auto 0;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:var(--zcs-shadow)}
+@media(max-width:900px){.zcs-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zcs-labelvalue-wrapper ul{grid-template-columns:1fr 1fr}.hero{flex-direction:column}.actions{width:100%}}
+@media(max-width:640px){.zcs-page{padding:18px}.zcs-kpi-grid{grid-template-columns:1fr 1fr;gap:10px}.zcs-kpi-card{padding:16px}.zcs-kpi-card__value{font-size:24px}.zcs-labelvalue-wrapper ul{grid-template-columns:1fr}.desktop-table{display:none}.mobile-projects{display:grid;gap:12px}.project-card{border:1px solid #e2e8f0;border-radius:12px;padding:16px}.project-card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.project-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}.project-meta label{display:block;font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.project-meta span{font-size:14px;color:#0f172a;font-weight:600}.actions .zcs-button{flex:1}.section-head{align-items:flex-start}}
+</style>
+<div class="zcs-page">
+  <div class="detail-shell">
+<% if(!hasClient) { %>
+    <div class="invalid">
+      <div class="zcs-empty-state">
+        <div class="empty-icon"><i class="zc-li-outline ui-1-circle-remove"></i></div>
+        <div class="zcs-empty-state__title">Client not found</div>
+        <div class="zcs-empty-state__body">The client link is missing or no longer valid. Return to the dashboard to choose an available client.</div>
+        <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Page:Freelancer_Dashboard"><i class="zc-li-outline arrows-1-tail-left"></i><span>Back to dashboard</span></a>
+      </div>
+    </div>
+<% } else { %>
+    <a class="back-link" href="#Page:Freelancer_Dashboard"><i class="zc-li-outline arrows-1-tail-left"></i><span>Back to dashboard</span></a>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Client profile</div>
+        <h1 class="client-name"><%=ifnull(client.Client_Name,"Unnamed client")%></h1>
+        <p class="company"><%=ifnull(client.Company,"Independent client")%></p>
+      </div>
+      <div class="actions">
+        <a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Form:Clients?recLinkID=<%=client.ID%>&viewLinkName=All_Clients&zc_LoadIn=dialog"><i class="zc-li-outline ui-1-edit-72"></i><span>Edit client</span></a>
+        <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Form:Projects?Client=<%=client.ID%>&zc_LoadIn=dialog"><i class="zc-li-outline ui-1-simple-add"></i><span>Add project</span></a>
+      </div>
+    </section>
+    <section class="profile-card zcs-labelvalue-wrapper">
+      <ul>
+        <li class="profile-item"><label>Email</label><span><%=ifnull(client.Email,"Not provided")%></span></li>
+        <li class="profile-item"><label>Company</label><span><%=ifnull(client.Company,"Not provided")%></span></li>
+        <li class="profile-item"><label>Hourly rate</label><span>INR <%=hourlyRate.round(2)%></span></li>
+      </ul>
+    </section>
+    <div class="zcs-kpi-grid">
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Total projects</div><div class="zcs-kpi-card__value"><%=totalProjects%></div><div class="zcs-kpi-card__sub">All client work</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Active projects</div><div class="zcs-kpi-card__value indigo"><%=activeProjects%></div><div class="zcs-kpi-card__sub">Currently in progress</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Billed hours</div><div class="zcs-kpi-card__value"><%=totalHours.round(2)%></div><div class="zcs-kpi-card__sub">Cumulative hours</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Total earnings</div><div class="zcs-kpi-card__value indigo">INR <%=totalEarnings.round(2)%></div><div class="zcs-kpi-card__sub">Hours multiplied by rate</div></div>
+    </div>
+    <section class="section-card">
+      <div class="section-head"><div><h2>Projects</h2><p>Complete project history for this client</p></div><span class="zcs-badge zcs-badge--neutral"><%=totalProjects%> total</span></div>
+<% if(totalProjects == 0) { %>
+      <div class="zcs-empty-state">
+        <div class="empty-icon"><i class="zc-li-outline design-2-layout-11"></i></div>
+        <div class="zcs-empty-state__title">No projects yet</div>
+        <div class="zcs-empty-state__body">Start this client’s project history. The client lookup will be filled in automatically.</div>
+        <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14" href="#Form:Projects?Client=<%=client.ID%>&zc_LoadIn=dialog"><i class="zc-li-outline ui-1-simple-add"></i><span>Add first project</span></a>
+      </div>
+<% } else { %>
+      <div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative desktop-table">
+        <table class="zcs-w-full"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Project</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Status</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium">Due date</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium">Billed hours</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium">Earnings</th></tr></thead><tbody>
+<% for each project in clientProjects { projectHours = ifnull(project.Billed_Hours,0.0); projectEarnings = projectHours * hourlyRate; statusClass = "zcs-badge--neutral"; if(project.Status == "Active") { statusClass = "zcs-badge--success"; } else if(project.Status == "Review") { statusClass = "zcs-badge--warning"; } else if(project.Status == "Completed") { statusClass = "zcs-badge--info"; } %>
+          <tr><td class="zcs-px-16 zcs-py-8 zcs-font-14"><a class="project-link" href="#Report:All_Projects?recLinkID=<%=project.ID%>&viewLinkName=All_Projects"><%=ifnull(project.Project_Name,"Unnamed project")%></a></td><td class="zcs-px-16 zcs-py-8"><span class="zcs-badge <%=statusClass%>"><%=ifnull(project.Status,"Unspecified")%></span></td><td class="zcs-px-16 zcs-py-8 zcs-font-14"><%=ifnull(project.Due_Date,"Not set")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14"><%=projectHours.round(2)%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14">INR <%=projectEarnings.round(2)%></td></tr>
+<% } %>
+        </tbody></table>
+      </div>
+      <div class="mobile-projects">
+<% for each project in clientProjects { projectHours = ifnull(project.Billed_Hours,0.0); projectEarnings = projectHours * hourlyRate; statusClass = "zcs-badge--neutral"; if(project.Status == "Active") { statusClass = "zcs-badge--success"; } else if(project.Status == "Review") { statusClass = "zcs-badge--warning"; } else if(project.Status == "Completed") { statusClass = "zcs-badge--info"; } %>
+        <article class="project-card"><div class="project-card-top"><a class="project-link" href="#Report:All_Projects?recLinkID=<%=project.ID%>&viewLinkName=All_Projects"><%=ifnull(project.Project_Name,"Unnamed project")%></a><span class="zcs-badge <%=statusClass%>"><%=ifnull(project.Status,"Unspecified")%></span></div><div class="project-meta"><div><label>Due date</label><span><%=ifnull(project.Due_Date,"Not set")%></span></div><div><label>Billed hours</label><span><%=projectHours.round(2)%></span></div><div><label>Earnings</label><span>INR <%=projectEarnings.round(2)%></span></div></div></article>
+<% } %>
+      </div>
+<% } %>
+    </section>
+<% } %>
+  </div>
+</div>

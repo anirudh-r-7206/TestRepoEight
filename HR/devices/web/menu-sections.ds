@@ -1,0 +1,135 @@
+menu
+{
+    space Onboarding
+    {
+        displayname = "Onboarding"
+        icon = "users-multiple-11"
+
+        section Overview
+        {
+            displayname = "Overview"
+            icon = "business-chart"
+
+            page Onboarding_Dashboard
+            {
+                icon = "business-chart-pie-36"
+            }
+        }
+
+        section People
+        {
+            displayname = "People"
+            icon = "users-multiple-19"
+
+            form New_Hires
+            {
+                icon = "users-add-27"
+            }
+            report All_New_Hires
+            {
+                icon = "users-contacts"
+            }
+            report Active_Onboarding
+            {
+                icon = "business-progress"
+            }
+        }
+
+        section Checklists
+        {
+            displayname = "Checklists"
+            icon = "files-check"
+
+            form Onboarding_Tasks
+            {
+                icon = "files-edit"
+            }
+            form Checklist_Templates
+            {
+                icon = "files-copy"
+            }
+            report Onboarding_Task_Board
+            {
+                icon = "business-board-27"
+            }
+            report All_Onboarding_Tasks
+            {
+                icon = "files-single-content-03"
+            }
+            report Onboarding_Due_Calendar
+            {
+                icon = "business-agenda"
+            }
+            report All_Checklist_Templates
+            {
+                icon = "files-notebook"
+            }
+        }
+
+        section Training
+        {
+            displayname = "Training"
+            icon = "education-books-46"
+
+            form Training_Content
+            {
+                icon = "files-folder-play"
+            }
+            form Training_Assignments
+            {
+                icon = "education-notepad"
+            }
+            report Training_Library
+            {
+                icon = "education-book-open"
+            }
+            report Training_Assignment_Register
+            {
+                icon = "education-agenda-bookmark"
+            }
+            report Outstanding_Training
+            {
+                icon = "education-board-51"
+            }
+        }
+
+        section Compliance
+        {
+            displayname = "Compliance"
+            icon = "business-safe"
+
+            form ID_Documents
+            {
+                icon = "users-badge-13"
+            }
+            form Handbook_Acknowledgements
+            {
+                icon = "business-signature"
+            }
+            report ID_Document_Register
+            {
+                icon = "files-folder-locked"
+            }
+            report Handbook_Signoff_Register
+            {
+                icon = "files-archive-paper-check"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

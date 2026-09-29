@@ -1,0 +1,10 @@
+forms
+{
+    form Vendors { label placement = top }
+    form Vendor_Items { label placement = top }
+    form Purchase_Requests { label placement = top }
+    form Purchase_Request_Lines { label placement = top }
+    form Invoices { label placement = top }
+    form Invoice_Lines { label placement = top }
+    form Audit_Log { label placement = top }
+}

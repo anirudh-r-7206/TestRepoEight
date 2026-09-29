@@ -1,0 +1,99 @@
+"Administrator"
+{
+    name        = "Administrator"
+    type        = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:true }
+    description = "IT administrator-only access to the company asset management application."
+
+    ModulePermissions
+    {
+        Assets
+        {
+            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                All_Assets={"View","Edit","Delete"}
+                Available_Assets={"View","Edit","Delete"}
+                Assigned_Assets={"View","Edit","Delete"}
+                Maintenance_Assets={"View","Edit","Delete"}
+            }
+            FieldPermissions
+            {
+                Asset_ID{visibility:true,readonly:false}
+                Asset_Tag{visibility:true,readonly:false}
+                Asset_Type{visibility:true,readonly:false}
+                Manufacturer{visibility:true,readonly:false}
+                Model{visibility:true,readonly:false}
+                Serial_Number{visibility:true,readonly:false}
+                Condition{visibility:true,readonly:false}
+                Asset_Status{visibility:true,readonly:false}
+                Current_Holder{visibility:true,readonly:true}
+                Current_Assignment_ID{visibility:true,readonly:true}
+                Notes{visibility:true,readonly:false}
+            }
+        }
+
+        Assignments
+        {
+            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Assignment_History={"View","Edit","Delete"}
+                Active_Assignments={"View","Edit","Delete"}
+                Returned_Assignments={"View","Edit","Delete"}
+            }
+            FieldPermissions
+            {
+                Assignment_ID{visibility:true,readonly:false}
+                Asset{visibility:true,readonly:false}
+                Assigned_To{visibility:true,readonly:false}
+                Assigned_Date{visibility:true,readonly:false}
+                Condition_On_Issue{visibility:true,readonly:false}
+                Assignment_Status{visibility:true,readonly:false}
+                Assignment_Notes{visibility:true,readonly:false}
+                Return_Date{visibility:true,readonly:false}
+                Condition_On_Return{visibility:true,readonly:false}
+                Return_Notes{visibility:true,readonly:false}
+            }
+        }
+
+        Maintenance
+        {
+            enabled          = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Maintenance_History={"View","Edit","Delete"}
+                Open_Maintenance={"View","Edit","Delete"}
+            }
+            FieldPermissions
+            {
+                Maintenance_ID{visibility:true,readonly:false}
+                Asset{visibility:true,readonly:false}
+                Reported_Date{visibility:true,readonly:false}
+                Maintenance_Status{visibility:true,readonly:false}
+                Issue_Description{visibility:true,readonly:false}
+                Service_Provider{visibility:true,readonly:false}
+                Service_Cost{visibility:true,readonly:false}
+                Condition_Before{visibility:true,readonly:false}
+                Started_Date{visibility:true,readonly:false}
+                Completed_Date{visibility:true,readonly:false}
+                Work_Performed{visibility:true,readonly:false}
+                Condition_After{visibility:true,readonly:false}
+                Notes{visibility:true,readonly:false}
+            }
+        }
+
+        Hardware_Overview
+        {
+            enabled = tab
+        }
+
+        Assets_By_Type
+        {
+            enabled = tab
+        }
+    }
+}

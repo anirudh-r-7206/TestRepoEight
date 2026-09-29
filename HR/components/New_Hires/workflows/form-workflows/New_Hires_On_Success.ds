@@ -1,0 +1,58 @@
+New_Hires_On_Success as "New Hires On Success"
+{
+    type = form
+    form = New_Hires
+    record event = on add
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                active_templates = Checklist_Templates[Active == true];
+                if(active_templates.count() > 0)
+                {
+                    for each template_record in active_templates
+                    {
+                        assignee_email = input.Manager_Email;
+                        if(template_record.Category == "HR")
+                        {
+                            assignee_email = input.HR_Owner_Email;
+                        }
+                        else if(template_record.Category == "IT")
+                        {
+                            assignee_email = input.IT_Owner_Email;
+                        }
+                        task_id = insert into Onboarding_Tasks
+                        [
+                            New_Hire = input.ID
+                            Task_Name = template_record.Task_Name
+                            Category = template_record.Category
+                            Description = template_record.Description
+                            Assignee_Email = assignee_email
+                            Due_Date = input.Start_Date.addDay(template_record.Offset_Days)
+                            Priority = template_record.Priority
+                            Status = "Not Started"
+                        ];
+                    }
+                }
+
+                active_training = Training_Content[Active == true];
+                if(active_training.count() > 0)
+                {
+                    for each content_record in active_training
+                    {
+                        assignment_id = insert into Training_Assignments
+                        [
+                            New_Hire = input.ID
+                            Training_Item = content_record.ID
+                            Due_Date = input.Start_Date.addDay(content_record.Due_Offset_Days)
+                            Status = "Assigned"
+                        ];
+                    }
+                }
+            )
+        }
+    }
+}

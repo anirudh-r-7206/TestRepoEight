@@ -1,0 +1,29 @@
+calendar Project_Due_Calendar
+{
+    displayName = "Project Due Calendar"
+    show all rows from Projects
+    (
+        Project_Name
+        Client
+        Status
+        Due_Date
+    )
+    filters
+    (
+        Client
+        Status
+    )
+    options
+    (
+        display type = month
+        week start day = monday
+        display field = Project_Name
+        start date = Due_Date
+        default date
+        (
+            day = Today
+            month = Currentmonth
+            year = Currentyear
+        )
+    )
+}

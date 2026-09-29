@@ -1,0 +1,103 @@
+"IT_Support"
+{
+    name = "IT_Support"
+    type = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+    description = "Read-only employee context and training library access, with operational update access to assigned IT onboarding work."
+    ModulePermissions
+    {
+        New_Hires
+        {
+            enabled = Viewall,Tab,View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                All_New_Hires={"View"}
+                Active_Onboarding={"View"}
+            }
+            FieldPermissions
+            {
+                Employee_ID{visibility:true,readonly:true}
+                Full_Name{visibility:true,readonly:true}
+                Personal_Email{visibility:false}
+                Phone{visibility:false}
+                Job_Title{visibility:true,readonly:true}
+                Department{visibility:true,readonly:true}
+                Start_Date{visibility:true,readonly:true}
+                Manager_Name{visibility:true,readonly:true}
+                Manager_Email{visibility:true,readonly:true}
+                HR_Owner_Email{visibility:false}
+                IT_Owner_Email{visibility:true,readonly:true}
+                Status{visibility:true,readonly:true}
+                Notes{visibility:false}
+            }
+        }
+        Checklist_Templates
+        {
+            enabled = Viewall,Tab,View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                All_Checklist_Templates={"View"}
+            }
+            FieldPermissions
+            {
+                Task_Name{visibility:true,readonly:true}
+                Category{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Offset_Days{visibility:true,readonly:true}
+                Priority{visibility:true,readonly:true}
+                Active{visibility:true,readonly:true}
+            }
+        }
+        Training_Content
+        {
+            enabled = Viewall,Tab,View,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                Training_Library={"View"}
+            }
+            FieldPermissions
+            {
+                Training_Title{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Training_Video{visibility:false}
+                Duration_Minutes{visibility:true,readonly:true}
+                Due_Offset_Days{visibility:true,readonly:true}
+                Mandatory{visibility:true,readonly:true}
+                Active{visibility:true,readonly:true}
+            }
+        }
+        Onboarding_Tasks
+        {
+            enabled = Viewall,Modifyall,Tab,View,Edit,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                All_Onboarding_Tasks={"View","Edit"}
+                Onboarding_Task_Board={"View","Edit"}
+                Onboarding_Due_Calendar={"View","Edit"}
+            }
+            FieldPermissions
+            {
+                New_Hire{visibility:true,readonly:true}
+                Task_Name{visibility:true,readonly:true}
+                Category{visibility:true,readonly:true}
+                Description{visibility:true,readonly:true}
+                Assignee_Email{visibility:true,readonly:true}
+                Due_Date{visibility:true,readonly:true}
+                Priority{visibility:true,readonly:false}
+                Status{visibility:true,readonly:false}
+                Completion_Date{visibility:true,readonly:false}
+                Completion_Notes{visibility:true,readonly:false}
+                Last_Reminder_Date{visibility:true,readonly:true}
+                Reminder_Level{visibility:true,readonly:true}
+            }
+        }
+        Onboarding_Dashboard
+        {
+            enabled = tab
+        }
+    }
+}

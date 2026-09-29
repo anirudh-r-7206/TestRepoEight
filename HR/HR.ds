@@ -1,0 +1,2702 @@
+application "HR"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Checklist_Templates
+		{
+		    displayname = "Checklist Templates"
+		
+		    Template_Details
+		    (
+		        type = section
+		        displayname = "Template Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Task_Name
+		    (
+		        type = text
+		        displayname = "Task Name"
+		        row = 1
+		        column = 1
+		    )
+		    must have Category
+		    (
+		        type = picklist
+		        values = {"HR", "IT", "Manager"}
+		        row = 1
+		        column = 1
+		    )
+		    must have Description
+		    (
+		        type = textarea
+		        row = 1
+		        column = 1
+		    )
+		    must have Offset_Days
+		    (
+		        type = number
+		        displayname = "Offset Days"
+		        initial value = 0
+		        row = 1
+		        column = 1
+		    )
+		    must have Priority
+		    (
+		        type = picklist
+		        values = {"Low", "Normal", "High", "Critical"}
+		        initial value = "Normal"
+		        row = 1
+		        column = 1
+		    )
+		    Active
+		    (
+		        type = checkbox
+		        initial value = true
+		        row = 1
+		        column = 1
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Handbook_Acknowledgements
+		{
+		    Acknowledgement_Details
+		    (
+		        type = section
+		        displayname = "Acknowledgement Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have New_Hire
+		    (
+		        type = picklist
+		        displayname = "New Hire"
+		        values = New_Hires.ID
+		        displayformat = [Full_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Handbook_Version
+		    (
+		        type = text
+		        displayname = "Handbook Version"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Handbook_File
+		    (
+		        type = upload file
+		        displayname = "Handbook File"
+		        file count = 1
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Employee_Signature
+		    (
+		        type = signature
+		        displayname = "Employee Signature"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Signed_Date
+		    (
+		        type = date
+		        displayname = "Signed Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Witnessed_By
+		    (
+		        type = email
+		        displayname = "Witnessed By"
+		        initial value = "${zoho.loginuserid}"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form ID_Documents
+		{
+		    displayname = "ID Documents"
+		
+		    Document_Details
+		    (
+		        type = section
+		        displayname = "Document Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have New_Hire
+		    (
+		        type = picklist
+		        displayname = "New Hire"
+		        values = New_Hires.ID
+		        displayformat = [Full_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Document_Type
+		    (
+		        type = picklist
+		        displayname = "Document Type"
+		        values = {"Passport", "National ID", "Driver License", "Tax Document", "Work Authorization", "Other"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Document_File
+		    (
+		        type = upload file
+		        displayname = "Document File"
+		        file count = 1
+		        browse = local_drive, google_docs, zoho_docs
+		        personal data = true
+		        isencrypted = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Expiry_Date
+		    (
+		        type = date
+		        displayname = "Expiry Date"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Verification_Status
+		    (
+		        type = picklist
+		        displayname = "Verification Status"
+		        values = {"Pending", "Verified", "Rejected"}
+		        initial value = "Pending"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Verified_By
+		    (
+		        type = email
+		        displayname = "Verified By"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Verified_Date
+		    (
+		        type = date
+		        displayname = "Verified Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Verification_Notes
+		    (
+		        type = textarea
+		        displayname = "Verification Notes"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form New_Hires
+		{
+		    title
+		    {
+		        displayname = "New Hires"
+		        on add = "Add New Hire"
+		        on edit = "Edit New Hire"
+		    }
+		
+		    Onboarding_Details
+		    (
+		        type = section
+		        displayname = "Onboarding Details"
+		        row = 1
+		        column = 0
+		    )
+		    Employee_ID
+		    (
+		        type = autonumber
+		        displayname = "Employee ID"
+		        start index = 1001
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Full_Name
+		    (
+		        type = text
+		        displayname = "Full Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Personal_Email
+		    (
+		        type = email
+		        displayname = "Personal Email"
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Phone
+		    (
+		        type = phonenumber
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Job_Title
+		    (
+		        type = text
+		        displayname = "Job Title"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Department
+		    (
+		        type = picklist
+		        values = {"Human Resources", "Information Technology", "Finance", "Sales", "Marketing", "Operations", "Legal", "Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Start_Date
+		    (
+		        type = date
+		        displayname = "Start Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Manager_Name
+		    (
+		        type = text
+		        displayname = "Manager Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Manager_Email
+		    (
+		        type = email
+		        displayname = "Manager Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have HR_Owner_Email
+		    (
+		        type = email
+		        displayname = "HR Owner Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have IT_Owner_Email
+		    (
+		        type = email
+		        displayname = "IT Owner Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        values = {"Pre-boarding", "In Progress", "Awaiting Sign-off", "Complete", "On Hold"}
+		        initial value = "Pre-boarding"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Onboarding_Tasks
+		{
+		    displayname = "Onboarding Tasks"
+		
+		    Task_Details
+		    (
+		        type = section
+		        displayname = "Task Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have New_Hire
+		    (
+		        type = picklist
+		        displayname = "New Hire"
+		        values = New_Hires.ID
+		        displayformat = [Full_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Task_Name
+		    (
+		        type = text
+		        displayname = "Task Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Category
+		    (
+		        type = picklist
+		        displayname = "Category"
+		        values = {"HR","IT","Manager"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        displayname = "Description"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assignee_Email
+		    (
+		        type = email
+		        displayname = "Assignee Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Priority
+		    (
+		        type = picklist
+		        displayname = "Priority"
+		        values = {"Low","Normal","High","Critical"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Not Started","In Progress","Blocked","Complete"}
+		        initial value = "Not Started"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Completion_Date
+		    (
+		        type = date
+		        displayname = "Completion Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Completion_Notes
+		    (
+		        type = textarea
+		        displayname = "Completion Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Last_Reminder_Date
+		    (
+		        type = date
+		        displayname = "Last Reminder Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Reminder_Level
+		    (
+		        type = number
+		        displayname = "Reminder Level"
+		        initial value = 0
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Training_Assignments
+		{
+		    displayname = "Training Assignments"
+		
+		    Assignment_Details
+		    (
+		        type = section
+		        displayname = "Assignment Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have New_Hire
+		    (
+		        type = picklist
+		        displayname = "New Hire"
+		        values = New_Hires.ID
+		        displayformat = [Full_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Training_Item
+		    (
+		        type = picklist
+		        displayname = "Training Item"
+		        values = Training_Content.ID
+		        displayformat = [Training_Title]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Assigned","In Progress","Completed","Waived"}
+		        initial value = "Assigned"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Completed_Date
+		    (
+		        type = date
+		        displayname = "Completed Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Facilitated_By
+		    (
+		        type = email
+		        displayname = "Facilitated By"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Completion_Notes
+		    (
+		        type = textarea
+		        displayname = "Completion Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Training_Content
+		{
+		    Content_Details
+		    (
+		        type = section
+		        displayname = "Content Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique Training_Title
+		    (
+		        type = text
+		        displayname = "Training Title"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Description
+		    (
+		        type = textarea
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Training_Video
+		    (
+		        type = video
+		        displayname = "Training Video"
+		        duration = 300
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Duration_Minutes
+		    (
+		        type = number
+		        displayname = "Duration Minutes"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Due_Offset_Days
+		    (
+		        type = number
+		        displayname = "Due Offset Days"
+		        initial value = 0
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Mandatory
+		    (
+		        type = checkbox
+		        initial value = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Active
+		    (
+		        type = checkbox
+		        initial value = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Checklist_Templates
+		{
+		    displayName = "All Checklist Templates"
+		    show all rows from Checklist_Templates
+		    (
+		        Task_Name
+		        Category
+		        Offset_Days
+		        Priority
+		        Active
+		    )
+		    filters
+		    (
+		        Category
+		        Priority
+		        Active
+		    )
+		    group by
+		    (
+		        Category ascending
+		    )
+		    sort by
+		    (
+		        Task_Name ascending
+		    )
+		}
+
+		default list Handbook_Signoff_Register
+		{
+		    displayName = "Handbook Signoff Register"
+		    show all rows from Handbook_Acknowledgements
+		    (
+		        New_Hire
+		        Handbook_Version
+		        Signed_Date
+		        Witnessed_By
+		    )
+		    filters
+		    (
+		        Handbook_Version
+		        Signed_Date
+		    )
+		    sort by
+		    (
+		        Signed_Date descending
+		    )
+		}
+
+		default list ID_Document_Register
+		{
+		    displayName = "ID Document Register"
+		    show all rows from ID_Documents
+		    (
+		        New_Hire
+		        Document_Type
+		        Expiry_Date
+		        Verification_Status
+		        Verified_By
+		        Verified_Date
+		    )
+		    filters
+		    (
+		        Document_Type
+		        Verification_Status
+		    )
+		    sort by
+		    (
+		        New_Hire ascending
+		    )
+		}
+
+		list Active_Onboarding
+		{
+		    displayName = "Active Onboarding"
+		    show all rows from New_Hires [Status != "Complete"]
+		    (
+		        Employee_ID
+		        Full_Name
+		        Personal_Email
+		        Job_Title
+		        Department
+		        Start_Date
+		        Manager_Name
+		        Status
+		    )
+		    filters
+		    (
+		        Department
+		        Start_Date
+		        Status
+		    )
+		    sort by
+		    (
+		        Start_Date descending
+		    )
+		}
+
+		default list All_New_Hires
+		{
+		    displayName = "All New Hires"
+		    show all rows from New_Hires
+		    (
+		        Employee_ID
+		        Full_Name
+		        Personal_Email
+		        Job_Title
+		        Department
+		        Start_Date
+		        Manager_Name
+		        Status
+		    )
+		    group by
+		    (
+		        Status ascending
+		    )
+		    sort by
+		    (
+		        Start_Date descending
+		    )
+		}
+
+		default list All_Onboarding_Tasks
+		{
+		    displayName = "All Onboarding Tasks"
+		    show all rows from Onboarding_Tasks
+		    (
+		        New_Hire
+		        Task_Name
+		        Category
+		        Assignee_Email
+		        Due_Date
+		        Priority
+		        Status
+		        Completion_Date
+		    )
+		    filters
+		    (
+		        Category
+		        Assignee_Email
+		        Priority
+		        Status
+		    )
+		    group by
+		    (
+		        Category ascending
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		}
+
+		calendar Onboarding_Due_Calendar
+		{
+		    displayName = "Onboarding Due Calendar"
+		    show all rows from Onboarding_Tasks
+		    (
+		        Task_Name
+		        Due_Date
+		        New_Hire
+		        Category
+		        Assignee_Email
+		        Priority
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		        Assignee_Email
+		        Status
+		    )
+		    options
+		    (
+		        display type = month
+		        week start day = monday
+		        display field = Task_Name
+		        start date = Due_Date
+		        default date
+		        (
+		            day = Today
+		            month = Currentmonth
+		            year = Currentyear
+		        )
+		    )
+		}
+
+		kanban Onboarding_Task_Board
+		{
+		    displayName = "Onboarding Task Board"
+		    show all rows from Onboarding_Tasks
+		    (
+		        New_Hire
+		        Task_Name
+		        Category
+		        Assignee_Email
+		        Due_Date
+		        Priority
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		        Assignee_Email
+		        Priority
+		    )
+		    options
+		    (
+		        display field = Status
+		        sort order = custom
+		        record count = enable
+		    )
+		}
+
+		list Outstanding_Training
+		{
+		    displayName = "Outstanding Training"
+		    show all rows from Training_Assignments [Status != "Completed" && Status != "Waived"]
+		    (
+		        New_Hire
+		        Training_Item
+		        Due_Date
+		        Status
+		    )
+		    filters
+		    (
+		        New_Hire
+		        Due_Date
+		        Status
+		    )
+		}
+
+		default list Training_Assignment_Register
+		{
+		    displayName = "Training Assignment Register"
+		    show all rows from Training_Assignments
+		    (
+		        New_Hire
+		        Training_Item
+		        Due_Date
+		        Status
+		        Completed_Date
+		        Facilitated_By
+		    )
+		    filters
+		    (
+		        New_Hire
+		        Status
+		        Due_Date
+		    )
+		    group by
+		    (
+		        Status ascending
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		}
+
+		default list Training_Library
+		{
+		    displayName = "Training Library"
+		    show all rows from Training_Content
+		    (
+		        Training_Title
+		        Description
+		        Duration_Minutes
+		        Due_Offset_Days
+		        Mandatory
+		        Active
+		    )
+		    filters
+		    (
+		        Mandatory
+		        Active
+		    )
+		    sort by
+		    (
+		        Training_Title ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Onboarding_Dashboard
+		{
+					displayname = "Onboarding Dashboard"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Onboarding_Dashboard_Snippet' elementName='Onboarding_Dashboard_Snippet'>\n\t<![CDATA[htmlpage Onboarding_Dashboard_Snippet()\ncontent\n&lt;%{%&gt;\n\t<file name:Onboarding_Dashboard.dshtml/>\n&lt;%}%&gt;\n\t]]>\n</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Handbook_Acknowledgements_On_Success as "Handbook Acknowledgements On Success"
+			{
+			    type = form
+			    form = Handbook_Acknowledgements
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.New_Hire != null)
+			                {
+			                    hire_id = input.New_Hire;
+			                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+			                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+			                    hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+			                    if(hire_records.count() > 0)
+			                    {
+			                        if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0)
+			                        {
+			                            hire_records.Status = "Complete";
+			                        }
+			                        else
+			                        {
+			                            hire_records.Status = "In Progress";
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Verification_Status_On_User_Input as "Verification Status On User Input"
+			{
+			    type = form
+			    form = ID_Documents
+			    record event = on add or edit
+			
+			    on user input of Verification_Status
+			    {
+			        actions ( Verification_Status == "Verified" )
+			        {
+			            show Verified_By, Verified_Date;
+			            enable Verified_By, Verified_Date;
+			        }
+			        actions ( Verification_Status != "Verified" )
+			        {
+			            hide Verified_By, Verified_Date;
+			        }
+			    }
+			}
+
+			ID_Documents_On_Load as "ID Documents On Load"
+			{
+			    type = form
+			    form = ID_Documents
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions ( Verification_Status == "Verified" )
+			        {
+			            show Verified_By, Verified_Date;
+			            enable Verified_By, Verified_Date;
+			        }
+			        actions ( Verification_Status != "Verified" )
+			        {
+			            hide Verified_By, Verified_Date;
+			        }
+			    }
+			}
+
+			ID_Documents_On_Success as "ID Documents On Success"
+			{
+			    type = form
+			    form = ID_Documents
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions ( Verification_Status == "Verified" )
+			        {
+			            custom deluge script
+			            (
+			                input.Verified_By = zoho.loginuserid;
+			                input.Verified_Date = zoho.currentdate;
+			            )
+			        }
+			    }
+			}
+
+			New_Hires_On_Success as "New Hires On Success"
+			{
+			    type = form
+			    form = New_Hires
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                active_templates = Checklist_Templates[Active == true];
+			                if(active_templates.count() > 0)
+			                {
+			                    for each template_record in active_templates
+			                    {
+			                        assignee_email = input.Manager_Email;
+			                        if(template_record.Category == "HR")
+			                        {
+			                            assignee_email = input.HR_Owner_Email;
+			                        }
+			                        else if(template_record.Category == "IT")
+			                        {
+			                            assignee_email = input.IT_Owner_Email;
+			                        }
+			                        task_id = insert into Onboarding_Tasks
+			                        [
+			                            New_Hire = input.ID
+			                            Task_Name = template_record.Task_Name
+			                            Category = template_record.Category
+			                            Description = template_record.Description
+			                            Assignee_Email = assignee_email
+			                            Due_Date = input.Start_Date.addDay(template_record.Offset_Days)
+			                            Priority = template_record.Priority
+			                            Status = "Not Started"
+			                        ];
+			                    }
+			                }
+			
+			                active_training = Training_Content[Active == true];
+			                if(active_training.count() > 0)
+			                {
+			                    for each content_record in active_training
+			                    {
+			                        assignment_id = insert into Training_Assignments
+			                        [
+			                            New_Hire = input.ID
+			                            Training_Item = content_record.ID
+			                            Due_Date = input.Start_Date.addDay(content_record.Due_Offset_Days)
+			                            Status = "Assigned"
+			                        ];
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Task_Status_On_User_Input as "Task Status On User Input"
+			{
+			    type = form
+			    form = Onboarding_Tasks
+			    record event = on add or edit
+			
+			    on user input of Status
+			    {
+			        actions ( Status == "Complete" )
+			        {
+			            show Completion_Date, Completion_Notes;
+			        }
+			        actions ( Status != "Complete" )
+			        {
+			            hide Completion_Date, Completion_Notes;
+			        }
+			    }
+			}
+
+			Onboarding_Tasks_On_Load as "Onboarding Tasks On Load"
+			{
+			    type = form
+			    form = Onboarding_Tasks
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions ( Status == "Complete" )
+			        {
+			            show Completion_Date, Completion_Notes;
+			        }
+			        actions ( Status != "Complete" )
+			        {
+			            hide Completion_Date, Completion_Notes;
+			        }
+			    }
+			}
+
+			Onboarding_Tasks_On_Success as "Onboarding Tasks On Success"
+			{
+			    type = form
+			    form = Onboarding_Tasks
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Complete")
+			                {
+			                    if(input.Completion_Date == null)
+			                    {
+			                        input.Completion_Date = zoho.currentdate;
+			                    }
+			                }
+			                else
+			                {
+			                    input.Completion_Date = null;
+			                }
+			
+			                if(input.New_Hire != null)
+			                {
+			                    hire_id = input.New_Hire;
+			                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+			                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+			                    acknowledgement_count = Handbook_Acknowledgements[New_Hire == hire_id].count();
+			                    hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+			                    if(hire_records.count() > 0)
+			                    {
+			                        if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0)
+			                        {
+			                            if(acknowledgement_count > 0)
+			                            {
+			                                hire_records.Status = "Complete";
+			                            }
+			                            else
+			                            {
+			                                hire_records.Status = "Awaiting Sign-off";
+			                            }
+			                        }
+			                        else
+			                        {
+			                            hire_records.Status = "In Progress";
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Training_Status_On_User_Input as "Training Status On User Input"
+			{
+			    type = form
+			    form = Training_Assignments
+			    record event = on add or edit
+			
+			    on user input of Status
+			    {
+			        actions ( Status == "Completed" || Status == "Waived" )
+			        {
+			            show Completed_Date, Facilitated_By;
+			        }
+			        actions ( Status != "Completed" && Status != "Waived" )
+			        {
+			            hide Completed_Date, Facilitated_By;
+			        }
+			    }
+			}
+
+			Training_Assignments_On_Load as "Training Assignments On Load"
+			{
+			    type = form
+			    form = Training_Assignments
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions ( Status == "Completed" || Status == "Waived" )
+			        {
+			            show Completed_Date, Facilitated_By;
+			        }
+			        actions ( Status != "Completed" && Status != "Waived" )
+			        {
+			            hide Completed_Date, Facilitated_By;
+			        }
+			    }
+			}
+
+			Training_Assignments_On_Success as "Training Assignments On Success"
+			{
+			    type = form
+			    form = Training_Assignments
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Completed" || input.Status == "Waived")
+			                {
+			                    input.Completed_Date = zoho.currentdate;
+			                    input.Facilitated_By = zoho.loginuserid;
+			                }
+			
+			                if(input.New_Hire != null)
+			                {
+			                    hire_id = input.New_Hire;
+			                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+			                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+			                    acknowledgement_count = Handbook_Acknowledgements[New_Hire == hire_id].count();
+			                    if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0 && acknowledgement_count > 0)
+			                    {
+			                        hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+			                        if(hire_records.count() > 0)
+			                        {
+			                            hire_records.Status = "Complete";
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+
+		schedule
+		{
+			Overdue_Task_Reminders as "Overdue Task Reminders"
+			{
+			    type = schedule
+			    form = Onboarding_Tasks[Due_Date < zoho.currentdate && Status != "Complete"]
+			    start = Due_Date at "09:00:00"
+			    frequency = daily
+			    time zone = "UTC"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                if(input.Due_Date != null && input.Assignee_Email != null && input.Status != "Complete")
+			                {
+			                    days_overdue = input.Due_Date.daysBetween(zoho.currentdate);
+			                    reminder_due = false;
+			                    target_level = 0;
+			                    if(days_overdue == 1 && input.Reminder_Level < 1)
+			                    {
+			                        reminder_due = true;
+			                        target_level = 1;
+			                    }
+			                    else if(days_overdue == 3 && input.Reminder_Level < 3)
+			                    {
+			                        reminder_due = true;
+			                        target_level = 3;
+			                    }
+			                    else if(days_overdue == 7 && input.Reminder_Level < 7)
+			                    {
+			                        reminder_due = true;
+			                        target_level = 7;
+			                    }
+			
+			                    already_sent_today = input.Last_Reminder_Date != null && input.Last_Reminder_Date == zoho.currentdate;
+			                    if(reminder_due && !already_sent_today)
+			                    {
+			                        hire_name = "New Hire";
+			                        hr_owner_email = "";
+			                        if(input.New_Hire != null)
+			                        {
+			                            hire_records = New_Hires[ID == input.New_Hire] range from 0 to 0;
+			                            if(hire_records.count() > 0)
+			                            {
+			                                hire_name = hire_records.Full_Name;
+			                                hr_owner_email = hire_records.HR_Owner_Email;
+			                            }
+			                        }
+			                        report_link = "#Report:All_Onboarding_Tasks";
+			                        mail_subject = "Onboarding task overdue: " + input.Task_Name;
+			                        mail_message = "<p>An onboarding task is overdue.</p><p><strong>New hire:</strong> " + hire_name + "<br><strong>Task:</strong> " + input.Task_Name + "<br><strong>Due date:</strong> " + input.Due_Date + "<br><strong>Days overdue:</strong> " + days_overdue + "</p><p><a href='" + report_link + "'>Open onboarding tasks</a></p>";
+			
+			                        if(days_overdue == 7 && hr_owner_email != null && hr_owner_email != "")
+			                        {
+			                            sendmail
+			                            (
+			                                from : zoho.adminuserid
+			                                to : input.Assignee_Email
+			                                cc : hr_owner_email
+			                                subject : mail_subject
+			                                message : mail_message
+			                            )
+			                        }
+			                        else
+			                        {
+			                            sendmail
+			                            (
+			                                from : zoho.adminuserid
+			                                to : input.Assignee_Email
+			                                subject : mail_subject
+			                                message : mail_message
+			                            )
+			                        }
+			                        input.Last_Reminder_Date = zoho.currentdate;
+			                        input.Reminder_Level = target_level;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	share_settings
+	{
+	"Hiring_Manager"
+	{
+	    name = "Hiring_Manager"
+	    type = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Safe employee context, read-only training and sign-off metadata, and operational update access to manager onboarding work."
+	    ModulePermissions
+	    {
+	        New_Hires
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_New_Hires={"View"}
+	                Active_Onboarding={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Employee_ID{visibility:true,readonly:true}
+	                Full_Name{visibility:true,readonly:true}
+	                Personal_Email{visibility:true,readonly:true}
+	                Phone{visibility:true,readonly:true}
+	                Job_Title{visibility:true,readonly:true}
+	                Department{visibility:true,readonly:true}
+	                Start_Date{visibility:true,readonly:true}
+	                Manager_Name{visibility:true,readonly:true}
+	                Manager_Email{visibility:true,readonly:true}
+	                HR_Owner_Email{visibility:false}
+	                IT_Owner_Email{visibility:false}
+	                Status{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	            }
+	        }
+	        Checklist_Templates
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Checklist_Templates={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Task_Name{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Offset_Days{visibility:true,readonly:true}
+	                Priority{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	        Training_Content
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Training_Library={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Training_Title{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Training_Video{visibility:false}
+	                Duration_Minutes{visibility:true,readonly:true}
+	                Due_Offset_Days{visibility:true,readonly:true}
+	                Mandatory{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	        Onboarding_Tasks
+	        {
+	            enabled = Viewall,Modifyall,Tab,View,Edit,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Onboarding_Tasks={"View","Edit"}
+	                Onboarding_Task_Board={"View","Edit"}
+	                Onboarding_Due_Calendar={"View","Edit"}
+	            }
+	            FieldPermissions
+	            {
+	                New_Hire{visibility:true,readonly:true}
+	                Task_Name{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Assignee_Email{visibility:true,readonly:true}
+	                Due_Date{visibility:true,readonly:true}
+	                Priority{visibility:true,readonly:false}
+	                Status{visibility:true,readonly:false}
+	                Completion_Date{visibility:true,readonly:false}
+	                Completion_Notes{visibility:true,readonly:false}
+	                Last_Reminder_Date{visibility:false}
+	                Reminder_Level{visibility:false}
+	            }
+	        }
+	        Training_Assignments
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Training_Assignment_Register={"View"}
+	                Outstanding_Training={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                New_Hire{visibility:true,readonly:true}
+	                Training_Item{visibility:true,readonly:true}
+	                Due_Date{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:true}
+	                Completed_Date{visibility:true,readonly:true}
+	                Facilitated_By{visibility:true,readonly:true}
+	                Completion_Notes{visibility:false}
+	            }
+	        }
+	        Handbook_Acknowledgements
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Handbook_Signoff_Register={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                New_Hire{visibility:true,readonly:true}
+	                Handbook_Version{visibility:true,readonly:true}
+	                Handbook_File{visibility:false}
+	                Employee_Signature{visibility:false}
+	                Signed_Date{visibility:true,readonly:true}
+	                Witnessed_By{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	            }
+	        }
+	        Onboarding_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	"Human_Resources"
+	{
+	    name = "Human_Resources"
+	    type = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Full administration of onboarding, training, tasks, templates, identity documents, and handbook acknowledgements."
+	    ModulePermissions
+	    {
+	        New_Hires
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_New_Hires={"View","Edit","Delete"}
+	                Active_Onboarding={"View","Edit","Delete"}
+	            }
+	        }
+	        Checklist_Templates
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Checklist_Templates={"View","Edit","Delete"}
+	            }
+	        }
+	        Training_Content
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Training_Library={"View","Edit","Delete"}
+	            }
+	        }
+	        Onboarding_Tasks
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Onboarding_Tasks={"View","Edit","Delete"}
+	                Onboarding_Task_Board={"View","Edit","Delete"}
+	                Onboarding_Due_Calendar={"View","Edit","Delete"}
+	            }
+	        }
+	        ID_Documents
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                ID_Document_Register={"View","Edit","Delete"}
+	            }
+	        }
+	        Training_Assignments
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Training_Assignment_Register={"View","Edit","Delete"}
+	                Outstanding_Training={"View","Edit","Delete"}
+	            }
+	        }
+	        Handbook_Acknowledgements
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Handbook_Signoff_Register={"View","Edit","Delete"}
+	            }
+	        }
+	        Onboarding_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	"IT_Support"
+	{
+	    name = "IT_Support"
+	    type = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+	    description = "Read-only employee context and training library access, with operational update access to assigned IT onboarding work."
+	    ModulePermissions
+	    {
+	        New_Hires
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_New_Hires={"View"}
+	                Active_Onboarding={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Employee_ID{visibility:true,readonly:true}
+	                Full_Name{visibility:true,readonly:true}
+	                Personal_Email{visibility:false}
+	                Phone{visibility:false}
+	                Job_Title{visibility:true,readonly:true}
+	                Department{visibility:true,readonly:true}
+	                Start_Date{visibility:true,readonly:true}
+	                Manager_Name{visibility:true,readonly:true}
+	                Manager_Email{visibility:true,readonly:true}
+	                HR_Owner_Email{visibility:false}
+	                IT_Owner_Email{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	            }
+	        }
+	        Checklist_Templates
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Checklist_Templates={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Task_Name{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Offset_Days{visibility:true,readonly:true}
+	                Priority{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	        Training_Content
+	        {
+	            enabled = Viewall,Tab,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Training_Library={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Training_Title{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Training_Video{visibility:false}
+	                Duration_Minutes{visibility:true,readonly:true}
+	                Due_Offset_Days{visibility:true,readonly:true}
+	                Mandatory{visibility:true,readonly:true}
+	                Active{visibility:true,readonly:true}
+	            }
+	        }
+	        Onboarding_Tasks
+	        {
+	            enabled = Viewall,Modifyall,Tab,View,Edit,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Onboarding_Tasks={"View","Edit"}
+	                Onboarding_Task_Board={"View","Edit"}
+	                Onboarding_Due_Calendar={"View","Edit"}
+	            }
+	            FieldPermissions
+	            {
+	                New_Hire{visibility:true,readonly:true}
+	                Task_Name{visibility:true,readonly:true}
+	                Category{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:true}
+	                Assignee_Email{visibility:true,readonly:true}
+	                Due_Date{visibility:true,readonly:true}
+	                Priority{visibility:true,readonly:false}
+	                Status{visibility:true,readonly:false}
+	                Completion_Date{visibility:true,readonly:false}
+	                Completion_Notes{visibility:true,readonly:false}
+	                Last_Reminder_Date{visibility:true,readonly:true}
+	                Reminder_Level{visibility:true,readonly:true}
+	            }
+	        }
+	        Onboarding_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	}
+	}
+
+	web
+	{
+	forms
+	{
+	    form New_Hires
+	    {
+	        label placement = top
+	    }
+	    form Checklist_Templates
+	    {
+	        label placement = top
+	    }
+	    form Training_Content
+	    {
+	        label placement = top
+	    }
+	    form Onboarding_Tasks
+	    {
+	        label placement = top
+	    }
+	    form ID_Documents
+	    {
+	        label placement = top
+	    }
+	    form Training_Assignments
+	    {
+	        label placement = top
+	    }
+	    form Handbook_Acknowledgements
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_Checklist_Templates
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Task_Name
+		                    Category
+		                    Offset_Days
+		                    Priority
+		                    Active
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Name
+		                    Category
+		                    Offset_Days
+		                    Priority
+		                    Active
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Handbook_Signoff_Register
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    New_Hire
+		                    Handbook_Version
+		                    Signed_Date
+		                    Witnessed_By
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Handbook_Version
+		                    Signed_Date
+		                    Witnessed_By
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report ID_Document_Register
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    New_Hire
+		                    Document_Type
+		                    Expiry_Date
+		                    Verification_Status
+		                    Verified_By
+		                    Verified_Date
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Document_Type
+		                    Expiry_Date
+		                    Verification_Status
+		                    Verified_By
+		                    Verified_Date
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Active_Onboarding
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Employee_ID
+		                    Full_Name
+		                    Personal_Email
+		                    Job_Title
+		                    Department
+		                    Start_Date
+		                    Manager_Name
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Employee_ID
+		                    Full_Name
+		                    Personal_Email
+		                    Job_Title
+		                    Department
+		                    Start_Date
+		                    Manager_Name
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report All_New_Hires
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Employee_ID
+		                    Full_Name
+		                    Personal_Email
+		                    Job_Title
+		                    Department
+		                    Start_Date
+		                    Manager_Name
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Employee_ID
+		                    Full_Name
+		                    Personal_Email
+		                    Job_Title
+		                    Department
+		                    Start_Date
+		                    Manager_Name
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report All_Onboarding_Tasks
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    New_Hire
+		                    Task_Name
+		                    Category
+		                    Assignee_Email
+		                    Due_Date
+		                    Priority
+		                    Status
+		                    Completion_Date
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Task_Name
+		                    Category
+		                    Assignee_Email
+		                    Due_Date
+		                    Priority
+		                    Status
+		                    Completion_Date
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Onboarding_Due_Calendar
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = 2
+		            datablock1
+		            (
+		                layout type = 1
+		                fields
+		                (
+		                    Task_Name
+		                    Due_Date
+		                    New_Hire
+		                    Category
+		                    Assignee_Email
+		                    Priority
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Name
+		                    Due_Date
+		                    New_Hire
+		                    Category
+		                    Assignee_Email
+		                    Priority
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Onboarding_Task_Board
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = 1
+		                fields
+		                (
+		                    New_Hire
+		                    Task_Name
+		                    Category
+		                    Assignee_Email
+		                    Due_Date
+		                    Priority
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Task_Name
+		                    Category
+		                    Assignee_Email
+		                    Due_Date
+		                    Priority
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Outstanding_Training
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    New_Hire
+		                    Training_Item
+		                    Due_Date
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Training_Item
+		                    Due_Date
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Training_Assignment_Register
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    New_Hire
+		                    Training_Item
+		                    Due_Date
+		                    Status
+		                    Completed_Date
+		                    Facilitated_By
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    New_Hire
+		                    Training_Item
+		                    Due_Date
+		                    Status
+		                    Completed_Date
+		                    Facilitated_By
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Training_Library
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Training_Title
+		                    Description
+		                    Duration_Minutes
+		                    Due_Offset_Days
+		                    Mandatory
+		                    Active
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Training_Title
+		                    Description
+		                    Duration_Minutes
+		                    Due_Offset_Days
+		                    Mandatory
+		                    Active
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Onboarding
+	    {
+	        displayname = "Onboarding"
+	        icon = "users-multiple-11"
+	
+	        section Overview
+	        {
+	            displayname = "Overview"
+	            icon = "business-chart"
+	
+	            page Onboarding_Dashboard
+	            {
+	                icon = "business-chart-pie-36"
+	            }
+	        }
+	
+	        section People
+	        {
+	            displayname = "People"
+	            icon = "users-multiple-19"
+	
+	            form New_Hires
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_New_Hires
+	            {
+	                icon = "users-contacts"
+	            }
+	            report Active_Onboarding
+	            {
+	                icon = "business-progress"
+	            }
+	        }
+	
+	        section Checklists
+	        {
+	            displayname = "Checklists"
+	            icon = "files-check"
+	
+	            form Onboarding_Tasks
+	            {
+	                icon = "files-edit"
+	            }
+	            form Checklist_Templates
+	            {
+	                icon = "files-copy"
+	            }
+	            report Onboarding_Task_Board
+	            {
+	                icon = "business-board-27"
+	            }
+	            report All_Onboarding_Tasks
+	            {
+	                icon = "files-single-content-03"
+	            }
+	            report Onboarding_Due_Calendar
+	            {
+	                icon = "business-agenda"
+	            }
+	            report All_Checklist_Templates
+	            {
+	                icon = "files-notebook"
+	            }
+	        }
+	
+	        section Training
+	        {
+	            displayname = "Training"
+	            icon = "education-books-46"
+	
+	            form Training_Content
+	            {
+	                icon = "files-folder-play"
+	            }
+	            form Training_Assignments
+	            {
+	                icon = "education-notepad"
+	            }
+	            report Training_Library
+	            {
+	                icon = "education-book-open"
+	            }
+	            report Training_Assignment_Register
+	            {
+	                icon = "education-agenda-bookmark"
+	            }
+	            report Outstanding_Training
+	            {
+	                icon = "education-board-51"
+	            }
+	        }
+	
+	        section Compliance
+	        {
+	            displayname = "Compliance"
+	            icon = "business-safe"
+	
+	            form ID_Documents
+	            {
+	                icon = "users-badge-13"
+	            }
+	            form Handbook_Acknowledgements
+	            {
+	                icon = "business-signature"
+	            }
+	            report ID_Document_Register
+	            {
+	                icon = "files-folder-locked"
+	            }
+	            report Handbook_Signoff_Register
+	            {
+	                icon = "files-archive-paper-check"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	        variant = "variant_2"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        name = "HR Blue Teal"
+	        brand color = "#0B5CAD"
+	        type = "custom"
+	        dark mode color = "#0F766E"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

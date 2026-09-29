@@ -1,0 +1,41 @@
+report Expense_Audit_Trail
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields ( Expense  Action  Actor_Email  Action_Time  Previous_Approval_Status  New_Approval_Status  Previous_Payment_Status  New_Payment_Status  Notes )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields ( Expense  Action  Actor_Email  Action_Time  Previous_Approval_Status  New_Approval_Status  Previous_Payment_Status  New_Payment_Status  Notes )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

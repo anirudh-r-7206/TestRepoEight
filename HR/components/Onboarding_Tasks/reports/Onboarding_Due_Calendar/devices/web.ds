@@ -1,0 +1,59 @@
+report Onboarding_Due_Calendar
+{
+    quickview
+    (
+        layout
+        (
+            type = 2
+            datablock1
+            (
+                layout type = 1
+                fields
+                (
+                    Task_Name
+                    Due_Date
+                    New_Hire
+                    Category
+                    Assignee_Email
+                    Priority
+                    Status
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Task_Name
+                    Due_Date
+                    New_Hire
+                    Category
+                    Assignee_Email
+                    Priority
+                    Status
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

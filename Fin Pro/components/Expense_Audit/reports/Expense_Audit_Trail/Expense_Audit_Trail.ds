@@ -1,0 +1,26 @@
+default list Expense_Audit_Trail
+{
+    displayName = "Expense Audit Trail"
+    show all rows from Expense_Audit
+    (
+        Expense
+        Action
+        Actor_Email
+        Action_Time
+        Previous_Approval_Status
+        New_Approval_Status
+        Previous_Payment_Status
+        New_Payment_Status
+        Notes
+    )
+    filters
+    (
+        Action
+        Actor_Email
+        Action_Time
+    )
+    sort by
+    (
+        Action_Time descending
+    )
+}

@@ -1,0 +1,15 @@
+forms
+{
+    form Assets
+    {
+        label placement = top
+    }
+    form Assignments
+    {
+        label placement = top
+    }
+    form Maintenance
+    {
+        label placement = top
+    }
+}

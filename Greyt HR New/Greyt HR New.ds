@@ -1,0 +1,250 @@
+application "Greyt-HR-New"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form HR_Managers
+		{
+		    title
+		    {
+		        displayname = "HR Managers"
+		        on add = "Add HR Manager"
+		        on edit = "Edit HR Manager"
+		    }
+		    success message = "HR manager saved successfully."
+		
+		    Manager_Details
+		    (
+		        type = section
+		        displayname = "Manager Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Manager_Name
+		    (
+		        type = text
+		        displayname = "Manager Name"
+		        maxchar = 150
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Email_ID
+		    (
+		        type = email
+		        displayname = "Email ID"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_HR_Managers
+		{
+		    displayName = "All HR Managers"
+		    show all rows from HR_Managers
+		    (
+		        Manager_Name
+		        Email_ID
+		    )
+		    filters
+		    (
+		        Manager_Name
+		        Email_ID
+		    )
+		    sort by
+		    (
+		        Manager_Name ascending
+		    )
+		}
+	}
+
+	web
+	{
+	forms
+	{
+	    form HR_Managers
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_HR_Managers
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Manager_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Manager_Name
+		                    Email_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space HR_Management
+	    {
+	        displayname = "HR Management"
+	        icon = "users-multiple-11"
+	
+	        section Manager_Directory
+	        {
+	            displayname = "Manager Directory"
+	            icon = "business-business-contact-88"
+	
+	            form HR_Managers
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_HR_Managers
+	            {
+	                icon = "business-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        name = "HR Blue Teal"
+	        brand color = "#1F6F8B"
+	        type = "custom"
+	        dark mode color = "#0F4C5C"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

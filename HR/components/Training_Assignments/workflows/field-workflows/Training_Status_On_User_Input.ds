@@ -1,0 +1,18 @@
+Training_Status_On_User_Input as "Training Status On User Input"
+{
+    type = form
+    form = Training_Assignments
+    record event = on add or edit
+
+    on user input of Status
+    {
+        actions ( Status == "Completed" || Status == "Waived" )
+        {
+            show Completed_Date, Facilitated_By;
+        }
+        actions ( Status != "Completed" && Status != "Waived" )
+        {
+            hide Completed_Date, Facilitated_By;
+        }
+    }
+}

@@ -1,0 +1,61 @@
+report All_Onboarding_Tasks
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    New_Hire
+                    Task_Name
+                    Category
+                    Assignee_Email
+                    Due_Date
+                    Priority
+                    Status
+                    Completion_Date
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    New_Hire
+                    Task_Name
+                    Category
+                    Assignee_Email
+                    Due_Date
+                    Priority
+                    Status
+                    Completion_Date
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

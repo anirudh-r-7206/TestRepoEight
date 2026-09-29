@@ -1,0 +1,22 @@
+default list Training_Library
+{
+    displayName = "Training Library"
+    show all rows from Training_Content
+    (
+        Training_Title
+        Description
+        Duration_Minutes
+        Due_Offset_Days
+        Mandatory
+        Active
+    )
+    filters
+    (
+        Mandatory
+        Active
+    )
+    sort by
+    (
+        Training_Title ascending
+    )
+}

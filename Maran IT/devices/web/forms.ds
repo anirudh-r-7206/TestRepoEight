@@ -1,0 +1,7 @@
+forms
+{
+    form System_Admins
+    {
+        label placement = left
+    }
+}

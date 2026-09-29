@@ -1,0 +1,80 @@
+<%
+clients = Clients[ID != 0];
+projects = Projects[ID != 0];
+clientCount = clients.count();
+projectCount = projects.count();
+activeCount = Projects[Status == "Active"].count();
+reviewCount = Projects[Status == "Review"].count();
+completedCount = Projects[Status == "Completed"].count();
+totalHours = 0;
+totalEarnings = 0;
+for each projectRec in projects
+{
+    billedHours = ifnull(projectRec.Billed_Hours,0);
+    hourlyRate = 0;
+    if(projectRec.Client != null)
+    {
+        hourlyRate = ifnull(projectRec.Client.Hourly_Rate,0);
+    }
+    totalHours = totalHours + billedHours;
+    totalEarnings = totalEarnings + (billedHours * hourlyRate);
+}
+%>
+<style>
+:root {
+  --zcs-theme-brand-color:#4F46E5; --zcs-brand-color:#4F46E5;
+  --zcs-white-color:#FFFFFF; --zcs-primary-text-color:#0F172A;
+  --zcs-secondary-text-color:#475569; --zcs-teritiary-text-color:#64748B;
+  --zcs-border-color:#E2E8F0; --zcs-surface:#FFFFFF; --zcs-radius:12px;
+  --zcs-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05);
+  --zcs-text-1:#0F172A; --zcs-text-2:#475569; --zcs-text-3:#64748B;
+}
+*{box-sizing:border-box}.zcs-flex{display:flex}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-8{gap:8px}.zcs-px-16{padding-left:16px;padding-right:16px}.zcs-py-8{padding-top:8px;padding-bottom:8px}.zcs-rounded-md{border-radius:6px}.zcs-box-border{box-sizing:border-box}.zcs-font-14{font-size:14px}.zcs-font-normal{font-weight:400}.zcs-lh-body{line-height:1.5}.zcs-card{background:#fff;border:1px solid #E2E8F0;border-radius:12px}
+a{text-decoration:none}.fd-page{min-height:100%;background:#fff;color:#0F172A;font-family:Inter,Lato,Arial,sans-serif;padding:clamp(24px,4vw,56px)}.fd-shell{max-width:1440px;margin:0 auto}.fd-editorial{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px}.zcs-page-header{margin:0}.zcs-page-header__eyebrow{margin:0 0 10px;color:#4F46E5;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.zcs-page-header__title{font-size:clamp(30px,4vw,48px);font-weight:700;letter-spacing:-.035em;color:#0F172A;margin:0 0 10px;line-height:1.05}.zcs-page-header__sub{max-width:680px;font-size:15px;line-height:1.65;color:#64748B;margin:0}.fd-actions{display:flex;flex-wrap:wrap;gap:10px}.zcs-button{width:auto;min-width:5rem;min-height:40px}.zcs-primary-button{background:#4F46E5;color:#fff;font-weight:600;box-shadow:0 6px 14px rgba(79,70,229,.18)}.zcs-primary-button:hover{background:#4338CA}.zcs-primary-button:focus{outline:3px solid rgba(79,70,229,.25);outline-offset:2px}.zcs-button-icon{width:16px;max-height:16px}.fd-summary{border:1px solid #E2E8F0;border-top:4px solid #4F46E5;border-radius:14px;padding:22px 24px;margin-bottom:46px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.03)}.fd-summary-label{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:#334155;font-size:13px;font-weight:700}.zcs-kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:0;margin:0}.zcs-kpi-card{background:#fff;border-left:1px solid #E2E8F0;padding:8px 20px;box-shadow:none;border-radius:0}.zcs-kpi-card:first-child{border-left:0;padding-left:0}.zcs-kpi-card__label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#64748B}.zcs-kpi-card__value{font-size:clamp(22px,2.4vw,31px);font-weight:700;margin:7px 0 4px;line-height:1;color:#0F172A}.zcs-kpi-card__value.fd-indigo{color:#4F46E5}.zcs-kpi-card__sub{font-size:11px;color:#94A3B8}.fd-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}.fd-section-head h2{font-size:22px;letter-spacing:-.02em;margin:0 0 4px}.fd-section-head p{font-size:13px;color:#64748B;margin:0}.fd-count{color:#4F46E5;font-size:13px;font-weight:700}.fd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.fd-client{display:flex;flex-direction:column;min-height:310px;padding:24px;color:#0F172A;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.fd-client:hover{border-color:#A5B4FC;box-shadow:0 14px 35px rgba(15,23,42,.08);transform:translateY(-2px)}.fd-client:focus{outline:3px solid rgba(79,70,229,.25);outline-offset:2px}.fd-client-top{display:flex;justify-content:space-between;gap:18px;padding-bottom:20px;border-bottom:1px solid #E2E8F0}.fd-client-name{font-size:20px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px}.fd-company{font-size:13px;color:#64748B;margin:0}.fd-arrow{color:#4F46E5;font-size:18px}.fd-contact{display:grid;gap:9px;padding:17px 0;color:#475569;font-size:13px}.fd-contact span{display:flex;align-items:center;gap:8px;min-width:0}.fd-contact i{color:#64748B;width:16px}.fd-contact .fd-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fd-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:auto}.fd-stat{padding:12px;background:#F8FAFC;border:1px solid #F1F5F9;border-radius:9px}.fd-stat-label{display:block;color:#64748B;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}.fd-stat-value{display:block;color:#0F172A;font-size:16px;font-weight:700}.fd-stat.fd-earned{background:#EEF2FF;border-color:#E0E7FF}.fd-stat.fd-earned .fd-stat-value{color:#4338CA}.zcs-empty-state{border:1px dashed #CBD5E1;border-radius:14px;text-align:center;padding:48px 24px;background:#F8FAFC}.zcs-empty-state__icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;background:#EEF2FF;color:#4F46E5;font-size:22px;margin-bottom:14px}.zcs-empty-state__title{font-size:17px;font-weight:700;color:#334155;margin:0 0 7px}.zcs-empty-state__body{font-size:14px;color:#64748B;margin-bottom:18px}.fd-project-empty{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-24px 0 38px;padding:14px 16px;border:1px solid #E0E7FF;border-radius:10px;background:#EEF2FF;color:#3730A3;font-size:13px}.fd-project-empty strong{display:block;margin-bottom:2px}.fd-project-empty a{color:#3730A3;font-weight:700;white-space:nowrap}
+@media(max-width:1100px){.zcs-kpi-grid{grid-template-columns:repeat(3,1fr);gap:16px}.zcs-kpi-card,.zcs-kpi-card:first-child{border:0;padding:14px;background:#F8FAFC;border-radius:10px}.fd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.fd-page{padding:24px 16px 40px}.fd-editorial{align-items:flex-start;flex-direction:column}.fd-actions{width:100%}.zcs-button{flex:1}.zcs-kpi-grid{grid-template-columns:repeat(2,1fr)}.fd-grid{grid-template-columns:1fr}.fd-project-empty{align-items:flex-start;flex-direction:column}}@media(max-width:420px){.zcs-kpi-grid{grid-template-columns:1fr}.fd-stats{grid-template-columns:1fr}}
+</style>
+<div class="fd-page">
+  <div class="fd-shell">
+    <header class="fd-editorial">
+      <div class="zcs-page-header">
+        <p class="zcs-page-header__eyebrow">Independent work, clearly measured</p>
+        <h1 class="zcs-page-header__title">Freelancer Dashboard</h1>
+        <p class="zcs-page-header__sub">A focused view of workload, billable time, earnings, and every client relationship.</p>
+      </div>
+      <nav class="fd-actions" aria-label="Quick actions">
+        <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Clients"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span>Add client</span></a>
+        <a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Projects"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span>Add project</span></a>
+      </nav>
+    </header>
+    <section class="fd-summary" aria-label="Global progress summary">
+      <div class="fd-summary-label"><i class="zc-li-outline business-chart-bar-32"></i><span>Work and earnings summary</span></div>
+      <div class="zcs-kpi-grid">
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Active projects</div><div class="zcs-kpi-card__value fd-indigo"><%=activeCount%></div><div class="zcs-kpi-card__sub">In progress</div></div>
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">In review</div><div class="zcs-kpi-card__value"><%=reviewCount%></div><div class="zcs-kpi-card__sub">Awaiting approval</div></div>
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Completed</div><div class="zcs-kpi-card__value"><%=completedCount%></div><div class="zcs-kpi-card__sub">Delivered projects</div></div>
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">All projects</div><div class="zcs-kpi-card__value"><%=projectCount%></div><div class="zcs-kpi-card__sub">Across all clients</div></div>
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Billed hours</div><div class="zcs-kpi-card__value"><%=totalHours%></div><div class="zcs-kpi-card__sub">Recorded total</div></div>
+        <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Total earnings</div><div class="zcs-kpi-card__value fd-indigo">INR <%=totalEarnings%></div><div class="zcs-kpi-card__sub">Hours multiplied by rate</div></div>
+      </div>
+    </section>
+    <% if(projectCount == 0) { %>
+    <div class="fd-project-empty"><div><strong>No projects yet</strong><span>Add the first project to begin tracking hours and earnings.</span></div><a href="#Form:Projects">Add a project</a></div>
+    <% } %>
+    <section aria-labelledby="clients-heading">
+      <div class="fd-section-head"><div><h2 id="clients-heading">Clients</h2><p>Open a client to review their full relationship and project history.</p></div><span class="fd-count"><%=clientCount%> total</span></div>
+      <% if(clientCount == 0) { %>
+      <div class="zcs-empty-state"><div class="zcs-empty-state__icon"><i class="zc-li-outline users-single-01"></i></div><div class="zcs-empty-state__title">Your client roster is ready to grow</div><div class="zcs-empty-state__body">Add a client to create the first relationship, then connect projects and billed hours.</div><a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" style="display:inline-flex" href="#Form:Clients"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span>Add first client</span></a></div>
+      <% } else { %>
+      <div class="fd-grid">
+        <% for each clientRec in clients { clientProjects = Projects[Client == clientRec.ID]; clientProjectCount = clientProjects.count(); clientActiveCount = Projects[Client == clientRec.ID && Status == "Active"].count(); clientHours = ifnull(clientProjects.sum(Billed_Hours),0); clientRate = ifnull(clientRec.Hourly_Rate,0); clientEarned = clientHours * clientRate; %>
+        <a class="fd-client zcs-card" href="#Page:Client_Detail?Client_ID=<%=clientRec.ID%>" aria-label="Open client <%=clientRec.Client_Name%>">
+          <div class="fd-client-top"><div><h3 class="fd-client-name"><%=clientRec.Client_Name%></h3><p class="fd-company"><%=ifnull(clientRec.Company,"Independent client")%></p></div><i class="fd-arrow zc-li-outline arrows-1-tail-right"></i></div>
+          <div class="fd-contact"><span><i class="zc-li-outline ui-1-email-85"></i><span class="fd-ellipsis"><%=clientRec.Email%></span></span><span><i class="zc-li-outline business-coins-stack"></i><span>INR <%=clientRate%> per hour</span></span></div>
+          <div class="fd-stats"><div class="fd-stat"><span class="fd-stat-label">Active</span><span class="fd-stat-value"><%=clientActiveCount%></span></div><div class="fd-stat"><span class="fd-stat-label">Projects</span><span class="fd-stat-value"><%=clientProjectCount%></span></div><div class="fd-stat"><span class="fd-stat-label">Billed hours</span><span class="fd-stat-value"><%=clientHours%></span></div><div class="fd-stat fd-earned"><span class="fd-stat-label">Earned</span><span class="fd-stat-value">INR <%=clientEarned%></span></div></div>
+        </a>
+        <% } %>
+      </div>
+      <% } %>
+    </section>
+  </div>
+</div>

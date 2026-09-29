@@ -1,0 +1,26 @@
+list Open_Maintenance
+{
+    displayName = "Open Maintenance"
+    show all rows from Maintenance [Maintenance_Status == "Open" || Maintenance_Status == "In Progress"]
+    (
+        Asset
+        Maintenance_Status
+        Issue_Description
+        Reported_Date
+        Started_Date
+        Completed_Date
+        Service_Provider
+        Service_Cost
+        Condition_Before
+        Condition_After
+    )
+    filters
+    (
+        Asset
+        Maintenance_Status
+    )
+    sort by
+    (
+        Reported_Date descending
+    )
+}

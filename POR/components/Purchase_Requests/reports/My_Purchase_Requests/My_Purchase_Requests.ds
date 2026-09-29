@@ -1,0 +1,50 @@
+default list My_Purchase_Requests
+{
+    displayName = "My Purchase Requests"
+    show all rows from Purchase_Requests [Added_User == zoho.loginuser]
+    (
+        Request_Number
+        Request_Date
+        Vendor
+        Request_Total
+        Needed_By
+        Status
+        PO_Number
+    )
+    filters
+    (
+        Status
+        Vendor
+    )
+    sort by
+    (
+        Request_Date descending
+    )
+    conditional formatting
+    (
+        "Rejected"
+        {
+            condition = (Status == "Rejected")
+            fields = [Request_Number, Status]
+            format = "background-color:#FDE8E8;color:#B42318"
+        }
+        "Match Exception"
+        {
+            condition = (Status == "Match Exception")
+            fields = [Request_Number, Status]
+            format = "background-color:#FFF1F0;color:#C62828;font-weight:bold"
+        }
+        "Pending"
+        {
+            condition = (Status == "Pending Manager Approval" || Status == "Pending Finance Approval")
+            fields = [Request_Number, Status]
+            format = "background-color:#FFF7E0;color:#8A5700"
+        }
+        "Matched"
+        {
+            condition = (Status == "Matched")
+            fields = [Request_Number, Status]
+            format = "background-color:#E7F6EC;color:#137333"
+        }
+    )
+}

@@ -1,0 +1,27 @@
+Purchase_Order_On_User_Input as "Purchase Order On User Input"
+{
+    type = form
+    form = Invoices
+    record event = on add or edit
+
+    on user input of Purchase_Order
+    {
+        actions
+        {
+            custom deluge script
+            (
+                input.Vendor = null;
+                input.Invoice_Lines.clear();
+                if(input.Purchase_Order != null)
+                {
+                    poRecord = Purchase_Requests[ID == input.Purchase_Order];
+                    if(poRecord.ID != null)
+                    {
+                        input.Vendor = poRecord.Vendor;
+                        alert "Remaining PO amount: " + ifnull(poRecord.Remaining_To_Invoice,poRecord.PO_Total);
+                    }
+                }
+            )
+        }
+    }
+}

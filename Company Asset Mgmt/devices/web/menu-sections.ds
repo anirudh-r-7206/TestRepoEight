@@ -1,0 +1,108 @@
+menu
+{
+    space IT_Asset_Management
+    {
+        displayname = "IT Asset Management"
+        icon = "tech-computer"
+
+        section Overview
+        {
+            displayname = "Overview"
+            icon = "business-chart"
+
+            page Hardware_Overview
+            {
+                icon = "business-chart-bar-33"
+            }
+            page Assets_By_Type
+            {
+                icon = "tech-computer-monitor"
+            }
+        }
+
+        section Inventory
+        {
+            displayname = "Inventory"
+            icon = "business-stock"
+
+            form Assets
+            {
+                icon = "tech-computer-monitor"
+            }
+            report All_Assets
+            {
+                icon = "tech-desktop"
+            }
+            report Available_Assets
+            {
+                icon = "tech-laptop"
+            }
+            report Assigned_Assets
+            {
+                icon = "tech-computer"
+            }
+            report Maintenance_Assets
+            {
+                icon = "tech-computer-old"
+            }
+        }
+
+        section Custody
+        {
+            displayname = "Custody"
+            icon = "users-badge-13"
+
+            form Assignments
+            {
+                icon = "business-handout"
+            }
+            report Active_Assignments
+            {
+                icon = "users-single-position"
+            }
+            report Assignment_History
+            {
+                icon = "business-agenda"
+            }
+            report Returned_Assignments
+            {
+                icon = "business-progress"
+            }
+        }
+
+        section Maintenance
+        {
+            displayname = "Maintenance"
+            icon = "objects-puzzle-10"
+
+            form Maintenance
+            {
+                icon = "objects-puzzle-09"
+            }
+            report Open_Maintenance
+            {
+                icon = "objects-cone"
+            }
+            report Maintenance_History
+            {
+                icon = "business-notes"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

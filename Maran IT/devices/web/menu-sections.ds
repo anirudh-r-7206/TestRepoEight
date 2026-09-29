@@ -1,0 +1,39 @@
+menu
+{
+    space IT_Management
+    {
+        displayname = "IT Management"
+        icon = "tech-computer"
+
+        section System_Administration
+        {
+            displayname = "System Administration"
+            icon = "users-multiple-11"
+
+            form System_Admins
+            {
+                icon = "users-add-27"
+            }
+            report All_System_Admins
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

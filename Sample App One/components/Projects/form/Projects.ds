@@ -1,0 +1,93 @@
+form Projects
+{
+    title
+    {
+        displayname = "Projects"
+        on add = "Add Project"
+        on edit = "Edit Project"
+    }
+    success message = "Project saved."
+
+    Project_Details
+    (
+        type = section
+        displayname = "Project Details"
+        row = 1
+        column = 0
+    )
+    must have Client
+    (
+        type = picklist
+        values = Clients.ID
+        displayformat = [Client_Name]
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Project_Name
+    (
+        type = text
+        displayname = "Project Name"
+        maxchar = 180
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Status
+    (
+        type = picklist
+        values = {"Active", "Review", "Completed"}
+        initial value = "Active"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Due_Date
+    (
+        type = date
+        displayname = "Due Date"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Billed_Hours
+    (
+        type = decimal
+        displayname = "Billed Hours"
+        decimalplace = 2
+        initial value = 0
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

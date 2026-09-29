@@ -1,0 +1,9 @@
+customize
+{
+    font = "lato"
+
+    color options
+    {
+        color = "3"
+    }
+}

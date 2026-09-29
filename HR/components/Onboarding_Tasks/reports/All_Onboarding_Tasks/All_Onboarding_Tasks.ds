@@ -1,0 +1,30 @@
+default list All_Onboarding_Tasks
+{
+    displayName = "All Onboarding Tasks"
+    show all rows from Onboarding_Tasks
+    (
+        New_Hire
+        Task_Name
+        Category
+        Assignee_Email
+        Due_Date
+        Priority
+        Status
+        Completion_Date
+    )
+    filters
+    (
+        Category
+        Assignee_Email
+        Priority
+        Status
+    )
+    group by
+    (
+        Category ascending
+    )
+    sort by
+    (
+        Due_Date ascending
+    )
+}

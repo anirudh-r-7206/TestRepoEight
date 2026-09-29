@@ -1,0 +1,34 @@
+Handbook_Acknowledgements_On_Success as "Handbook Acknowledgements On Success"
+{
+    type = form
+    form = Handbook_Acknowledgements
+    record event = on add or edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.New_Hire != null)
+                {
+                    hire_id = input.New_Hire;
+                    incomplete_task_count = Onboarding_Tasks[New_Hire == hire_id && Status != "Complete"].count();
+                    incomplete_mandatory_training_count = Training_Assignments[New_Hire == hire_id && Training_Item.Mandatory == true && Status != "Completed" && Status != "Waived"].count();
+                    hire_records = New_Hires[ID == hire_id] range from 0 to 0;
+                    if(hire_records.count() > 0)
+                    {
+                        if(incomplete_task_count == 0 && incomplete_mandatory_training_count == 0)
+                        {
+                            hire_records.Status = "Complete";
+                        }
+                        else
+                        {
+                            hire_records.Status = "In Progress";
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,20 @@
+default list Handbook_Signoff_Register
+{
+    displayName = "Handbook Signoff Register"
+    show all rows from Handbook_Acknowledgements
+    (
+        New_Hire
+        Handbook_Version
+        Signed_Date
+        Witnessed_By
+    )
+    filters
+    (
+        Handbook_Version
+        Signed_Date
+    )
+    sort by
+    (
+        Signed_Date descending
+    )
+}

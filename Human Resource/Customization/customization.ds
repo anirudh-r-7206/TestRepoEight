@@ -1,0 +1,24 @@
+customize
+{
+    new theme = 11
+    new theme color = 1
+    font = "lato"
+
+    color options
+    {
+        color = "1"
+    }
+
+    icon
+    {
+        icon = "zc-ab-hr-mgmt1"
+        background color = "#16A263"
+        foreground color = "#ffffff"
+    }
+
+    logo
+    {
+        preference = "none"
+        placement = "left"
+    }
+}
