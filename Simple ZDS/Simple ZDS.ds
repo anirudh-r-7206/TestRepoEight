@@ -38,7 +38,7 @@ application "Simple-ZDS"
 		    must have Priority
 		    (
 		        type = picklist
-		        values = {"Low", "Medium", "High"}
+		        values = {"Very Low", "Low", "Medium", "High", "Very High"}
 		        initial value = "Medium"
 		        row = 1
 		        column = 1
@@ -55,7 +55,7 @@ application "Simple-ZDS"
 		    must have Status
 		    (
 		        type = picklist
-		        values = {"To Do", "In Progress", "Completed"}
+		        values = {"To Do", "In Progress", "On Hold", "Completed"}
 		        initial value = "To Do"
 		        row = 1
 		        column = 1
