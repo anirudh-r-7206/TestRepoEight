@@ -38,7 +38,7 @@ form Tasks
     must have Status
     (
         type = picklist
-        values = {"Not Started", "In Progress", "Completed"}
+        values = {"Not Started", "In Progress", "On Hold", "Completed"}
         initial value = "Not Started"
         row = 1
         column = 2
