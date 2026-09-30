@@ -1,0 +1,19 @@
+<page linkname = "Task_Dashboard" displayname = "Task Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Task_Overview' elementName='Task_Overview'>
+          <![CDATA[htmlpage Task_Overview()
+            content
+            <%{%>
+              <file name:Task_Overview.dshtml/>
+            <%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

@@ -1,0 +1,24 @@
+Completed_On_User_Input as "Completed On User Input"
+{
+    type = form
+    form = Tasks
+    record event = on add or edit
+
+    on user input of Completed
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if (input.Completed == true && input.Status != "Completed")
+                {
+                    input.Status = "Completed";
+                }
+                else if (input.Completed == false && input.Status == "Completed")
+                {
+                    input.Status = "Not Started";
+                }
+            )
+        }
+    }
+}

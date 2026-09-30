@@ -1,0 +1,58 @@
+menu
+{
+    space Personal_Tasks
+    {
+        displayname = "Task Manager"
+        icon = "business-agenda"
+
+        section Overview
+        {
+            displayname = "Overview"
+            icon = "business-chart"
+
+            page Task_Dashboard
+            {
+                icon = "business-chart-pie-36"
+            }
+        }
+
+        section Task_Management
+        {
+            displayname = "Tasks"
+            icon = "business-agenda"
+
+            form Tasks
+            {
+                icon = "business-notes"
+            }
+            report All_Tasks
+            {
+                icon = "business-agenda"
+            }
+            report Task_Board
+            {
+                icon = "business-board-27"
+            }
+            report Task_Calendar
+            {
+                icon = "business-money-time"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

@@ -1,0 +1,29 @@
+calendar Task_Calendar
+{
+    displayName = "Task Calendar"
+    show all rows from Tasks [Due_Date != null]
+    (
+        Task_Name
+        Status
+        Priority
+        Due_Date
+    )
+    filters
+    (
+        Status
+        Priority
+    )
+    options
+    (
+        display type = month
+        week start day = monday
+        display field = Task_Name
+        start date = Due_Date
+        default date
+        (
+            day = Today
+            month = Currentmonth
+            year = Currentyear
+        )
+    )
+}

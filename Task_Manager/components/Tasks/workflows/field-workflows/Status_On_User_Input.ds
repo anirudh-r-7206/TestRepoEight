@@ -1,0 +1,21 @@
+Status_On_User_Input as "Status On User Input"
+{
+    type = form
+    form = Tasks
+    record event = on add or edit
+
+    on user input of Status
+    {
+        actions
+        {
+            custom deluge script
+            (
+                shouldBeCompleted = input.Status == "Completed";
+                if (input.Completed != shouldBeCompleted)
+                {
+                    input.Completed = shouldBeCompleted;
+                }
+            )
+        }
+    }
+}
