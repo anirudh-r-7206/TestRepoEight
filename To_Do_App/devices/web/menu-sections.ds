@@ -1,0 +1,43 @@
+menu
+{
+    space To_Do_Space
+    {
+        displayname = "To Do"
+        icon = "business-agenda"
+
+        section Tasks_Section
+        {
+            displayname = "Tasks"
+            icon = "business-agenda"
+
+            form Tasks
+            {
+                icon = "business-notes"
+            }
+            report All_Tasks
+            {
+                icon = "business-board-27"
+            }
+            report Task_Board
+            {
+                icon = "business-board-30"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

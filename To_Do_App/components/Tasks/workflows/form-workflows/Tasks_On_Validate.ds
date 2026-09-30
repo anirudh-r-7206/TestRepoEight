@@ -1,0 +1,25 @@
+Tasks_On_Validate as "Sync Task Completion"
+{
+    type = form
+    form = Tasks
+    record event = on add or edit
+    description = "Keeps the completion checkbox and status aligned."
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if (input.Status == "Completed")
+                {
+                    input.Completed = true;
+                }
+                else if (input.Completed == true)
+                {
+                    input.Status = "Completed";
+                }
+            )
+        }
+    }
+}

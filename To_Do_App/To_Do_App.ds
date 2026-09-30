@@ -1,0 +1,434 @@
+application "To-Do-App"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Tasks
+		{
+		    success message = "Task saved."
+		
+		    Task_Details
+		    (
+		        type = section
+		        displayname = "Task Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Task_Title
+		    (
+		        type = text
+		        displayname = "Task"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        height = 100px
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Priority
+		    (
+		        type = picklist
+		        values = {"Low", "Medium", "High", "Urgent"}
+		        initial value = "Medium"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = picklist
+		        values = {"Not Started", "In Progress", "Completed"}
+		        initial value = "Not Started"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Completed
+		    (
+		        type = checkbox
+		        initial value = false
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Tasks
+		{
+		    displayName = "All Tasks"
+		    show all rows from Tasks
+		    (
+		        Task_Title
+		        Priority
+		        Status
+		        Due_Date
+		        Completed
+		    )
+		    filters
+		    (
+		        Priority
+		        Status
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		        Priority descending
+		    )
+		}
+
+		kanban Task_Board
+		{
+		    displayName = "Task Board"
+		    show all rows from Tasks
+		    (
+		        Task_Title
+		        Priority
+		        Due_Date
+		        Completed
+		        Status
+		    )
+		    filters
+		    (
+		        Priority
+		        Status
+		    )
+		    options
+		    (
+		        display field = Status
+		        filter type = manual
+		        sort order = ascending
+		        record count = enable
+		    )
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Tasks_On_Validate as "Sync Task Completion"
+			{
+			    type = form
+			    form = Tasks
+			    record event = on add or edit
+			    description = "Keeps the completion checkbox and status aligned."
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if (input.Status == "Completed")
+			                {
+			                    input.Completed = true;
+			                }
+			                else if (input.Completed == true)
+			                {
+			                    input.Status = "Completed";
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-project-mgmt1"
+	        background color = "#5051F9"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Tasks
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Tasks
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Task_Title
+		                    Priority
+		                    Status
+		                    Due_Date
+		                    Completed
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Title
+		                    Priority
+		                    Status
+		                    Due_Date
+		                    Completed
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	
+		report Task_Board
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Task_Title
+		                    Priority
+		                    Due_Date
+		                    Completed
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Task_Title
+		                    Priority
+		                    Due_Date
+		                    Completed
+		                    Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space To_Do_Space
+	    {
+	        displayname = "To Do"
+	        icon = "business-agenda"
+	
+	        section Tasks_Section
+	        {
+	            displayname = "Tasks"
+	            icon = "business-agenda"
+	
+	            form Tasks
+	            {
+	                icon = "business-notes"
+	            }
+	            report All_Tasks
+	            {
+	                icon = "business-board-27"
+	            }
+	            report Task_Board
+	            {
+	                icon = "business-board-30"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

@@ -1,0 +1,24 @@
+kanban Task_Board
+{
+    displayName = "Task Board"
+    show all rows from Tasks
+    (
+        Task_Title
+        Priority
+        Due_Date
+        Completed
+        Status
+    )
+    filters
+    (
+        Priority
+        Status
+    )
+    options
+    (
+        display field = Status
+        filter type = manual
+        sort order = ascending
+        record count = enable
+    )
+}
