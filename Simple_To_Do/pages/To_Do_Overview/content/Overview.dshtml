@@ -1,0 +1,152 @@
+<%
+  totalTasks = Tasks.count();
+  toDoTasks = Tasks[Status == "To Do"].count();
+  inProgressTasks = Tasks[Status == "In Progress"].count();
+  doneTasks = Tasks[Status == "Done"].count();
+  overdueTasks = Tasks[Status != "Done" && Due_Date != null && Due_Date < zoho.currentdate].count();
+  lowPriority = Tasks[Priority == "Low"].count();
+  mediumPriority = Tasks[Priority == "Medium"].count();
+  highPriority = Tasks[Priority == "High"].count();
+  completionPercent = 0;
+  if(totalTasks > 0)
+  {
+    completionPercent = ((doneTasks * 100.0) / totalTasks).round(0);
+  }
+  upcomingTasks = Tasks[Status != "Done"] sort by Due_Date asc range from 1 to 8;
+%>
+<style>
+:root {
+  --zcs-bg: var(--zcs_page_bg_color, #f5f6f8);
+  --zcs-surface: var(--zcs_component_bg_color, #ffffff);
+  --zcs-text-1: var(--zcs_primary_text_color, #1f2937);
+  --zcs-text-2: var(--zcs_secondary_text_color, #667085);
+  --zcs-text-3: var(--zcs_tertiary_text_color, #98a2b3);
+  --zcs-border: var(--zcs_tertiary_border_color, #e4e7ec);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
+  --zcs-green: #067647; --zcs-green-bg: #ecfdf3;
+  --zcs-red: #b42318; --zcs-red-bg: #fef3f2;
+  --zcs-orange: #b54708; --zcs-orange-bg: #fffaeb;
+  --zcs-blue: #175cd3; --zcs-blue-bg: #eff8ff;
+}
+* { box-sizing: border-box; }
+.zcs-page { font-family: var(--zcs-font, Arial, sans-serif); background: var(--zcs-bg); min-height: 100vh; padding: 24px; color: var(--zcs-text-1); }
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title { font-size: 22px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 4px; }
+.zcs-page-header__sub { font-size: 14px; color: var(--zcs-text-2); margin: 0; }
+.zcs-kpi-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.zcs-kpi-card { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 22px; min-width: 0; }
+.zcs-kpi-card__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.zcs-kpi-card__icon { color: var(--zcs_brand_color, #4263eb); font-size: 20px; }
+.zcs-kpi-card__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--zcs-text-2); }
+.zcs-kpi-card__value { font-size: 32px; font-weight: 700; margin: 8px 0 4px; line-height: 1; color: var(--zcs-text-1); }
+.zcs-kpi-card__sub { font-size: 12px; color: var(--zcs-text-3); }
+.zcs-kpi-card--danger .zcs-kpi-card__value, .zcs-kpi-card--danger .zcs-kpi-card__icon { color: var(--zcs-red); }
+.zcs-kpi-card--success .zcs-kpi-card__value, .zcs-kpi-card--success .zcs-kpi-card__icon { color: var(--zcs-green); }
+.overview-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 16px; margin-bottom: 8px; }
+.zcs-section { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 24px; margin-bottom: 16px; }
+.zcs-section__heading { font-size: 15px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 6px; }
+.section-sub { color: var(--zcs-text-3); font-size: 12px; margin: 0 0 18px; }
+.progress-summary { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+.progress-value { font-size: 28px; font-weight: 700; color: var(--zcs-text-1); }
+.progress-copy { font-size: 13px; color: var(--zcs-text-2); }
+.zcs-progress-bar { height: 10px; overflow: hidden; background-color: var(--zcs_component_hover_color, #eaecf0); border-radius: 6px; }
+.zcs-progress-bar-indicator { height: inherit; border-radius: inherit; background-color: var(--zcs_brand_color, #4263eb); }
+.priority-list { display: grid; gap: 14px; }
+.priority-row { display: grid; grid-template-columns: 92px 1fr 36px; align-items: center; gap: 12px; font-size: 13px; }
+.priority-label { display: flex; align-items: center; gap: 8px; color: var(--zcs-text-2); }
+.priority-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--zcs-blue); }
+.priority-row--medium .priority-dot, .priority-row--medium .priority-fill { background: #f79009; }
+.priority-row--high .priority-dot, .priority-row--high .priority-fill { background: #f04438; }
+.priority-track { height: 7px; overflow: hidden; border-radius: 5px; background: #eaecf0; }
+.priority-fill { height: 100%; background: var(--zcs-blue); border-radius: inherit; }
+.priority-count { text-align: right; font-weight: 600; color: var(--zcs-text-1); }
+.zcs-table-wrapper { border: 1px solid var(--zcs-border); background: var(--zcs-surface); border-radius: 8px; overflow: auto; }
+.zcs-table-wrapper table { width: 100%; min-width: 620px; border-collapse: collapse; }
+.zcs-table-wrapper th { padding: 10px 16px; background: #f9fafe; border-bottom: 1px solid var(--zcs-border); color: var(--zcs-text-2); font-size: 12px; font-weight: 600; text-align: left; white-space: nowrap; }
+.zcs-table-wrapper td { padding: 12px 16px; border-top: 1px solid var(--zcs-border); color: var(--zcs-text-1); font-size: 13px; text-align: left; }
+.zcs-table-wrapper tbody tr:first-child td { border-top: 0; }
+.zcs-table-wrapper tbody tr:hover td { background: #f9fafe; }
+.task-title { font-weight: 600; max-width: 420px; }
+.due-overdue { color: var(--zcs-red); font-weight: 600; }
+.zcs-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; line-height: 1.4; white-space: nowrap; }
+.zcs-badge--success { background: var(--zcs-green-bg); color: var(--zcs-green); }
+.zcs-badge--danger { background: var(--zcs-red-bg); color: var(--zcs-red); }
+.zcs-badge--warning { background: var(--zcs-orange-bg); color: var(--zcs-orange); }
+.zcs-badge--info { background: var(--zcs-blue-bg); color: var(--zcs-blue); }
+.zcs-badge--neutral { background: #f3f4f6; color: var(--zcs-text-2); }
+.zcs-empty-state { text-align: center; padding: 40px 24px; }
+.zcs-empty-state i { display: block; margin-bottom: 10px; font-size: 26px; color: var(--zcs-text-3); }
+.zcs-empty-state__title { font-size: 16px; font-weight: 600; color: var(--zcs-text-2); margin: 0 0 6px; }
+.zcs-empty-state__body { font-size: 14px; color: var(--zcs-text-3); }
+@media (max-width: 1100px) { .zcs-kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .zcs-page { padding: 16px; } .zcs-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .overview-grid { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .zcs-kpi-grid { grid-template-columns: 1fr; } .zcs-section, .zcs-kpi-card { padding: 18px; } .progress-summary { align-items: flex-start; flex-direction: column; gap: 4px; } }
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header">
+    <h1 class="zcs-page-header__title">To-Do Overview</h1>
+    <p class="zcs-page-header__sub">A clear view of workload, progress, priorities, and approaching deadlines.</p>
+  </div>
+
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Total Tasks</div><i class="zcs-kpi-card__icon zc-li-outline files-3-task-list"></i></div><div class="zcs-kpi-card__value"><%=totalTasks%></div><div class="zcs-kpi-card__sub">All recorded work</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">To Do</div><i class="zcs-kpi-card__icon zc-li-outline ui-1-circle-add"></i></div><div class="zcs-kpi-card__value"><%=toDoTasks%></div><div class="zcs-kpi-card__sub">Ready to begin</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">In Progress</div><i class="zcs-kpi-card__icon zc-li-outline ui-2-time"></i></div><div class="zcs-kpi-card__value"><%=inProgressTasks%></div><div class="zcs-kpi-card__sub">Currently active</div></div>
+    <div class="zcs-kpi-card zcs-kpi-card--success"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Done</div><i class="zcs-kpi-card__icon zc-li-outline ui-1-check-circle-08"></i></div><div class="zcs-kpi-card__value"><%=doneTasks%></div><div class="zcs-kpi-card__sub">Completed work</div></div>
+    <div class="zcs-kpi-card zcs-kpi-card--danger"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Overdue</div><i class="zcs-kpi-card__icon zc-li-outline ui-2-alert-circle"></i></div><div class="zcs-kpi-card__value"><%=overdueTasks%></div><div class="zcs-kpi-card__sub">Open past due date</div></div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="zcs-section">
+      <h2 class="zcs-section__heading">Completion progress</h2>
+      <p class="section-sub">Completed tasks compared with all tasks.</p>
+      <div class="progress-summary"><span class="progress-value"><%=completionPercent%>%</span><span class="progress-copy"><%=doneTasks%> of <%=totalTasks%> tasks complete</span></div>
+      <div class="zcs-progress-bar-wrapper"><div class="zcs-progress-bar"><div class="zcs-progress-bar-indicator" style="width:<%=completionPercent%>%;"></div></div></div>
+    </div>
+    <div class="zcs-section">
+      <h2 class="zcs-section__heading">Priority distribution</h2>
+      <p class="section-sub">All tasks grouped by urgency.</p>
+      <% if(totalTasks == 0) { %>
+        <div class="zcs-empty-state"><div class="zcs-empty-state__title">No priority data yet</div><div class="zcs-empty-state__body">Priority totals will appear after tasks are added.</div></div>
+      <% } else { %>
+        <div class="priority-list">
+          <div class="priority-row"><span class="priority-label"><span class="priority-dot"></span>Low</span><div class="priority-track"><div class="priority-fill" style="width:<%=((lowPriority * 100.0) / totalTasks).round(0)%>%;"></div></div><span class="priority-count"><%=lowPriority%></span></div>
+          <div class="priority-row priority-row--medium"><span class="priority-label"><span class="priority-dot"></span>Medium</span><div class="priority-track"><div class="priority-fill" style="width:<%=((mediumPriority * 100.0) / totalTasks).round(0)%>%;"></div></div><span class="priority-count"><%=mediumPriority%></span></div>
+          <div class="priority-row priority-row--high"><span class="priority-label"><span class="priority-dot"></span>High</span><div class="priority-track"><div class="priority-fill" style="width:<%=((highPriority * 100.0) / totalTasks).round(0)%>%;"></div></div><span class="priority-count"><%=highPriority%></span></div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="zcs-section">
+    <h2 class="zcs-section__heading">Upcoming tasks</h2>
+    <p class="section-sub">The next open tasks, ordered by due date.</p>
+    <% if(upcomingTasks.count() == 0) { %>
+      <div class="zcs-empty-state"><i class="zc-li-outline ui-1-check-circle-08"></i><div class="zcs-empty-state__title">No open tasks</div><div class="zcs-empty-state__body">All tasks are complete, or no tasks have been added yet.</div></div>
+    <% } else { %>
+      <div class="zcs-table-wrapper">
+        <table>
+          <thead><tr><th>Title</th><th>Priority</th><th>Status</th><th>Due date</th></tr></thead>
+          <tbody>
+          <% for each task in upcomingTasks { 
+               priorityClass = "zcs-badge--neutral";
+               if(task.Priority == "Medium") { priorityClass = "zcs-badge--warning"; }
+               if(task.Priority == "High") { priorityClass = "zcs-badge--danger"; }
+               statusClass = "zcs-badge--neutral";
+               if(task.Status == "In Progress") { statusClass = "zcs-badge--info"; }
+               dueText = "No due date";
+               dueClass = "";
+               if(task.Due_Date != null) {
+                 dueText = task.Due_Date.toString("dd MMM yyyy");
+                 if(task.Due_Date < zoho.currentdate) { dueClass = "due-overdue"; }
+               }
+          %>
+            <tr><td class="task-title"><%=task.Title%></td><td><span class="zcs-badge <%=priorityClass%>"><%=task.Priority%></span></td><td><span class="zcs-badge <%=statusClass%>"><%=task.Status%></span></td><td class="<%=dueClass%>"><%=dueText%></td></tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

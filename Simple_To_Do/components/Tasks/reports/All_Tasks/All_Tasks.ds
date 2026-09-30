@@ -1,0 +1,23 @@
+default list All_Tasks
+{
+    displayName = "All Tasks"
+    show all rows from Tasks
+    (
+        Title
+        Priority
+        Status
+        Due_Date
+        Description
+    )
+    filters
+    (
+        Priority
+        Status
+        Due_Date
+    )
+    sort by
+    (
+        Due_Date ascending
+        Priority descending
+    )
+}

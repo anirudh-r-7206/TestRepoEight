@@ -1,0 +1,84 @@
+form Tasks
+{
+    success message = "Task saved successfully."
+
+    Task_Details
+    (
+        type = section
+        displayname = "Task Details"
+        row = 1
+        column = 0
+    )
+    must have Title
+    (
+        type = text
+        maxchar = 150
+        row = 1
+        column = 1
+        width = medium
+    )
+    Description
+    (
+        type = textarea
+        height = 100px
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Priority
+    (
+        type = picklist
+        values = {"Low", "Medium", "High"}
+        initial value = "Medium"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Status
+    (
+        type = picklist
+        values = {"To Do", "In Progress", "Done"}
+        initial value = "To Do"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Due_Date
+    (
+        type = date
+        displayname = "Due Date"
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}
