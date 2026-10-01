@@ -1,0 +1,7 @@
+forms
+{
+    form Tasks
+    {
+        label placement = left
+    }
+}

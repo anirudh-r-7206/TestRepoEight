@@ -1,0 +1,21 @@
+customize
+{
+    layout
+    {
+        theme = "theme_11"
+        variant = "variant_1"
+    }
+
+    font = "opensans"
+
+    color options
+    {
+        color = "2"
+    }
+
+    logo
+    {
+        preference = "app_icon"
+        placement = "left"
+    }
+}
