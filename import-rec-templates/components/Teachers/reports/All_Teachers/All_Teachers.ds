@@ -2,6 +2,7 @@ default list All_Teachers
 {
 
 			displayName = "All Teachers"
+			print template = Reco
 			show all rows from Teachers    
 			(
 				Name
