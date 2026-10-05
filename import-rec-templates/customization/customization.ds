@@ -1,0 +1,11 @@
+customize
+{
+
+		icon
+		{
+			text = "IRT"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	
+}

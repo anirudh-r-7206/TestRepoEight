@@ -1,0 +1,143 @@
+Reco
+{
+
+							content = {
+    "pageNumberOption": null,
+    "orientation": "null",
+    "images": [
+        {
+            "fileName": "",
+            "imageId": "",
+            "imageType": "",
+            "fileId": ""
+        }
+    ],
+    "imageId": "",
+    "isFooterEnabled": false,
+    "containerStyle": "",
+    "templateStyle": "text-align: left; width: 793.7px; background-image: none",
+    "version": "2",
+    "layout": "1",
+    "mainLayout": [
+        {
+            "elements": [
+                {
+                    "type": "columns",
+                    "element": {
+                        "split": "100",
+                        "id": "u_elem_6056659999999404",
+                        "elemStyle": "",
+                        "collayouts": [
+                            {
+                                "colElements": [
+                                    {
+                                        "type": "text",
+                                        "element": {
+                                            "id": "u_elem_6056620000000298",
+                                            "fields": [],
+                                            "content": "<div style=\"background: rgba(0, 0, 0, 0); padding: 0px\"><h1\n      style=\"color: rgb(0, 0, 0); font-weight: 400; font-style: normal; text-align: left\"><font style=\"font-size: 28px\">Your content goes here ..</font></h1></div>"
+                                        }
+                                    }
+                                ],
+                                "style": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "columns",
+                    "element": {
+                        "split": "100",
+                        "id": "u_elem_6346529999999702",
+                        "elemStyle": "",
+                        "collayouts": [
+                            {
+                                "colElements": [
+                                    {
+                                        "id": "u_elem_6346509999999404",
+                                        "type": "fields",
+                                        "element": {
+                                            "valueStyle": "width: 50%",
+                                            "valueTextStyle": "",
+                                            "fieldLayoutType": "2",
+                                            "labelText": "Age",
+                                            "wrapperStyle": "",
+                                            "labelStyle": "width: 50%",
+                                            "Label_Name": "Age",
+                                            "labelTextStyle": ""
+                                        }
+                                    }
+                                ],
+                                "style": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "columns",
+                    "element": {
+                        "split": "100",
+                        "id": "u_elem_651755",
+                        "elemStyle": "",
+                        "collayouts": [
+                            {
+                                "colElements": [
+                                    {
+                                        "id": "u_elem_6517539999999106",
+                                        "type": "fields",
+                                        "element": {
+                                            "valueStyle": "width: 50%",
+                                            "valueTextStyle": "",
+                                            "fieldLayoutType": "2",
+                                            "labelText": "Gender",
+                                            "wrapperStyle": "",
+                                            "labelStyle": "width: 50%",
+                                            "Label_Name": "Gender",
+                                            "labelTextStyle": ""
+                                        }
+                                    }
+                                ],
+                                "style": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "columns",
+                    "element": {
+                        "split": "100",
+                        "id": "u_elem_6626820000000298",
+                        "elemStyle": "",
+                        "collayouts": [
+                            {
+                                "colElements": [
+                                    {
+                                        "id": "u_elem_6626809999999404",
+                                        "type": "fields",
+                                        "element": {
+                                            "valueStyle": "width: 50%",
+                                            "valueTextStyle": "",
+                                            "fieldLayoutType": "2",
+                                            "labelText": "Name",
+                                            "wrapperStyle": "",
+                                            "labelStyle": "width: 50%",
+                                            "Label_Name": "Name",
+                                            "labelTextStyle": ""
+                                        }
+                                    }
+                                ],
+                                "style": ""
+                            }
+                        ]
+                    }
+                }
+            ],
+            "id": 1
+        }
+    ],
+    "resize": "a4",
+    "themeFont": "lato",
+    "isHeaderEnabled": false
+}
+				
+}
