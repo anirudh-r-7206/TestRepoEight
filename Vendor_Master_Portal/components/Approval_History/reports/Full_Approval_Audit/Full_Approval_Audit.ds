@@ -1,0 +1,41 @@
+list Full_Approval_Audit
+{
+
+		    displayName = "Full Approval Audit"
+		    show all rows from Approval_History
+		    (
+		        Vendor_Request
+		        Stage
+		        Decision
+		        Actor_Email
+		        Actor_Profile
+		        Decision_At
+		        Comment
+		        Previous_Stage
+		        Next_Stage
+		        Related_Compliance_Review
+		        Related_Bank_Verification
+		        Added_User
+		        Added_Time
+		        Modified_User
+		        Modified_Time
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Stage
+		        Decision
+		        Actor_Email
+		        Actor_Profile
+		        Decision_At
+		        Previous_Stage
+		        Next_Stage
+		        Added_User
+		        Added_Time
+		    )
+		    sort by
+		    (
+		        Decision_At descending
+		    )
+		
+}

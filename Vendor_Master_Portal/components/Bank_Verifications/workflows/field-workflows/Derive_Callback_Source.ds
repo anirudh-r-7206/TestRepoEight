@@ -1,0 +1,35 @@
+Derive_Callback_Source as "Derive Callback Source"
+{
+
+			    type = form
+			    form = Bank_Verifications
+			    record event = on add or edit
+			    description = "Copies the callback number only from the selected request's SAP vendor master record"
+			
+			    on user input of Vendor_Request
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.Existing_Vendor = null;
+			                input.Callback_Number_Used = "";
+			                input.Number_Source = "SAP Vendor Master";
+			                if (input.Vendor_Request != null)
+			                {
+			                    requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                    if (requestRecord.count() > 0 && requestRecord.Existing_Vendor != null)
+			                    {
+			                        input.Existing_Vendor = requestRecord.Existing_Vendor;
+			                        vendorRecord = Vendor_Master[ID == requestRecord.Existing_Vendor];
+			                        if (vendorRecord.count() > 0)
+			                        {
+			                            input.Callback_Number_Used = vendorRecord.Callback_Phone_On_File;
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

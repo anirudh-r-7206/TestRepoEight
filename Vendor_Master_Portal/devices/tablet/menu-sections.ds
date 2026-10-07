@@ -1,0 +1,129 @@
+menu
+{
+
+	    unused
+	    {
+	        form SLA_Configuration { icon = "business-progress" }
+	        form Vendor_Master { icon = "business-business-contact-87" }
+	        form Vendor_Requests { icon = "files-edit" }
+	        form Request_Documents { icon = "files-upload" }
+	        form Duplicate_Matches { icon = "files-search" }
+	        form Compliance_Reviews { icon = "business-scale" }
+	        form Bank_Verifications { icon = "business-bank" }
+	        form Approval_History { icon = "files-time" }
+	        form Audit_Log { icon = "files-locked" }
+	        form Request_Action { icon = "business-signature" }
+	        page Compliance_Review_Workspace { icon = "business-scale" }
+	    }
+	    space My_Requests
+	    {
+	        displayname = "My Requests"
+	        icon = "files-folder-user"
+	        section Portal_Home
+	        {
+	            displayname = "Portal Home"
+	            icon = "business-building"
+	            page Vendor_Portal_Home { icon = "business-building" }
+	        }
+	        section Request_Tracking
+	        {
+	            displayname = "Request Tracking"
+	            icon = "files-folder-time"
+	            report My_Vendor_Requests { icon = "files-user" }
+	            report Vendor_Portal_My_Requests { icon = "files-folder-user" }
+	            report My_Request_Documents { icon = "files-single-content-03" }
+	        }
+	    }
+	    space Processing
+	    {
+	        displayname = "Processing"
+	        icon = "business-progress"
+	        section Request_Queues
+	        {
+	            displayname = "Request Queues"
+	            icon = "files-folder-15"
+	            report Open_Request_Queue { icon = "files-folder-time" }
+	            report Request_Kanban { icon = "business-board-30" }
+	            report High_Risk_Bank_Requests { icon = "business-safe" }
+	            report Completed_Requests { icon = "files-check" }
+	        }
+	        section Evidence_Queues
+	        {
+	            displayname = "Evidence and Review"
+	            icon = "files-folder-check"
+	            report Request_Documents_All { icon = "files-paper" }
+	            report Rejected_Documents { icon = "files-exclamation" }
+	            report Expiring_Documents { icon = "files-folder-time" }
+	            report Open_Duplicate_Alerts { icon = "files-search" }
+	            report Duplicate_Resolution_History { icon = "files-archive-check" }
+	            report Compliance_Work_Queue { icon = "business-scale" }
+	            report Escalated_Compliance_Reviews { icon = "files-exclamation" }
+	            report Compliance_Review_History { icon = "files-time" }
+	            report Finance_Callback_Queue { icon = "business-bank" }
+	            report Finance_Approval_Queue { icon = "business-signature" }
+	            report Failed_Callbacks { icon = "files-exclamation" }
+	            report Bank_Verification_History { icon = "files-archive-paper-check" }
+	        }
+	    }
+	    space Master_Data
+	    {
+	        displayname = "Master Data"
+	        icon = "business-business-contact-87"
+	        section Vendor_Data
+	        {
+	            displayname = "Vendor Data"
+	            icon = "users-contacts"
+	            report All_Vendors { icon = "users-multiple-19" }
+	            report Active_Vendor_Lookup { icon = "users-badge-13" }
+	            report Vendor_Import_Audit { icon = "files-folder-upload" }
+	        }
+	        section SLA_Rules
+	        {
+	            displayname = "SLA Rules"
+	            icon = "business-goal-65"
+	            report All_SLA_Rules { icon = "business-agenda" }
+	            report Active_SLA_Rules { icon = "business-goal-64" }
+	        }
+	    }
+	    space Monitoring
+	    {
+	        displayname = "Monitoring"
+	        icon = "business-chart"
+	        section Dashboard
+	        {
+	            displayname = "Operations"
+	            icon = "business-chart-bar-33"
+	            page Operations_Dashboard { icon = "business-chart-pie-36" }
+	        }
+	    }
+	    space Audit
+	    {
+	        displayname = "Audit"
+	        icon = "business-law"
+	        section Request_Audit
+	        {
+	            displayname = "Request Audit"
+	            icon = "files-archive-paper-check"
+	            report All_Request_Audit_Export { icon = "files-download" }
+	            report Request_Approval_History { icon = "files-time" }
+	            report Full_Approval_Audit { icon = "files-archive-content" }
+	            report Complete_Audit_Log { icon = "files-locked" }
+	            report Request_Audit_Trail { icon = "files-search" }
+	        }
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	
+}

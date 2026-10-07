@@ -1,0 +1,70 @@
+Configure_Vendor_Request_Form as "Configure Vendor Request Form"
+{
+
+			    type = form
+			    form = Vendor_Requests
+			    record event = on add or edit
+			    description = "Applies request-type visibility and protects lifecycle controls"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Normalized_Legal_Name;
+			                hide Normalized_Tax_ID;
+			                hide Normalized_Registration_ID;
+			                hide Normalized_Bank_Account;
+			                hide Normalized_Email;
+			                disable Risk_Level;
+			                disable Duplicate_Flag;
+			                disable Current_Stage;
+			                disable Current_Assignee_Profile;
+			                disable Submitted_At;
+			                disable Stage_Entered_At;
+			                disable Completed_At;
+			                disable SAP_Completion_Reference;
+			                disable Rejection_or_Return_Reason;
+			                if (input.Request_Type == "General Change" || input.Request_Type == "Bank Detail Change")
+			                {
+			                    show Existing_Vendor;
+			                }
+			                else
+			                {
+			                    hide Existing_Vendor;
+			                }
+			                if (input.Request_Type == "New Vendor" || input.Request_Type == "Bank Detail Change")
+			                {
+			                    show Proposed_Bank_Section;
+			                }
+			                else
+			                {
+			                    hide Proposed_Bank_Section;
+			                }
+			                if (input.ID != null && input.Current_Stage != "Draft" && input.Current_Stage != "Returned")
+			                {
+			                    disable Request_Type;
+			                    disable Submission_Channel;
+			                    disable Existing_Vendor;
+			                    disable Business_Justification;
+			                    disable Requested_By_Email;
+			                    disable Legal_Name;
+			                    disable Trading_Name;
+			                    disable Tax_ID;
+			                    disable Registration_ID;
+			                    disable Primary_Email;
+			                    disable Primary_Phone;
+			                    disable Registered_Address;
+			                    disable Country;
+			                    disable Bank_Name;
+			                    disable Account_Holder_Name;
+			                    disable Bank_Account_Number;
+			                    disable IBAN;
+			                    disable SWIFT_BIC;
+			                }
+			            )
+			        }
+			    }
+			
+}

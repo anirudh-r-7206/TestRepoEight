@@ -1,0 +1,4 @@
+report Rejected_Documents
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Document_Type Verification_Status ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Existing_Vendor Document_Type Expiry_Date Confidentiality_Level Verification_Status Verified_By Verified_At Rejection_Reason Owner_Email ) ) ) menu ( header ( Edit ) ) ) 
+}

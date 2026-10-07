@@ -1,0 +1,94 @@
+"Finance_Manager"
+{
+
+	    name = "Finance_Manager"
+	    type = Users_Permissions
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "Finance reviewers responsible for bank callbacks and independent approval"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Viewall,View,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                High_Risk_Bank_Requests={"View"}
+	                Open_Request_Queue={"View"}
+	                Completed_Requests={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Vendor_Master
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Vendor_Lookup={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Bank_Account_Number{visibility:false}
+	                IBAN{visibility:false}
+	                Callback_Phone_On_File{visibility:true,readonly:true}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Documents_All={"View"}
+	            }
+	        }
+	        Compliance_Reviews
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Compliance_Review_History={"View"}
+	            }
+	        }
+	        Bank_Verifications
+	        {
+	            enabled = Create,Viewall,View,Edit,Search,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Finance_Callback_Queue={"View"}
+	                Finance_Approval_Queue={"View"}
+	                Bank_Verification_History={"View"}
+	                Failed_Callbacks={"View"}
+	            }
+	        }
+	        Approval_History
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Approval_History={"View"}
+	            }
+	        }
+	        Request_Action
+	        {
+	            enabled = Create,View
+	            allFieldsVisible = true
+	        }
+	        Operations_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	
+}

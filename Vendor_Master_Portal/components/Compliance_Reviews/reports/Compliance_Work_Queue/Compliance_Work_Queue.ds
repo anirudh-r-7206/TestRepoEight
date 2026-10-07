@@ -1,0 +1,44 @@
+default list Compliance_Work_Queue
+{
+
+		    displayName = "Compliance Work Queue"
+		    show all rows from Compliance_Reviews [Decision == "Pending"]
+		    (
+		        Vendor_Request
+		        Reviewer_Email
+		        Review_Started_At
+		        Review_Completed_At
+		        Identity_Verified
+		        Tax_Documents_Verified
+		        Registration_Verified
+		        Watchlist_Manual_Check_Completed
+		        Insurance_Verified
+		        Documents_Complete
+		        Bank_Callback_Result_Reviewed
+		        Findings
+		        Decision
+		        Decision_Comment
+		        Evidence_Reference
+		        custom action "Compliance Action"
+		        (
+		            workflow = Open_Compliance_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Compliance Action"
+		            success message = "Opening compliance action"
+		            condition = (Decision == "Pending")
+		        )
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Reviewer_Email
+		        Review_Started_At
+		        Decision
+		    )
+		    sort by
+		    (
+		        Review_Started_At ascending
+		    )
+		
+}

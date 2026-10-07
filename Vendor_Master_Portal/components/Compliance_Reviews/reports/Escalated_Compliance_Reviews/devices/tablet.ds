@@ -1,0 +1,4 @@
+report Escalated_Compliance_Reviews
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Reviewer_Email Decision "Compliance Action" ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Reviewer_Email Review_Started_At Review_Completed_At Findings Decision Decision_Comment Evidence_Reference "Compliance Action" ) ) ) menu ( header ( Edit ) ) ) 
+}

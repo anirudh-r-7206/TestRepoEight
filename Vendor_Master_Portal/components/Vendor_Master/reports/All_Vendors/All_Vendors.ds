@@ -1,0 +1,37 @@
+default list All_Vendors
+{
+
+		    displayName = "All Vendors"
+		    show all rows from Vendor_Master
+		    (
+		        SAP_Vendor_Number
+		        Legal_Name
+		        Trading_Name
+		        Tax_ID
+		        Registration_ID
+		        Primary_Email
+		        Primary_Phone
+		        Registered_Address
+		        Country
+		        Vendor_Status
+		        Bank_Name
+		        Account_Holder_Name
+		        SWIFT_BIC
+		        Callback_Phone_On_File
+		        Import_Batch_Reference
+		        Last_SAP_Import_Date
+		        Active
+		    )
+		    filters
+		    (
+		        Country
+		        Vendor_Status
+		        Active
+		        Import_Batch_Reference
+		    )
+		    sort by
+		    (
+		        Legal_Name ascending
+		    )
+		
+}

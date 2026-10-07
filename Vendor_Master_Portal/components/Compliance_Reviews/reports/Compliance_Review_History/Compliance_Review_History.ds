@@ -1,0 +1,35 @@
+list Compliance_Review_History
+{
+
+		    displayName = "Compliance Review History"
+		    show all rows from Compliance_Reviews [Decision != "Pending"]
+		    (
+		        Vendor_Request
+		        Reviewer_Email
+		        Review_Started_At
+		        Review_Completed_At
+		        Identity_Verified
+		        Tax_Documents_Verified
+		        Registration_Verified
+		        Watchlist_Manual_Check_Completed
+		        Insurance_Verified
+		        Documents_Complete
+		        Bank_Callback_Result_Reviewed
+		        Findings
+		        Decision
+		        Decision_Comment
+		        Evidence_Reference
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Reviewer_Email
+		        Review_Completed_At
+		        Decision
+		    )
+		    sort by
+		    (
+		        Review_Completed_At descending
+		    )
+		
+}

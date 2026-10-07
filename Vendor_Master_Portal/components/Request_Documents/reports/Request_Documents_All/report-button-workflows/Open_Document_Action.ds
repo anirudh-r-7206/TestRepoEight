@@ -1,0 +1,20 @@
+Open_Document_Action as "Open Document Action"
+{
+
+			    type = functions
+			    form = Request_Documents
+			    execution type = for each record
+			    description = "Opens the controlled request action form for document verification or rejection"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                openUrl("#Form:Request_Action?Vendor_Request_ID=" + input.Vendor_Request + "&Document_ID=" + input.ID, "popup window", "height=650px,width=760px");
+			            )
+			        }
+			    }
+			
+}

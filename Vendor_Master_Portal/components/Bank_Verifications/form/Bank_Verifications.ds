@@ -1,0 +1,180 @@
+form Bank_Verifications
+{
+
+		    title
+		    {
+		        displayname = "Bank Verifications"
+		        on add = "Record Bank Verification"
+		        on edit = "Review Bank Verification"
+		    }
+		    success message = "Bank verification evidence saved successfully."
+		    Verification_Section
+		    (
+		        type = section
+		        displayname = "Independent Callback"
+		        row = 1
+		        column = 0
+		    )
+		    must have Vendor_Request
+		    (
+		        type = picklist
+		        displayname = "Vendor Request"
+		        values = Vendor_Requests.ID
+		        displayformat = [Request_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Existing_Vendor
+		    (
+		        type = picklist
+		        displayname = "Existing Vendor"
+		        values = Vendor_Master.ID
+		        displayformat = [Legal_Name]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Callback_Number_Used
+		    (
+		        type = phonenumber
+		        displayname = "Callback Number Used"
+		        isencrypted = true
+		        description
+		        [
+		            type = tooltip
+		            message = "Copied from the SAP Vendor Master mirror; request-supplied contact details are not permitted."
+		        ]
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Number_Source
+		    (
+		        type = picklist
+		        displayname = "Number Source"
+		        values = {"SAP Vendor Master"}
+		        initial value = "SAP Vendor Master"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Call_Date_Time
+		    (
+		        type = datetime
+		        displayname = "Call Date and Time"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Called_By
+		    (
+		        type = email
+		        displayname = "Called By"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Contact_Name
+		    (
+		        type = text
+		        displayname = "Contact Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Verification_Result
+		    (
+		        type = picklist
+		        displayname = "Verification Result"
+		        values = {"Pending","Verified","Failed","Unable to Reach"}
+		        initial value = "Pending"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Verification_Notes
+		    (
+		        type = textarea
+		        displayname = "Verification Notes"
+		        height = 100px
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Second_Approval_Section
+		    (
+		        type = section
+		        displayname = "Independent Finance Approval"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Second_Approver_Email
+		    (
+		        type = email
+		        displayname = "Second Approver Email"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Second_Approval_Date
+		    (
+		        type = datetime
+		        displayname = "Second Approval Date"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Second_Approval_Decision
+		    (
+		        type = picklist
+		        displayname = "Second Approval Decision"
+		        values = {"Pending","Approved","Rejected"}
+		        initial value = "Pending"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Second_Approval_Comment
+		    (
+		        type = textarea
+		        displayname = "Second Approval Comment"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

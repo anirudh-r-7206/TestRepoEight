@@ -1,0 +1,45 @@
+kanban Request_Kanban
+{
+
+		    displayName = "Request Kanban"
+		    show all rows from Vendor_Requests [Current_Stage != "Draft" && Current_Stage != "Rejected" && Current_Stage != "Completed"]
+		    (
+		        Request_Number
+		        Request_Type
+		        Legal_Name
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		        Current_Assignee_Profile
+		        Stage_Entered_At
+		        custom action "Request Action"
+		        (
+		            workflow = Open_Request_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Request Action"
+		            success message = "Opening request action"
+		        )
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		        Current_Assignee_Profile
+		    )
+		    sort by
+		    (
+		        Stage_Entered_At ascending
+		    )
+		    options
+		    (
+		        display field = Current_Stage
+		        othercolumn = "Other"
+		        filter type = manual
+		        sort order = custom
+		        record count = enable
+		    )
+		
+}

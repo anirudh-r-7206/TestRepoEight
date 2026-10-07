@@ -1,0 +1,55 @@
+Protect_Compliance_Review as "Protect Compliance Review"
+{
+
+			    type = form
+			    form = Compliance_Reviews
+			    record event = on add or edit
+			    description = "Initializes reviewer metadata and prevents direct decision changes"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Reviewer_Email;
+			                disable Review_Started_At;
+			                disable Review_Completed_At;
+			                disable Decision;
+			                disable Decision_Comment;
+			                if (input.ID == null)
+			                {
+			                    input.Reviewer_Email = zoho.loginuser;
+			                    input.Review_Started_At = zoho.currenttime;
+			                    input.Decision = "Pending";
+			                }
+			                if (input.Vendor_Request != null)
+			                {
+			                    requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                    if (requestRecord.count() > 0 && requestRecord.Request_Type == "Bank Detail Change")
+			                    {
+			                        show Bank_Callback_Result_Reviewed;
+			                    }
+			                    else
+			                    {
+			                        hide Bank_Callback_Result_Reviewed;
+			                    }
+			                    if (requestRecord.count() == 0 || requestRecord.Current_Stage != "Compliance Review" || input.Decision != "Pending" || input.Reviewer_Email.toLowerCase() != zoho.loginuser.toLowerCase())
+			                    {
+			                        disable Vendor_Request;
+			                        disable Identity_Verified;
+			                        disable Tax_Documents_Verified;
+			                        disable Registration_Verified;
+			                        disable Watchlist_Manual_Check_Completed;
+			                        disable Insurance_Verified;
+			                        disable Documents_Complete;
+			                        disable Bank_Callback_Result_Reviewed;
+			                        disable Findings;
+			                        disable Evidence_Reference;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

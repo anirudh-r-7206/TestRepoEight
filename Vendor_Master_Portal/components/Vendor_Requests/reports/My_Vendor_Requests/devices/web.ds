@@ -1,0 +1,4 @@
+report My_Vendor_Requests
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Request_Number Request_Type Legal_Name Current_Stage Stage_Entered_At "Request Action" ) ) ) menu ( header ( Edit Delete ) record ( Edit Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Request_Number Request_Type Legal_Name Risk_Level Duplicate_Flag Current_Stage Current_Assignee_Profile Submitted_At Stage_Entered_At Completed_At "Request Action" ) ) ) menu ( header ( Edit Delete ) ) ) 
+}

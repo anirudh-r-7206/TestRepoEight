@@ -1,0 +1,39 @@
+default list My_Vendor_Requests
+{
+
+		    displayName = "My Vendor Requests"
+		    show all rows from Vendor_Requests [Added_User == zoho.loginuser]
+		    (
+		        Request_Number
+		        Request_Type
+		        Legal_Name
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		        Current_Assignee_Profile
+		        Submitted_At
+		        Stage_Entered_At
+		        Completed_At
+		        custom action "Request Action"
+		        (
+		            workflow = Open_Request_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Request Action"
+		            success message = "Opening request action"
+		            condition = (Current_Stage != "Completed" && Current_Stage != "Rejected")
+		        )
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		    )
+		    sort by
+		    (
+		        Stage_Entered_At descending
+		    )
+		
+}

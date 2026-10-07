@@ -1,0 +1,4 @@
+report All_Vendors
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( SAP_Vendor_Number Legal_Name Vendor_Status ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( Edit View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( SAP_Vendor_Number Legal_Name Trading_Name Tax_ID Registration_ID Primary_Email Primary_Phone Registered_Address Country Vendor_Status Bank_Name Account_Holder_Name SWIFT_BIC Callback_Phone_On_File Import_Batch_Reference Last_SAP_Import_Date Active ) ) ) menu ( header ( Edit ) ) ) 
+}

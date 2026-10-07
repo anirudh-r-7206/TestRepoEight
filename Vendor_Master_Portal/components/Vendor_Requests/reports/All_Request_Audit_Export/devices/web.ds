@@ -1,0 +1,4 @@
+report All_Request_Audit_Export
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Request_Number Request_Type Submission_Channel Legal_Name Current_Stage Added_Time ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Request_Number Request_Type Submission_Channel Existing_Vendor Business_Justification Requested_By_Email Legal_Name Trading_Name Tax_ID Registration_ID Primary_Email Primary_Phone Registered_Address Country Bank_Name Account_Holder_Name SWIFT_BIC Risk_Level Duplicate_Flag Current_Stage Current_Assignee_Profile Submitted_At Stage_Entered_At Completed_At SAP_Completion_Reference Rejection_or_Return_Reason Added_User Added_Time Modified_User Modified_Time ) ) ) menu ( header ( Edit ) ) ) 
+}

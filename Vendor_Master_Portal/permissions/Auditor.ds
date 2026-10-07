@@ -1,0 +1,134 @@
+"Auditor"
+{
+
+	    name = "Auditor"
+	    type = Users_Permissions
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "Read-only auditors of request history and operational evidence"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Request_Audit_Export={"View"}
+	                Open_Request_Queue={"View"}
+	                Completed_Requests={"View"}
+	                Request_Kanban={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Bank_Account_Number{visibility:false}
+	                IBAN{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Vendor_Master
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Vendors={"View"}
+	                Active_Vendor_Lookup={"View"}
+	                Vendor_Import_Audit={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Bank_Account_Number{visibility:false}
+	                IBAN{visibility:false}
+	                Callback_Phone_On_File{visibility:false}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Documents_All={"View"}
+	                Expiring_Documents={"View"}
+	                Rejected_Documents={"View"}
+	            }
+	        }
+	        Duplicate_Matches
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Open_Duplicate_Alerts={"View"}
+	                Duplicate_Resolution_History={"View"}
+	            }
+	        }
+	        Compliance_Reviews
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Compliance_Work_Queue={"View"}
+	                Compliance_Review_History={"View"}
+	                Escalated_Compliance_Reviews={"View"}
+	            }
+	        }
+	        Bank_Verifications
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Bank_Verification_History={"View"}
+	                Failed_Callbacks={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Callback_Number_Used{visibility:false}
+	            }
+	        }
+	        Approval_History
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Approval_History={"View"}
+	                Full_Approval_Audit={"View"}
+	            }
+	        }
+	        Audit_Log
+	        {
+	            enabled = Viewall,View,Search,Export,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Complete_Audit_Log={"View"}
+	                Request_Audit_Trail={"View"}
+	            }
+	        }
+	        SLA_Configuration
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Active_SLA_Rules={"View"}
+	            }
+	        }
+	        Compliance_Review_Workspace
+	        {
+	            enabled = tab
+	        }
+	        Operations_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	
+}

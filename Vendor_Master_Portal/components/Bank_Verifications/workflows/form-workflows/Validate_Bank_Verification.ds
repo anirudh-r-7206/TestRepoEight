@@ -1,0 +1,94 @@
+Validate_Bank_Verification as "Validate Bank Verification"
+{
+
+			    type = form
+			    form = Bank_Verifications
+			    record event = on add or edit
+			    description = "Enforces SAP callback source, stage order, segregation of duties, and required comments"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                failureReason = "";
+			                requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                if (requestRecord.count() == 0)
+			                {
+			                    failureReason = "The selected vendor request no longer exists.";
+			                }
+			                else if (requestRecord.Request_Type != "Bank Detail Change")
+			                {
+			                    failureReason = "Bank verification is available only for bank-detail change requests.";
+			                }
+			                else if (requestRecord.Existing_Vendor == null)
+			                {
+			                    failureReason = "The request must reference an existing SAP vendor.";
+			                }
+			                if (failureReason == "")
+			                {
+			                    vendorRecord = Vendor_Master[ID == requestRecord.Existing_Vendor];
+			                    if (vendorRecord.count() == 0 || vendorRecord.Callback_Phone_On_File in {""," ","null"})
+			                    {
+			                        failureReason = "No callback number is available in the SAP Vendor Master mirror.";
+			                    }
+			                    else if (input.Existing_Vendor != requestRecord.Existing_Vendor || input.Callback_Number_Used != vendorRecord.Callback_Phone_On_File || input.Number_Source != "SAP Vendor Master")
+			                    {
+			                        failureReason = "The callback must use the phone number held in the SAP Vendor Master mirror.";
+			                    }
+			                }
+			                if (failureReason == "" && input.Called_By.toLowerCase() == requestRecord.Requested_By_Email.toLowerCase())
+			                {
+			                    failureReason = "The requester cannot perform the bank callback.";
+			                }
+			                if (failureReason == "" && input.Verification_Result == "Verified" && requestRecord.Current_Stage != "Finance Callback")
+			                {
+			                    failureReason = "A successful callback can be completed only during the Finance Callback stage.";
+			                }
+			                if (failureReason == "" && input.Verification_Result in {"Failed","Unable to Reach"} && input.Verification_Notes in {""," ","null"})
+			                {
+			                    failureReason = "Explain a failed or unreachable callback in the verification notes.";
+			                }
+			                if (failureReason == "" && input.Second_Approval_Decision != "Pending")
+			                {
+			                    complianceReview = Compliance_Reviews[Vendor_Request == input.Vendor_Request && Decision == "Approved"];
+			                    if (requestRecord.Current_Stage != "Finance Approval" || complianceReview.count() == 0)
+			                    {
+			                        failureReason = "Compliance approval must be complete before the independent Finance decision.";
+			                    }
+			                    else if (input.Second_Approver_Email in {""," ","null"})
+			                    {
+			                        failureReason = "The independent Finance approver is required.";
+			                    }
+			                    else if (input.Second_Approver_Email.toLowerCase() == requestRecord.Requested_By_Email.toLowerCase() || input.Second_Approver_Email.toLowerCase() == input.Called_By.toLowerCase())
+			                    {
+			                        failureReason = "The Finance approver must differ from both the requester and callback caller.";
+			                    }
+			                    else if (input.Second_Approval_Comment in {""," ","null"})
+			                    {
+			                        failureReason = "A Finance approval or rejection comment is required.";
+			                    }
+			                }
+			                if (failureReason != "")
+			                {
+			                    insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = zoho.loginuser
+			                        Event_Category = "Bank Verification"
+			                        Action = "Bank Verification Save Blocked"
+			                        Record_Form = "Bank_Verifications"
+			                        Record_ID = ifnull(input.ID,0)
+			                        Vendor_Request = input.Vendor_Request
+			                        Outcome = "Failed"
+			                        Details = failureReason
+			                    ];
+			                    alert failureReason;
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

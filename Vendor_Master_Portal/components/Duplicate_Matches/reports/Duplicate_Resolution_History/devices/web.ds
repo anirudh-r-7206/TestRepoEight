@@ -1,0 +1,4 @@
+report Duplicate_Resolution_History
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Match_Basis Match_Score Resolution_Status Resolved_At ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Matched_Vendor Matched_Open_Request Match_Basis Match_Score Match_Summary Resolution_Status Resolution_Comment Resolved_By Resolved_At ) ) ) menu ( header ( Edit ) ) ) 
+}

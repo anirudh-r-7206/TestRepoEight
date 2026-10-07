@@ -1,0 +1,4 @@
+report Failed_Callbacks
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Verification_Result "Bank Action" ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( Edit View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Existing_Vendor Number_Source Call_Date_Time Called_By Contact_Name Verification_Result Verification_Notes "Bank Action" ) ) ) menu ( header ( Edit ) ) ) 
+}

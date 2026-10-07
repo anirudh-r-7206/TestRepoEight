@@ -1,0 +1,208 @@
+form Compliance_Reviews
+{
+
+		    title
+		    {
+		        displayname = "Compliance Reviews"
+		        on add = "Start Compliance Review"
+		        on edit = "Update Compliance Review"
+		    }
+		    success message = "Compliance checklist saved successfully."
+		    Review_Section
+		    (
+		        type = section
+		        displayname = "Review Assignment"
+		        row = 1
+		        column = 0
+		    )
+		    must have Vendor_Request
+		    (
+		        type = picklist
+		        displayname = "Vendor Request"
+		        values = Vendor_Requests.ID
+		        displayformat = [Request_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Reviewer_Email
+		    (
+		        type = email
+		        displayname = "Reviewer Email"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Review_Started_At
+		    (
+		        type = datetime
+		        displayname = "Review Started At"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Review_Completed_At
+		    (
+		        type = datetime
+		        displayname = "Review Completed At"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Checklist
+		    (
+		        type = section
+		        displayname = "Manual Screening Checklist"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Identity_Verified
+		    (
+		        type = checkbox
+		        displayname = "Identity Verified"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Tax_Documents_Verified
+		    (
+		        type = checkbox
+		        displayname = "Tax Documents Verified"
+		        initial value = false
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Registration_Verified
+		    (
+		        type = checkbox
+		        displayname = "Registration Verified"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Watchlist_Manual_Check_Completed
+		    (
+		        type = checkbox
+		        displayname = "Manual Watchlist Check Completed"
+		        initial value = false
+		        description
+		        [
+		            type = tooltip
+		            message = "Phase 1 requires a documented manual check; no live watchlist API is used."
+		        ]
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Insurance_Verified
+		    (
+		        type = checkbox
+		        displayname = "Insurance Verified"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Documents_Complete
+		    (
+		        type = checkbox
+		        displayname = "Documents Complete"
+		        initial value = false
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Bank_Callback_Result_Reviewed
+		    (
+		        type = checkbox
+		        displayname = "Bank Callback Result Reviewed"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Findings
+		    (
+		        type = textarea
+		        displayname = "Findings"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Decision_Section
+		    (
+		        type = section
+		        displayname = "Compliance Decision"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    must have Decision
+		    (
+		        type = picklist
+		        displayname = "Decision"
+		        values = {"Pending","Approved","Rejected","Escalated"}
+		        initial value = "Pending"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Decision_Comment
+		    (
+		        type = textarea
+		        displayname = "Decision Comment"
+		        height = 100px
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    Evidence_Reference
+		    (
+		        type = text
+		        displayname = "Evidence Reference"
+		        description
+		        [
+		            type = tooltip
+		            message = "Reference the manual screening source, case, or retained evidence."
+		        ]
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Save
+		            (
+		                type = submit
+		                displayname = "Save Checklist"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Checklist"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

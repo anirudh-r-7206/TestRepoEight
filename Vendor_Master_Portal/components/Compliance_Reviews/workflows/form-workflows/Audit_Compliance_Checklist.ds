@@ -1,0 +1,32 @@
+Audit_Compliance_Checklist as "Audit Compliance Checklist"
+{
+
+			    type = form
+			    form = Compliance_Reviews
+			    record event = on add or edit
+			    description = "Records successful manual checklist evidence saves"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Compliance"
+			                    Action = "Compliance Checklist Saved"
+			                    Record_Form = "Compliance_Reviews"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    After_Value = "Identity: " + input.Identity_Verified + "; Tax: " + input.Tax_Documents_Verified + "; Registration: " + input.Registration_Verified + "; Manual watchlist: " + input.Watchlist_Manual_Check_Completed + "; Documents: " + input.Documents_Complete + "; Bank callback reviewed: " + input.Bank_Callback_Result_Reviewed + "; Evidence: " + input.Evidence_Reference
+			                    Outcome = "Success"
+			                    Details = "Manual Phase 1 compliance screening evidence was saved; the decision remains controlled by Request Action."
+			                ];
+			            )
+			        }
+			    }
+			
+}

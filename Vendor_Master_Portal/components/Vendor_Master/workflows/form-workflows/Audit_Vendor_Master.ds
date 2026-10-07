@@ -1,0 +1,31 @@
+Audit_Vendor_Master as "Audit Vendor Master"
+{
+
+			    type = form
+			    form = Vendor_Master
+			    record event = on add or edit
+			    description = "Records imported vendor changes in the audit trail"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                auditId = insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Vendor Master Import"
+			                    Action = "SAP vendor mirror record saved"
+			                    Record_Form = "Vendor_Master"
+			                    Record_ID = input.ID
+			                    After_Value = "SAP Vendor: " + input.SAP_Vendor_Number + "; Legal Name: " + input.Legal_Name + "; Status: " + input.Vendor_Status + "; Batch: " + ifnull(input.Import_Batch_Reference,"")
+			                    Outcome = "Success"
+			                    Details = "A vendor mirror record was created or updated from the manual SAP extract."
+			                ];
+			            )
+			        }
+			    }
+			
+}

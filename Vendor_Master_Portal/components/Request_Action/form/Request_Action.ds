@@ -1,0 +1,126 @@
+form Request_Action
+{
+
+		    title
+		    {
+		        displayname = "Request Action"
+		        on add = "Perform Request Action"
+		        on edit = "Perform Request Action"
+		    }
+		    store data in zc = false
+		    Action_Section
+		    (
+		        type = section
+		        displayname = "Controlled Request Action"
+		        row = 1
+		        column = 0
+		    )
+		    must have Vendor_Request_ID
+		    (
+		        type = number
+		        displayname = "Vendor Request ID"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Request_Context
+		    (
+		        type = textarea
+		        displayname = "Request Context"
+		        height = 100px
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Action_Type
+		    (
+		        type = picklist
+		        displayname = "Action"
+		        values = {"Submit Request","Approve Procurement","Complete Finance Callback","Approve Compliance","Approve Finance","Return","Reject","Escalate","Resolve Duplicate","Verify Document","Reject Document","Mark SAP Complete"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Decision_Comment
+		    (
+		        type = textarea
+		        displayname = "Decision Comment"
+		        height = 100px
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Evidence_Section
+		    (
+		        type = section
+		        displayname = "Supporting Action Evidence"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Duplicate_Resolution
+		    (
+		        type = picklist
+		        displayname = "Duplicate Resolution"
+		        values = {"Confirmed Duplicate","Cleared Not Duplicate"}
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Document_ID
+		    (
+		        type = number
+		        displayname = "Document ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Compliance_Review_ID
+		    (
+		        type = number
+		        displayname = "Compliance Review ID"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Bank_Verification_ID
+		    (
+		        type = number
+		        displayname = "Bank Verification ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    SAP_Reference
+		    (
+		        type = text
+		        displayname = "SAP Completion Reference"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Confirmation
+		    (
+		        type = checkbox
+		        displayname = "I confirm this controlled action and its evidence"
+		        initial value = false
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        Execute_Action
+		        (
+		            type = button
+		            displayname = "Execute Action"
+		            tooltip = "Revalidates and performs the selected controlled action"
+		        )
+		        Reset_Action
+		        (
+		            type = reset
+		            displayname = "Reset"
+		        )
+		    }
+		
+}

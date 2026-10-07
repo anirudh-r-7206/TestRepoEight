@@ -1,0 +1,32 @@
+Audit_SLA_Configuration as "Audit SLA Configuration"
+{
+
+			    type = form
+			    form = SLA_Configuration
+			    record event = on add or edit
+			    description = "Records successful SLA configuration changes in the application audit trail"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                actionName = if(input.ID != null,"SLA rule saved","SLA rule created");
+			                auditId = insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Configuration"
+			                    Action = actionName
+			                    Record_Form = "SLA_Configuration"
+			                    Record_ID = input.ID
+			                    After_Value = "Rule Code: " + input.Rule_Code + "; Rule Type: " + input.Rule_Type + "; Days: " + input.Days + "; Active: " + input.Active
+			                    Outcome = "Success"
+			                    Details = "SLA configuration was saved."
+			                ];
+			            )
+			        }
+			    }
+			
+}

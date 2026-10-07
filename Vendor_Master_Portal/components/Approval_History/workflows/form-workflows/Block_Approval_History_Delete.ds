@@ -1,0 +1,34 @@
+Block_Approval_History_Delete as "Block Approval History Delete"
+{
+
+			    type = form
+			    form = Approval_History
+			    record event = on delete
+			    description = "Rejects deletion of permanent transition evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Approval"
+			                    Action = "Approval History Delete Blocked"
+			                    Record_Form = "Approval_History"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    Before_Value = "Stage: " + input.Stage + "; decision: " + input.Decision + "; actor: " + input.Actor_Email + "; time: " + input.Decision_At
+			                    Outcome = "Failed"
+			                    Details = "Approval history is permanent and cannot be deleted interactively."
+			                ];
+			                alert "Approval history is permanent and cannot be deleted.";
+			                cancel delete;
+			            )
+			        }
+			    }
+			
+}

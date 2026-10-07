@@ -1,0 +1,30 @@
+list My_Request_Documents
+{
+
+		    displayName = "My Request Documents"
+		    show all rows from Request_Documents [Owner_Email == zoho.loginuser]
+		    (
+		        Vendor_Request
+		        Document_Type
+		        Document_File
+		        Issue_Date
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Rejection_Reason
+		        Owner_Email
+		    )
+		    filters
+		    (
+		        Document_Type
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Owner_Email
+		    )
+		    sort by
+		    (
+		        Expiry_Date ascending
+		    )
+		
+}

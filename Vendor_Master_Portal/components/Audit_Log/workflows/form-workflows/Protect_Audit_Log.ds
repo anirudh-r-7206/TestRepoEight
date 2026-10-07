@@ -1,0 +1,32 @@
+Protect_Audit_Log as "Protect Audit Log"
+{
+
+			    type = form
+			    form = Audit_Log
+			    record event = on add or edit
+			    description = "Presents audit evidence as read only"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Event_Time;
+			                disable Actor_Email;
+			                disable Actor_Profile;
+			                disable Event_Category;
+			                disable Action;
+			                disable Record_Form;
+			                disable Record_ID;
+			                disable Vendor_Request;
+			                disable Outcome;
+			                disable Source_IP;
+			                disable Before_Value;
+			                disable After_Value;
+			                disable Details;
+			            )
+			        }
+			    }
+			
+}

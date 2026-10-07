@@ -1,0 +1,20 @@
+Open_Compliance_Action as "Open Compliance Action"
+{
+
+			    type = functions
+			    form = Compliance_Reviews
+			    execution type = for each record
+			    description = "Opens the controlled request action form for a compliance decision"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                openUrl("#Form:Request_Action?Vendor_Request_ID=" + input.Vendor_Request + "&Compliance_Review_ID=" + input.ID, "popup window", "height=650px,width=760px");
+			            )
+			        }
+			    }
+			
+}

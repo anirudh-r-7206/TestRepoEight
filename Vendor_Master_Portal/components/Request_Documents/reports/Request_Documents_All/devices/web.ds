@@ -1,0 +1,4 @@
+report Request_Documents_All
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Document_Type Expiry_Date Verification_Status "Document Action" ) ) ) menu ( header ( Edit Delete ) record ( Edit Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Existing_Vendor Document_Type Document_File Issue_Date Expiry_Date Confidentiality_Level Verification_Status Verified_By Verified_At Rejection_Reason Owner_Email "Document Action" ) ) ) menu ( header ( Edit Delete ) ) ) 
+}

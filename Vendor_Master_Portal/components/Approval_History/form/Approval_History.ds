@@ -1,0 +1,155 @@
+form Approval_History
+{
+
+		    title
+		    {
+		        displayname = "Approval History"
+		        on add = "Approval History Entry"
+		        on edit = "Approval History Entry"
+		    }
+		    success message = "Approval history recorded."
+		    Approval_Section
+		    (
+		        type = section
+		        displayname = "Stage Decision Evidence"
+		        row = 1
+		        column = 0
+		    )
+		    must have Vendor_Request
+		    (
+		        type = picklist
+		        displayname = "Vendor Request"
+		        values = Vendor_Requests.ID
+		        displayformat = [Request_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Stage
+		    (
+		        type = text
+		        displayname = "Decision Stage"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Decision
+		    (
+		        type = picklist
+		        displayname = "Decision"
+		        values = {"Submitted","Approved","Returned","Rejected","Escalated","Completed"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Actor_Email
+		    (
+		        type = email
+		        displayname = "Actor Email"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Actor_Profile
+		    (
+		        type = text
+		        displayname = "Actor Profile"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Decision_At
+		    (
+		        type = datetime
+		        displayname = "Decision At"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Comment
+		    (
+		        type = textarea
+		        displayname = "Decision Comment"
+		        height = 100px
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Previous_Stage
+		    (
+		        type = text
+		        displayname = "Previous Stage"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Next_Stage
+		    (
+		        type = text
+		        displayname = "Next Stage"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Related_Review_Section
+		    (
+		        type = section
+		        displayname = "Related Control Evidence"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Related_Compliance_Review
+		    (
+		        type = picklist
+		        displayname = "Related Compliance Review"
+		        values = Compliance_Reviews.ID
+		        displayformat = [Reviewer_Email]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Related_Bank_Verification
+		    (
+		        type = picklist
+		        displayname = "Related Bank Verification"
+		        values = Bank_Verifications.ID
+		        displayformat = [Called_By]
+		        searchable = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

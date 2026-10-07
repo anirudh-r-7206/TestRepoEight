@@ -1,0 +1,32 @@
+Audit_Request_Document_Save as "Audit Request Document Save"
+{
+
+			    type = form
+			    form = Request_Documents
+			    record event = on add or edit
+			    description = "Audits document upload, metadata edits, and file replacement"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                auditId = insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Document"
+			                    Action = "Document Uploaded or Replaced"
+			                    Record_Form = "Request_Documents"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    After_Value = "Type: " + input.Document_Type + "; Confidentiality: " + input.Confidentiality_Level + "; Verification: " + input.Verification_Status + "; Expiry: " + input.Expiry_Date
+			                    Outcome = "Success"
+			                    Details = "Supporting document content or metadata was saved; prior changes remain evidenced by the audit trail."
+			                ];
+			            )
+			        }
+			    }
+			
+}

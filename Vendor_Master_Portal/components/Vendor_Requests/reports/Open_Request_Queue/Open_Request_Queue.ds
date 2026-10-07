@@ -1,0 +1,40 @@
+list Open_Request_Queue
+{
+
+		    displayName = "Open Request Queue"
+		    show all rows from Vendor_Requests [Current_Stage != "Draft" && Current_Stage != "Rejected" && Current_Stage != "Completed"]
+		    (
+		        Request_Number
+		        Request_Type
+		        Legal_Name
+		        Country
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		        Current_Assignee_Profile
+		        Submitted_At
+		        Stage_Entered_At
+		        custom action "Request Action"
+		        (
+		            workflow = Open_Request_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Request Action"
+		            success message = "Opening request action"
+		        )
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Country
+		        Risk_Level
+		        Duplicate_Flag
+		        Current_Stage
+		        Current_Assignee_Profile
+		    )
+		    sort by
+		    (
+		        Stage_Entered_At ascending
+		    )
+		
+}

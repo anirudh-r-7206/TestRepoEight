@@ -1,0 +1,81 @@
+Validate_Compliance_Review as "Validate Compliance Review"
+{
+
+			    type = form
+			    form = Compliance_Reviews
+			    record event = on add or edit
+			    description = "Enforces one active review, checklist completion, stage ownership, and decision evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                failureReason = "";
+			                if (requestRecord.count() == 0)
+			                {
+			                    failureReason = "The selected vendor request no longer exists.";
+			                }
+			                else if (requestRecord.Current_Stage != "Compliance Review")
+			                {
+			                    failureReason = "Compliance checklist work is allowed only during the Compliance Review stage.";
+			                }
+			                else if (input.Decision != "Pending")
+			                {
+			                    failureReason = "Compliance decisions must be completed through Request Action.";
+			                }
+			                else if (input.Reviewer_Email.toLowerCase() != zoho.loginuser.toLowerCase())
+			                {
+			                    failureReason = "Only the assigned reviewer can update this checklist.";
+			                }
+			                if (failureReason == "")
+			                {
+			                    if (input.ID == null)
+			                    {
+			                        activeReviews = Compliance_Reviews[Vendor_Request == input.Vendor_Request && Decision == "Pending"];
+			                    }
+			                    else
+			                    {
+			                        activeReviews = Compliance_Reviews[Vendor_Request == input.Vendor_Request && Decision == "Pending" && ID != input.ID];
+			                    }
+			                    if (activeReviews.count() > 0)
+			                    {
+			                        failureReason = "An active compliance review already exists for this request.";
+			                    }
+			                }
+			                if (failureReason == "" && (!input.Identity_Verified || !input.Tax_Documents_Verified || !input.Registration_Verified || !input.Watchlist_Manual_Check_Completed || !input.Documents_Complete))
+			                {
+			                    failureReason = "Complete the identity, tax, registration, manual watchlist, and document checks before saving.";
+			                }
+			                if (failureReason == "" && requestRecord.Request_Type == "Bank Detail Change" && !input.Bank_Callback_Result_Reviewed)
+			                {
+			                    failureReason = "Review the completed Finance callback result before saving this bank-change checklist.";
+			                }
+			                if (failureReason != "")
+			                {
+			                    insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = zoho.loginuser
+			                        Event_Category = "Compliance"
+			                        Action = "Compliance Checklist Save Blocked"
+			                        Record_Form = "Compliance_Reviews"
+			                        Record_ID = ifnull(input.ID,0)
+			                        Vendor_Request = input.Vendor_Request
+			                        Outcome = "Failed"
+			                        Details = failureReason
+			                    ];
+			                    alert failureReason;
+			                    cancel submit;
+			                }
+			                if (input.Review_Started_At == null)
+			                {
+			                    input.Review_Started_At = zoho.currenttime;
+			                }
+			            )
+			        }
+			    }
+			
+}

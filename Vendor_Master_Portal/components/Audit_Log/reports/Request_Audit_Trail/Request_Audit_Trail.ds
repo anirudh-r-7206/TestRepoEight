@@ -1,0 +1,36 @@
+list Request_Audit_Trail
+{
+
+		    displayName = "Request Audit Trail"
+		    show all rows from Audit_Log
+		    (
+		        Vendor_Request
+		        Event_Time
+		        Event_Category
+		        Action
+		        Actor_Email
+		        Actor_Profile
+		        Outcome
+		        Record_Form
+		        Record_ID
+		        Before_Value
+		        After_Value
+		        Details
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Event_Time
+		        Event_Category
+		        Action
+		        Actor_Email
+		        Actor_Profile
+		        Outcome
+		        Record_Form
+		    )
+		    sort by
+		    (
+		        Event_Time descending
+		    )
+		
+}

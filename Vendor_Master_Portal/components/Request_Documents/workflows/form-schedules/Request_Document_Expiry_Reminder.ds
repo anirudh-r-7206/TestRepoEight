@@ -1,0 +1,48 @@
+Request_Document_Expiry_Reminder as "Request Document Expiry Reminder"
+{
+
+			    type = schedule
+			    form = Request_Documents[Expiry_Date is not null && Verification_Status == "Verified"]
+			    start = before 90 days from Expiry_Date at "09:00:00"
+			    end = Expiry_Date at "09:00:00"
+			    frequency = daily
+			    time zone = "UTC"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                reminderRule = SLA_Configuration[Active == true && Rule_Type == "Document Expiry Reminder"];
+			                if (reminderRule.count() > 0)
+			                {
+			                    daysRemaining = (input.Expiry_Date - zoho.currentdate).toLong();
+			                    if (daysRemaining == reminderRule.Days)
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : input.Owner_Email
+			                            subject : "Document renewal due for vendor request"
+			                            message : ifnull(reminderRule.Message_Template,"A verified supporting document will expire in " + daysRemaining + " day(s). Please arrange renewal.")
+			                        )
+			                        auditId = insert into Audit_Log
+			                        [
+			                            Event_Time = zoho.currenttime
+			                            Actor_Email = zoho.adminuserid
+			                            Event_Category = "Notification"
+			                            Action = "Document Expiry Reminder Sent"
+			                            Record_Form = "Request_Documents"
+			                            Record_ID = input.ID
+			                            Vendor_Request = input.Vendor_Request
+			                            Outcome = "Success"
+			                            Details = "Expiry reminder sent with " + daysRemaining + " day(s) remaining."
+			                        ];
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

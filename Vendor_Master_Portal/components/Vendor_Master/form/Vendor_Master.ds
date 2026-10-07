@@ -1,0 +1,311 @@
+form Vendor_Master
+{
+
+		    title
+		    {
+		        displayname = "Vendor Master"
+		        on add = "Import Vendor"
+		        on edit = "Edit Imported Vendor"
+		    }
+		    Vendor_Section
+		    (
+		        type = section
+		        displayname = "Vendor Identity"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique SAP_Vendor_Number
+		    (
+		        type = text
+		        displayname = "SAP Vendor Number"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Legal_Name
+		    (
+		        type = text
+		        displayname = "Legal Name"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Trading_Name
+		    (
+		        type = text
+		        displayname = "Trading Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Tax_ID
+		    (
+		        type = text
+		        displayname = "Tax ID"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Registration_ID
+		    (
+		        type = text
+		        displayname = "Registration ID"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Primary_Email
+		    (
+		        type = email
+		        displayname = "Primary Email"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Primary_Phone
+		    (
+		        type = phonenumber
+		        displayname = "Primary Phone"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Registered_Address
+		    (
+		        type = address
+		        displayname = "Registered Address"
+		        capture_coordinates = false
+		        adjust_using_map = false
+		        address_line_1
+		        (
+		            type = address_line_1
+		            displayname = "Address Line 1"
+		        )
+		        address_line_2
+		        (
+		            type = address_line_2
+		            displayname = "Address Line 2"
+		        )
+		        district_city
+		        (
+		            type = district_city
+		            displayname = "City"
+		        )
+		        state_province
+		        (
+		            type = state_province
+		            displayname = "State / Province"
+		        )
+		        postal_Code
+		        (
+		            type = postal_Code
+		            displayname = "Postal Code"
+		        )
+		        country
+		        (
+		            type = country
+		            displayname = "Country"
+		        )
+		        latitude
+		        (
+		            type = latitude
+		            displayname = "Latitude"
+		            visibility = false
+		        )
+		        longitude
+		        (
+		            type = longitude
+		            displayname = "Longitude"
+		            visibility = false
+		        )
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Country
+		    (
+		        type = picklist
+		        displayname = "Country"
+		        values = {"Other"}
+		        others option = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Vendor_Status
+		    (
+		        type = picklist
+		        displayname = "Vendor Status"
+		        values = {"Active","Blocked","Inactive"}
+		        initial value = "Active"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Bank_Section
+		    (
+		        type = section
+		        displayname = "Bank and Callback"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Bank_Name
+		    (
+		        type = text
+		        displayname = "Bank Name"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Account_Holder_Name
+		    (
+		        type = text
+		        displayname = "Account Holder Name"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Bank_Account_Number
+		    (
+		        type = text
+		        displayname = "Bank Account Number"
+		        isencrypted = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    IBAN
+		    (
+		        type = text
+		        displayname = "IBAN"
+		        isencrypted = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    SWIFT_BIC
+		    (
+		        type = text
+		        displayname = "SWIFT / BIC"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Callback_Phone_On_File
+		    (
+		        type = phonenumber
+		        displayname = "Callback Phone On File"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Import_Section
+		    (
+		        type = section
+		        displayname = "Import Control"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Import_Batch_Reference
+		    (
+		        type = text
+		        displayname = "Import Batch Reference"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Last_SAP_Import_Date
+		    (
+		        type = datetime
+		        displayname = "Last SAP Import Date"
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    Active
+		    (
+		        type = checkbox
+		        displayname = "Active"
+		        initial value = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Legal_Name
+		    (
+		        type = text
+		        displayname = "Normalized Legal Name"
+		        private = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Tax_ID
+		    (
+		        type = text
+		        displayname = "Normalized Tax ID"
+		        private = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Registration_ID
+		    (
+		        type = text
+		        displayname = "Normalized Registration ID"
+		        private = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Bank_Account
+		    (
+		        type = text
+		        displayname = "Normalized Bank Account"
+		        private = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Email
+		    (
+		        type = text
+		        displayname = "Normalized Email"
+		        private = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Imported Vendor"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Imported Vendor"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

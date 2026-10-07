@@ -1,0 +1,20 @@
+<page linkname = "Compliance_Review_Workspace" parameters = "int Request_ID" displayname = "Compliance Review Workspace"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='zcs_htmlpage_9f7c3b21_a64e_4d58_b812_6e3f0c5a947d' elementName='Compliance_Review_Workspace_Content'>
+          <![CDATA[htmlpage zcs_htmlpage_9f7c3b21_a64e_4d58_b812_6e3f0c5a947d()
+						content
+			<%{%>
+            <file name:Compliance_Review_Workspace_Content.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

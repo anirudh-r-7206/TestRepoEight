@@ -1,0 +1,21 @@
+Block_Audit_Log_Delete as "Block Audit Log Delete"
+{
+
+			    type = form
+			    form = Audit_Log
+			    record event = on delete
+			    description = "Rejects deletion of permanent audit evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                alert "Audit events are permanent and cannot be deleted.";
+			                cancel delete;
+			            )
+			        }
+			    }
+			
+}

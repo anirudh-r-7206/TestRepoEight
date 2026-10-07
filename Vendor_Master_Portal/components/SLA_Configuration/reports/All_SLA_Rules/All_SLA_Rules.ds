@@ -1,0 +1,29 @@
+default list All_SLA_Rules
+{
+
+		    displayName = "All SLA Rules"
+		    show all rows from SLA_Configuration
+		    (
+		        Rule_Code
+		        Rule_Name
+		        Rule_Type
+		        Applies_To_Stage
+		        Days
+		        Recipient_Profile
+		        Active
+		        Message_Template
+		    )
+		    filters
+		    (
+		        Rule_Type
+		        Applies_To_Stage
+		        Recipient_Profile
+		        Active
+		    )
+		    sort by
+		    (
+		        Rule_Type ascending
+		        Rule_Name ascending
+		    )
+		
+}

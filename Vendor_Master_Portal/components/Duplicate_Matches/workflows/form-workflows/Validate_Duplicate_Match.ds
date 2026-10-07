@@ -1,0 +1,56 @@
+Validate_Duplicate_Match as "Validate Duplicate Match"
+{
+
+			    type = form
+			    form = Duplicate_Matches
+			    record event = on add or edit
+			    description = "Ensures each match has a target and each resolution has complete evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if (input.Matched_Vendor == null && input.Matched_Open_Request == null)
+			                {
+			                    alert "A duplicate alert must identify either an SAP vendor or another open request.";
+			                    cancel submit;
+			                }
+			                if (input.Matched_Open_Request != null && input.Matched_Open_Request == input.Vendor_Request)
+			                {
+			                    alert "A vendor request cannot be matched to itself.";
+			                    cancel submit;
+			                }
+			                if (input.Match_Score != null && (input.Match_Score < 0 || input.Match_Score > 100))
+			                {
+			                    alert "Match Score must be between 0 and 100.";
+			                    cancel submit;
+			                }
+			                if (input.Resolution_Status == "Open")
+			                {
+			                    input.Resolution_Comment = "";
+			                    input.Resolved_By = null;
+			                    input.Resolved_At = null;
+			                }
+			                else
+			                {
+			                    if (input.Resolution_Comment in {""," ","null"})
+			                    {
+			                        alert "A resolution comment is required before closing a duplicate alert.";
+			                        cancel submit;
+			                    }
+			                    if (input.Resolved_By in {""," ","null"})
+			                    {
+			                        input.Resolved_By = zoho.loginuser;
+			                    }
+			                    if (input.Resolved_At == null)
+			                    {
+			                        input.Resolved_At = zoho.currenttime;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

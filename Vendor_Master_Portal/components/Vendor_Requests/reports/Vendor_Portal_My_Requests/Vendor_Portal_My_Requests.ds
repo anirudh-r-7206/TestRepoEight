@@ -1,0 +1,34 @@
+list Vendor_Portal_My_Requests
+{
+
+		    displayName = "Vendor Portal - My Requests"
+		    show all rows from Vendor_Requests [Added_User == zoho.loginuser && Submission_Channel == "Vendor Portal"]
+		    (
+		        Request_Number
+		        Request_Type
+		        Legal_Name
+		        Current_Stage
+		        Submitted_At
+		        Completed_At
+		        Rejection_or_Return_Reason
+		        custom action "Request Action"
+		        (
+		            workflow = Open_Request_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Request Action"
+		            success message = "Opening request action"
+		            condition = (Current_Stage == "Draft" || Current_Stage == "Returned")
+		        )
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Current_Stage
+		    )
+		    sort by
+		    (
+		        Submitted_At descending
+		    )
+		
+}

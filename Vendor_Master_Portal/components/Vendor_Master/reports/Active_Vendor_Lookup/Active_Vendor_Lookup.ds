@@ -1,0 +1,30 @@
+list Active_Vendor_Lookup
+{
+
+		    displayName = "Active Vendor Lookup"
+		    show all rows from Vendor_Master [Active == true && Vendor_Status == "Active"]
+		    (
+		        SAP_Vendor_Number
+		        Legal_Name
+		        Trading_Name
+		        Tax_ID
+		        Registration_ID
+		        Primary_Email
+		        Primary_Phone
+		        Registered_Address
+		        Country
+		        Vendor_Status
+		        Active
+		    )
+		    filters
+		    (
+		        Country
+		        Legal_Name
+		        SAP_Vendor_Number
+		    )
+		    sort by
+		    (
+		        Legal_Name ascending
+		    )
+		
+}

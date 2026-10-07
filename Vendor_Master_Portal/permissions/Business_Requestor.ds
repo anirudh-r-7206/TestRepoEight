@@ -1,0 +1,59 @@
+"Business_Requestor"
+{
+
+	    name = "Business_Requestor"
+	    type = Users_Permissions
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "Internal staff who submit and track vendor maintenance requests"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Create,View,Edit,Delete,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                My_Vendor_Requests={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Risk_Level{visibility:true,readonly:true}
+	                Duplicate_Flag{visibility:true,readonly:true}
+	                Current_Stage{visibility:true,readonly:true}
+	                Current_Assignee_Profile{visibility:true,readonly:true}
+	                Submitted_At{visibility:true,readonly:true}
+	                Stage_Entered_At{visibility:true,readonly:true}
+	                Completed_At{visibility:true,readonly:true}
+	                SAP_Completion_Reference{visibility:true,readonly:true}
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Create,View,Edit,Delete,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                My_Request_Documents={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Verification_Status{visibility:true,readonly:true}
+	                Verified_By{visibility:true,readonly:true}
+	                Verified_At{visibility:true,readonly:true}
+	                Rejection_Reason{visibility:true,readonly:true}
+	                Owner_Email{visibility:true,readonly:true}
+	            }
+	        }
+	        Request_Action
+	        {
+	            enabled = Create,View
+	            allFieldsVisible = true
+	        }
+	    }
+	
+}

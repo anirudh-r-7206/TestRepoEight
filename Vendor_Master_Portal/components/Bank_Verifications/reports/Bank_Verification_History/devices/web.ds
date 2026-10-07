@@ -1,0 +1,4 @@
+report Bank_Verification_History
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Vendor_Request Called_By Verification_Result Second_Approval_Decision ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Vendor_Request Existing_Vendor Number_Source Call_Date_Time Called_By Contact_Name Verification_Result Verification_Notes Second_Approver_Email Second_Approval_Date Second_Approval_Decision Second_Approval_Comment ) ) ) menu ( header ( Edit ) ) ) 
+}

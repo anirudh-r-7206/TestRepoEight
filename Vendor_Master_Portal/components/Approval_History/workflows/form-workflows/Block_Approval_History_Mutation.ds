@@ -1,0 +1,33 @@
+Block_Approval_History_Mutation as "Block Approval History Mutation"
+{
+
+			    type = form
+			    form = Approval_History
+			    record event = on add or edit
+			    description = "Rejects interactive creation or modification of immutable transition evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Approval"
+			                    Action = "Approval History Mutation Blocked"
+			                    Record_Form = "Approval_History"
+			                    Record_ID = ifnull(input.ID,0)
+			                    Vendor_Request = input.Vendor_Request
+			                    Outcome = "Failed"
+			                    Details = "Approval history is system generated and cannot be created or edited interactively."
+			                ];
+			                alert "Approval history is system generated and cannot be added or edited.";
+			                cancel submit;
+			            )
+			        }
+			    }
+			
+}

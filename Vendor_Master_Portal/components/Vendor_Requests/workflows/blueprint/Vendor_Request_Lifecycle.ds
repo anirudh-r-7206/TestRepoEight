@@ -1,0 +1,149 @@
+Vendor_Request_Lifecycle as "Vendor Request Lifecycle"
+{
+
+			    type = blueprint
+			    form = Vendor_Requests
+			    status = inactive
+			
+			    start
+			    {
+			        start stage = "Draft"
+			    }
+			    stages
+			    {
+			        "Draft" { }
+			        "Submitted/Data Check" { }
+			        "Procurement Review" { }
+			        "Finance Callback" { }
+			        "Compliance Review" { }
+			        "Finance Approval" { }
+			        "MDM Processing" { }
+			        "Returned" { }
+			        "Rejected" { }
+			        "Escalated" { }
+			        "Completed" { }
+			    }
+			    transitions
+			    {
+			        Submit_Request as "Submit Request"
+			        {
+			            type = normal
+			            from stage = "Draft"
+			            to stage = "Submitted/Data Check"
+			            before { }
+			            after { }
+			        }
+			        Data_Check_Complete as "Data Check Complete"
+			        {
+			            type = normal
+			            from stage = "Submitted/Data Check"
+			            to stage = "Procurement Review"
+			            before { }
+			            after { }
+			        }
+			        Procurement_To_Finance_Callback as "Send for Finance Callback"
+			        {
+			            type = normal
+			            from stage = "Procurement Review"
+			            to stage = "Finance Callback"
+			            before
+			            {
+			                transition criteria = (Request_Type == "Bank Detail Change")
+			            }
+			            after { }
+			        }
+			        Procurement_To_Compliance as "Send to Compliance"
+			        {
+			            type = normal
+			            from stage = "Procurement Review"
+			            to stage = "Compliance Review"
+			            before
+			            {
+			                transition criteria = (Request_Type != "Bank Detail Change")
+			            }
+			            after { }
+			        }
+			        Callback_To_Compliance as "Callback Complete"
+			        {
+			            type = normal
+			            from stage = "Finance Callback"
+			            to stage = "Compliance Review"
+			            before { }
+			            after { }
+			        }
+			        Compliance_To_Finance as "Send for Finance Approval"
+			        {
+			            type = normal
+			            from stage = "Compliance Review"
+			            to stage = "Finance Approval"
+			            before
+			            {
+			                transition criteria = (Request_Type == "Bank Detail Change")
+			            }
+			            after { }
+			        }
+			        Compliance_To_MDM as "Send to MDM"
+			        {
+			            type = normal
+			            from stage = "Compliance Review"
+			            to stage = "MDM Processing"
+			            before
+			            {
+			                transition criteria = (Request_Type != "Bank Detail Change")
+			            }
+			            after { }
+			        }
+			        Finance_To_MDM as "Finance Approved"
+			        {
+			            type = normal
+			            from stage = "Finance Approval"
+			            to stage = "MDM Processing"
+			            before { }
+			            after { }
+			        }
+			        Complete_Request as "Complete Request"
+			        {
+			            type = normal
+			            from stage = "MDM Processing"
+			            to stage = "Completed"
+			            before { }
+			            after { }
+			        }
+			        Return_Request as "Return Request"
+			        {
+			            type = common
+			            from stage = "Submitted/Data Check"
+			            to stage = "Returned"
+			            common stages = {"Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Escalated"}
+			            before { }
+			            after { }
+			        }
+			        Resubmit_Request as "Resubmit Request"
+			        {
+			            type = normal
+			            from stage = "Returned"
+			            to stage = "Submitted/Data Check"
+			            before { }
+			            after { }
+			        }
+			        Reject_Request as "Reject Request"
+			        {
+			            type = common
+			            from stage = "Submitted/Data Check"
+			            to stage = "Rejected"
+			            common stages = {"Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Escalated"}
+			            before { }
+			            after { }
+			        }
+			        Escalate_Request as "Escalate Request"
+			        {
+			            type = common
+			            from stage = "Submitted/Data Check"
+			            to stage = "Escalated"
+			            common stages = {"Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing"}
+			            before { }
+			            after { }
+			        }
+			    }
+			
+}

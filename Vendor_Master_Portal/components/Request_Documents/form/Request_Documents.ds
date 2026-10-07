@@ -1,0 +1,167 @@
+form Request_Documents
+{
+
+		    title
+		    {
+		        displayname = "Request Documents"
+		        on add = "Upload Request Document"
+		        on edit = "Replace or Update Request Document"
+		    }
+		    record owner = Added_User
+		    success message = "Document saved successfully."
+		    Document_Section
+		    (
+		        type = section
+		        displayname = "Document Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Vendor_Request
+		    (
+		        type = picklist
+		        displayname = "Vendor Request"
+		        values = Vendor_Requests.ID
+		        displayformat = [Request_Number]
+		        bidirectional = Request_Documents
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Existing_Vendor
+		    (
+		        type = picklist
+		        displayname = "Existing Vendor"
+		        values = Vendor_Master.ID
+		        displayformat = [Legal_Name]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Document_Type
+		    (
+		        type = picklist
+		        displayname = "Document Type"
+		        values = {"Tax Form","Registration Certificate","Insurance Certificate","Bank Letter","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Document_File
+		    (
+		        type = upload file
+		        displayname = "Document File"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Issue_Date
+		    (
+		        type = date
+		        displayname = "Issue Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Expiry_Date
+		    (
+		        type = date
+		        displayname = "Expiry Date"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Confidentiality_Level
+		    (
+		        type = picklist
+		        displayname = "Confidentiality Level"
+		        values = {"Standard","Sensitive","Restricted"}
+		        initial value = "Standard"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Verification_Section
+		    (
+		        type = section
+		        displayname = "Verification Control"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Verification_Status
+		    (
+		        type = picklist
+		        displayname = "Verification Status"
+		        values = {"Pending","Verified","Rejected"}
+		        initial value = "Pending"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Verified_By
+		    (
+		        type = email
+		        displayname = "Verified By"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Verified_At
+		    (
+		        type = datetime
+		        displayname = "Verified At"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Rejection_Reason
+		    (
+		        type = textarea
+		        displayname = "Rejection Reason"
+		        height = 90px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Owner_Email
+		    (
+		        type = email
+		        displayname = "Owner Email"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Upload
+		            (
+		                type = submit
+		                displayname = "Upload Document"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Replace
+		            (
+		                type = submit
+		                displayname = "Save Replacement"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

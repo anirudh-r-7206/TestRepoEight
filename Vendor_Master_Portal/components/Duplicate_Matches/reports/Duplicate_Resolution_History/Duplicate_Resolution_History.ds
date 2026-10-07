@@ -1,0 +1,32 @@
+list Duplicate_Resolution_History
+{
+
+		    displayName = "Duplicate Resolution History"
+		    show all rows from Duplicate_Matches [Resolution_Status != "Open"]
+		    (
+		        Vendor_Request
+		        Matched_Vendor
+		        Matched_Open_Request
+		        Match_Basis
+		        Match_Score
+		        Match_Summary
+		        Resolution_Status
+		        Resolution_Comment
+		        Resolved_By
+		        Resolved_At
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Matched_Vendor
+		        Matched_Open_Request
+		        Resolution_Status
+		        Resolved_By
+		        Resolved_At
+		    )
+		    sort by
+		    (
+		        Resolved_At descending
+		    )
+		
+}

@@ -1,0 +1,85 @@
+Load_Request_Action as "Load Request Action"
+{
+
+			    type = form
+			    form = Request_Action
+			    record event = on add
+			    description = "Loads request context and derives actions permitted by profile, ownership, and stage"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Vendor_Request_ID;
+			                disable Request_Context;
+			                hide Duplicate_Resolution;
+			                hide Document_ID;
+			                hide Compliance_Review_ID;
+			                hide Bank_Verification_ID;
+			                hide SAP_Reference;
+			                input.Action_Type:ui.add(list());
+			                actorProfile = "";
+			                try
+			                {
+			                    actorProfile = thisapp.permissions.loginUserProfile();
+			                }
+			                catch (profileError)
+			                {
+			                    actorProfile = thisapp.portal.loginUserProfile();
+			                }
+			                requestRecord = Vendor_Requests[ID == input.Vendor_Request_ID];
+			                if (requestRecord.count() > 0)
+			                {
+			                    input.Request_Context = "Request: " + requestRecord.Request_Number + " | Type: " + requestRecord.Request_Type + " | Stage: " + requestRecord.Current_Stage + " | Risk: " + requestRecord.Risk_Level + " | Possible duplicate: " + requestRecord.Duplicate_Flag;
+			                    isAdministrator = actorProfile in {"Administrator","Developer"};
+			                    isOwner = requestRecord.Requested_By_Email.toLowerCase() == zoho.loginuser.toLowerCase();
+			                    if ((actorProfile in {"Business_Requestor","Vendor_Portal_User"} || isAdministrator) && isOwner && requestRecord.Current_Stage in {"Draft","Returned"})
+			                    {
+			                        input.Action_Type:ui.add("Submit Request");
+			                    }
+			                    if ((actorProfile == "Procurement_Officer" || isAdministrator) && requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review"})
+			                    {
+			                        input.Action_Type:ui.add("Approve Procurement");
+			                    }
+			                    if ((actorProfile == "Finance_Manager" || isAdministrator) && requestRecord.Current_Stage == "Finance Callback")
+			                    {
+			                        input.Action_Type:ui.add("Complete Finance Callback");
+			                    }
+			                    if ((actorProfile == "Compliance_Analyst" || isAdministrator) && requestRecord.Current_Stage == "Compliance Review")
+			                    {
+			                        input.Action_Type:ui.add("Approve Compliance");
+			                    }
+			                    if ((actorProfile == "Finance_Manager" || isAdministrator) && requestRecord.Current_Stage == "Finance Approval")
+			                    {
+			                        input.Action_Type:ui.add("Approve Finance");
+			                    }
+			                    if ((actorProfile == "MDM_Team" || isAdministrator) && requestRecord.Current_Stage == "MDM Processing")
+			                    {
+			                        input.Action_Type:ui.add("Mark SAP Complete");
+			                    }
+			                    if ((actorProfile in {"Procurement_Officer","Compliance_Analyst","Finance_Manager","MDM_Team"} || isAdministrator) && requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Escalated"})
+			                    {
+			                        input.Action_Type:ui.add("Return");
+			                        input.Action_Type:ui.add("Reject");
+			                        input.Action_Type:ui.add("Escalate");
+			                    }
+			                    if ((actorProfile == "Procurement_Officer" || isAdministrator) && requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review"})
+			                    {
+			                        input.Action_Type:ui.add("Resolve Duplicate");
+			                        input.Action_Type:ui.add("Verify Document");
+			                        input.Action_Type:ui.add("Reject Document");
+			                    }
+			                }
+			                else
+			                {
+			                    input.Request_Context = "The requested vendor request record was not found.";
+			                    disable Action_Type;
+			                    disable Confirmation;
+			                }
+			            )
+			        }
+			    }
+			
+}

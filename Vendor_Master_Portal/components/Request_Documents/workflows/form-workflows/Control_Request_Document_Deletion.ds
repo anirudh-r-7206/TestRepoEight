@@ -1,0 +1,54 @@
+Control_Request_Document_Deletion as "Control Request Document Deletion"
+{
+
+			    type = form
+			    form = Request_Documents
+			    record event = on delete
+			    description = "Blocks deletion after verification or once processing has begun"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                parentRequest = Vendor_Requests[ID == input.Vendor_Request];
+			                deletionBlocked = false;
+			                blockReason = "";
+			                if (input.Verification_Status != "Pending")
+			                {
+			                    deletionBlocked = true;
+			                    blockReason = "Verified or rejected documents cannot be deleted.";
+			                }
+			                if (parentRequest.count() > 0 && parentRequest.Current_Stage != "Draft" && parentRequest.Current_Stage != "Returned")
+			                {
+			                    deletionBlocked = true;
+			                    blockReason = "Documents cannot be deleted after request processing begins.";
+			                }
+			                if (input.Owner_Email.toLowerCase() != zoho.loginuser.toLowerCase())
+			                {
+			                    deletionBlocked = true;
+			                    blockReason = "Only the document owner can delete a pending document.";
+			                }
+			                if (deletionBlocked)
+			                {
+			                    auditId = insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = zoho.loginuser
+			                        Event_Category = "Document"
+			                        Action = "Document Deletion Blocked"
+			                        Record_Form = "Request_Documents"
+			                        Record_ID = input.ID
+			                        Vendor_Request = input.Vendor_Request
+			                        Outcome = "Failed"
+			                        Details = blockReason
+			                    ];
+			                    alert blockReason;
+			                    cancel delete;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,20 @@
+Open_Request_Action as "Open Request Action"
+{
+
+			    type = functions
+			    form = Vendor_Requests
+			    execution type = for each record
+			    description = "Opens the controlled stateless request action form for one request"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                openUrl("#Form:Request_Action?Vendor_Request_ID=" + input.ID, "popup window", "height=650px,width=760px");
+			            )
+			        }
+			    }
+			
+}

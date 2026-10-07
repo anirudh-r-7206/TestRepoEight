@@ -1,0 +1,35 @@
+default list Request_Approval_History
+{
+
+		    displayName = "Request Approval History"
+		    show all rows from Approval_History
+		    (
+		        Vendor_Request
+		        Stage
+		        Decision
+		        Actor_Email
+		        Actor_Profile
+		        Decision_At
+		        Comment
+		        Previous_Stage
+		        Next_Stage
+		        Related_Compliance_Review
+		        Related_Bank_Verification
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Stage
+		        Decision
+		        Actor_Email
+		        Actor_Profile
+		        Decision_At
+		        Previous_Stage
+		        Next_Stage
+		    )
+		    sort by
+		    (
+		        Decision_At descending
+		    )
+		
+}

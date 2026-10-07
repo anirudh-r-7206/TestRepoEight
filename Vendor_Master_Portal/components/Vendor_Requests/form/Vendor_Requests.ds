@@ -1,0 +1,431 @@
+form Vendor_Requests
+{
+
+		    title
+		    {
+		        displayname = "Vendor Requests"
+		        on add = "Create Vendor Request"
+		        on edit = "Edit Vendor Request"
+		    }
+		    record owner = Added_User
+		    success message = "Request saved as a draft. Use the Request Action control to submit it."
+		    Request_Section
+		    (
+		        type = section
+		        displayname = "Request Details"
+		        row = 1
+		        column = 0
+		    )
+		    Request_Number
+		    (
+		        type = autonumber
+		        displayname = "Request Number"
+		        start index = 1000
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Request_Type
+		    (
+		        type = picklist
+		        displayname = "Request Type"
+		        values = {"New Vendor","General Change","Bank Detail Change"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Submission_Channel
+		    (
+		        type = picklist
+		        displayname = "Submission Channel"
+		        values = {"Internal","Vendor Portal"}
+		        initial value = "Internal"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Existing_Vendor
+		    (
+		        type = picklist
+		        displayname = "Existing Vendor"
+		        values = Vendor_Master.ID
+		        displayformat = [Legal_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Business_Justification
+		    (
+		        type = textarea
+		        displayname = "Business Justification"
+		        height = 100px
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Requested_By_Email
+		    (
+		        type = email
+		        displayname = "Requested By Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Vendor_Company_Section
+		    (
+		        type = section
+		        displayname = "Vendor Company"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have Legal_Name
+		    (
+		        type = text
+		        displayname = "Legal Name"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Trading_Name
+		    (
+		        type = text
+		        displayname = "Trading Name"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Tax_ID
+		    (
+		        type = text
+		        displayname = "Tax ID"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Registration_ID
+		    (
+		        type = text
+		        displayname = "Registration ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Primary_Email
+		    (
+		        type = email
+		        displayname = "Primary Email"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Primary_Phone
+		    (
+		        type = phonenumber
+		        displayname = "Primary Phone"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Registered_Address
+		    (
+		        type = address
+		        displayname = "Registered Address"
+		        capture_coordinates = false
+		        adjust_using_map = false
+		        address_line_1
+		        (
+		            type = address_line_1
+		            displayname = "Address Line 1"
+		        )
+		        address_line_2
+		        (
+		            type = address_line_2
+		            displayname = "Address Line 2"
+		        )
+		        district_city
+		        (
+		            type = district_city
+		            displayname = "City"
+		        )
+		        state_province
+		        (
+		            type = state_province
+		            displayname = "State / Province"
+		        )
+		        postal_Code
+		        (
+		            type = postal_Code
+		            displayname = "Postal Code"
+		        )
+		        country
+		        (
+		            type = country
+		            displayname = "Country"
+		        )
+		        latitude
+		        (
+		            type = latitude
+		            displayname = "Latitude"
+		            visibility = false
+		        )
+		        longitude
+		        (
+		            type = longitude
+		            displayname = "Longitude"
+		            visibility = false
+		        )
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Country
+		    (
+		        type = picklist
+		        displayname = "Country"
+		        values = {"Other"}
+		        others option = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Proposed_Bank_Section
+		    (
+		        type = section
+		        displayname = "Proposed Bank Details"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Bank_Name
+		    (
+		        type = text
+		        displayname = "Bank Name"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Account_Holder_Name
+		    (
+		        type = text
+		        displayname = "Account Holder Name"
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    Bank_Account_Number
+		    (
+		        type = text
+		        displayname = "Bank Account Number"
+		        isencrypted = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    IBAN
+		    (
+		        type = text
+		        displayname = "IBAN"
+		        isencrypted = true
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    SWIFT_BIC
+		    (
+		        type = text
+		        displayname = "SWIFT / BIC"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Risk_And_Flow
+		    (
+		        type = section
+		        displayname = "Risk and Processing Control"
+		        visibility = true
+		        row = 4
+		        column = 1
+		    )
+		    Risk_Level
+		    (
+		        type = picklist
+		        displayname = "Risk Level"
+		        values = {"Standard","High"}
+		        initial value = "Standard"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Duplicate_Flag
+		    (
+		        type = checkbox
+		        displayname = "Possible Duplicate"
+		        initial value = false
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Current_Stage
+		    (
+		        type = picklist
+		        displayname = "Current Stage"
+		        values = {"Draft","Submitted/Data Check","Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Returned","Rejected","Escalated","Completed"}
+		        initial value = "Draft"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Current_Assignee_Profile
+		    (
+		        type = text
+		        displayname = "Current Assignee Profile"
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Submitted_At
+		    (
+		        type = datetime
+		        displayname = "Submitted At"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Stage_Entered_At
+		    (
+		        type = datetime
+		        displayname = "Stage Entered At"
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Completed_At
+		    (
+		        type = datetime
+		        displayname = "Completed At"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    SAP_Completion_Reference
+		    (
+		        type = text
+		        displayname = "SAP Completion Reference"
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Rejection_or_Return_Reason
+		    (
+		        type = textarea
+		        displayname = "Rejection or Return Reason"
+		        height = 90px
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Legal_Name
+		    (
+		        type = text
+		        displayname = "Normalized Legal Name"
+		        private = true
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Normalized_Tax_ID
+		    (
+		        type = text
+		        displayname = "Normalized Tax ID"
+		        private = true
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Registration_ID
+		    (
+		        type = text
+		        displayname = "Normalized Registration ID"
+		        private = true
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Normalized_Bank_Account
+		    (
+		        type = text
+		        displayname = "Normalized Bank Account"
+		        private = true
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Normalized_Email
+		    (
+		        type = text
+		        displayname = "Normalized Email"
+		        private = true
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Documents_Section
+		    (
+		        type = section
+		        displayname = "Supporting Documents"
+		        visibility = false
+		        row = 5
+		        column = 1
+		    )
+		    Request_Documents
+		    (
+		        type = grid
+		        displayname = "Request Documents"
+		        values = Request_Documents.ID
+		        bidirectional = Vendor_Request
+		        defaultrow = 0
+		        maxrow = 25
+		        viewtype = list
+		        row = 5
+		        column = 1
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Save_Draft
+		            (
+		                type = submit
+		                displayname = "Save Draft"
+		                tooltip = "Save this request without submitting it for review"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update_Draft
+		            (
+		                type = submit
+		                displayname = "Update Draft"
+		                tooltip = "Save changes to this draft or returned request"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		    blueprint components
+		    {
+		        stages = {"Draft","Submitted/Data Check","Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Returned","Rejected","Escalated","Completed"}
+		    }
+		
+}

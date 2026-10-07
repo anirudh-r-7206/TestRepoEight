@@ -1,0 +1,101 @@
+"Compliance_Analyst"
+{
+
+	    name = "Compliance_Analyst"
+	    type = Users_Permissions
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "Compliance reviewers who screen vendors and supporting documents"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Viewall,View,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Open_Request_Queue={"View"}
+	                Request_Kanban={"View"}
+	                High_Risk_Bank_Requests={"View"}
+	                Completed_Requests={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Bank_Account_Number{visibility:false}
+	                IBAN{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Viewall,View,Search,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Documents_All={"View"}
+	                Expiring_Documents={"View"}
+	                Rejected_Documents={"View"}
+	            }
+	        }
+	        Duplicate_Matches
+	        {
+	            enabled = Viewall,View,Search,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Open_Duplicate_Alerts={"View"}
+	                Duplicate_Resolution_History={"View"}
+	            }
+	        }
+	        Compliance_Reviews
+	        {
+	            enabled = Create,Viewall,View,Edit,Search,Tab
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Compliance_Work_Queue={"View"}
+	                Compliance_Review_History={"View"}
+	                Escalated_Compliance_Reviews={"View"}
+	            }
+	        }
+	        Bank_Verifications
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Callback_Number_Used{visibility:false}
+	            }
+	            ReportPermissions
+	            {
+	                Bank_Verification_History={"View"}
+	            }
+	        }
+	        Approval_History
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Approval_History={"View"}
+	            }
+	        }
+	        Request_Action
+	        {
+	            enabled = Create,View
+	            allFieldsVisible = true
+	        }
+	        Compliance_Review_Workspace
+	        {
+	            enabled = tab
+	        }
+	        Operations_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	
+}

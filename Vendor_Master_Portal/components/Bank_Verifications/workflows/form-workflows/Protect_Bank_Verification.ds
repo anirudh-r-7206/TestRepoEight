@@ -1,0 +1,46 @@
+Protect_Bank_Verification as "Protect Bank Verification"
+{
+
+			    type = form
+			    form = Bank_Verifications
+			    record event = on add or edit
+			    description = "Derives the independent callback source and locks controlled outcome fields"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if (input.Vendor_Request != null)
+			                {
+			                    requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                    if (requestRecord.count() > 0 && requestRecord.Existing_Vendor != null)
+			                    {
+			                        input.Existing_Vendor = requestRecord.Existing_Vendor;
+			                        vendorRecord = Vendor_Master[ID == requestRecord.Existing_Vendor];
+			                        if (vendorRecord.count() > 0)
+			                        {
+			                            input.Callback_Number_Used = vendorRecord.Callback_Phone_On_File;
+			                            input.Number_Source = "SAP Vendor Master";
+			                        }
+			                    }
+			                }
+			                disable Vendor_Request;
+			                disable Existing_Vendor;
+			                disable Callback_Number_Used;
+			                disable Number_Source;
+			                disable Call_Date_Time;
+			                disable Called_By;
+			                disable Contact_Name;
+			                disable Verification_Result;
+			                disable Verification_Notes;
+			                disable Second_Approver_Email;
+			                disable Second_Approval_Date;
+			                disable Second_Approval_Decision;
+			                disable Second_Approval_Comment;
+			            )
+			        }
+			    }
+			
+}

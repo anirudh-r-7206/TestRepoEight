@@ -1,0 +1,28 @@
+Normalize_Vendor_Master as "Normalize Vendor Master"
+{
+
+			    type = form
+			    form = Vendor_Master
+			    record event = on add or edit
+			    description = "Normalizes imported SAP identifiers for duplicate detection"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.Normalized_Legal_Name = ifnull(input.Legal_Name,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Tax_ID = ifnull(input.Tax_ID,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Registration_ID = ifnull(input.Registration_ID,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Bank_Account = ifnull(input.Bank_Account_Number,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Email = ifnull(input.Primary_Email,"").trim().toLowerCase();
+			                if (input.Last_SAP_Import_Date == null)
+			                {
+			                    input.Last_SAP_Import_Date = zoho.currenttime;
+			                }
+			            )
+			        }
+			    }
+			
+}

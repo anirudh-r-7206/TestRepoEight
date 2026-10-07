@@ -1,0 +1,464 @@
+Execute_Controlled_Request_Action as "Execute Controlled Request Action"
+{
+
+			    type = form
+			    form = Request_Action
+			    button = Execute_Action
+			    description = "Revalidates and performs controlled request, evidence, and lifecycle actions"
+			
+			    on click
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                actorEmail = zoho.loginuser;
+			                actorProfile = "";
+			                try
+			                {
+			                    actorProfile = thisapp.permissions.loginUserProfile();
+			                }
+			                catch (profileError)
+			                {
+			                    actorProfile = thisapp.portal.loginUserProfile();
+			                }
+			                isAdministrator = actorProfile in {"Administrator","Developer"};
+			                failureReason = "";
+			                eventCategory = "Request";
+			                previousStage = "";
+			                nextStage = "";
+			                decisionValue = "Approved";
+			                relatedCompliance = null;
+			                relatedBank = null;
+			                requestRecord = Vendor_Requests[ID == input.Vendor_Request_ID];
+			                if (requestRecord.count() == 0)
+			                {
+			                    failureReason = "The vendor request no longer exists.";
+			                }
+			                else
+			                {
+			                    previousStage = requestRecord.Current_Stage;
+			                }
+			                if (failureReason == "" && input.Action_Type in {""," ","null"})
+			                {
+			                    failureReason = "Select an action.";
+			                }
+			                if (failureReason == "" && input.Confirmation != true)
+			                {
+			                    failureReason = "Confirm the controlled action before continuing.";
+			                }
+			                if (failureReason == "" && input.Action_Type in {"Return","Reject","Escalate"} && input.Decision_Comment in {""," ","null"})
+			                {
+			                    failureReason = "A decision comment is required for return, rejection, or escalation.";
+			                }
+			                if (failureReason == "" && input.Action_Type == "Submit Request")
+			                {
+			                    isOwner = requestRecord.Requested_By_Email.toLowerCase() == actorEmail.toLowerCase();
+			                    if (!(actorProfile in {"Business_Requestor","Vendor_Portal_User"} || isAdministrator) || !isOwner || !(requestRecord.Current_Stage in {"Draft","Returned"}))
+			                    {
+			                        failureReason = "Only the request owner may submit a Draft or Returned request.";
+			                    }
+			                    else if (Request_Documents[Vendor_Request == requestRecord.ID].count() == 0)
+			                    {
+			                        failureReason = "Upload at least one supporting document before submission.";
+			                    }
+			                    else
+			                    {
+			                        nextStage = "Submitted/Data Check";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "Procurement_Officer";
+			                        requestRecord.Submitted_At = zoho.currenttime;
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        requestRecord.Rejection_or_Return_Reason = "";
+			                        decisionValue = "Submitted";
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Approve Procurement")
+			                {
+			                    if (!(actorProfile == "Procurement_Officer" || isAdministrator) || !(requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review"}))
+			                    {
+			                        failureReason = "Procurement may act only during data check or Procurement Review.";
+			                    }
+			                    else if (requestRecord.Duplicate_Flag == true && Duplicate_Matches[Vendor_Request == requestRecord.ID && Resolution_Status == "Open"].count() > 0)
+			                    {
+			                        failureReason = "Resolve all open duplicate alerts before Procurement approval.";
+			                    }
+			                    else if (Request_Documents[Vendor_Request == requestRecord.ID && Verification_Status != "Verified"].count() > 0)
+			                    {
+			                        failureReason = "All supporting documents must be verified before Procurement approval.";
+			                    }
+			                    else if (requestRecord.Current_Stage == "Submitted/Data Check")
+			                    {
+			                        nextStage = "Procurement Review";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "Procurement_Officer";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                    }
+			                    else if (requestRecord.Request_Type == "Bank Detail Change")
+			                    {
+			                        vendorRecord = Vendor_Master[ID == requestRecord.Existing_Vendor];
+			                        if (vendorRecord.count() == 0 || vendorRecord.Callback_Phone_On_File in {""," ","null"})
+			                        {
+			                            failureReason = "The SAP mirror must contain an independent callback number before bank verification.";
+			                        }
+			                        else
+			                        {
+			                            bankEvidence = Bank_Verifications[Vendor_Request == requestRecord.ID && Verification_Result == "Pending"];
+			                            if (bankEvidence.count() == 0)
+			                            {
+			                                relatedBank = insert into Bank_Verifications
+			                                [
+			                                    Vendor_Request = requestRecord.ID
+			                                    Existing_Vendor = requestRecord.Existing_Vendor
+			                                    Callback_Number_Used = vendorRecord.Callback_Phone_On_File
+			                                    Number_Source = "SAP Vendor Master"
+			                                    Call_Date_Time = zoho.currenttime
+			                                    Called_By = actorEmail
+			                                    Contact_Name = "Pending callback"
+			                                    Verification_Result = "Pending"
+			                                    Verification_Notes = "Callback evidence pending Finance completion."
+			                                    Second_Approval_Decision = "Pending"
+			                                ];
+			                            }
+			                            else
+			                            {
+			                                relatedBank = bankEvidence.ID;
+			                            }
+			                            nextStage = "Finance Callback";
+			                            requestRecord.Current_Stage = nextStage;
+			                            requestRecord.Current_Assignee_Profile = "Finance_Manager";
+			                            requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        }
+			                    }
+			                    else
+			                    {
+			                        complianceEvidence = Compliance_Reviews[Vendor_Request == requestRecord.ID && Decision == "Pending"];
+			                        if (complianceEvidence.count() == 0)
+			                        {
+			                            relatedCompliance = insert into Compliance_Reviews
+			                            [
+			                                Vendor_Request = requestRecord.ID
+			                                Reviewer_Email = actorEmail
+			                                Review_Started_At = zoho.currenttime
+			                                Decision = "Pending"
+			                            ];
+			                        }
+			                        else
+			                        {
+			                            relatedCompliance = complianceEvidence.ID;
+			                        }
+			                        nextStage = "Compliance Review";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "Compliance_Analyst";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Complete Finance Callback")
+			                {
+			                    eventCategory = "Bank Verification";
+			                    bankEvidence = Bank_Verifications[ID == input.Bank_Verification_ID && Vendor_Request == requestRecord.ID];
+			                    if (!(actorProfile == "Finance_Manager" || isAdministrator) || requestRecord.Current_Stage != "Finance Callback")
+			                    {
+			                        failureReason = "Finance callback completion is allowed only during Finance Callback.";
+			                    }
+			                    else if (bankEvidence.count() == 0)
+			                    {
+			                        failureReason = "Select the callback evidence record for this request.";
+			                    }
+			                    else if (actorEmail.toLowerCase() == requestRecord.Requested_By_Email.toLowerCase())
+			                    {
+			                        failureReason = "The requester cannot perform the independent callback.";
+			                    }
+			                    else if (input.Decision_Comment in {""," ","null"})
+			                    {
+			                        failureReason = "Document the callback contact and result in the decision comment.";
+			                    }
+			                    else
+			                    {
+			                        bankEvidence.Call_Date_Time = zoho.currenttime;
+			                        bankEvidence.Called_By = actorEmail;
+			                        bankEvidence.Contact_Name = "Verified vendor contact";
+			                        bankEvidence.Verification_Result = "Verified";
+			                        bankEvidence.Verification_Notes = input.Decision_Comment;
+			                        relatedBank = bankEvidence.ID;
+			                        complianceEvidence = Compliance_Reviews[Vendor_Request == requestRecord.ID && Decision == "Pending"];
+			                        if (complianceEvidence.count() == 0)
+			                        {
+			                            relatedCompliance = insert into Compliance_Reviews
+			                            [
+			                                Vendor_Request = requestRecord.ID
+			                                Reviewer_Email = actorEmail
+			                                Review_Started_At = zoho.currenttime
+			                                Decision = "Pending"
+			                            ];
+			                        }
+			                        else
+			                        {
+			                            relatedCompliance = complianceEvidence.ID;
+			                        }
+			                        nextStage = "Compliance Review";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "Compliance_Analyst";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Approve Compliance")
+			                {
+			                    eventCategory = "Compliance";
+			                    complianceEvidence = Compliance_Reviews[ID == input.Compliance_Review_ID && Vendor_Request == requestRecord.ID];
+			                    if (!(actorProfile == "Compliance_Analyst" || isAdministrator) || requestRecord.Current_Stage != "Compliance Review")
+			                    {
+			                        failureReason = "Compliance approval is allowed only during Compliance Review.";
+			                    }
+			                    else if (complianceEvidence.count() == 0 || complianceEvidence.Decision != "Pending")
+			                    {
+			                        failureReason = "Select the active pending compliance review for this request.";
+			                    }
+			                    else if (!complianceEvidence.Identity_Verified || !complianceEvidence.Tax_Documents_Verified || !complianceEvidence.Registration_Verified || !complianceEvidence.Watchlist_Manual_Check_Completed || !complianceEvidence.Documents_Complete)
+			                    {
+			                        failureReason = "Complete all mandatory manual compliance checks before approval.";
+			                    }
+			                    else if (requestRecord.Request_Type == "Bank Detail Change" && (!complianceEvidence.Bank_Callback_Result_Reviewed || Bank_Verifications[Vendor_Request == requestRecord.ID && Verification_Result == "Verified"].count() == 0))
+			                    {
+			                        failureReason = "A verified callback must be reviewed before approving a bank change.";
+			                    }
+			                    else
+			                    {
+			                        complianceEvidence.Decision = "Approved";
+			                        complianceEvidence.Decision_Comment = input.Decision_Comment;
+			                        complianceEvidence.Reviewer_Email = actorEmail;
+			                        complianceEvidence.Review_Completed_At = zoho.currenttime;
+			                        relatedCompliance = complianceEvidence.ID;
+			                        if (requestRecord.Request_Type == "Bank Detail Change")
+			                        {
+			                            nextStage = "Finance Approval";
+			                            requestRecord.Current_Assignee_Profile = "Finance_Manager";
+			                        }
+			                        else
+			                        {
+			                            nextStage = "MDM Processing";
+			                            requestRecord.Current_Assignee_Profile = "MDM_Team";
+			                        }
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Approve Finance")
+			                {
+			                    eventCategory = "Bank Verification";
+			                    bankEvidence = Bank_Verifications[ID == input.Bank_Verification_ID && Vendor_Request == requestRecord.ID];
+			                    if (!(actorProfile == "Finance_Manager" || isAdministrator) || requestRecord.Current_Stage != "Finance Approval")
+			                    {
+			                        failureReason = "Finance approval is allowed only during Finance Approval.";
+			                    }
+			                    else if (bankEvidence.count() == 0 || bankEvidence.Verification_Result != "Verified")
+			                    {
+			                        failureReason = "Select verified callback evidence for this request.";
+			                    }
+			                    else if (actorEmail.toLowerCase() in {requestRecord.Requested_By_Email.toLowerCase(),bankEvidence.Called_By.toLowerCase()})
+			                    {
+			                        failureReason = "The final Finance approver must differ from the requester and callback caller.";
+			                    }
+			                    else if (input.Decision_Comment in {""," ","null"})
+			                    {
+			                        failureReason = "A Finance approval comment is required.";
+			                    }
+			                    else
+			                    {
+			                        bankEvidence.Second_Approver_Email = actorEmail;
+			                        bankEvidence.Second_Approval_Date = zoho.currenttime;
+			                        bankEvidence.Second_Approval_Decision = "Approved";
+			                        bankEvidence.Second_Approval_Comment = input.Decision_Comment;
+			                        relatedBank = bankEvidence.ID;
+			                        nextStage = "MDM Processing";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "MDM_Team";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Resolve Duplicate")
+			                {
+			                    eventCategory = "Duplicate Check";
+			                    duplicateEvidence = Duplicate_Matches[Vendor_Request == requestRecord.ID && Resolution_Status == "Open"];
+			                    if (!(actorProfile == "Procurement_Officer" || isAdministrator) || !(requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review"}))
+			                    {
+			                        failureReason = "Duplicate resolution is restricted to Procurement during data check and review.";
+			                    }
+			                    else if (duplicateEvidence.count() == 0)
+			                    {
+			                        failureReason = "No open duplicate alert exists for this request.";
+			                    }
+			                    else if (input.Duplicate_Resolution in {""," ","null"} || input.Decision_Comment in {""," ","null"})
+			                    {
+			                        failureReason = "Select a duplicate resolution and provide a comment.";
+			                    }
+			                    else
+			                    {
+			                        duplicateEvidence.Resolution_Status = input.Duplicate_Resolution;
+			                        duplicateEvidence.Resolution_Comment = input.Decision_Comment;
+			                        duplicateEvidence.Resolved_By = actorEmail;
+			                        duplicateEvidence.Resolved_At = zoho.currenttime;
+			                        requestRecord.Duplicate_Flag = Duplicate_Matches[Vendor_Request == requestRecord.ID && Resolution_Status == "Open"].count() > 0;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type in {"Verify Document","Reject Document"})
+			                {
+			                    eventCategory = "Document";
+			                    documentEvidence = Request_Documents[ID == input.Document_ID && Vendor_Request == requestRecord.ID];
+			                    if (!(actorProfile == "Procurement_Officer" || isAdministrator) || !(requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review"}))
+			                    {
+			                        failureReason = "Document verification is restricted to Procurement during data check and review.";
+			                    }
+			                    else if (documentEvidence.count() == 0)
+			                    {
+			                        failureReason = "Select a supporting document belonging to this request.";
+			                    }
+			                    else if (input.Action_Type == "Reject Document" && input.Decision_Comment in {""," ","null"})
+			                    {
+			                        failureReason = "A document rejection reason is required.";
+			                    }
+			                    else
+			                    {
+			                        documentEvidence.Verification_Status = if(input.Action_Type == "Verify Document","Verified","Rejected");
+			                        documentEvidence.Verified_By = actorEmail;
+			                        documentEvidence.Verified_At = zoho.currenttime;
+			                        documentEvidence.Rejection_Reason = if(input.Action_Type == "Reject Document",input.Decision_Comment,"");
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type == "Mark SAP Complete")
+			                {
+			                    eventCategory = "SAP Completion";
+			                    if (!(actorProfile == "MDM_Team" || isAdministrator) || requestRecord.Current_Stage != "MDM Processing")
+			                    {
+			                        failureReason = "Only MDM may complete a request during MDM Processing.";
+			                    }
+			                    else if (input.SAP_Reference in {""," ","null"})
+			                    {
+			                        failureReason = "Enter the SAP completion reference.";
+			                    }
+			                    else
+			                    {
+			                        nextStage = "Completed";
+			                        decisionValue = "Completed";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        requestRecord.Completed_At = zoho.currenttime;
+			                        requestRecord.SAP_Completion_Reference = input.SAP_Reference;
+			                    }
+			                }
+			                if (failureReason == "" && input.Action_Type in {"Return","Reject","Escalate"})
+			                {
+			                    validProcessor = actorProfile in {"Procurement_Officer","Compliance_Analyst","Finance_Manager","MDM_Team"} || isAdministrator;
+			                    if (!validProcessor || !(requestRecord.Current_Stage in {"Submitted/Data Check","Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Escalated"}))
+			                    {
+			                        failureReason = "This exception action is not permitted for the current user and stage.";
+			                    }
+			                    else if (input.Action_Type == "Return")
+			                    {
+			                        nextStage = "Returned";
+			                        decisionValue = "Returned";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = if(requestRecord.Submission_Channel == "Vendor Portal","Vendor_Portal_User","Business_Requestor");
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        requestRecord.Rejection_or_Return_Reason = input.Decision_Comment;
+			                    }
+			                    else if (input.Action_Type == "Reject")
+			                    {
+			                        nextStage = "Rejected";
+			                        decisionValue = "Rejected";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = "";
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        requestRecord.Rejection_or_Return_Reason = input.Decision_Comment;
+			                    }
+			                    else
+			                    {
+			                        nextStage = "Escalated";
+			                        decisionValue = "Escalated";
+			                        requestRecord.Current_Stage = nextStage;
+			                        requestRecord.Current_Assignee_Profile = actorProfile;
+			                        requestRecord.Stage_Entered_At = zoho.currenttime;
+			                        requestRecord.Rejection_or_Return_Reason = input.Decision_Comment;
+			                    }
+			                }
+			                actionChangesStage = nextStage != "";
+			                if (failureReason != "")
+			                {
+			                    insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = actorEmail
+			                        Actor_Profile = actorProfile
+			                        Event_Category = eventCategory
+			                        Action = input.Action_Type + " Blocked"
+			                        Record_Form = "Vendor_Requests"
+			                        Record_ID = input.Vendor_Request_ID
+			                        Vendor_Request = if(requestRecord.count() > 0,requestRecord.ID,null)
+			                        Outcome = "Failed"
+			                        Details = failureReason
+			                    ];
+			                    alert failureReason;
+			                }
+			                else
+			                {
+			                    if (actionChangesStage)
+			                    {
+			                        insert into Approval_History
+			                        [
+			                            Vendor_Request = requestRecord.ID
+			                            Stage = previousStage
+			                            Decision = decisionValue
+			                            Actor_Email = actorEmail
+			                            Actor_Profile = actorProfile
+			                            Decision_At = zoho.currenttime
+			                            Comment = input.Decision_Comment
+			                            Previous_Stage = previousStage
+			                            Next_Stage = nextStage
+			                            Related_Compliance_Review = relatedCompliance
+			                            Related_Bank_Verification = relatedBank
+			                        ];
+			                    }
+			                    insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = actorEmail
+			                        Actor_Profile = actorProfile
+			                        Event_Category = eventCategory
+			                        Action = input.Action_Type
+			                        Record_Form = "Vendor_Requests"
+			                        Record_ID = requestRecord.ID
+			                        Vendor_Request = requestRecord.ID
+			                        Before_Value = "Stage: " + previousStage
+			                        After_Value = if(actionChangesStage,"Stage: " + nextStage,"Controlled evidence updated without a stage change")
+			                        Outcome = "Success"
+			                        Details = ifnull(input.Decision_Comment,"")
+			                    ];
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : requestRecord.Requested_By_Email
+			                        subject : "Vendor request " + requestRecord.Request_Number + ": " + input.Action_Type
+			                        message : "Action: " + input.Action_Type + "<br>Current stage: " + requestRecord.Current_Stage + "<br>Comment: " + ifnull(input.Decision_Comment,"")
+			                    )
+			                    insert into Audit_Log
+			                    [
+			                        Event_Time = zoho.currenttime
+			                        Actor_Email = zoho.adminuserid
+			                        Actor_Profile = "System"
+			                        Event_Category = "Notification"
+			                        Action = "Request Action Notification Sent"
+			                        Record_Form = "Vendor_Requests"
+			                        Record_ID = requestRecord.ID
+			                        Vendor_Request = requestRecord.ID
+			                        Outcome = "Success"
+			                        Details = "Notification sent to " + requestRecord.Requested_By_Email + " for " + input.Action_Type
+			                    ];
+			                    alert "The controlled action was completed successfully.";
+			                    openUrl("#Report:My_Vendor_Requests","parent window");
+			                }
+			            )
+			        }
+			    }
+			
+}

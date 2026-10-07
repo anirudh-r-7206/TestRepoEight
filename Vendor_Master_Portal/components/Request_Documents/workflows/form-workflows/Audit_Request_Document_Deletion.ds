@@ -1,0 +1,32 @@
+Audit_Request_Document_Deletion as "Audit Request Document Deletion"
+{
+
+			    type = form
+			    form = Request_Documents
+			    record event = on delete
+			    description = "Records allowed deletion of a pending document"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                auditId = insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Document"
+			                    Action = "Pending Document Deleted"
+			                    Record_Form = "Request_Documents"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    Before_Value = "Type: " + input.Document_Type + "; Confidentiality: " + input.Confidentiality_Level + "; Verification: " + input.Verification_Status
+			                    Outcome = "Success"
+			                    Details = "The request owner deleted a pending document while the request remained editable."
+			                ];
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,35 @@
+Vendor_Request_SLA_Reminder as "Vendor Request SLA Reminder"
+{
+
+			    type = schedule
+			    form = Vendor_Requests[Current_Stage != "Draft" && Current_Stage != "Rejected" && Current_Stage != "Completed"]
+			    start = after 1 days from Stage_Entered_At
+			    frequency = daily
+			    time zone = "UTC"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                activeRule = SLA_Configuration[Active == true && Rule_Type == "Approval Reminder" && Applies_To_Stage == input.Current_Stage];
+			                if (activeRule.count() > 0)
+			                {
+			                    elapsedDays = ((zoho.currenttime - input.Stage_Entered_At) / (1000 * 60 * 60 * 24)).toLong();
+			                    if (elapsedDays >= activeRule.Days)
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : input.Requested_By_Email
+			                            subject : "Vendor request " + input.Request_Number + " remains at " + input.Current_Stage
+			                            message : ifnull(activeRule.Message_Template,"Your vendor request remains in its current processing stage and has reached the configured reminder threshold.")
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

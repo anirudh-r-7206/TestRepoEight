@@ -1,0 +1,617 @@
+<%
+requestRecord = Vendor_Requests[ID == input.Request_ID];
+requestFound = requestRecord.count() > 0;
+if(requestFound)
+{
+		documents = Request_Documents[Vendor_Request == requestRecord.ID];
+		duplicates = Duplicate_Matches[Vendor_Request == requestRecord.ID];
+		callbacks = Bank_Verifications[Vendor_Request == requestRecord.ID] sort by Call_Date_Time desc;
+		reviews = Compliance_Reviews[Vendor_Request == requestRecord.ID] sort by Review_Started_At desc;
+		approvalHistory = Approval_History[Vendor_Request == requestRecord.ID] sort by Decision_At desc;
+		verifiedDocumentCount = 0;
+		rejectedDocumentCount = 0;
+		pendingDocumentCount = 0;
+		for each documentSummaryRecord in documents
+		{
+				if(documentSummaryRecord.Verification_Status == "Verified")
+				{
+						verifiedDocumentCount = verifiedDocumentCount + 1;
+				}
+				if(documentSummaryRecord.Verification_Status == "Rejected")
+				{
+						rejectedDocumentCount = rejectedDocumentCount + 1;
+				}
+				if(documentSummaryRecord.Verification_Status != "Verified" && documentSummaryRecord.Verification_Status != "Rejected")
+				{
+						pendingDocumentCount = pendingDocumentCount + 1;
+				}
+		}
+		stageBadgeClass = "zcs-badge-blue";
+		stageBadgeIcon = "loader-dots-06";
+		if(requestRecord.Current_Stage == "Completed")
+		{
+				stageBadgeClass = "zcs-badge-green";
+				stageBadgeIcon = "ui-1-check-circle-08";
+		}
+		if(requestRecord.Current_Stage == "Rejected")
+		{
+				stageBadgeClass = "zcs-badge-red";
+				stageBadgeIcon = "ui-1-circle-remove";
+		}
+		riskBadgeClass = "zcs-badge-green";
+		if(requestRecord.Risk_Level == "Medium")
+		{
+				riskBadgeClass = "zcs-badge-yellow";
+		}
+		if(requestRecord.Risk_Level == "High")
+		{
+				riskBadgeClass = "zcs-badge-red";
+		}
+}
+%>
+<style>
+:root {
+		--zcs-theme-brand-color: var(--zcs_brand_color);
+		--zcs-page-bg-color: #f3f3f4;
+		--zcs-primary-text-color: var(--zcs_primary_text_color);
+		--zcs-secondary-text-color: var(--zcs_secondary_text_color);
+		--zcs-border-color: var(--zcs_tertiary_border_color);
+		--zcs-white-color: #ffffff;
+		font-size: 16px;
+		line-height: 1.5;
+}
+.zcs-flex { display: flex; }
+.zcs-inline-flex { display: inline-flex; }
+.zcs-row { display: flex; flex-wrap: wrap; }
+.zcs-row-wrap { flex-wrap: wrap; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-justify-center { justify-content: center; }
+.zcs-gap-4 { gap: 0.25rem; }
+.zcs-gap-8 { gap: 0.5rem; }
+.zcs-gap-12 { gap: 0.75rem; }
+.zcs-gap-16 { gap: 1rem; }
+.zcs-w-full { width: 100%; }
+.zcs-p-0 { padding: 0; }
+.zcs-p-16 { padding: 1rem; }
+.zcs-p-20 { padding: 1.25rem; }
+.zcs-px-10 { padding-left: 0.625rem; padding-right: 0.625rem; }
+.zcs-px-16 { padding-left: 1rem; padding-right: 1rem; }
+.zcs-py-2 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+.zcs-py-8 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.zcs-m-0 { margin: 0; }
+.zcs-mt-8 { margin-top: 0.5rem; }
+.zcs-mb-16 { margin-bottom: 1rem; }
+.zcs-rounded-sm { border-radius: 0.25rem; }
+.zcs-rounded-md { border-radius: 0.375rem; }
+.zcs-rounded-xl { border-radius: 0.75rem; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-font-12 { font-size: 0.75rem; }
+.zcs-font-13 { font-size: 0.8125rem; }
+.zcs-font-14 { font-size: 0.875rem; }
+.zcs-font-16 { font-size: 1rem; }
+.zcs-font-18 { font-size: 1.125rem; }
+.zcs-font-24 { font-size: 1.5rem; }
+.zcs-font-normal { font-weight: 400; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-font-semibold { font-weight: 600; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-secondary { color: var(--zcs-secondary-text-color); }
+.zcs-card {
+		background-color: var(--zcs-white-color);
+		border: 1px solid #e7e7ee;
+		border-radius: 12px;
+}
+.zcs-button {
+		width: auto;
+		min-width: 5rem;
+		min-height: 36px;
+		text-decoration: none;
+}
+.zcs-primary-button {
+		background-color: var(--zcs_brand_color);
+		color: var(--zcs_brand_foreground_color);
+}
+.zcs-primary-outline-button {
+		border: 1px solid var(--zcs_brand_color);
+		background-color: var(--zcs-white-color);
+		color: var(--zcs_brand_color);
+}
+.zcs-danger-button {
+		border: 1px solid #fe455d;
+		background-color: var(--zcs-white-color);
+		color: #d52f48;
+}
+.zcs-badge { width: auto; border: 1px solid; }
+.zcs-badge-green { background-color: #e4fcf3; border-color: #179e6c; color: #179e6c; }
+.zcs-badge-red { background-color: #fde3e6; border-color: #fe455d; color: #d52f48; }
+.zcs-badge-yellow { background-color: #fcf4e6; border-color: #faae13; color: #986307; }
+.zcs-badge-blue { background-color: #e8efff; border-color: #2a6ffc; color: #2a6ffc; }
+.zcs-badge-grey { background-color: #eeeeee; border-color: #666666; color: #444444; }
+.zcs-labelvalue-wrapper ul { list-style: none; }
+.zcs-table-wrapper {
+		border: 1px solid var(--zcs-border-color);
+		background-color: var(--zcs-white-color);
+		overflow: auto;
+}
+.zcs-table-wrapper table { width: 100%; border-collapse: collapse; }
+.zcs-table-wrapper th {
+		background-color: #f9fafe;
+		text-align: left;
+		white-space: nowrap;
+		font-size: 13px;
+		font-weight: 500;
+}
+.zcs-table-wrapper th,
+.zcs-table-wrapper td {
+		padding: 9px 12px;
+		border-bottom: 1px solid var(--zcs-border-color);
+		font-size: 13px;
+		vertical-align: top;
+}
+.workspace {
+		background-color: var(--zcs-page-bg-color);
+		color: var(--zcs-primary-text-color);
+		padding: 20px;
+		box-sizing: border-box;
+}
+.workspace-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+		gap: 16px;
+}
+.section-title {
+		padding-bottom: 12px;
+		border-bottom: 1px solid var(--zcs-border-color);
+		margin-bottom: 12px;
+}
+.summary-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.summary-list li {
+		display: grid;
+		grid-template-columns: minmax(125px, 40%) 1fr;
+		border-bottom: 1px solid #f0f0f3;
+}
+.summary-list label { color: var(--zcs-secondary-text-color); }
+.summary-list span { overflow-wrap: anywhere; }
+.metric-strip {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 10px;
+}
+.metric {
+		background-color: #f9fafe;
+		border: 1px solid var(--zcs-border-color);
+		padding: 12px;
+		border-radius: 8px;
+}
+.metric strong { display: block; font-size: 20px; }
+.masked {
+		font-family: monospace;
+		letter-spacing: 1px;
+}
+.empty-state { color: var(--zcs-secondary-text-color); margin: 8px 0; }
+.review-block,
+.callback-block {
+		border: 1px solid var(--zcs-border-color);
+		border-radius: 8px;
+		padding: 12px;
+		margin-top: 10px;
+}
+.check-row { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
+.check-yes { color: #179e6c; }
+.check-no { color: #fe455d; }
+.zcs-timeline-wrapper ul { list-style: none; }
+.zcs-tl-li {
+		position: relative;
+		padding-left: 28px;
+		padding-bottom: 18px;
+}
+.zcs-tl-li:before {
+		content: '';
+		position: absolute;
+		left: 6px;
+		top: 10px;
+		bottom: -5px;
+		width: 1px;
+		background-color: #e1e1e1;
+}
+.zcs-tl-li:last-child:before { display: none; }
+.zcs-tl-dot {
+		position: absolute;
+		left: 0;
+		top: 5px;
+		width: 13px;
+		height: 13px;
+		border-radius: 50%;
+		background-color: var(--zcs_brand_color);
+		border: 2px solid var(--zcs-white-color);
+		box-shadow: 0 0 0 1px var(--zcs_brand_color);
+}
+.access-card {
+		max-width: 680px;
+		margin: 60px auto;
+		text-align: center;
+		padding: 32px;
+}
+@media (max-width: 900px) {
+		.workspace-grid { grid-template-columns: 1fr; }
+		.metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 576px) {
+		.workspace { padding: 10px; }
+		.header-row { align-items: flex-start; flex-direction: column; }
+		.summary-list { grid-template-columns: 1fr; }
+		.summary-list li { grid-template-columns: 1fr; gap: 3px; }
+		.metric-strip { grid-template-columns: 1fr; }
+		.action-row { width: 100%; }
+		.action-row .zcs-button { flex: 1; }
+}
+</style>
+<% if(requestFound == false) { %>
+<div class='workspace'>
+		<div class='zcs-card access-card'>
+				<i class='zc-li-outline ui-1-circle-remove zcs-font-24'></i>
+				<h2>Request not found</h2>
+				<p class='zcs-color-secondary'>No vendor request matches ID <%=input.Request_ID%>.</p>
+		</div>
+</div>
+<% } %>
+<% if(requestFound) { %>
+<div class='workspace'>
+		<header class='zcs-card zcs-p-20 zcs-mb-16'>
+				<div class='header-row zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-16'>
+						<div>
+								<div class='zcs-font-13 zcs-color-secondary'>Compliance review workspace</div>
+								<h1 class='zcs-font-24 zcs-m-0'><%=requestRecord.Request_Number%> - <%=requestRecord.Legal_Name%></h1>
+								<div class='zcs-flex zcs-row-wrap zcs-gap-8 zcs-mt-8'>
+										<span class='zcs-badge <%=stageBadgeClass%> zcs-inline-flex zcs-align-items-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2'>
+												<i class='zc-li-outline <%=stageBadgeIcon%>'></i>
+												<%=requestRecord.Current_Stage%>
+										</span>
+										<span class='zcs-badge <%=riskBadgeClass%> zcs-inline-flex zcs-align-items-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2'>
+												<i class='zc-li-outline ui-2-shield-check'></i>
+												<%=requestRecord.Risk_Level%> risk
+										</span>
+								</div>
+						</div>
+						<div class='action-row zcs-flex zcs-row-wrap zcs-gap-8'>
+								<a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Action_Type=Approve Compliance&amp;zc_LoadIn=dialog'>
+										<i class='zc-li-outline ui-1-check-circle-08'></i>
+										<span>Approve</span>
+								</a>
+								<a class='zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Action_Type=Return&amp;zc_LoadIn=dialog'>
+										<i class='zc-li-outline arrows-1-tail-left'></i>
+										<span>Return</span>
+								</a>
+								<a class='zcs-button zcs-danger-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Action_Type=Reject&amp;zc_LoadIn=dialog'>
+										<i class='zc-li-outline ui-1-circle-remove'></i>
+										<span>Reject</span>
+								</a>
+						</div>
+				</div>
+		</header>
+
+		<div class='workspace-grid'>
+				<main class='zcs-flex zcs-direction-column zcs-gap-16'>
+						<section class='zcs-card zcs-p-20'>
+								<h2 class='section-title zcs-font-18 zcs-m-0'>Request summary</h2>
+								<div class='zcs-labelvalue-wrapper'>
+										<ul class='summary-list zcs-p-0 zcs-m-0'>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Request type</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Request_Type%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Submission channel</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Submission_Channel%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Requested by</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Requested_By_Email%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Country</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Country%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Tax ID</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Tax_ID%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Registration ID</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Registration_ID%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Primary email</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Primary_Email%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Primary phone</label>
+														<span class='zcs-font-14 zcs-font-medium'><%=requestRecord.Primary_Phone%></span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>Bank account</label>
+														<span class='masked zcs-font-14 zcs-font-medium'>Masked</span>
+												</li>
+												<li class='zcs-px-16 zcs-py-8 zcs-box-border'>
+														<label class='zcs-font-14'>IBAN</label>
+														<span class='masked zcs-font-14 zcs-font-medium'>Masked</span>
+												</li>
+										</ul>
+								</div>
+								<h3 class='zcs-font-14'>Business justification</h3>
+								<p class='zcs-font-14'><%=requestRecord.Business_Justification%></p>
+						</section>
+
+						<section class='zcs-card zcs-p-20'>
+								<div class='section-title zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8'>
+										<h2 class='zcs-font-18 zcs-m-0'>Related documents</h2>
+										<span class='zcs-font-13 zcs-color-secondary'><%=documents.count()%> document(s)</span>
+								</div>
+								<div class='metric-strip zcs-mb-16'>
+										<div class='metric'><strong><%=documents.count()%></strong><span>Total</span></div>
+										<div class='metric'><strong><%=verifiedDocumentCount%></strong><span>Verified</span></div>
+										<div class='metric'><strong><%=pendingDocumentCount%></strong><span>Pending</span></div>
+										<div class='metric'><strong><%=rejectedDocumentCount%></strong><span>Rejected</span></div>
+								</div>
+								<div class='zcs-table-wrapper zcs-rounded-sm zcs-box-border'>
+										<table>
+												<thead>
+														<tr>
+																<th>Type</th>
+																<th>Expiry</th>
+																<th>Confidentiality</th>
+																<th>Verification</th>
+																<th>Action</th>
+														</tr>
+												</thead>
+												<tbody>
+												<% for each documentRecord in documents { %>
+														<%
+														documentBadgeClass = "zcs-badge-yellow";
+														documentIcon = "ui-2-time";
+														expiryDisplay = "Not set";
+														if(documentRecord.Expiry_Date != null)
+														{
+																expiryDisplay = documentRecord.Expiry_Date;
+														}
+														if(documentRecord.Verification_Status == "Verified")
+														{
+																documentBadgeClass = "zcs-badge-green";
+																documentIcon = "ui-1-check-circle-08";
+														}
+														if(documentRecord.Verification_Status == "Rejected")
+														{
+																documentBadgeClass = "zcs-badge-red";
+																documentIcon = "ui-1-circle-remove";
+														}
+														%>
+														<tr>
+																<td><%=documentRecord.Document_Type%></td>
+																<td><%=expiryDisplay%></td>
+																<td><%=documentRecord.Confidentiality_Level%></td>
+																<td>
+																		<span class='zcs-badge <%=documentBadgeClass%> zcs-inline-flex zcs-align-items-center zcs-gap-4 zcs-rounded-sm zcs-px-10 zcs-py-2'>
+																				<i class='zc-li-outline <%=documentIcon%>'></i>
+																				<%=documentRecord.Verification_Status%>
+																		</span>
+																</td>
+																<td>
+																		<a class='zcs-color-primary' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Document_ID=<%=documentRecord.ID%>&amp;zc_LoadIn=dialog'>Review</a>
+																</td>
+														</tr>
+												<% } %>
+												<% if(documents.count() == 0) { %>
+														<tr>
+																<td colspan='5' class='empty-state'>No related documents.</td>
+														</tr>
+												<% } %>
+												</tbody>
+										</table>
+								</div>
+						</section>
+
+						<section class='zcs-card zcs-p-20'>
+								<h2 class='section-title zcs-font-18 zcs-m-0'>Duplicate findings</h2>
+								<div class='zcs-table-wrapper zcs-rounded-sm zcs-box-border'>
+										<table>
+												<thead>
+														<tr>
+																<th>Basis</th>
+																<th>Score</th>
+																<th>Finding</th>
+																<th>Resolution</th>
+																<th>Comment</th>
+																<th>Action</th>
+														</tr>
+												</thead>
+												<tbody>
+												<% for each duplicateRecord in duplicates { %>
+														<%
+														duplicateBadgeClass = "zcs-badge-yellow";
+														duplicateComment = "Not provided";
+														if(duplicateRecord.Resolution_Comment != null && duplicateRecord.Resolution_Comment != "")
+														{
+																duplicateComment = duplicateRecord.Resolution_Comment;
+														}
+														if(duplicateRecord.Resolution_Status == "Cleared Not Duplicate")
+														{
+																duplicateBadgeClass = "zcs-badge-green";
+														}
+														if(duplicateRecord.Resolution_Status == "Confirmed Duplicate")
+														{
+																duplicateBadgeClass = "zcs-badge-red";
+														}
+														%>
+														<tr>
+																<td><%=duplicateRecord.Match_Basis%></td>
+																<td><%=duplicateRecord.Match_Score%></td>
+																<td><%=duplicateRecord.Match_Summary%></td>
+																<td><span class='zcs-badge <%=duplicateBadgeClass%> zcs-inline-flex zcs-rounded-sm zcs-px-10 zcs-py-2'><%=duplicateRecord.Resolution_Status%></span></td>
+																<td><%=duplicateComment%></td>
+																<td><a class='zcs-color-primary' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Action_Type=Resolve Duplicate&amp;zc_LoadIn=dialog'>Resolve</a></td>
+														</tr>
+												<% } %>
+												<% if(duplicates.count() == 0) { %>
+														<tr>
+																<td colspan='6' class='empty-state'>No duplicate findings were recorded.</td>
+														</tr>
+												<% } %>
+												</tbody>
+										</table>
+								</div>
+						</section>
+
+						<section class='zcs-card zcs-p-20'>
+								<h2 class='section-title zcs-font-18 zcs-m-0'>Callback evidence</h2>
+								<% if(callbacks.count() == 0) { %>
+										<p class='empty-state'>No callback evidence is available.</p>
+								<% } %>
+								<% for each callbackRecord in callbacks { %>
+										<div class='callback-block'>
+												<div class='zcs-row zcs-gap-12'>
+														<div class='zcs-font-14'><strong>Result:</strong> <%=callbackRecord.Verification_Result%></div>
+														<div class='zcs-font-14'><strong>Date:</strong> <%=callbackRecord.Call_Date_Time%></div>
+														<div class='zcs-font-14'><strong>Called by:</strong> <%=callbackRecord.Called_By%></div>
+														<div class='zcs-font-14'><strong>Number source:</strong> <%=callbackRecord.Number_Source%></div>
+														<div class='zcs-font-14'><strong>Callback number:</strong> <span class='masked'>Masked</span></div>
+												</div>
+												<p class='zcs-font-14'><strong>Contact:</strong> <%=callbackRecord.Contact_Name%></p>
+												<p class='zcs-font-14'><strong>Evidence notes:</strong> <%=callbackRecord.Verification_Notes%></p>
+												<a class='zcs-color-primary zcs-font-14' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Bank_Verification_ID=<%=callbackRecord.ID%>&amp;zc_LoadIn=dialog'>Open callback action</a>
+										</div>
+								<% } %>
+						</section>
+				</main>
+
+				<aside class='zcs-flex zcs-direction-column zcs-gap-16'>
+						<section class='zcs-card zcs-p-20'>
+								<h2 class='section-title zcs-font-18 zcs-m-0'>Compliance reviews</h2>
+								<% if(reviews.count() == 0) { %>
+										<p class='empty-state'>No compliance review has been started.</p>
+								<% } %>
+								<% for each reviewRecord in reviews { %>
+										<%
+										findingsDisplay = "Not provided";
+										if(reviewRecord.Findings != null && reviewRecord.Findings != "")
+										{
+												findingsDisplay = reviewRecord.Findings;
+										}
+										%>
+										<div class='review-block'>
+												<div class='zcs-flex zcs-justify-space-between zcs-gap-8'>
+														<strong><%=reviewRecord.Decision%></strong>
+														<span class='zcs-font-12 zcs-color-secondary'><%=reviewRecord.Review_Started_At%></span>
+												</div>
+												<p class='zcs-font-13'>Reviewer: <%=reviewRecord.Reviewer_Email%></p>
+												<%
+												identityIcon = "ui-1-circle-remove";
+												identityClass = "check-no";
+												if(reviewRecord.Identity_Verified)
+												{
+														identityIcon = "ui-1-check-circle-08";
+														identityClass = "check-yes";
+												}
+												taxIcon = "ui-1-circle-remove";
+												taxClass = "check-no";
+												if(reviewRecord.Tax_Documents_Verified)
+												{
+														taxIcon = "ui-1-check-circle-08";
+														taxClass = "check-yes";
+												}
+												registrationIcon = "ui-1-circle-remove";
+												registrationClass = "check-no";
+												if(reviewRecord.Registration_Verified)
+												{
+														registrationIcon = "ui-1-check-circle-08";
+														registrationClass = "check-yes";
+												}
+												watchlistIcon = "ui-1-circle-remove";
+												watchlistClass = "check-no";
+												if(reviewRecord.Watchlist_Manual_Check_Completed)
+												{
+														watchlistIcon = "ui-1-check-circle-08";
+														watchlistClass = "check-yes";
+												}
+												insuranceIcon = "ui-1-circle-remove";
+												insuranceClass = "check-no";
+												if(reviewRecord.Insurance_Verified)
+												{
+														insuranceIcon = "ui-1-check-circle-08";
+														insuranceClass = "check-yes";
+												}
+												documentsIcon = "ui-1-circle-remove";
+												documentsClass = "check-no";
+												if(reviewRecord.Documents_Complete)
+												{
+														documentsIcon = "ui-1-check-circle-08";
+														documentsClass = "check-yes";
+												}
+												%>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=identityIcon%> <%=identityClass%>'></i>
+														<span class='zcs-font-14'>Identity verified</span>
+												</div>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=taxIcon%> <%=taxClass%>'></i>
+														<span class='zcs-font-14'>Tax documents verified</span>
+												</div>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=registrationIcon%> <%=registrationClass%>'></i>
+														<span class='zcs-font-14'>Registration verified</span>
+												</div>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=watchlistIcon%> <%=watchlistClass%>'></i>
+														<span class='zcs-font-14'>Manual watchlist check</span>
+												</div>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=insuranceIcon%> <%=insuranceClass%>'></i>
+														<span class='zcs-font-14'>Insurance verified</span>
+												</div>
+												<div class='check-row'>
+														<i class='zc-li-outline <%=documentsIcon%> <%=documentsClass%>'></i>
+														<span class='zcs-font-14'>Documents complete</span>
+												</div>
+												<p class='zcs-font-14'><strong>Findings:</strong> <%=findingsDisplay%></p>
+												<a class='zcs-color-primary zcs-font-14' href='#Form:Request_Action?Vendor_Request_ID=<%=requestRecord.ID%>&amp;Compliance_Review_ID=<%=reviewRecord.ID%>&amp;zc_LoadIn=dialog'>Open review action</a>
+										</div>
+								<% } %>
+						</section>
+
+						<section class='zcs-card zcs-p-20'>
+								<h2 class='section-title zcs-font-18 zcs-m-0'>Approval history</h2>
+								<div class='zcs-timeline-wrapper'>
+										<ul class='zcs-p-0 zcs-m-0'>
+										<% for each historyRecord in approvalHistory { %>
+												<%
+												historyComment = "";
+												if(historyRecord.Comment != null)
+												{
+														historyComment = historyRecord.Comment;
+												}
+												%>
+												<li class='zcs-tl-li'>
+														<span class='zcs-tl-dot'></span>
+														<div class='zcs-font-12 zcs-color-secondary'><%=historyRecord.Decision_At%></div>
+														<div class='zcs-font-16 zcs-font-medium'><%=historyRecord.Stage%> - <%=historyRecord.Decision%></div>
+														<div class='zcs-font-13'><%=historyRecord.Actor_Email%> - <%=historyRecord.Actor_Profile%></div>
+														<% if(historyComment != "") { %>
+																<p class='zcs-font-13 zcs-mt-8'><%=historyComment%></p>
+														<% } %>
+												</li>
+										<% } %>
+										<% if(approvalHistory.count() == 0) { %>
+												<li class='empty-state'>No approval history.</li>
+										<% } %>
+										</ul>
+								</div>
+						</section>
+				</aside>
+		</div>
+</div>
+<%
+ %>

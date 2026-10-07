@@ -1,0 +1,29 @@
+Protect_Duplicate_Match as "Protect Duplicate Match"
+{
+
+			    type = form
+			    form = Duplicate_Matches
+			    record event = on add or edit
+			    description = "Keeps duplicate evidence and resolution fields system controlled"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Vendor_Request;
+			                disable Matched_Vendor;
+			                disable Matched_Open_Request;
+			                disable Match_Basis;
+			                disable Match_Score;
+			                disable Match_Summary;
+			                disable Resolution_Status;
+			                disable Resolution_Comment;
+			                disable Resolved_By;
+			                disable Resolved_At;
+			            )
+			        }
+			    }
+			
+}

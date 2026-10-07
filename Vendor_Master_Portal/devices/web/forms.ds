@@ -1,0 +1,15 @@
+forms
+{
+
+	    form SLA_Configuration { label placement = left }
+	    form Vendor_Master { label placement = left }
+	    form Vendor_Requests { label placement = left }
+	    form Request_Documents { label placement = left }
+	    form Duplicate_Matches { label placement = left }
+	    form Compliance_Reviews { label placement = left }
+	    form Bank_Verifications { label placement = left }
+	    form Approval_History { label placement = left }
+	    form Audit_Log { label placement = left }
+	    form Request_Action { label placement = left }
+	
+}

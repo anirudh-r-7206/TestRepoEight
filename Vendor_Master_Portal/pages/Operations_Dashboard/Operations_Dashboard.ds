@@ -1,0 +1,20 @@
+<page linkname = "Operations_Dashboard" parameters = "string Date_Range, string Request_Type, string Risk, string Stage" displayname = "Operations Dashboard"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='zcs_ops_dashboard_202603_c84f19a2' elementName='Operations_Dashboard_Content'>
+          <![CDATA[htmlpage zcs_ops_dashboard_202603_c84f19a2()
+						content
+			<%{%>
+            <file name:Operations_Dashboard_Content.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

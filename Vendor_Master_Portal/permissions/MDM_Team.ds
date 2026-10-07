@@ -1,0 +1,95 @@
+"MDM_Team"
+{
+
+	    name = "MDM_Team"
+	    type = Users_Permissions
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "Vendor master team members who complete approved changes in SAP"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Viewall,View,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Open_Request_Queue={"View"}
+	                Completed_Requests={"View"}
+	                Request_Kanban={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Vendor_Master
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Vendor_Lookup={"View"}
+	                All_Vendors={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Bank_Account_Number{visibility:false}
+	                IBAN{visibility:false}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Documents_All={"View"}
+	            }
+	        }
+	        Compliance_Reviews
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Compliance_Review_History={"View"}
+	            }
+	        }
+	        Bank_Verifications
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Callback_Number_Used{visibility:false}
+	            }
+	            ReportPermissions
+	            {
+	                Bank_Verification_History={"View"}
+	            }
+	        }
+	        Approval_History
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                Request_Approval_History={"View"}
+	            }
+	        }
+	        Request_Action
+	        {
+	            enabled = Create,View
+	            allFieldsVisible = true
+	        }
+	        Operations_Dashboard
+	        {
+	            enabled = tab
+	        }
+	    }
+	
+}

@@ -1,0 +1,40 @@
+list High_Risk_Bank_Requests
+{
+
+		    displayName = "High Risk Bank Requests"
+		    show all rows from Vendor_Requests [Risk_Level == "High"]
+		    (
+		        Request_Number
+		        Request_Type
+		        Existing_Vendor
+		        Legal_Name
+		        Bank_Name
+		        Account_Holder_Name
+		        SWIFT_BIC
+		        Risk_Level
+		        Current_Stage
+		        Current_Assignee_Profile
+		        Stage_Entered_At
+		        custom action "Request Action"
+		        (
+		            workflow = Open_Request_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Request Action"
+		            success message = "Opening request action"
+		            condition = (Current_Stage != "Completed" && Current_Stage != "Rejected")
+		        )
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Risk_Level
+		        Current_Stage
+		        Current_Assignee_Profile
+		    )
+		    sort by
+		    (
+		        Stage_Entered_At ascending
+		    )
+		
+}

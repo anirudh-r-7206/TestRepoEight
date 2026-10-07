@@ -1,0 +1,38 @@
+Audit_Duplicate_Match as "Audit Duplicate Match"
+{
+
+			    type = form
+			    form = Duplicate_Matches
+			    record event = on add or edit
+			    description = "Records duplicate check evidence and any controlled resolution"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                requestRecord = Vendor_Requests[ID == input.Vendor_Request];
+			                eventName = "Duplicate Check Recorded";
+			                if (input.Resolution_Status != "Open")
+			                {
+			                    eventName = "Duplicate Alert Resolved";
+			                }
+			                insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Duplicate Check"
+			                    Action = eventName
+			                    Record_Form = "Duplicate_Matches"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    After_Value = "Request " + requestRecord.Request_Number + "; status " + input.Resolution_Status + "; basis " + input.Match_Basis + "; score " + input.Match_Score + "; comment " + input.Resolution_Comment
+			                    Outcome = "Success"
+			                    Details = "Duplicate evidence was recorded or resolved through the controlled process."
+			                ];
+			            )
+			        }
+			    }
+			
+}

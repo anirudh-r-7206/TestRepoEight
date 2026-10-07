@@ -1,0 +1,30 @@
+Protect_Approval_History as "Protect Approval History"
+{
+
+			    type = form
+			    form = Approval_History
+			    record event = on add or edit
+			    description = "Presents transition evidence as read only"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Vendor_Request;
+			                disable Stage;
+			                disable Decision;
+			                disable Actor_Email;
+			                disable Actor_Profile;
+			                disable Decision_At;
+			                disable Comment;
+			                disable Previous_Stage;
+			                disable Next_Stage;
+			                disable Related_Compliance_Review;
+			                disable Related_Bank_Verification;
+			            )
+			        }
+			    }
+			
+}

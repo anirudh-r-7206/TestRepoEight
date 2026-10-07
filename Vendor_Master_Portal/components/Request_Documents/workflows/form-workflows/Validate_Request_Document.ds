@@ -1,0 +1,46 @@
+Validate_Request_Document as "Validate Request Document"
+{
+
+			    type = form
+			    form = Request_Documents
+			    record event = on add or edit
+			    description = "Enforces parent ownership, expiry ordering, and pending verification"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                parentRequest = Vendor_Requests[ID == input.Vendor_Request];
+			                if (parentRequest.count() == 0)
+			                {
+			                    alert "The selected vendor request no longer exists.";
+			                    cancel submit;
+			                }
+			                if (parentRequest.Current_Stage != "Draft" && parentRequest.Current_Stage != "Returned")
+			                {
+			                    alert "Documents can only be uploaded or replaced while the request is Draft or Returned.";
+			                    cancel submit;
+			                }
+			                if (parentRequest.Requested_By_Email.toLowerCase() != zoho.loginuser.toLowerCase() && input.Owner_Email.toLowerCase() != zoho.loginuser.toLowerCase())
+			                {
+			                    alert "Only the request owner can upload or replace supporting documents.";
+			                    cancel submit;
+			                }
+			                if (input.Issue_Date != null && input.Expiry_Date != null && input.Expiry_Date <= input.Issue_Date)
+			                {
+			                    alert "Expiry Date must be later than Issue Date.";
+			                    cancel submit;
+			                }
+			                input.Existing_Vendor = parentRequest.Existing_Vendor;
+			                input.Owner_Email = parentRequest.Requested_By_Email;
+			                input.Verification_Status = "Pending";
+			                input.Verified_By = null;
+			                input.Verified_At = null;
+			                input.Rejection_Reason = "";
+			            )
+			        }
+			    }
+			
+}

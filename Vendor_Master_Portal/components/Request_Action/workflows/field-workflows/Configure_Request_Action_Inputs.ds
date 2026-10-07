@@ -1,0 +1,44 @@
+Configure_Request_Action_Inputs as "Configure Request Action Inputs"
+{
+
+			    type = form
+			    form = Request_Action
+			    record event = on add
+			    description = "Shows only the evidence inputs needed for the selected action"
+			
+			    on user input of Action_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Duplicate_Resolution;
+			                hide Document_ID;
+			                hide Compliance_Review_ID;
+			                hide Bank_Verification_ID;
+			                hide SAP_Reference;
+			                if (input.Action_Type == "Resolve Duplicate")
+			                {
+			                    show Duplicate_Resolution;
+			                }
+			                if (input.Action_Type in {"Verify Document","Reject Document"})
+			                {
+			                    show Document_ID;
+			                }
+			                if (input.Action_Type == "Approve Compliance")
+			                {
+			                    show Compliance_Review_ID;
+			                }
+			                if (input.Action_Type in {"Complete Finance Callback","Approve Finance"})
+			                {
+			                    show Bank_Verification_ID;
+			                }
+			                if (input.Action_Type == "Mark SAP Complete")
+			                {
+			                    show SAP_Reference;
+			                }
+			            )
+			        }
+			    }
+			
+}

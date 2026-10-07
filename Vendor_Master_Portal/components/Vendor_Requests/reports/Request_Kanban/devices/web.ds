@@ -1,0 +1,4 @@
+report Request_Kanban
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Request_Number Request_Type Legal_Name Risk_Level Current_Stage "Request Action" ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Request_Number Request_Type Legal_Name Risk_Level Duplicate_Flag Current_Stage Current_Assignee_Profile Stage_Entered_At "Request Action" ) ) ) menu ( header ( Edit ) ) ) 
+}

@@ -1,0 +1,33 @@
+Validate_SLA_Configuration as "Validate SLA Configuration"
+{
+
+			    type = form
+			    form = SLA_Configuration
+			    record event = on add or edit
+			    description = "Validates positive rule durations and singleton baseline and target rules"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if (ifnull(input.Days,0) <= 0)
+			                {
+			                    alert "Days must be greater than zero.";
+			                    cancel submit;
+			                }
+			                if (input.Rule_Type in {"Legacy Email Cycle Baseline","Portal Cycle Target"} && input.Active == true)
+			                {
+			                    matchingRules = SLA_Configuration[Rule_Type == input.Rule_Type && Active == true && ID != input.ID];
+			                    if (matchingRules.count() > 0)
+			                    {
+			                        alert "Only one active " + input.Rule_Type + " rule is allowed.";
+			                        cancel submit;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,36 @@
+list Failed_Callbacks
+{
+
+		    displayName = "Failed Callbacks"
+		    show all rows from Bank_Verifications [Verification_Result == "Failed" || Verification_Result == "Unable to Reach"]
+		    (
+		        Vendor_Request
+		        Existing_Vendor
+		        Number_Source
+		        Call_Date_Time
+		        Called_By
+		        Contact_Name
+		        Verification_Result
+		        Verification_Notes
+		        custom action "Bank Action"
+		        (
+		            workflow = Open_Bank_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Bank Action"
+		            success message = "Opening bank verification action"
+		        )
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Existing_Vendor
+		        Called_By
+		        Verification_Result
+		    )
+		    sort by
+		    (
+		        Call_Date_Time descending
+		    )
+		
+}

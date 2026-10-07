@@ -1,0 +1,41 @@
+default list Complete_Audit_Log
+{
+
+		    displayName = "Complete Audit Log"
+		    show all rows from Audit_Log
+		    (
+		        Event_Time
+		        Actor_Email
+		        Actor_Profile
+		        Event_Category
+		        Action
+		        Record_Form
+		        Record_ID
+		        Vendor_Request
+		        Outcome
+		        Source_IP
+		        Before_Value
+		        After_Value
+		        Details
+		        Added_User
+		        Added_Time
+		    )
+		    filters
+		    (
+		        Event_Time
+		        Actor_Email
+		        Actor_Profile
+		        Event_Category
+		        Action
+		        Record_Form
+		        Vendor_Request
+		        Outcome
+		        Added_User
+		        Added_Time
+		    )
+		    sort by
+		    (
+		        Event_Time descending
+		    )
+		
+}

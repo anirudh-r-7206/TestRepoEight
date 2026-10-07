@@ -1,0 +1,31 @@
+list Rejected_Documents
+{
+
+		    displayName = "Rejected Documents"
+		    show all rows from Request_Documents [Verification_Status == "Rejected"]
+		    (
+		        Vendor_Request
+		        Existing_Vendor
+		        Document_Type
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Verified_By
+		        Verified_At
+		        Rejection_Reason
+		        Owner_Email
+		    )
+		    filters
+		    (
+		        Document_Type
+		        Confidentiality_Level
+		        Verification_Status
+		        Verified_By
+		        Owner_Email
+		    )
+		    sort by
+		    (
+		        Verified_At descending
+		    )
+		
+}

@@ -1,0 +1,35 @@
+Protect_Document_Verification as "Protect Document Verification"
+{
+
+			    type = form
+			    form = Request_Documents
+			    record event = on add or edit
+			    description = "Initializes document ownership and locks verification fields"
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                disable Verification_Status;
+			                disable Verified_By;
+			                disable Verified_At;
+			                disable Rejection_Reason;
+			                if (input.Owner_Email in {""," ","null"})
+			                {
+			                    input.Owner_Email = zoho.loginuser;
+			                }
+			                if (input.Vendor_Request != null)
+			                {
+			                    parentRequest = Vendor_Requests[ID == input.Vendor_Request];
+			                    if (parentRequest.count() > 0 && input.Existing_Vendor == null)
+			                    {
+			                        input.Existing_Vendor = parentRequest.Existing_Vendor;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

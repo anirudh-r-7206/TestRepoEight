@@ -1,0 +1,32 @@
+Audit_Bank_Verification as "Audit Bank Verification"
+{
+
+			    type = form
+			    form = Bank_Verifications
+			    record event = on add or edit
+			    description = "Records successful callback and independent Finance evidence saves"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Bank Verification"
+			                    Action = "Bank Verification Evidence Saved"
+			                    Record_Form = "Bank_Verifications"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.Vendor_Request
+			                    After_Value = "Source: " + input.Number_Source + "; callback result: " + input.Verification_Result + "; called by: " + input.Called_By + "; second decision: " + input.Second_Approval_Decision + "; second approver: " + input.Second_Approver_Email
+			                    Outcome = "Success"
+			                    Details = "Independent callback and Finance sign-off evidence was saved."
+			                ];
+			            )
+			        }
+			    }
+			
+}

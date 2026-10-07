@@ -1,0 +1,42 @@
+default list Request_Documents_All
+{
+
+		    displayName = "All Request Documents"
+		    show all rows from Request_Documents
+		    (
+		        Vendor_Request
+		        Existing_Vendor
+		        Document_Type
+		        Document_File
+		        Issue_Date
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Verified_By
+		        Verified_At
+		        Rejection_Reason
+		        Owner_Email
+		        custom action "Document Action"
+		        (
+		            workflow = Open_Document_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Document Action"
+		            success message = "Opening document action"
+		            condition = (Verification_Status == "Pending")
+		        )
+		    )
+		    filters
+		    (
+		        Document_Type
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Owner_Email
+		    )
+		    sort by
+		    (
+		        Expiry_Date ascending
+		    )
+		
+}

@@ -1,0 +1,88 @@
+Validate_Vendor_Request as "Validate Vendor Request"
+{
+
+			    type = form
+			    form = Vendor_Requests
+			    record event = on add or edit
+			    description = "Validates conditional data, normalizes identifiers, and flags exact duplicates"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if ((input.Request_Type == "General Change" || input.Request_Type == "Bank Detail Change") && input.Existing_Vendor == null)
+			                {
+			                    alert "Select the existing SAP vendor for a change request.";
+			                    cancel submit;
+			                }
+			                if ((input.Request_Type == "New Vendor" || input.Request_Type == "Bank Detail Change") && input.Bank_Name in {""," ","null"})
+			                {
+			                    alert "Bank name is required for new-vendor and bank-detail requests.";
+			                    cancel submit;
+			                }
+			                if ((input.Request_Type == "New Vendor" || input.Request_Type == "Bank Detail Change") && input.Account_Holder_Name in {""," ","null"})
+			                {
+			                    alert "Account holder name is required when bank details are proposed.";
+			                    cancel submit;
+			                }
+			                if ((input.Request_Type == "New Vendor" || input.Request_Type == "Bank Detail Change") && input.Bank_Account_Number == "" && input.IBAN == "")
+			                {
+			                    alert "Enter either a bank account number or an IBAN.";
+			                    cancel submit;
+			                }
+			                if (input.ID != null && input.Current_Stage != "Draft" && input.Current_Stage != "Returned")
+			                {
+			                    alert "Only Draft or Returned requests may be edited. Use Request Action for lifecycle decisions.";
+			                    cancel submit;
+			                }
+			                input.Risk_Level = if(input.Request_Type == "Bank Detail Change","High","Standard");
+			                input.Normalized_Legal_Name = ifnull(input.Legal_Name,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Tax_ID = ifnull(input.Tax_ID,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Registration_ID = ifnull(input.Registration_ID,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Bank_Account = ifnull(input.Bank_Account_Number,"").trim().toLowerCase().replaceAll("[^a-z0-9]","");
+			                input.Normalized_Email = ifnull(input.Primary_Email,"").trim().toLowerCase();
+			                requestLegalName = input.Normalized_Legal_Name;
+			                requestTaxID = input.Normalized_Tax_ID;
+			                requestRegistrationID = input.Normalized_Registration_ID;
+			                requestBankAccount = input.Normalized_Bank_Account;
+			                requestEmail = input.Normalized_Email;
+			                requestID = ifnull(input.ID,0);
+			                duplicateFound = false;
+			                if (requestLegalName != "")
+			                {
+			                    masterLegalMatches = Vendor_Master[Active == true && Normalized_Legal_Name == requestLegalName];
+			                    openLegalMatches = Vendor_Requests[ID != requestID && Current_Stage != "Rejected" && Current_Stage != "Completed" && Normalized_Legal_Name == requestLegalName];
+			                    duplicateFound = duplicateFound || masterLegalMatches.count() > 0 || openLegalMatches.count() > 0;
+			                }
+			                if (requestTaxID != "")
+			                {
+			                    masterTaxMatches = Vendor_Master[Active == true && Normalized_Tax_ID == requestTaxID];
+			                    openTaxMatches = Vendor_Requests[ID != requestID && Current_Stage != "Rejected" && Current_Stage != "Completed" && Normalized_Tax_ID == requestTaxID];
+			                    duplicateFound = duplicateFound || masterTaxMatches.count() > 0 || openTaxMatches.count() > 0;
+			                }
+			                if (requestRegistrationID != "")
+			                {
+			                    masterRegistrationMatches = Vendor_Master[Active == true && Normalized_Registration_ID == requestRegistrationID];
+			                    openRegistrationMatches = Vendor_Requests[ID != requestID && Current_Stage != "Rejected" && Current_Stage != "Completed" && Normalized_Registration_ID == requestRegistrationID];
+			                    duplicateFound = duplicateFound || masterRegistrationMatches.count() > 0 || openRegistrationMatches.count() > 0;
+			                }
+			                if (requestBankAccount != "")
+			                {
+			                    masterBankMatches = Vendor_Master[Active == true && Normalized_Bank_Account == requestBankAccount];
+			                    openBankMatches = Vendor_Requests[ID != requestID && Current_Stage != "Rejected" && Current_Stage != "Completed" && Normalized_Bank_Account == requestBankAccount];
+			                    duplicateFound = duplicateFound || masterBankMatches.count() > 0 || openBankMatches.count() > 0;
+			                }
+			                if (requestEmail != "")
+			                {
+			                    masterEmailMatches = Vendor_Master[Active == true && Normalized_Email == requestEmail];
+			                    openEmailMatches = Vendor_Requests[ID != requestID && Current_Stage != "Rejected" && Current_Stage != "Completed" && Normalized_Email == requestEmail];
+			                    duplicateFound = duplicateFound || masterEmailMatches.count() > 0 || openEmailMatches.count() > 0;
+			                }
+			                input.Duplicate_Flag = duplicateFound;
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,117 @@
+form SLA_Configuration
+{
+
+		    title
+		    {
+		        displayname = "SLA Configuration"
+		        on add = "Add SLA Rule"
+		        on edit = "Edit SLA Rule"
+		    }
+		    Configuration_Section
+		    (
+		        type = section
+		        displayname = "Rule Configuration"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique Rule_Code
+		    (
+		        type = text
+		        displayname = "Rule Code"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Rule_Name
+		    (
+		        type = text
+		        displayname = "Rule Name"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Rule_Type
+		    (
+		        type = picklist
+		        displayname = "Rule Type"
+		        values = {"Approval Reminder","Approval Escalation","Document Expiry Reminder","Legacy Email Cycle Baseline","Portal Cycle Target"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Applies_To_Stage
+		    (
+		        type = picklist
+		        displayname = "Applies To Stage"
+		        values = {"Submitted/Data Check","Procurement Review","Finance Callback","Compliance Review","Finance Approval","MDM Processing","Document Expiry","Overall Request"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Days
+		    (
+		        type = decimal
+		        displayname = "Days"
+		        decimalplace = 2
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Recipient_Profile
+		    (
+		        type = picklist
+		        displayname = "Recipient Profile"
+		        values = {"Business Requestor","Procurement Officer","Compliance Analyst","Finance Manager","MDM Team","Vendor","Administrator"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Active
+		    (
+		        type = checkbox
+		        displayname = "Active"
+		        initial value = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Message_Template
+		    (
+		        type = textarea
+		        displayname = "Message Template"
+		        height = 120px
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Rule"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Rule"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

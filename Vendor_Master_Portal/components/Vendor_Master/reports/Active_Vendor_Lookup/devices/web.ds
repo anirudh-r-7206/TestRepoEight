@@ -1,0 +1,4 @@
+report Active_Vendor_Lookup
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( SAP_Vendor_Number Legal_Name Country Vendor_Status Active ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( SAP_Vendor_Number Legal_Name Trading_Name Tax_ID Registration_ID Primary_Email Primary_Phone Registered_Address Country Vendor_Status Active ) ) ) menu ( header ( Edit ) ) ) 
+}

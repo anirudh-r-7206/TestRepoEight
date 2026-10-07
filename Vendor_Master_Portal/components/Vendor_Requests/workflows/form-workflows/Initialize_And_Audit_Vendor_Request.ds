@@ -1,0 +1,39 @@
+Initialize_And_Audit_Vendor_Request as "Initialize and Audit Vendor Request"
+{
+
+			    type = form
+			    form = Vendor_Requests
+			    record event = on add or edit
+			    description = "Initializes draft ownership and records successful draft saves"
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                requestRec = Vendor_Requests[ID == input.ID];
+			                if (requestRec.count() > 0 && requestRec.Current_Stage in {""," ","null"})
+			                {
+			                    requestRec.Current_Stage = "Draft";
+			                    requestRec.Current_Assignee_Profile = if(input.Submission_Channel == "Vendor Portal","Vendor_Portal_User","Business_Requestor");
+			                    requestRec.Stage_Entered_At = zoho.currenttime;
+			                }
+			                auditId = insert into Audit_Log
+			                [
+			                    Event_Time = zoho.currenttime
+			                    Actor_Email = zoho.loginuser
+			                    Event_Category = "Request"
+			                    Action = "Draft Saved"
+			                    Record_Form = "Vendor_Requests"
+			                    Record_ID = input.ID
+			                    Vendor_Request = input.ID
+			                    After_Value = "Request Type: " + input.Request_Type + "; Stage: " + input.Current_Stage + "; Duplicate Flag: " + input.Duplicate_Flag
+			                    Outcome = "Success"
+			                    Details = "Vendor request details were saved. Submission requires the controlled Request Action form."
+			                ];
+			            )
+			        }
+			    }
+			
+}

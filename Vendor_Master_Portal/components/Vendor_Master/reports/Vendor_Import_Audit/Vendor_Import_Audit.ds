@@ -1,0 +1,30 @@
+list Vendor_Import_Audit
+{
+
+		    displayName = "Vendor Import Audit"
+		    show all rows from Vendor_Master
+		    (
+		        SAP_Vendor_Number
+		        Legal_Name
+		        Vendor_Status
+		        Import_Batch_Reference
+		        Last_SAP_Import_Date
+		        Active
+		        Added_User
+		        Added_Time
+		        Modified_User
+		        Modified_Time
+		    )
+		    filters
+		    (
+		        Import_Batch_Reference
+		        Last_SAP_Import_Date
+		        Vendor_Status
+		        Active
+		    )
+		    sort by
+		    (
+		        Last_SAP_Import_Date descending
+		    )
+		
+}

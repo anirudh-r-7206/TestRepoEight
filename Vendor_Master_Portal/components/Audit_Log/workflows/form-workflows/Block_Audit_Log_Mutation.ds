@@ -1,0 +1,21 @@
+Block_Audit_Log_Mutation as "Block Audit Log Mutation"
+{
+
+			    type = form
+			    form = Audit_Log
+			    record event = on add or edit
+			    description = "Rejects interactive creation or modification of system-generated audit evidence"
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                alert "Audit events are system generated and cannot be added or edited.";
+			                cancel submit;
+			            )
+			        }
+			    }
+			
+}

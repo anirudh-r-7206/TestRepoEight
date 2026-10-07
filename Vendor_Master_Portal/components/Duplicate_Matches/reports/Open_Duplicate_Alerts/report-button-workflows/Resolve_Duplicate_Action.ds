@@ -1,0 +1,20 @@
+Resolve_Duplicate_Action as "Resolve Duplicate Action"
+{
+
+			    type = functions
+			    form = Duplicate_Matches
+			    execution type = for each record
+			    description = "Opens the controlled request action form for duplicate resolution"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                openUrl("#Form:Request_Action?Vendor_Request_ID=" + input.Vendor_Request + "&Duplicate_Match_ID=" + input.ID, "popup window", "height=650px,width=760px");
+			            )
+			        }
+			    }
+			
+}

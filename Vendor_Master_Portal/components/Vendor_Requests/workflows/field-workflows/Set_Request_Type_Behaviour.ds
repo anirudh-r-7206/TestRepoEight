@@ -1,0 +1,44 @@
+Set_Request_Type_Behaviour as "Set Request Type Behaviour"
+{
+
+			    type = form
+			    form = Vendor_Requests
+			    record event = on add or edit
+			    description = "Shows conditional fields and marks bank changes as high risk"
+			
+			    on user input of Request_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if (input.Request_Type == "General Change" || input.Request_Type == "Bank Detail Change")
+			                {
+			                    show Existing_Vendor;
+			                }
+			                else
+			                {
+			                    hide Existing_Vendor;
+			                    input.Existing_Vendor = null;
+			                }
+			                if (input.Request_Type == "New Vendor" || input.Request_Type == "Bank Detail Change")
+			                {
+			                    show Proposed_Bank_Section;
+			                }
+			                else
+			                {
+			                    hide Proposed_Bank_Section;
+			                }
+			                if (input.Request_Type == "Bank Detail Change")
+			                {
+			                    input.Risk_Level = "High";
+			                }
+			                else
+			                {
+			                    input.Risk_Level = "Standard";
+			                }
+			            )
+			        }
+			    }
+			
+}

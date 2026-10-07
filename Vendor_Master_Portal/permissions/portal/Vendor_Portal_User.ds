@@ -1,0 +1,65 @@
+"Vendor_Portal_User"
+{
+
+	    name = "Vendor_Portal_User"
+	    type = customer_portal
+	    permissions = {Chat:false,Predefined:false,ApiAccess:false,PIIAccess:false,ePHIAccess:false}
+	    description = "External vendors who submit and track their own maintenance requests"
+	    ModulePermissions
+	    {
+	        Vendor_Requests
+	        {
+	            enabled = Create,View,Edit,Delete,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Vendor_Portal_My_Requests={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Risk_Level{visibility:false}
+	                Duplicate_Flag{visibility:false}
+	                Current_Stage{visibility:true,readonly:true}
+	                Current_Assignee_Profile{visibility:false}
+	                Submitted_At{visibility:true,readonly:true}
+	                Stage_Entered_At{visibility:false}
+	                Completed_At{visibility:true,readonly:true}
+	                SAP_Completion_Reference{visibility:true,readonly:true}
+	                Rejection_or_Return_Reason{visibility:true,readonly:true}
+	                Normalized_Legal_Name{visibility:false}
+	                Normalized_Tax_ID{visibility:false}
+	                Normalized_Registration_ID{visibility:false}
+	                Normalized_Bank_Account{visibility:false}
+	                Normalized_Email{visibility:false}
+	            }
+	        }
+	        Request_Documents
+	        {
+	            enabled = Create,View,Edit,Delete,Search,Tab
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                My_Request_Documents={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Existing_Vendor{visibility:false}
+	                Verification_Status{visibility:true,readonly:true}
+	                Verified_By{visibility:false}
+	                Verified_At{visibility:true,readonly:true}
+	                Rejection_Reason{visibility:true,readonly:true}
+	                Owner_Email{visibility:true,readonly:true}
+	            }
+	        }
+	        Request_Action
+	        {
+	            enabled = Create,View
+	            allFieldsVisible = true
+	        }
+	        Vendor_Portal_Home
+	        {
+	            enabled = tab
+	        }
+	    }
+	
+}

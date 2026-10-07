@@ -1,0 +1,39 @@
+list Open_Duplicate_Alerts
+{
+
+		    displayName = "Open Duplicate Alerts"
+		    show all rows from Duplicate_Matches [Resolution_Status == "Open"]
+		    (
+		        Vendor_Request
+		        Matched_Vendor
+		        Matched_Open_Request
+		        Match_Basis
+		        Match_Score
+		        Match_Summary
+		        Resolution_Status
+		        Resolution_Comment
+		        Resolved_By
+		        Resolved_At
+		        custom action "Resolve Duplicate"
+		        (
+		            workflow = Resolve_Duplicate_Action
+		            show action for each record = true
+		            show action in edit record menu = true
+		            column header = "Duplicate Action"
+		            success message = "Opening duplicate resolution"
+		        )
+		    )
+		    filters
+		    (
+		        Vendor_Request
+		        Matched_Vendor
+		        Matched_Open_Request
+		        Resolution_Status
+		        Resolved_By
+		    )
+		    sort by
+		    (
+		        Match_Score descending
+		    )
+		
+}

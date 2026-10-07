@@ -1,0 +1,4 @@
+report Active_SLA_Rules
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Rule_Code Rule_Name Active ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( Edit View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Rule_Code Rule_Name Rule_Type Applies_To_Stage Days Recipient_Profile Active Message_Template ) ) ) menu ( header ( Edit ) ) ) 
+}

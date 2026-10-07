@@ -1,0 +1,44 @@
+calendar Expiring_Documents
+{
+
+		    displayName = "Expiring Documents"
+		    show all rows from Request_Documents [Expiry_Date is not null && Verification_Status == "Verified"]
+		    (
+		        Vendor_Request
+		        Document_Type
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Owner_Email
+		    )
+		    filters
+		    (
+		        Document_Type
+		        Expiry_Date
+		        Confidentiality_Level
+		        Verification_Status
+		        Owner_Email
+		    )
+		    group by
+		    (
+		        properties
+		        (
+		            display record count = true
+		        )
+		        Document_Type ascending
+		    )
+		    options
+		    (
+		        display type = month
+		        week start day = monday
+		        display field = Document_Type
+		        start date = Expiry_Date
+		        default date
+		        (
+		            day = Today
+		            month = Currentmonth
+		            year = Currentyear
+		        )
+		    )
+		
+}

@@ -1,0 +1,30 @@
+list Completed_Requests
+{
+
+		    displayName = "Completed Requests"
+		    show all rows from Vendor_Requests [Current_Stage == "Completed"]
+		    (
+		        Request_Number
+		        Request_Type
+		        Legal_Name
+		        Country
+		        Risk_Level
+		        Submitted_At
+		        Completed_At
+		        SAP_Completion_Reference
+		        Current_Stage
+		    )
+		    filters
+		    (
+		        Request_Type
+		        Country
+		        Risk_Level
+		        Completed_At
+		        Current_Stage
+		    )
+		    sort by
+		    (
+		        Completed_At descending
+		    )
+		
+}

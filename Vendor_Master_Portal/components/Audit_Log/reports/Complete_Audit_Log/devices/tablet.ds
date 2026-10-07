@@ -1,0 +1,4 @@
+report Complete_Audit_Log
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Event_Time Event_Category Outcome ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on tap ( View Record ) on long press ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Event_Time Actor_Email Actor_Profile Event_Category Action Record_Form Record_ID Vendor_Request Outcome Source_IP Before_Value After_Value Details Added_User Added_Time ) ) ) menu ( header ( Edit ) ) ) 
+}

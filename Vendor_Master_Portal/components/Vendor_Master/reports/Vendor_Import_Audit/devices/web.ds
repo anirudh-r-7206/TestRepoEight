@@ -1,0 +1,4 @@
+report Vendor_Import_Audit
+{
+ quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( SAP_Vendor_Number Legal_Name Vendor_Status Import_Batch_Reference Last_SAP_Import_Date Active ) ) ) menu ( header ( Edit ) record ( Edit ) ) action ( on click ( View Record ) on right click ( View Record ) ) ) detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( SAP_Vendor_Number Legal_Name Vendor_Status Import_Batch_Reference Last_SAP_Import_Date Active Added_User Added_Time Modified_User Modified_Time ) ) ) menu ( header ( Edit ) ) ) 
+}
