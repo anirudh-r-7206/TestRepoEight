@@ -1,0 +1,39 @@
+menu
+{
+    space Main_Navigation
+    {
+        displayname = "Main Navigation"
+        icon = "education-school"
+
+        section Student_Management
+        {
+            displayname = "Student Management"
+            icon = "education-books-46"
+
+            form Students
+            {
+                icon = "education-pencil-47"
+            }
+            report All_Students
+            {
+                icon = "education-book-open"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

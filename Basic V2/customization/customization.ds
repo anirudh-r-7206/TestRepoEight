@@ -1,0 +1,9 @@
+customize
+{
+    icon
+    {
+        icon = "zc-ab-education-book-bookmark"
+        background color = "#0093FF"
+        foreground color = "#ffffff"
+    }
+}
