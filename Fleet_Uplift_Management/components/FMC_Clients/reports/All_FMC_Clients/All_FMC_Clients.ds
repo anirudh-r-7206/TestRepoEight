@@ -1,0 +1,28 @@
+default list All_FMC_Clients
+{
+
+		    displayName = "All FMC Clients"
+		    show all rows from FMC_Clients
+		    (
+		        Client_ID
+		        Client_Name
+		        Client_Code
+		        Status
+		        Primary_Contact
+		        Portal_User
+		        Contact_Email
+		        Contact_Phone
+		        Region_Market
+		        Payment_Terms
+		    )
+		    filters
+		    (
+		        Status
+		        Region_Market
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		
+}

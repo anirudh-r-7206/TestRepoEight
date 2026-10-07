@@ -1,0 +1,20 @@
+<page linkname = "Upfitter_Performance" displayname = "Upfitter Performance"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Upfitter_Performance_Analytics_DSP' elementName='Upfitter_Performance_Analytics_DSP'>
+          <![CDATA[htmlpage Upfitter_Performance_Analytics_DSP()
+content
+			<%{%>
+            <file name:Upfitter_Performance_Analytics_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,126 @@
+form Notification_Log
+{
+
+		    title
+		    {
+		        displayname = "Notification Log"
+		        on add = "Notification Log"
+		        on edit = "Notification Log"
+		    }
+		    Hidden_Section
+		    (
+		        type = section
+		        displayname = "System Information"
+		        row = 1
+		        column = 0
+		    )
+		    Notification_ID
+		    (
+		        type = autonumber
+		        displayname = "Notification ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Log_Details
+		    (
+		        type = section
+		        displayname = "Notification Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have unique Alert_Key
+		    (
+		        type = text
+		        displayname = "Alert Key"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Template_Code
+		    (
+		        type = text
+		        displayname = "Template Code"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Reference_Type
+		    (
+		        type = text
+		        displayname = "Reference Type"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Reference_ID
+		    (
+		        type = number
+		        displayname = "Reference ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Recipient_Email
+		    (
+		        type = email
+		        displayname = "Recipient Email"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Sent_Date
+		    (
+		        type = datetime
+		        displayname = "Sent Date"
+		        initial value = "${zoho.currenttime}"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Delivery_Status
+		    (
+		        type = picklist
+		        displayname = "Delivery Status"
+		        values = {"Sent","Failed"}
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Error_Message
+		    (
+		        type = textarea
+		        displayname = "Error Message"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

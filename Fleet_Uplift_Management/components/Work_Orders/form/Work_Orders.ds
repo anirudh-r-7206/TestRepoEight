@@ -1,0 +1,162 @@
+form Work_Orders
+{
+
+		    title
+		    {
+		        displayname = "Work Orders"
+		        on add = "Create Work Order"
+		        on edit = "Edit Work Order"
+		    }
+		    record owner = Upfitter_Portal_User
+		    Hidden_Section
+		    (
+		        type = section
+		        displayname = "System Information"
+		        row = 1
+		        column = 0
+		    )
+		    Work_Order_Sequence
+		    (
+		        type = autonumber
+		        displayname = "Work Order Sequence"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    unique Work_Order_Number
+		    (
+		        type = text
+		        displayname = "Work Order Number"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Upfitter_Portal_User
+		    (
+		        type = picklist
+		        displayname = "Upfitter Portal User"
+		        module = users
+		        displayformat = [name]
+		        user type = "portal users"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Work_Order_Details
+		    (
+		        type = section
+		        displayname = "Work Order Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have Program
+		    (
+		        type = picklist
+		        displayname = "Program"
+		        values = Programs.ID
+		        displayformat = [Service_ID]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Purchase_Order
+		    (
+		        type = picklist
+		        displayname = "Purchase Order"
+		        values = Purchase_Orders.ID
+		        displayformat = [FMC_PO_Number]
+		        searchable = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Upfitter
+		    (
+		        type = picklist
+		        displayname = "Upfitter"
+		        values = Upfitters[Status == "Active"].ID
+		        displayformat = [Upfitter_Name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Issue_Date
+		    (
+		        type = date
+		        displayname = "Issue Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Parts_Order_By_Date
+		    (
+		        type = date
+		        displayname = "Parts Order By Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Issued","Parts Ordered","In Progress","Completed"}
+		        initial value = "Issued"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Work_Order_Document
+		    (
+		        type = upload file
+		        displayname = "Work Order Document"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

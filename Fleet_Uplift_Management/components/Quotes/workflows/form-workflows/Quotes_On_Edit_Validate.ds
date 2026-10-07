@@ -1,0 +1,47 @@
+Quotes_On_Edit_Validate as "Validate Quote Response"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                input.Markup_Amount = ifnull(input.Estimate_Subtotal, 0.00) * ifnull(input.Markup_Percent, 0.00) / 100;
+			                input.Quote_Total = ifnull(input.Estimate_Subtotal, 0.00) + input.Markup_Amount;
+			                if((input.Status == "Declined" || input.Status == "Revised") && ifnull(input.FMC_Notes, "") == "")
+			                {
+			                    alert(FMC_Notes, "FMC notes are required when declining or revising a quote.");
+			                    cancel submit;
+			                }
+			                if(old.Status != input.Status)
+			                {
+			                    if(input.Status == "Approved")
+			                    {
+			                        input.FMC_Approval_Date = zoho.currentdate;
+			                    }
+			                    else if(input.Status == "Revised")
+			                    {
+			                        input.FMC_Approval_Date = null;
+			                        input.Version_Number = ifnull(old.Version_Number, 1) + 1;
+			                    }
+			                    else if(input.Status == "Declined")
+			                    {
+			                        input.FMC_Approval_Date = null;
+			                    }
+			                    thisapp.Create_Audit_Log("Quotes", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Quote status updated. " + ifnull(input.FMC_Notes, ""));
+			                }
+			            )
+			        }
+			    }
+			
+}

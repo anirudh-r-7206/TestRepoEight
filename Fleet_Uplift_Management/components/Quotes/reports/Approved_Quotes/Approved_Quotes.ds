@@ -1,0 +1,28 @@
+list Approved_Quotes
+{
+
+		    displayName = "Approved Quotes"
+		    show all rows from Quotes [Status == "Approved"]
+		    (
+		        Quote_Number
+		        Program
+		        Quote_Date
+		        Valid_Until
+		        Quote_Total
+		        Status
+		        FMC_Approval_Date
+		        Version_Number
+		        Quote_PDF
+		    )
+		    filters
+		    (
+		        Program
+		        Quote_Date
+		        FMC_Approval_Date
+		    )
+		    sort by
+		    (
+		        FMC_Approval_Date descending
+		    )
+		
+}

@@ -1,0 +1,19 @@
+Notification_Templates_On_Add_Success as "Audit New Notification Template"
+{
+
+			    type = form
+			    form = Notification_Templates
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Notification Templates", input.ID, 0, "Created", "", input.Template_Code, "Notification template created: " + input.Template_Name);
+			            )
+			        }
+			    }
+			
+}

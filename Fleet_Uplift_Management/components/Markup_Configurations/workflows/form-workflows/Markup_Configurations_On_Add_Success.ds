@@ -1,0 +1,19 @@
+Markup_Configurations_On_Add_Success as "Audit New Markup Configuration"
+{
+
+			    type = form
+			    form = Markup_Configurations
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Markup Configurations", input.ID, 0, "Created", "", input.Markup_Percent.toString(), "Markup configuration created: " + input.Configuration_Name);
+			            )
+			        }
+			    }
+			
+}

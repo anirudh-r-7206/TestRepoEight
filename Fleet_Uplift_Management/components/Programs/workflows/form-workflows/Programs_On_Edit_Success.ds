@@ -1,0 +1,93 @@
+Programs_On_Edit_Success as "Process Program Stage"
+{
+
+			    type = form
+			    form = Programs
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Program_Status == "Upfitter Matching")
+			                {
+			                    activeUpfitters = Upfitters[Status == "Active"];
+			                    for each vehicleRecord in Vehicles[Program == input.ID]
+			                    {
+			                        memberUpfitterID = null;
+			                        memberDistance = 999999.0;
+			                        contractedUpfitterID = null;
+			                        contractedDistance = 999999.0;
+			                        requestedCapabilities = vehicleRecord.Requested_Upfits;
+			                        requestedCapabilityIds = requestedCapabilities;
+			                        for each upfitterRecord in activeUpfitters
+			                        {
+			                            capabilityMatch = true;
+			                            if(!requestedCapabilityIds.isEmpty())
+			                            {
+			                                upfitterCapabilityIds = Upfitters[ID == upfitterRecord.ID].Capabilities.getall();
+			                                coveredCapabilities = requestedCapabilityIds.intersect(upfitterCapabilityIds);
+			                                capabilityMatch = coveredCapabilities.size() == requestedCapabilityIds.size();
+			                            }
+			                            coordinatesAvailable = vehicleRecord.Dropoff_Location.latitude != null && vehicleRecord.Dropoff_Location.longitude != null && upfitterRecord.Address.latitude != null && upfitterRecord.Address.longitude != null;
+			                            if(capabilityMatch && coordinatesAvailable)
+			                            {
+			                                distanceMiles = thisapp.Calculate_Distance_Miles(vehicleRecord.Dropoff_Location.latitude.toDecimal(), vehicleRecord.Dropoff_Location.longitude.toDecimal(), upfitterRecord.Address.latitude.toDecimal(), upfitterRecord.Address.longitude.toDecimal());
+			                                if(distanceMiles <= upfitterRecord.Service_Radius_Miles)
+			                                {
+			                                    if(upfitterRecord.Upfitter_Type == "Member" && distanceMiles < memberDistance)
+			                                    {
+			                                        memberDistance = distanceMiles;
+			                                        memberUpfitterID = upfitterRecord.ID;
+			                                    }
+			                                    else if(upfitterRecord.Upfitter_Type == "Contracted" && distanceMiles < contractedDistance)
+			                                    {
+			                                        contractedDistance = distanceMiles;
+			                                        contractedUpfitterID = upfitterRecord.ID;
+			                                    }
+			                                }
+			                            }
+			                        }
+			                        selectedUpfitterID = memberUpfitterID;
+			                        selectedDistance = memberDistance;
+			                        if(selectedUpfitterID == null)
+			                        {
+			                            selectedUpfitterID = contractedUpfitterID;
+			                            selectedDistance = contractedDistance;
+			                        }
+			                        if(selectedUpfitterID != null)
+			                        {
+			                            vehicleRecord.Suggested_Upfitter = selectedUpfitterID;
+			                            vehicleRecord.Matching_Distance_Miles = selectedDistance;
+			                        }
+			                        else
+			                        {
+			                            openCoverageGap = Issues[Program == input.ID && Vehicle == vehicleRecord.ID && Issue_Type == "Coverage Gap" && (Status == "Open" || Status == "In Progress")];
+			                            if(openCoverageGap.count() == 0)
+			                            {
+			                                insertedIssue = insert into Issues
+			                                [
+			                                    Program = input.ID
+			                                    Vehicle = vehicleRecord.ID
+			                                    Issue_Type = "Coverage Gap"
+			                                    Priority = "High"
+			                                    Status = "Open"
+			                                    Description = "No active upfitter covers all requested capabilities within its service radius for VIN " + vehicleRecord.VIN + "."
+			                                ];
+			                            }
+			                        }
+			                    }
+			                    thisapp.Create_Audit_Log("Programs", input.ID, input.ID, "Upfitter Matching", "", "Completed", "Member-first capability and distance matching completed for program vehicles.");
+			                }
+			                if(input.Program_Status == "Closed" && input.Closeout_Document == null)
+			                {
+			                    thisapp.Generate_Closeout_Document(input.ID);
+			                }
+			                thisapp.Create_Audit_Log("Programs", input.ID, input.ID, "Updated", "", input.Program_Status, "Program record updated: " + input.Program_Name);
+			            )
+			        }
+			    }
+			
+}

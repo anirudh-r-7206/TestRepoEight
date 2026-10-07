@@ -1,0 +1,27 @@
+Action_Items_On_Add_Validate as "Initialize Action Item"
+{
+
+			    type = form
+			    form = Action_Items
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.Created_Date = zoho.currenttime;
+			                if(input.Status == "Completed")
+			                {
+			                    input.Completed_Date = zoho.currenttime;
+			                }
+			                else
+			                {
+			                    input.Completed_Date = null;
+			                }
+			            )
+			        }
+			    }
+			
+}

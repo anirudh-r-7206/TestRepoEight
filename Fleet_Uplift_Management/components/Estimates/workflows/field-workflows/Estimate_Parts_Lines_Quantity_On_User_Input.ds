@@ -1,0 +1,26 @@
+Estimate_Parts_Lines_Quantity_On_User_Input as "Calculate Estimate Part Total"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add or edit
+			
+			    on user input of Estimate_Parts_Lines.Quantity
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                row.Line_Total = ifnull(row.Quantity, 0) * ifnull(row.Unit_Price, 0.00);
+			                partsTotal = 0.00;
+			                for each partsRow in input.Estimate_Parts_Lines
+			                {
+			                    partsTotal = partsTotal + ifnull(partsRow.Line_Total, 0.00);
+			                }
+			                input.Parts_Total = partsTotal;
+			                input.Estimate_Total = partsTotal + ifnull(input.Labor_Total, 0.00);
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,20 @@
+Work_Orders_On_Load as "Prepare Work Order Form"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Work_Order_Number, Upfitter_Portal_User, Issue_Date, Parts_Order_By_Date, Work_Order_Document;
+			            )
+			        }
+			    }
+			
+}

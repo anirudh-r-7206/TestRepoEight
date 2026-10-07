@@ -1,0 +1,26 @@
+list Declined_Quotes
+{
+
+		    displayName = "Declined Quotes"
+		    show all rows from Quotes [Status == "Declined"]
+		    (
+		        Quote_Number
+		        Program
+		        Quote_Date
+		        Quote_Total
+		        Status
+		        FMC_Notes
+		        Version_Number
+		        Quote_PDF
+		    )
+		    filters
+		    (
+		        Program
+		        Quote_Date
+		    )
+		    sort by
+		    (
+		        Quote_Date descending
+		    )
+		
+}

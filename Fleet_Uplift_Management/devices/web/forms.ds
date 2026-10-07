@@ -1,0 +1,26 @@
+forms
+{
+
+	    form Programs { label placement = top }
+	    form Vehicles { label placement = top }
+	    form Estimates { label placement = top }
+	    form Estimate_Labor_Lines { label placement = top }
+	    form Estimate_Parts_Lines { label placement = top }
+	    form Quotes { label placement = top }
+	    form Purchase_Orders { label placement = top }
+	    form Work_Orders { label placement = top }
+	    form Issues { label placement = top }
+	    form Action_Items { label placement = top }
+	    form Upfitters { label placement = top }
+	    form Capabilities { label placement = top }
+	    form Parts { label placement = top }
+	    form FMC_Clients { label placement = top }
+	    form Client_Invoices { label placement = top }
+	    form Upfitter_Payables { label placement = top }
+	    form Markup_Configurations { label placement = top }
+	    form Notification_Templates { label placement = top }
+	    form Notification_Log { label placement = top }
+	    form Audit_Log { label placement = top }
+	    form System_Configuration { label placement = top }
+	
+}

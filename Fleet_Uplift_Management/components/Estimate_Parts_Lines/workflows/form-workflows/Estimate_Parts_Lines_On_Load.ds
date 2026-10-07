@@ -1,0 +1,20 @@
+Estimate_Parts_Lines_On_Load as "Prepare Estimate Part Line"
+{
+
+			    type = form
+			    form = Estimate_Parts_Lines
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Unit_Price, Line_Total;
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,20 @@
+<page linkname = "Upfitter_Payables_Hub" displayname = "Upfitter Payables"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Upfitter_Payables_Workspace_DSP' elementName='Upfitter_Payables_Workspace_DSP'>
+          <![CDATA[htmlpage Upfitter_Payables_Workspace_DSP()
+content
+			<%{%>
+            <file name:Upfitter_Payables_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

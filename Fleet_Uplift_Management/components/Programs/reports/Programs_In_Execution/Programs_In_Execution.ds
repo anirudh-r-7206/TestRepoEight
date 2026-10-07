@@ -1,0 +1,26 @@
+list Programs_In_Execution
+{
+
+		    displayName = "Programs - In Execution"
+		    show all rows from Programs [Program_Status == "In Execution"]
+		    (
+		        Service_ID
+		        Program_Name
+		        FMC_Client
+		        Request_Date
+		        Program_Status
+		        Vehicle_Count
+		        Region_Market
+		    )
+		    filters
+		    (
+		        FMC_Client
+		        Region_Market
+		        Request_Date
+		    )
+		    sort by
+		    (
+		        Request_Date ascending
+		    )
+		
+}

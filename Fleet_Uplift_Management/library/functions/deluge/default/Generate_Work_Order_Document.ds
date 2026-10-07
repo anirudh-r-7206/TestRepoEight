@@ -1,0 +1,29 @@
+void Generate_Work_Order_Document(int workOrderId)
+{
+
+			    workOrderRecord = Work_Orders[ID == workOrderId];
+			    if(workOrderRecord.count() > 0)
+			    {
+			        programRecord = Programs[ID == workOrderRecord.Program];
+			        upfitterRecord = Upfitters[ID == workOrderRecord.Upfitter];
+			        configurationRecord = System_Configuration[ID != 0];
+			        companyName = "Fleet Upfit Management";
+			        primaryColor = "#6147E5";
+			        footerText = "";
+			        if(configurationRecord.count() > 0)
+			        {
+			            companyName = ifnull(configurationRecord.Company_Name, companyName);
+			            primaryColor = ifnull(configurationRecord.Primary_Color, primaryColor);
+			            footerText = ifnull(configurationRecord.Document_Footer, "");
+			        }
+			        vehicleRows = "";
+			        for each vehicleRecord in Vehicles[Program == workOrderRecord.Program && Assigned_Upfitter == workOrderRecord.Upfitter]
+			        {
+			            vehicleRows = vehicleRows + "<tr><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.VIN + "</td><td style='padding:7px;border-bottom:1px solid #ddd'>" + ifnull(vehicleRecord.Year, "") + " " + ifnull(vehicleRecord.Make, "") + " " + ifnull(vehicleRecord.Model, "") + "</td><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.Arrival_Date + "</td></tr>";
+			        }
+			        html = "<html><body style='font-family:Arial,sans-serif;color:#1f2937;padding:32px'><div style='border-top:8px solid " + primaryColor + ";padding-top:22px'><h1 style='color:" + primaryColor + "'>" + companyName + "</h1><h2>Work Order " + workOrderRecord.Work_Order_Number + "</h2><p><b>Program:</b> " + ifnull(programRecord.Service_ID, "") + " - " + ifnull(programRecord.Program_Name, "") + "</p><p><b>Upfitter:</b> " + ifnull(upfitterRecord.Upfitter_Name, "") + "</p><p><b>Issued:</b> " + workOrderRecord.Issue_Date + " &nbsp; <b>Parts order by:</b> " + workOrderRecord.Parts_Order_By_Date + "</p><h3 style='color:" + primaryColor + "'>Assigned Vehicles</h3><table style='width:100%;border-collapse:collapse'><tr><th style='text-align:left'>VIN</th><th style='text-align:left'>Vehicle</th><th style='text-align:left'>Arrival</th></tr>" + vehicleRows + "</table><div style='margin-top:24px'>" + ifnull(workOrderRecord.Notes, "") + "</div><div style='margin-top:36px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#6b7280'>" + footerText + "</div></div></body></html>";
+			        pdfFile = zoho.file.convertToPDF(html);
+			        workOrderRecord.Work_Order_Document = pdfFile;
+			    }
+			
+}

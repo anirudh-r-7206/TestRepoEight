@@ -1,0 +1,23 @@
+Purchase_Orders_On_Add_Success as "Receive Purchase Order"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                update Programs[ID == input.Program]
+			                [
+			                    Program_Status = "PO Received"
+			                ];
+			                thisapp.Create_Audit_Log("Purchase_Orders", input.ID, input.Program, "Created", "", input.Status, "Purchase order " + input.FMC_PO_Number + " received.");
+			            )
+			        }
+			    }
+			
+}

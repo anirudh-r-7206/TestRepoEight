@@ -1,0 +1,24 @@
+list Pending_Estimates
+{
+
+		    displayName = "Pending Estimates"
+		    show all rows from Estimates [Status == "Pending Upfitter Review"]
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Estimate_Total
+		        Status
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		    )
+		    sort by
+		    (
+		        Estimate_ID ascending
+		    )
+		
+}

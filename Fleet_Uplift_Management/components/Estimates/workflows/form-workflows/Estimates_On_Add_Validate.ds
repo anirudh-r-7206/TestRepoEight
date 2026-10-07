@@ -1,0 +1,35 @@
+Estimates_On_Add_Validate as "Validate New Estimate"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                if(upfitterRecord.count() > 0)
+			                {
+			                    input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                }
+			                for each vehicleId in input.Vehicles_In_Scope
+			                {
+			                    scopedVehicle = Vehicles[ID == vehicleId && Program == input.Program];
+			                    if(scopedVehicle.count() == 0)
+			                    {
+			                        alert(Vehicles_In_Scope, "Every vehicle in scope must belong to the selected program.");
+			                        cancel submit;
+			                    }
+			                }
+			                input.Status = "Pending Upfitter Review";
+			                input.Response_Date = null;
+			                input.Reassignment_Flag = false;
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,19 @@
+Upfitter_Payables_On_Edit_Success as "Audit Upfitter Payable Update"
+{
+
+			    type = form
+			    form = Upfitter_Payables
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Upfitter_Payables", input.ID, input.Program, "Updated", "", input.Payment_Status, "Payable recalculated from QC-approved vehicles.");
+			            )
+			        }
+			    }
+			
+}

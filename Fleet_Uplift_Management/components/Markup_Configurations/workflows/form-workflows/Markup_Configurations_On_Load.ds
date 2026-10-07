@@ -1,0 +1,16 @@
+Markup_Configurations_On_Load as "Markup Configurations On Load"
+{
+
+			    type = form
+			    form = Markup_Configurations
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}

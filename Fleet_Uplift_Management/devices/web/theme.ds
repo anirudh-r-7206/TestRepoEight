@@ -1,0 +1,27 @@
+customize
+{
+
+	    layout
+	    {
+	        theme = "theme_2"
+	        variant = "variant_2"
+	    }
+	    font = "lato"
+	    color options
+	    {
+	        name = "Fleet Purple"
+	        brand color = "#6147E5"
+	        type = "custom"
+	        dark mode color = "#4F3BC2"
+	    }
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	    custom css
+	    {
+	        content = ".zc-app-header { border-bottom: 1px solid rgba(97,71,229,.16); } .zc-menu { font-weight: 600; }"
+	    }
+	
+}

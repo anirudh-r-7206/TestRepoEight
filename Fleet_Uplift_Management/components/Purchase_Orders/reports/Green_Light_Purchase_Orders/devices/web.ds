@@ -1,0 +1,7 @@
+report Green_Light_Purchase_Orders
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Program FMC_PO_Number PO_Date PO_Amount Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Program Quote FMC_PO_Number PO_Date PO_Amount Status Green_Light_Date PO_Acknowledgement_Document ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

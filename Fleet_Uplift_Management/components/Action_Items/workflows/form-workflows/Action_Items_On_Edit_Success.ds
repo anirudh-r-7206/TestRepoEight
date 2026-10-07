@@ -1,0 +1,19 @@
+Action_Items_On_Edit_Success as "Audit Action Item Update"
+{
+
+			    type = form
+			    form = Action_Items
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Action_Items", input.ID, input.Program, "Updated", "", input.Status, "Action item details updated.");
+			            )
+			        }
+			    }
+			
+}

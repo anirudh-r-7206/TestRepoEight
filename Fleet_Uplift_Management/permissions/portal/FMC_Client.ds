@@ -1,0 +1,162 @@
+"FMC_Client"
+{
+
+	    name = "FMC_Client"
+	    type = customer_portal
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Client portal access to owned programs, vehicles, quotes, purchase orders, and invoices."
+	    ModulePermissions
+	    {
+	        FMC_Clients
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Client_ID{visibility:true,readonly:true}
+	                Client_Details{visibility:true,readonly:true}
+	                Client_Name{visibility:true,readonly:true}
+	                Client_Code{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:true}
+	                Primary_Contact{visibility:true,readonly:true}
+	                Portal_User{visibility:true,readonly:true}
+	                Contact_Email{visibility:true,readonly:true}
+	                Contact_Phone{visibility:true,readonly:true}
+	                Billing_Address{visibility:true,readonly:true}
+	                Region_Market{visibility:true,readonly:true}
+	                Payment_Terms{visibility:true,readonly:true}
+	            }
+	        }
+	        Programs
+	        {
+	            enabled = Create,View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Program_Sequence{visibility:true,readonly:true}
+	                Service_ID{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:true,readonly:true}
+	                Client_Contact{visibility:true,readonly:true}
+	                Vehicle_Count{visibility:true,readonly:true}
+	                Program_Details{visibility:true,readonly:true}
+	                Program_Name{visibility:true,readonly:false}
+	                FMC_Client{visibility:true,readonly:false}
+	                Request_Date{visibility:true,readonly:true}
+	                Program_Status{visibility:true,readonly:true}
+	                Region_Market{visibility:true,readonly:false}
+	                Markup_Percent{visibility:false}
+	                Internal_Notes{visibility:false}
+	                Documents{visibility:true,readonly:false}
+	                Completion_Report{visibility:true,readonly:true}
+	                Closeout_Document{visibility:true,readonly:true}
+	            }
+	            ReportPermissions { All_Programs={"View"} Programs_Request_Intake={"View"} Programs_Scope_Source={"View"} Programs_Upfitter_Matching={"View"} Programs_Pending_Estimates={"View"} Programs_Pending_Quote_Approval={"View"} Programs_PO_Received={"View"} Programs_In_Execution={"View"} Programs_Closed={"View"} }
+	        }
+	        Vehicles
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Vehicle_ID{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:true,readonly:true}
+	                Vehicle_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:true}
+	                VIN{visibility:true,readonly:true}
+	                Year{visibility:true,readonly:true}
+	                Make{visibility:true,readonly:true}
+	                Model{visibility:true,readonly:true}
+	                Cab_Type{visibility:true,readonly:true}
+	                Bed_Length{visibility:true,readonly:true}
+	                Dropoff_Location{visibility:true,readonly:true}
+	                Arrival_Date{visibility:true,readonly:true}
+	                Pickup_Date{visibility:true,readonly:true}
+	                Requested_Upfits{visibility:true,readonly:true}
+	                Vehicle_Status{visibility:true,readonly:true}
+	                Completion_Photos{visibility:true,readonly:true}
+	                QC{visibility:true,readonly:true}
+	                QC_Status{visibility:true,readonly:true}
+	                QC_Date{visibility:true,readonly:true}
+	                Matching_Distance_Miles{visibility:false}
+	                Manual_Override{visibility:false}
+	                Billing_Eligible{visibility:false}
+	                Assignment{visibility:false}
+	                Suggested_Upfitter{visibility:false}
+	                Assigned_Upfitter{visibility:false}
+	                Upfitter_Portal_User{visibility:false}
+	                QC_Notes{visibility:false}
+	                Internal_Notes{visibility:false}
+	            }
+	            ReportPermissions { All_Vehicles={"View"} Vehicle_Status_Board={"View"} Vehicles_Scheduled={"View"} Vehicles_Arrived={"View"} Vehicles_Parts_Ordered={"View"} Vehicles_In_Progress={"View"} Vehicles_Completed={"View"} Vehicles_Picked_Up={"View"} }
+	        }
+	        Quotes
+	        {
+	            enabled = View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Quote_Sequence{visibility:true,readonly:true}
+	                Quote_Number{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:true,readonly:true}
+	                Quote_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:true}
+	                Quote_Date{visibility:true,readonly:true}
+	                Valid_Until{visibility:true,readonly:true}
+	                Estimate_Subtotal{visibility:false}
+	                Markup_Percent{visibility:true,readonly:true}
+	                Markup_Amount{visibility:true,readonly:true}
+	                Quote_Total{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:false}
+	                FMC_Approval_Date{visibility:true,readonly:true}
+	                FMC_Notes{visibility:true,readonly:false}
+	                Quote_PDF{visibility:true,readonly:true}
+	                Version_Number{visibility:true,readonly:true}
+	            }
+	            ReportPermissions { Sent_Quotes={"View","Edit"} Approved_Quotes={"View"} Declined_Quotes={"View"} }
+	        }
+	        Purchase_Orders
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Purchase_Orders={"View"} Received_Purchase_Orders={"View"} Acknowledged_Purchase_Orders={"View"} Green_Light_Purchase_Orders={"View"} }
+	        }
+	        Client_Invoices
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Client_Invoices={"View"} Unpaid_Invoices={"View"} Partial_Invoices={"View"} Paid_Invoices={"View"} Overdue_Invoices={"View"} }
+	        }
+	        Issues
+	        {
+	            enabled = Create,View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Issue_ID{visibility:true,readonly:true}
+	                Issue_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:false}
+	                Vehicle{visibility:true,readonly:false}
+	                Issue_Type{visibility:true,readonly:false}
+	                Priority{visibility:true,readonly:false}
+	                Status{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:false}
+	                Resolution{visibility:true,readonly:true}
+	                Opened_Date{visibility:true,readonly:true}
+	                Closed_Date{visibility:true,readonly:true}
+	                Alert_Sent{visibility:false}
+	                Assigned_To{visibility:false}
+	            }
+	            ReportPermissions { Open_Issues={"View"} In_Progress_Issues={"View"} Resolved_Issues={"View"} Closed_Issues={"View"} }
+	        }
+	        Program_Workspace { enabled = tab }
+	        Program_Detail { enabled = tab }
+	        Vehicle_Detail { enabled = tab }
+	        Quote_Detail { enabled = tab }
+	        PO_Green_Light { enabled = tab }
+	        Execution_Tracker { enabled = tab }
+	        Invoices { enabled = tab }
+	        Invoice_Detail { enabled = tab }
+	        Issue_Tracker { enabled = tab }
+	    }
+	
+}

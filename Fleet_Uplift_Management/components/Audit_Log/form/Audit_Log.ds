@@ -1,0 +1,146 @@
+form Audit_Log
+{
+
+		    title
+		    {
+		        displayname = "Audit Log"
+		        on add = "Audit Log"
+		        on edit = "Audit Log"
+		    }
+		    Hidden_Section
+		    (
+		        type = section
+		        displayname = "System Information"
+		        row = 1
+		        column = 0
+		    )
+		    Audit_ID
+		    (
+		        type = autonumber
+		        displayname = "Audit ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Audit_Details
+		    (
+		        type = section
+		        displayname = "Audit Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Event_Date
+		    (
+		        type = datetime
+		        displayname = "Event Date"
+		        initial value = "${zoho.currenttime}"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    User_Email
+		    (
+		        type = email
+		        displayname = "User Email"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    User_Profile
+		    (
+		        type = text
+		        displayname = "User Profile"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Module_Name
+		    (
+		        type = text
+		        displayname = "Module Name"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Record_ID
+		    (
+		        type = number
+		        displayname = "Record ID"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Program
+		    (
+		        type = picklist
+		        displayname = "Program"
+		        values = Programs.ID
+		        displayformat = [Service_ID]
+		        searchable = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    must have Action
+		    (
+		        type = text
+		        displayname = "Action"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Before_Value
+		    (
+		        type = textarea
+		        displayname = "Before Value"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    After_Value
+		    (
+		        type = textarea
+		        displayname = "After Value"
+		        height = 100px
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Details
+		    (
+		        type = textarea
+		        displayname = "Details"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

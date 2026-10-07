@@ -1,0 +1,7 @@
+report All_Notification_Log
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Notification_ID Template_Code Recipient_Email Sent_Date Delivery_Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Notification_ID Alert_Key Template_Code Reference_Type Reference_ID Recipient_Email Sent_Date Delivery_Status Error_Message ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

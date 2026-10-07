@@ -1,0 +1,7 @@
+report System_Configuration_Report
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Configuration_ID Company_Name Primary_Color Default_Currency ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Configuration_ID Company_Name FMC_Logo Primary_Color Quote_Validity_Days Weekly_Digest_Enabled Digest_Day Default_Currency Notes ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

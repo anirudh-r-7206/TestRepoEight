@@ -1,0 +1,35 @@
+default list All_Issues
+{
+
+		    displayName = "All Issues"
+		    show all rows from Issues
+		    (
+		        Issue_ID
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Status
+		        Description
+		        Assigned_To
+		        Resolution
+		        Opened_Date
+		        Closed_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Status
+		        Assigned_To
+		        Opened_Date
+		        Closed_Date
+		    )
+		    sort by
+		    (
+		        Opened_Date descending
+		    )
+		
+}

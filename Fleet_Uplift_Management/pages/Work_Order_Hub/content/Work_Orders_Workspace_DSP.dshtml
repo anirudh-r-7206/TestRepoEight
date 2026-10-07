@@ -1,0 +1,340 @@
+<%
+issuedCount = Work_Orders[Status == "Issued"].count();
+partsOrderedCount = Work_Orders[Status == "Parts Ordered"].count();
+inProgressCount = Work_Orders[Status == "In Progress"].count();
+completedCount = Work_Orders[Status == "Completed"].count();
+%>
+<style>
+/* zcs-global.css — utility subset used by this single-snippet page. */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color);
+	--zcs-light-bg-color: var(--zcs_brand_light_color);
+	--zcs-page-bg-color: #F3F3F4;
+	--zcs-primary-text-color: var(--zcs_primary_text_color);
+	--zcs-secondary-text-color: var(--zcs_secondary_text_color);
+	--zcs-teritiary-text-color: var(--zcs_teritiary_text_color);
+	--zcs-border-color: var(--zcs_tertiary_border_color);
+	--zcs-white-color: #FFFFFF;
+	--wo-spacing: 15px;
+	--wo-radius: 12px;
+	--wo-base-size: 14px;
+	--wo-surface: var(--zcs-white-color);
+	--wo-page-bg: var(--zcs-page-bg-color);
+	--wo-border: var(--zcs_tertiary_border_color);
+	--wo-text: var(--zcs_primary_text_color);
+	--wo-muted: var(--zcs_secondary_text_color);
+	--wo-brand: var(--zcs_brand_color);
+}
+.zcs-flex { display: flex; }
+.zcs-inline-flex { display: inline-flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-center { justify-content: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: 6px; }
+.zcs-gap-8 { gap: 8px; }
+.zcs-gap-12 { gap: 12px; }
+.zcs-w-full { width: 100%; }
+.zcs-wh-full { width: 100%; height: 100%; }
+.zcs-col-common { flex: 1 1 0%; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-p-20 { padding: 20px; }
+.zcs-px-6 { padding-left: 6px; padding-right: 6px; }
+.zcs-px-10 { padding-left: 10px; padding-right: 10px; }
+.zcs-py-0 { padding-top: 0; padding-bottom: 0; }
+.zcs-py-2 { padding-top: 2px; padding-bottom: 2px; }
+.zcs-py-12 { padding-top: 12px; padding-bottom: 12px; }
+.zcs-m-0 { margin: 0; }
+.zcs-mt-10 { margin-top: 10px; }
+.zcs-mx-0 { margin-left: 0; margin-right: 0; }
+.zcs-mb-0 { margin-bottom: 0; }
+.zcs-font-12 { font-size: 12px; }
+.zcs-font-14 { font-size: 14px; }
+.zcs-font-18 { font-size: 18px; }
+.zcs-font-24 { font-size: 24px; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-font-semibold { font-weight: 600; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-lh-heading { line-height: 1.25; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-tertiary { color: var(--zcs-teritiary-text-color); }
+.zcs-text-center { text-align: center; }
+.zcs-rounded-sm { border-radius: 4px; }
+.zcs-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a { text-decoration: none; }
+
+/* ZCS Horizontal Tab With Count. */
+.zcs-horizontal-tabpanel { min-height: 520px; }
+.zcs-horizontal-tabhead {
+	box-shadow: 0 -1px 0 0 var(--zcs_tertiary_border_color) inset;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.zcs-horizontal-tabhead::-webkit-scrollbar { display: none; }
+.zcs-horizontal-tabitem {
+	flex: 0 0 auto;
+	list-style-type: none;
+	border-bottom: 2px solid transparent;
+	letter-spacing: .1px;
+}
+.zcs-horizontal-tablink {
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+	color: var(--zcs_teritiary_text_color);
+}
+.zcs-horizontal-tabtext { text-wrap: nowrap; }
+.zcs-horizontal-tabcount {
+	min-width: 24px;
+	background-color: var(--zcs-page-bg-color);
+}
+.zcs-horizontal-tabitem:hover .zcs-horizontal-tablink { color: var(--zcs_brand_color); }
+.zcs-horizontal-tabitem:hover .zcs-horizontal-tabcount { background-color: var(--zcs_component_hover_color); }
+.zcs-horizontal-tabbody { overflow: visible; }
+
+.wo-workspace,
+.wo-workspace * { box-sizing: border-box; }
+.wo-workspace {
+	width: 100%;
+	min-height: 100%;
+	padding: var(--wo-spacing);
+	background: var(--wo-page-bg);
+	color: var(--wo-text);
+	font-size: var(--wo-base-size);
+	line-height: 1.5;
+}
+.wo-header {
+	min-height: 88px;
+	margin-bottom: var(--wo-spacing);
+	padding: 20px 22px;
+	background: var(--wo-surface);
+	border: 1px solid var(--wo-border);
+	border-radius: var(--wo-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.wo-header-copy { min-width: 0; }
+.wo-header-icon {
+	flex: 0 0 auto;
+	width: 42px;
+	height: 42px;
+	border-radius: 10px;
+	background: var(--zcs_brand_light_color);
+	color: var(--wo-brand);
+	font-size: 20px;
+}
+.wo-header-title { margin: 0; color: var(--wo-text); }
+.wo-header-subtitle {
+	margin: 4px 0 0;
+	color: var(--wo-muted);
+	font-size: var(--wo-base-size);
+}
+.wo-tabs-card {
+	position: relative;
+	overflow: hidden;
+	background: var(--wo-surface);
+	border: 1px solid var(--wo-border);
+	border-radius: var(--wo-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.wo-tab-control {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+.wo-tab-control:focus-visible ~ .zcs-horizontal-tabpanel .zcs-horizontal-tabhead {
+	outline: 2px solid var(--wo-brand);
+	outline-offset: -2px;
+}
+.wo-tabhead { padding: 0 12px; }
+.wo-tabpane { display: none; padding: var(--wo-spacing); }
+.wo-report-shell {
+	position: relative;
+	min-height: 480px;
+	overflow: hidden;
+	background: var(--wo-surface);
+	border: 1px solid var(--wo-border);
+	border-radius: var(--wo-radius);
+}
+.wo-report {
+	width: 100%;
+	min-height: 480px;
+	border: 0;
+	background: transparent;
+}
+.wo-report-empty { display: none; }
+.wo-empty-state { min-height: 480px; color: var(--wo-muted); }
+.wo-empty-content { max-width: 440px; }
+.wo-empty-icon {
+	width: 52px;
+	height: 52px;
+	margin: 0 auto 12px;
+	border-radius: 12px;
+	background: var(--zcs_brand_light_color);
+	color: var(--wo-brand);
+	font-size: 23px;
+}
+.wo-empty-copy { margin: 6px 0 0; color: var(--wo-muted); }
+.wo-guidance {
+	padding: 10px 15px;
+	color: var(--wo-muted);
+	background: var(--zcs_brand_light_color);
+	border-top: 1px solid var(--wo-border);
+	font-size: 13px;
+}
+.wo-guidance a { color: var(--wo-brand); font-weight: 600; }
+
+#wo-tab-issued:checked ~ .zcs-horizontal-tabpanel .tab-issued,
+#wo-tab-parts:checked ~ .zcs-horizontal-tabpanel .tab-parts,
+#wo-tab-progress:checked ~ .zcs-horizontal-tabpanel .tab-progress,
+#wo-tab-completed:checked ~ .zcs-horizontal-tabpanel .tab-completed { border-bottom-color: var(--wo-brand); }
+#wo-tab-issued:checked ~ .zcs-horizontal-tabpanel .tab-issued .zcs-horizontal-tablink,
+#wo-tab-parts:checked ~ .zcs-horizontal-tabpanel .tab-parts .zcs-horizontal-tablink,
+#wo-tab-progress:checked ~ .zcs-horizontal-tabpanel .tab-progress .zcs-horizontal-tablink,
+#wo-tab-completed:checked ~ .zcs-horizontal-tabpanel .tab-completed .zcs-horizontal-tablink { color: var(--wo-brand); }
+#wo-tab-issued:checked ~ .zcs-horizontal-tabpanel .pane-issued,
+#wo-tab-parts:checked ~ .zcs-horizontal-tabpanel .pane-parts,
+#wo-tab-progress:checked ~ .zcs-horizontal-tabpanel .pane-progress,
+#wo-tab-completed:checked ~ .zcs-horizontal-tabpanel .pane-completed { display: block; }
+
+.status-issued { background: #e9edff; color: #3646a8; }
+.status-parts { background: #fff2d6; color: #8a5a00; }
+.status-progress { background: #e8f3ff; color: #09598e; }
+.status-completed { background: #e2f6ee; color: #116f50; }
+
+@media (max-width: 768px) {
+	.wo-header { align-items: flex-start; padding: 18px; }
+	.wo-tabhead { padding: 0 6px; }
+	.zcs-horizontal-tablink { padding: 11px 9px; }
+	.wo-tabpane { padding: 12px; }
+	.wo-report-shell,
+	.wo-report,
+	.wo-empty-state { min-height: 560px; }
+}
+@media (max-width: 480px) {
+	.wo-workspace { padding: 10px; }
+	.wo-header { margin-bottom: 10px; }
+	.wo-header-icon { width: 38px; height: 38px; font-size: 18px; }
+	.wo-header-title { font-size: 21px; }
+	.wo-header-subtitle { font-size: 13px; }
+}
+</style>
+
+<div class='wo-workspace'>
+	<header class='wo-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12 zcs-box-border'>
+		<div class='zcs-flex zcs-align-items-center zcs-gap-12 zcs-ellipsis'>
+			<div class='wo-header-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-single-content-03'></i></div>
+			<div class='wo-header-copy zcs-ellipsis'>
+				<h1 class='wo-header-title zcs-font-24 zcs-font-semibold zcs-lh-heading zcs-ellipsis'>Work Orders</h1>
+				<p class='wo-header-subtitle'>Track issued work through parts ordering, active installation, and completion.</p>
+			</div>
+		</div>
+	</header>
+
+	<section class='wo-tabs-card'>
+		<input class='wo-tab-control' type='radio' name='work-order-status' id='wo-tab-issued' checked='checked'>
+		<input class='wo-tab-control' type='radio' name='work-order-status' id='wo-tab-parts'>
+		<input class='wo-tab-control' type='radio' name='work-order-status' id='wo-tab-progress'>
+		<input class='wo-tab-control' type='radio' name='work-order-status' id='wo-tab-completed'>
+
+		<div class='zcs-horizontal-tabpanel zcs-flex zcs-direction-column zcs-w-full'>
+			<ul class='wo-tabhead zcs-horizontal-tabhead zcs-flex zcs-gap-6 zcs-py-0 zcs-m-0 zcs-box-border' role='tablist' aria-label='Work order status'>
+				<li class='tab-issued zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='wo-tab-issued'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Issued</span>
+						<span class='zcs-horizontal-tabcount status-issued zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=issuedCount%></span>
+					</label>
+				</li>
+				<li class='tab-parts zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='wo-tab-parts'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Parts Ordered</span>
+						<span class='zcs-horizontal-tabcount status-parts zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=partsOrderedCount%></span>
+					</label>
+				</li>
+				<li class='tab-progress zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='wo-tab-progress'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>In Progress</span>
+						<span class='zcs-horizontal-tabcount status-progress zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=inProgressCount%></span>
+					</label>
+				</li>
+				<li class='tab-completed zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='wo-tab-completed'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Completed</span>
+						<span class='zcs-horizontal-tabcount status-completed zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=completedCount%></span>
+					</label>
+				</li>
+			</ul>
+
+			<div class='zcs-horizontal-tabbody zcs-col-common'>
+				<div class='wo-tabpane pane-issued'>
+					<div class='wo-report-shell'>
+						<% if(issuedCount == 0) { %>
+						<div class='wo-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='wo-empty-content zcs-p-20 zcs-box-border'>
+								<div class='wo-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-single-content-03'></i></div>
+								<h5 class='zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No issued work orders</h5>
+								<p class='wo-empty-copy'>Newly issued work orders visible to you will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='wo-report <% if(issuedCount == 0) { %>wo-report-empty<% } %>' elName='zc-component' viewLinkName='Work_Orders_Issued' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='wo-tabpane pane-parts'>
+					<div class='wo-report-shell'>
+						<% if(partsOrderedCount == 0) { %>
+						<div class='wo-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='wo-empty-content zcs-p-20 zcs-box-border'>
+								<div class='wo-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline e-commerce-box-3d-50'></i></div>
+								<h5 class='zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No work orders with parts ordered</h5>
+								<p class='wo-empty-copy'>Work orders move here after parts ordering is confirmed.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='wo-report <% if(partsOrderedCount == 0) { %>wo-report-empty<% } %>' elName='zc-component' viewLinkName='Work_Orders_Parts_Ordered' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='wo-tabpane pane-progress'>
+					<div class='wo-report-shell'>
+						<% if(inProgressCount == 0) { %>
+						<div class='wo-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='wo-empty-content zcs-p-20 zcs-box-border'>
+								<div class='wo-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-2-time'></i></div>
+								<h5 class='zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No work orders in progress</h5>
+								<p class='wo-empty-copy'>Active installation work visible to you will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='wo-report <% if(inProgressCount == 0) { %>wo-report-empty<% } %>' elName='zc-component' viewLinkName='Work_Orders_In_Progress' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='wo-tabpane pane-completed'>
+					<div class='wo-report-shell'>
+						<% if(completedCount == 0) { %>
+						<div class='wo-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='wo-empty-content zcs-p-20 zcs-box-border'>
+								<div class='wo-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-1-check-circle-08'></i></div>
+								<h5 class='zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No completed work orders</h5>
+								<p class='wo-empty-copy'>Finished work orders visible to you will remain available here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='wo-report <% if(completedCount == 0) { %>wo-report-empty<% } %>' elName='zc-component' viewLinkName='Work_Orders_Completed' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+			</div>
+
+			<div class='wo-guidance'>Select a work-order number in a report to open its <a href='#Page:Work_Order_Detail'>Work Order Detail</a> workspace. Counts and records follow the current user's report and record permissions.</div>
+		</div>
+	</section>
+</div>

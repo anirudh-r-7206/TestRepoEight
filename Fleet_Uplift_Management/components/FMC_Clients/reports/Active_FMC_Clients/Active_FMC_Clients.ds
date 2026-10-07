@@ -1,0 +1,23 @@
+list Active_FMC_Clients
+{
+
+		    displayName = "Active FMC Clients"
+		    show all rows from FMC_Clients [Status == "Active"]
+		    (
+		        Client_ID
+		        Client_Name
+		        Client_Code
+		        Status
+		        Primary_Contact
+		        Portal_User
+		        Contact_Email
+		        Contact_Phone
+		        Region_Market
+		        Payment_Terms
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		
+}

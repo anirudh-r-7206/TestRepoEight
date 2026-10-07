@@ -1,0 +1,19 @@
+Notification_Templates_On_Edit_Success as "Audit Notification Template Update"
+{
+
+			    type = form
+			    form = Notification_Templates
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Notification Templates", input.ID, 0, "Updated", "", input.Template_Code, "Notification template updated: " + input.Template_Name);
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,19 @@
+Upfitters_On_Edit_Success as "Audit Upfitter Update"
+{
+
+			    type = form
+			    form = Upfitters
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Upfitters", input.ID, 0, "Updated", "", input.Status, "Upfitter record updated: " + input.Upfitter_Name);
+			            )
+			        }
+			    }
+			
+}

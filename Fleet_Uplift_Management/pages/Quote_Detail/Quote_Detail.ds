@@ -1,0 +1,20 @@
+<page linkname = "Quote_Detail" parameters = "int Quote_ID" displayname = "Quote Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Quote_Detail_View_DSP' elementName='Quote_Detail_View_DSP'>
+          <![CDATA[htmlpage Quote_Detail_View_DSP()
+content
+			<%{%>
+            <file name:Quote_Detail_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

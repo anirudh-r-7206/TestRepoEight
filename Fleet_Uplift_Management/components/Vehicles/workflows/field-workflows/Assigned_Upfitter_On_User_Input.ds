@@ -1,0 +1,32 @@
+Assigned_Upfitter_On_User_Input as "Update Upfitter Assignment"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on add or edit
+			
+			    on user input of Assigned_Upfitter
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Assigned_Upfitter != null)
+			                {
+			                    upfitterRecord = Upfitters[ID == input.Assigned_Upfitter];
+			                    if(upfitterRecord.count() > 0)
+			                    {
+			                        input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                    }
+			                    input.Manual_Override = input.Suggested_Upfitter == null || input.Assigned_Upfitter != input.Suggested_Upfitter;
+			                }
+			                else
+			                {
+			                    input.Upfitter_Portal_User = null;
+			                    input.Manual_Override = false;
+			                }
+			            )
+			        }
+			    }
+			
+}

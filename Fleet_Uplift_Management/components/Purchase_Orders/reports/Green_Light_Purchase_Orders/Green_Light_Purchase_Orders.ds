@@ -1,0 +1,28 @@
+list Green_Light_Purchase_Orders
+{
+
+		    displayName = "Green Light Purchase Orders"
+		    show all rows from Purchase_Orders [Status == "Green Light Issued"]
+		    (
+		        Program
+		        Quote
+		        FMC_PO_Number
+		        PO_Date
+		        PO_Amount
+		        Status
+		        Green_Light_Date
+		        PO_Acknowledgement_Document
+		    )
+		    filters
+		    (
+		        Program
+		        Quote
+		        PO_Date
+		        Green_Light_Date
+		    )
+		    sort by
+		    (
+		        Green_Light_Date descending
+		    )
+		
+}

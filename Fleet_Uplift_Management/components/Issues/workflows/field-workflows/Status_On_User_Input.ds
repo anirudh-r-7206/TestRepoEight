@@ -1,0 +1,27 @@
+Status_On_User_Input as "Control Issue Resolution"
+{
+
+			    type = form
+			    form = Issues
+			    record event = on add or edit
+			
+			    on user input of Status
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Resolved" || input.Status == "Closed")
+			                {
+			                    show Resolution;
+			                }
+			                else
+			                {
+			                    hide Resolution;
+			                    input.Resolution = "";
+			                }
+			            )
+			        }
+			    }
+			
+}

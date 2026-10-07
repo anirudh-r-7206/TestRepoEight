@@ -1,0 +1,47 @@
+Issues_On_Add_Success as "Notify New Issue Assignee"
+{
+
+			    type = form
+			    form = Issues
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Assigned_To != null)
+			                {
+			                    assigneeEmail = input.Assigned_To.email;
+			                    alertKey = "ISSUE_ASSIGNED-" + input.ID + "-" + assigneeEmail;
+			                    priorAlert = Notification_Log[Alert_Key == alertKey];
+			                    if(assigneeEmail != null && priorAlert.count() == 0)
+			                    {
+			                        sendmail
+			                        [
+			                            from : zoho.adminuserid
+			                            to : assigneeEmail
+			                            subject : "Issue assigned: " + input.Issue_Type + " (" + input.Priority + ")"
+			                            message : "A " + input.Priority + " priority " + input.Issue_Type + " issue has been assigned to you.<br><br>" + input.Description
+			                        ]
+			                        insert into Notification_Log
+			                        [
+			                            Alert_Key = alertKey
+			                            Template_Code = "ISSUE_ASSIGNED"
+			                            Reference_Type = "Issues"
+			                            Reference_ID = input.ID
+			                            Recipient_Email = assigneeEmail
+			                            Sent_Date = zoho.currenttime
+			                            Delivery_Status = "Sent"
+			                        ];
+			                        issueRecord = Issues[ID == input.ID];
+			                        issueRecord.Alert_Sent = true;
+			                    }
+			                }
+			                thisapp.Create_Audit_Log("Issues", input.ID, input.Program, "Created", "", input.Status, "Issue created: " + input.Issue_Type + ".");
+			            )
+			        }
+			    }
+			
+}

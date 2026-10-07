@@ -1,0 +1,209 @@
+"Internal_Operations"
+{
+
+	    name = "Internal_Operations"
+	    type = Users_Permissions
+	    permissions = { Chat:true, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Lifecycle operations with read-only finance, configuration, and audit access."
+	    ModulePermissions
+	    {
+	        Capabilities
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Capabilities={"View","Edit","Delete"} Active_Capabilities={"View","Edit","Delete"} }
+	        }
+	        FMC_Clients
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_FMC_Clients={"View","Edit","Delete"} Active_FMC_Clients={"View","Edit","Delete"} }
+	        }
+	        Upfitters
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Upfitters={"View","Edit","Delete"} Active_Upfitters={"View","Edit","Delete"} Inactive_Upfitters={"View","Edit","Delete"} Upfitter_Map={"View"} }
+	        }
+	        Parts
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Parts={"View","Edit","Delete"} Active_Parts={"View","Edit","Delete"} Discontinued_Parts={"View","Edit","Delete"} }
+	        }
+	        Markup_Configurations
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Markup_Configurations={"View"} Active_Markup_Configurations={"View"} }
+	        }
+	        Notification_Templates
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Notification_Templates={"View"} Active_Notification_Templates={"View"} }
+	        }
+	        System_Configuration
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { System_Configuration_Report={"View"} }
+	        }
+	        Programs
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Programs={"View","Edit","Delete"} Programs_Request_Intake={"View","Edit","Delete"} Programs_Scope_Source={"View","Edit","Delete"} Programs_Upfitter_Matching={"View","Edit","Delete"} Programs_Pending_Estimates={"View","Edit","Delete"} Programs_Pending_Quote_Approval={"View","Edit","Delete"} Programs_PO_Received={"View","Edit","Delete"} Programs_In_Execution={"View","Edit","Delete"} Programs_Closed={"View","Edit","Delete"} }
+	        }
+	        Vehicles
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Vehicle_ID{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:true,readonly:true}
+	                Upfitter_Portal_User{visibility:true,readonly:true}
+	                Matching_Distance_Miles{visibility:true,readonly:true}
+	                Manual_Override{visibility:true,readonly:true}
+	                Billing_Eligible{visibility:true,readonly:true}
+	                Vehicle_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:false}
+	                VIN{visibility:true,readonly:false}
+	                Year{visibility:true,readonly:false}
+	                Make{visibility:true,readonly:false}
+	                Model{visibility:true,readonly:false}
+	                Cab_Type{visibility:true,readonly:false}
+	                Bed_Length{visibility:true,readonly:false}
+	                Dropoff_Location{visibility:true,readonly:false}
+	                Arrival_Date{visibility:true,readonly:false}
+	                Pickup_Date{visibility:true,readonly:false}
+	                Requested_Upfits{visibility:true,readonly:false}
+	                Assignment{visibility:true,readonly:true}
+	                Suggested_Upfitter{visibility:true,readonly:true}
+	                Assigned_Upfitter{visibility:true,readonly:false}
+	                Vehicle_Status{visibility:true,readonly:false}
+	                Completion_Photos{visibility:true,readonly:false}
+	                QC{visibility:true,readonly:true}
+	                QC_Status{visibility:true,readonly:true}
+	                QC_Notes{visibility:true,readonly:true}
+	                QC_Date{visibility:true,readonly:true}
+	                Internal_Notes{visibility:true,readonly:false}
+	            }
+	            ReportPermissions { All_Vehicles={"View","Edit","Delete"} Vehicle_Status_Board={"View","Edit"} Assigned_Vehicles={"View","Edit"} Vehicles_Scheduled={"View","Edit"} Vehicles_Arrived={"View","Edit"} Vehicles_Parts_Ordered={"View","Edit"} Vehicles_In_Progress={"View","Edit"} Vehicles_Completed={"View","Edit"} Vehicles_Picked_Up={"View","Edit"} }
+	        }
+	        Estimates
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Estimates={"View","Edit","Delete"} Assigned_Estimates={"View","Edit"} Pending_Estimates={"View","Edit"} Approved_Estimates={"View","Edit"} Revision_Requested_Estimates={"View","Edit"} Declined_Estimates={"View","Edit"} }
+	        }
+	        Estimate_Parts_Lines
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Estimate_Parts_Lines={"View","Edit","Delete"} }
+	        }
+	        Estimate_Labor_Lines
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Estimate_Labor_Lines={"View","Edit","Delete"} }
+	        }
+	        Quotes
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Quote_Sequence{visibility:true,readonly:true}
+	                Quote_Number{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:true,readonly:true}
+	                Quote_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:false}
+	                Quote_Date{visibility:true,readonly:false}
+	                Valid_Until{visibility:true,readonly:false}
+	                Estimate_Subtotal{visibility:true,readonly:true}
+	                Markup_Percent{visibility:false}
+	                Markup_Amount{visibility:true,readonly:true}
+	                Quote_Total{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:false}
+	                FMC_Approval_Date{visibility:true,readonly:true}
+	                FMC_Notes{visibility:true,readonly:true}
+	                Quote_PDF{visibility:true,readonly:true}
+	                Version_Number{visibility:true,readonly:true}
+	            }
+	            ReportPermissions { All_Quotes={"View","Edit","Delete"} Draft_Quotes={"View","Edit"} Sent_Quotes={"View","Edit"} Approved_Quotes={"View"} Declined_Quotes={"View"} }
+	        }
+	        Purchase_Orders
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Purchase_Orders={"View","Edit","Delete"} Received_Purchase_Orders={"View","Edit"} Acknowledged_Purchase_Orders={"View","Edit"} Green_Light_Purchase_Orders={"View","Edit"} }
+	        }
+	        Work_Orders
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Work_Orders={"View","Edit","Delete"} Work_Orders_Issued={"View","Edit"} Work_Orders_Parts_Ordered={"View","Edit"} Work_Orders_In_Progress={"View","Edit"} Work_Orders_Completed={"View","Edit"} }
+	        }
+	        Client_Invoices
+	        {
+	            enabled = Viewall,View,Search,Export
+	            allFieldsVisible = true
+	            ReportPermissions { All_Client_Invoices={"View"} Unpaid_Invoices={"View"} Partial_Invoices={"View"} Paid_Invoices={"View"} Overdue_Invoices={"View"} }
+	        }
+	        Upfitter_Payables
+	        {
+	            enabled = Viewall,View,Search,Export
+	            allFieldsVisible = true
+	            ReportPermissions { All_Upfitter_Payables={"View"} Pending_Approval_Payables={"View"} Approved_Payables={"View"} Paid_Payables={"View"} }
+	        }
+	        Issues
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Issues={"View","Edit","Delete"} Open_Issues={"View","Edit"} In_Progress_Issues={"View","Edit"} Resolved_Issues={"View","Edit"} Closed_Issues={"View"} }
+	        }
+	        Action_Items
+	        {
+	            enabled = Create,Viewall,Modifyall,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Action_Items={"View","Edit","Delete"} Open_Action_Items={"View","Edit"} My_Open_Action_Items={"View","Edit"} }
+	        }
+	        Notification_Log
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Notification_Log={"View"} }
+	        }
+	        Audit_Log
+	        {
+	            enabled = Viewall,View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Audit_Log={"View"} Program_Activity_Log={"View"} }
+	        }
+	        Program_Workspace { enabled = tab }
+	        Program_Detail { enabled = tab }
+	        Vehicle_Detail { enabled = tab }
+	        Issue_Tracker { enabled = tab }
+	        Upfitter_Network { enabled = tab }
+	        Upfitter_Detail { enabled = tab }
+	        Parts_Catalog { enabled = tab }
+	        Part_Detail { enabled = tab }
+	        Estimate_Review { enabled = tab }
+	        Quote_Detail { enabled = tab }
+	        PO_Green_Light { enabled = tab }
+	        Work_Order_Hub { enabled = tab }
+	        Work_Order_Detail { enabled = tab }
+	        Execution_Tracker { enabled = tab }
+	        Invoices { enabled = tab }
+	        Invoice_Detail { enabled = tab }
+	        Upfitter_Payables_Hub { enabled = tab }
+	        Finance_Dashboard { enabled = tab }
+	        Pipeline_Dashboard { enabled = tab }
+	        Upfitter_Performance { enabled = tab }
+	        Revenue_Report { enabled = tab }
+	    }
+	
+}

@@ -1,0 +1,20 @@
+Programs_On_Load as "Prepare Program Form"
+{
+
+			    type = form
+			    form = Programs
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Service_ID, Client_Portal_User, Client_Contact, Vehicle_Count, Completion_Report, Closeout_Document;
+			            )
+			        }
+			    }
+			
+}

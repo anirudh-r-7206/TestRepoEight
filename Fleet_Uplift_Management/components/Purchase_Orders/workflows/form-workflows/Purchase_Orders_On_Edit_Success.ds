@@ -1,0 +1,87 @@
+Purchase_Orders_On_Edit_Success as "Process Purchase Order Status"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Acknowledged" && input.PO_Acknowledgement_Document == null)
+			                {
+			                    thisapp.Generate_PO_Acknowledgement(input.ID);
+			                    programRecord = Programs[ID == input.Program];
+			                    if(programRecord.count() > 0)
+			                    {
+			                        templateData = Map();
+			                        templateData.put("service_id", programRecord.Service_ID);
+			                        templateData.put("po_number", input.FMC_PO_Number);
+			                        templateData.put("po_amount", input.PO_Amount);
+			                        acknowledgementKey = "PO_ACKNOWLEDGED-" + input.ID;
+			                        thisapp.Send_Template_Email("PO_ACKNOWLEDGED", programRecord.Client_Contact, templateData, acknowledgementKey);
+			                    }
+			                }
+			                if(input.Status == "Green Light Issued")
+			                {
+			                    assignedUpfitters = Vehicles[Program == input.Program && Assigned_Upfitter != null].distinct(Assigned_Upfitter);
+			                    for each upfitterId in assignedUpfitters
+			                    {
+			                        existingWorkOrder = Work_Orders[Program == input.Program && Purchase_Order == input.ID && Upfitter == upfitterId];
+			                        if(existingWorkOrder.count() == 0)
+			                        {
+			                            earliestArrival = Vehicles[Program == input.Program && Assigned_Upfitter == upfitterId && Arrival_Date != null].minimum(Arrival_Date);
+			                            requestedCapabilityIds = List();
+			                            for each assignedVehicle in Vehicles[Program == input.Program && Assigned_Upfitter == upfitterId]
+			                            {
+			                                for each capabilityId in assignedVehicle.Requested_Upfits
+			                                {
+			                                    if(!requestedCapabilityIds.contains(capabilityId))
+			                                    {
+			                                        requestedCapabilityIds.add(capabilityId);
+			                                    }
+			                                }
+			                            }
+			                            maximumLeadDays = 0;
+			                            for each capabilityId in requestedCapabilityIds
+			                            {
+			                                capabilityLeadDays = ifnull(Parts[Status == "Active" && Linked_Capability == capabilityId].maximum(Lead_Time_Days), 0);
+			                                if(capabilityLeadDays > maximumLeadDays)
+			                                {
+			                                    maximumLeadDays = capabilityLeadDays;
+			                                }
+			                            }
+			                            partsOrderByDate = zoho.currentdate;
+			                            if(earliestArrival != null)
+			                            {
+			                                partsOrderByDate = earliestArrival.addDay(0 - maximumLeadDays);
+			                            }
+			                            upfitterRecord = Upfitters[ID == upfitterId];
+			                            pendingNumber = "PENDING-WO-" + input.ID + "-" + upfitterId;
+			                            workOrderId = insert into Work_Orders
+			                            [
+			                                Work_Order_Number = pendingNumber
+			                                Upfitter_Portal_User = upfitterRecord.Portal_User
+			                                Program = input.Program
+			                                Purchase_Order = input.ID
+			                                Upfitter = upfitterId
+			                                Issue_Date = zoho.currentdate
+			                                Parts_Order_By_Date = partsOrderByDate
+			                                Status = "Issued"
+			                            ];
+			                        }
+			                    }
+			                    update Programs[ID == input.Program]
+			                    [
+			                        Program_Status = "In Execution"
+			                    ];
+			                }
+			                thisapp.Create_Audit_Log("Purchase_Orders", input.ID, input.Program, "Updated", "", input.Status, "Purchase order details updated.");
+			            )
+			        }
+			    }
+			
+}

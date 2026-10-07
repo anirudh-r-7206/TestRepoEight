@@ -1,0 +1,27 @@
+list Program_Activity_Log
+{
+
+		    displayName = "Program Activity Log"
+		    show all rows from Audit_Log [Program != null]
+		    (
+		        Event_Date
+		        Program
+		        Module_Name
+		        Action
+		        Details
+		        User_Email
+		    )
+		    filters
+		    (
+		        Event_Date
+		        Program
+		        Module_Name
+		        Action
+		        User_Email
+		    )
+		    sort by
+		    (
+		        Event_Date descending
+		    )
+		
+}

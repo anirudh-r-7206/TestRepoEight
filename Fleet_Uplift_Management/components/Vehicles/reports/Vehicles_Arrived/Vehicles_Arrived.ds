@@ -1,0 +1,29 @@
+list Vehicles_Arrived
+{
+
+		    displayName = "Vehicles - Arrived"
+		    show all rows from Vehicles [Vehicle_Status == "Arrived"]
+		    (
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Arrival_Date
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        Arrival_Date
+		        QC_Status
+		    )
+		    sort by
+		    (
+		        Arrival_Date ascending
+		    )
+		
+}

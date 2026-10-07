@@ -1,0 +1,23 @@
+Client_Invoices_On_Add_Success as "Create Client Invoice Number"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                invoiceRecord = Client_Invoices[ID == input.ID];
+			                sequenceText = "0000" + invoiceRecord.Invoice_Sequence.toString();
+			                generatedNumber = "INV-" + zoho.currentdate.toString("yyyyMM") + "-" + sequenceText.right(4);
+			                invoiceRecord.Invoice_Number = generatedNumber;
+			                thisapp.Create_Audit_Log("Client_Invoices", input.ID, input.Program, "Created", "", input.Payment_Status, "Client invoice " + generatedNumber + " created with Net 45 terms.");
+			            )
+			        }
+			    }
+			
+}

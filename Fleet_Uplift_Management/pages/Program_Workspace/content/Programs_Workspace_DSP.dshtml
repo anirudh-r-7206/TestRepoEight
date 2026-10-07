@@ -1,0 +1,483 @@
+<%
+requestIntakeCount = Programs[Program_Status == "Request Intake"].count();
+scopeSourceCount = Programs[Program_Status == "Scope & Source"].count();
+upfitterMatchingCount = Programs[Program_Status == "Upfitter Matching"].count();
+pendingEstimatesCount = Programs[Program_Status == "Pending Estimates"].count();
+pendingQuoteApprovalCount = Programs[Program_Status == "Pending Quote Approval"].count();
+poReceivedCount = Programs[Program_Status == "PO Received"].count();
+inExecutionCount = Programs[Program_Status == "In Execution"].count();
+closedCount = Programs[Program_Status == "Closed"].count();
+%>
+<style>
+/* ZCS global utility sheet, included once for this page. */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color);
+	--zcs-light-bg-color: var(--zcs_brand_light_color);
+	--zcs-page-bg-color: #f3f3f4;
+	--zcs-primary-text-color: var(--zcs_primary_text_color);
+	--zcs-secondary-text-color: var(--zcs_secondary_text_color);
+	--zcs-teritiary-text-color: var(--zcs_teritiary_text_color);
+	--zcs-border-color: var(--zcs_tertiary_border_color);
+	--zcs-white-color: #ffffff;
+	--program-container-spacing: 15px;
+	--program-radius: 12px;
+	--program-base-size: 14px;
+	--program-surface: var(--zcs-white-color);
+	--program-page-bg: var(--zcs-page-bg-color);
+	--program-border: var(--zcs_tertiary_border_color);
+	--program-text: var(--zcs_primary_text_color);
+	--program-muted: var(--zcs_secondary_text_color);
+	--program-hover: var(--zcs_component_hover_color);
+	--program-brand: var(--zcs_brand_color);
+	--program-brand-dark: var(--zcs_brand_dark_color);
+}
+.zcs-flex { display: flex; }
+.zcs-inline-flex { display: inline-flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-center { justify-content: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: 6px; }
+.zcs-gap-8 { gap: 8px; }
+.zcs-gap-12 { gap: 12px; }
+.zcs-w-full { width: 100%; }
+.zcs-wh-full { width: 100%; height: 100%; }
+.zcs-col-common { flex: 1 1 0%; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-p-20 { padding: 20px; }
+.zcs-px-6 { padding-left: 6px; padding-right: 6px; }
+.zcs-px-10 { padding-left: 10px; padding-right: 10px; }
+.zcs-px-16 { padding-left: 16px; padding-right: 16px; }
+.zcs-px-30 { padding-left: 30px; padding-right: 30px; }
+.zcs-py-0 { padding-top: 0; padding-bottom: 0; }
+.zcs-py-2 { padding-top: 2px; padding-bottom: 2px; }
+.zcs-py-8 { padding-top: 8px; padding-bottom: 8px; }
+.zcs-py-12 { padding-top: 12px; padding-bottom: 12px; }
+.zcs-py-24 { padding-top: 24px; padding-bottom: 24px; }
+.zcs-m-0 { margin: 0; }
+.zcs-mt-10 { margin-top: 10px; }
+.zcs-mx-0 { margin-left: 0; margin-right: 0; }
+.zcs-mb-0 { margin-bottom: 0; }
+.zcs-font-12 { font-size: 12px; }
+.zcs-font-14 { font-size: 14px; }
+.zcs-font-15 { font-size: 15px; }
+.zcs-font-18 { font-size: 18px; }
+.zcs-font-24 { font-size: 24px; }
+.zcs-font-normal { font-weight: 400; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-font-semibold { font-weight: 600; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-lh-heading { line-height: 1.25; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-secondary { color: var(--zcs-secondary-text-color); }
+.zcs-color-tertiary { color: var(--zcs-teritiary-text-color); }
+.zcs-text-center { text-align: center; }
+.zcs-rounded-sm { border-radius: 4px; }
+.zcs-rounded-md { border-radius: 6px; }
+.zcs-rounded-xl { border-radius: 12px; }
+.zcs-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a { text-decoration: none; }
+
+/* ZCS button component. */
+.zcs-button {
+	width: auto;
+	min-width: 5rem;
+	min-height: 36px;
+	border: 0;
+	cursor: pointer;
+	transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+.zcs-primary-button {
+	background-color: var(--zcs_brand_color);
+	color: var(--zcs_brand_foreground_color);
+}
+.zcs-primary-button:hover { background-color: var(--zcs_brand_dark_color); }
+.zcs-primary-button:focus {
+	outline: 2px solid var(--zcs_brand_color);
+	outline-offset: 2px;
+}
+.zcs-button-icon { width: 16px; max-height: 16px; }
+
+/* ZCS horizontal tab with count component. */
+.zcs-horizontal-tabpanel { min-height: 520px; }
+.zcs-horizontal-tabhead {
+	box-shadow: 0 -1px 0 0 var(--zcs_tertiary_border_color) inset;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+}
+.zcs-horizontal-tabhead::-webkit-scrollbar { display: none; }
+.zcs-horizontal-tabitem {
+	flex: 0 0 auto;
+	list-style: none;
+	border-bottom: 2px solid transparent;
+	letter-spacing: .1px;
+}
+.zcs-horizontal-tablink {
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+	color: var(--zcs_teritiary_text_color);
+}
+.zcs-horizontal-tabitem:hover .zcs-horizontal-tablink { color: var(--zcs_brand_color); }
+.zcs-horizontal-tabcount {
+	min-width: 24px;
+	background-color: var(--zcs-page-bg-color);
+}
+.zcs-horizontal-tabbody { overflow: visible; }
+
+/* ZCS badge component, adapted for lifecycle counts. */
+.zcs-badge { width: auto; }
+.zcs-badge-filled { border: 1px solid transparent; }
+.zcs-badge-filled.zcs-badge-theme {
+	background-color: var(--zcs_brand_color);
+	border-color: var(--zcs_brand_color);
+	color: var(--zcs_brand_foreground_color);
+}
+.zcs-badge-filled.zcs-badge-blue { background-color: #2a6ffc; border-color: #2a6ffc; color: #fff; }
+.zcs-badge-filled.zcs-badge-orange { background-color: #f4660c; border-color: #f4660c; color: #fff; }
+.zcs-badge-filled.zcs-badge-yellow { background-color: #faae13; border-color: #faae13; color: #242424; }
+.zcs-badge-filled.zcs-badge-green { background-color: #179e6c; border-color: #179e6c; color: #fff; }
+.zcs-badge-filled.zcs-badge-grey { background-color: #5f6270; border-color: #5f6270; color: #fff; }
+
+/* Programs workspace rules. */
+.program-workspace,
+.program-workspace * { box-sizing: border-box; }
+.program-workspace {
+	width: 100%;
+	min-height: 100%;
+	padding: var(--program-container-spacing);
+	background: var(--program-page-bg);
+	color: var(--program-text);
+	font-size: var(--program-base-size);
+	line-height: 1.5;
+}
+.program-header {
+	min-height: 88px;
+	margin-bottom: var(--program-container-spacing);
+	padding: 20px 22px;
+	background: var(--program-surface);
+	border: 1px solid var(--program-border);
+	border-radius: var(--program-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.program-header-copy { min-width: 0; }
+.program-header-title { margin: 0; color: var(--program-text); }
+.program-header-subtitle {
+	margin: 4px 0 0;
+	color: var(--program-muted);
+	font-size: var(--program-base-size);
+}
+.program-create-action { flex: 0 0 auto; }
+.program-tabs-card {
+	position: relative;
+	overflow: hidden;
+	background: var(--program-surface);
+	border: 1px solid var(--program-border);
+	border-radius: var(--program-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.program-tab-control {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+.program-tab-control:focus-visible ~ .zcs-horizontal-tabpanel .zcs-horizontal-tabhead {
+	outline: 2px solid var(--program-brand);
+	outline-offset: -2px;
+}
+.program-tabhead { padding: 0 12px; }
+.program-tabpane { display: none; padding: var(--program-container-spacing); }
+.program-report-shell {
+	position: relative;
+	min-height: 430px;
+	overflow: hidden;
+	background: var(--program-surface);
+	border: 1px solid var(--program-border);
+	border-radius: var(--program-radius);
+}
+.program-report {
+	width: 100%;
+	min-height: 430px;
+	border: 0;
+	background: transparent;
+}
+.program-report-empty { display: none; }
+.program-empty-state { min-height: 430px; color: var(--program-muted); }
+.program-empty-state .zcs-nodata-content {
+	max-width: 430px;
+	padding: 32px 20px;
+}
+.program-empty-icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto 12px;
+	border-radius: 12px;
+	background: var(--zcs_brand_light_color);
+	color: var(--program-brand);
+	font-size: 22px;
+}
+.program-empty-copy { margin: 6px 0 0; color: var(--program-muted); }
+
+#program-tab-request:checked ~ .zcs-horizontal-tabpanel .tab-request,
+#program-tab-scope:checked ~ .zcs-horizontal-tabpanel .tab-scope,
+#program-tab-matching:checked ~ .zcs-horizontal-tabpanel .tab-matching,
+#program-tab-estimates:checked ~ .zcs-horizontal-tabpanel .tab-estimates,
+#program-tab-quotes:checked ~ .zcs-horizontal-tabpanel .tab-quotes,
+#program-tab-po:checked ~ .zcs-horizontal-tabpanel .tab-po,
+#program-tab-execution:checked ~ .zcs-horizontal-tabpanel .tab-execution,
+#program-tab-closed:checked ~ .zcs-horizontal-tabpanel .tab-closed {
+	border-bottom-color: var(--program-brand);
+}
+#program-tab-request:checked ~ .zcs-horizontal-tabpanel .tab-request .zcs-horizontal-tablink,
+#program-tab-scope:checked ~ .zcs-horizontal-tabpanel .tab-scope .zcs-horizontal-tablink,
+#program-tab-matching:checked ~ .zcs-horizontal-tabpanel .tab-matching .zcs-horizontal-tablink,
+#program-tab-estimates:checked ~ .zcs-horizontal-tabpanel .tab-estimates .zcs-horizontal-tablink,
+#program-tab-quotes:checked ~ .zcs-horizontal-tabpanel .tab-quotes .zcs-horizontal-tablink,
+#program-tab-po:checked ~ .zcs-horizontal-tabpanel .tab-po .zcs-horizontal-tablink,
+#program-tab-execution:checked ~ .zcs-horizontal-tabpanel .tab-execution .zcs-horizontal-tablink,
+#program-tab-closed:checked ~ .zcs-horizontal-tabpanel .tab-closed .zcs-horizontal-tablink {
+	color: var(--program-brand);
+}
+#program-tab-request:checked ~ .zcs-horizontal-tabpanel .pane-request,
+#program-tab-scope:checked ~ .zcs-horizontal-tabpanel .pane-scope,
+#program-tab-matching:checked ~ .zcs-horizontal-tabpanel .pane-matching,
+#program-tab-estimates:checked ~ .zcs-horizontal-tabpanel .pane-estimates,
+#program-tab-quotes:checked ~ .zcs-horizontal-tabpanel .pane-quotes,
+#program-tab-po:checked ~ .zcs-horizontal-tabpanel .pane-po,
+#program-tab-execution:checked ~ .zcs-horizontal-tabpanel .pane-execution,
+#program-tab-closed:checked ~ .zcs-horizontal-tabpanel .pane-closed { display: block; }
+
+@media (max-width: 768px) {
+	.program-workspace { padding: var(--program-container-spacing); }
+	.program-header {
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 18px;
+	}
+	.program-create-action { width: 100%; }
+	.program-create-action .zcs-button { width: 100%; }
+	.program-tabhead { padding: 0 6px; }
+	.zcs-horizontal-tablink { padding: 11px 9px; }
+	.program-tabpane { padding: 12px; }
+	.program-report-shell,
+	.program-report,
+	.program-empty-state { min-height: 520px; }
+}
+@media (max-width: 480px) {
+	.program-workspace { padding: 10px; }
+	.program-header { margin-bottom: 10px; border-radius: var(--program-radius); }
+	.program-header-title { font-size: 21px; }
+	.program-header-subtitle { font-size: 13px; }
+	.program-tabs-card,
+	.program-report-shell { border-radius: var(--program-radius); }
+}
+</style>
+
+<div class='program-workspace'>
+	<header class='program-header zcs-page-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12 zcs-box-border'>
+		<div class='program-header-copy zcs-ellipsis'>
+			<h1 class='program-header-title zcs-font-24 zcs-font-semibold zcs-lh-heading zcs-ellipsis'>Programs</h1>
+			<p class='program-header-subtitle'>Manage client programs across every lifecycle stage.</p>
+		</div>
+		<div class='program-create-action zcs-flex zcs-align-items-center'>
+			<a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium zcs-lh-body'
+				 href='#Form:Programs?zc_LoadIn=dialog&amp;zc_Header=false&amp;zc_NextUrl=%23Page%3AProgram_Workspace&amp;zc_OpenUrlIn=same%20window&amp;zc_SuccMsg=Program%20created%20successfully'>
+				<i class='zcs-button-icon zc-li-outline ui-1-simple-add'></i>
+				<span class='zcs-button-text'>Create Program</span>
+			</a>
+		</div>
+	</header>
+
+	<section class='program-tabs-card'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-request' checked='checked'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-scope'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-matching'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-estimates'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-quotes'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-po'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-execution'>
+		<input class='program-tab-control' type='radio' name='program-lifecycle' id='program-tab-closed'>
+
+		<div class='zcs-horizontal-tabpanel zcs-flex zcs-direction-column zcs-w-full'>
+			<ul class='program-tabhead zcs-horizontal-tabhead zcs-flex zcs-gap-6 zcs-py-0 zcs-m-0 zcs-box-border' role='tablist' aria-label='Program lifecycle'>
+				<li class='tab-request zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-request'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Request Intake</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-theme zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=requestIntakeCount%></span>
+					</label>
+				</li>
+				<li class='tab-scope zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-scope'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Scope &amp; Source</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-blue zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=scopeSourceCount%></span>
+					</label>
+				</li>
+				<li class='tab-matching zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-matching'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Upfitter Matching</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-orange zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=upfitterMatchingCount%></span>
+					</label>
+				</li>
+				<li class='tab-estimates zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-estimates'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Pending Estimates</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-yellow zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=pendingEstimatesCount%></span>
+					</label>
+				</li>
+				<li class='tab-quotes zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-quotes'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Pending Quote Approval</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-orange zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=pendingQuoteApprovalCount%></span>
+					</label>
+				</li>
+				<li class='tab-po zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-po'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>PO Received</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-blue zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=poReceivedCount%></span>
+					</label>
+				</li>
+				<li class='tab-execution zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-execution'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>In Execution</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-theme zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=inExecutionCount%></span>
+					</label>
+				</li>
+				<li class='tab-closed zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='program-tab-closed'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Closed</span>
+						<span class='zcs-horizontal-tabcount zcs-badge zcs-badge-filled zcs-badge-green zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=closedCount%></span>
+					</label>
+				</li>
+			</ul>
+
+			<div class='zcs-horizontal-tabbody zcs-col-common'>
+				<div class='program-tabpane pane-request'>
+					<div class='program-report-shell'>
+						<% if(requestIntakeCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-folder-13'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs in Request Intake</h5>
+								<p class='program-empty-copy'>Newly created programs will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(requestIntakeCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Request_Intake' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-scope'>
+					<div class='program-report-shell'>
+						<% if(scopeSourceCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline design-measure-17'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs in Scope &amp; Source</h5>
+								<p class='program-empty-copy'>Programs move here when intake is complete.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(scopeSourceCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Scope_Source' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-matching'>
+					<div class='program-report-shell'>
+						<% if(upfitterMatchingCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline location-pin-3'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs awaiting upfitter matching</h5>
+								<p class='program-empty-copy'>Programs ready for capability and coverage matching will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(upfitterMatchingCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Upfitter_Matching' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-estimates'>
+					<div class='program-report-shell'>
+						<% if(pendingEstimatesCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-paper-text'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs with pending estimates</h5>
+								<p class='program-empty-copy'>Programs waiting for shop estimates will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(pendingEstimatesCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Pending_Estimates' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-quotes'>
+					<div class='program-report-shell'>
+						<% if(pendingQuoteApprovalCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-1-check-circle-08'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No quotes awaiting approval</h5>
+								<p class='program-empty-copy'>Programs pending client quote approval will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(pendingQuoteApprovalCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Pending_Quote_Approval' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-po'>
+					<div class='program-report-shell'>
+						<% if(poReceivedCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline business-handshake'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs with a received PO</h5>
+								<p class='program-empty-copy'>Programs with newly received purchase orders will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(poReceivedCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_PO_Received' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-execution'>
+					<div class='program-report-shell'>
+						<% if(inExecutionCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline objects-settings-12'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No programs in execution</h5>
+								<p class='program-empty-copy'>Green-lit programs actively being fulfilled will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(inExecutionCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_In_Execution' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='program-tabpane pane-closed'>
+					<div class='program-report-shell'>
+						<% if(closedCount == 0) { %>
+						<div class='program-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='program-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-1-check-circle-08'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No closed programs</h5>
+								<p class='program-empty-copy'>Completed and closed programs will remain available here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='program-report <% if(closedCount == 0) { %>program-report-empty<% } %>' elName='zc-component' viewLinkName='Programs_Closed' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

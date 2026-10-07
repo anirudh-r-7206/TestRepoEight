@@ -1,0 +1,21 @@
+default list All_Capabilities
+{
+
+		    displayName = "All Capabilities"
+		    show all rows from Capabilities
+		    (
+		        Capability_ID
+		        Capability_Name
+		        Description
+		        Status
+		    )
+		    filters
+		    (
+		        Status
+		    )
+		    sort by
+		    (
+		        Capability_Name ascending
+		    )
+		
+}

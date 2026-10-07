@@ -1,0 +1,28 @@
+list Draft_Quotes
+{
+
+		    displayName = "Draft Quotes"
+		    show all rows from Quotes [Status == "Draft"]
+		    (
+		        Quote_Number
+		        Program
+		        Quote_Date
+		        Valid_Until
+		        Estimate_Subtotal
+		        Markup_Percent
+		        Quote_Total
+		        Status
+		        Version_Number
+		    )
+		    filters
+		    (
+		        Program
+		        Quote_Date
+		        Valid_Until
+		    )
+		    sort by
+		    (
+		        Quote_Date descending
+		    )
+		
+}

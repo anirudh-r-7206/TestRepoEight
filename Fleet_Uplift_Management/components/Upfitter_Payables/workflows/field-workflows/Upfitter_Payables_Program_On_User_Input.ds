@@ -1,0 +1,36 @@
+Upfitter_Payables_Program_On_User_Input as "Calculate Upfitter Payable by Program"
+{
+
+			    type = form
+			    form = Upfitter_Payables
+			    record event = on add or edit
+			
+			    on user input of Program
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Program != null && input.Upfitter != null)
+			                {
+			                    upfitterRecord = Upfitters[ID == input.Upfitter];
+			                    if(upfitterRecord.count() > 0)
+			                    {
+			                        input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                        input.Payment_Terms = upfitterRecord.Payment_Terms;
+			                    }
+			                    assignedCount = Vehicles[Program == input.Program && Assigned_Upfitter == input.Upfitter].count();
+			                    input.Completed_Vehicles = Vehicles[Program == input.Program && Assigned_Upfitter == input.Upfitter && QC_Status == "Approved"].count();
+			                    estimateTotal = ifnull(Estimates[Program == input.Program && Upfitter == input.Upfitter && Status == "Approved"].sum(Estimate_Total), 0);
+			                    input.Per_Vehicle_Rate = 0;
+			                    if(assignedCount > 0)
+			                    {
+			                        input.Per_Vehicle_Rate = estimateTotal / assignedCount;
+			                    }
+			                    input.Payable_Amount = input.Per_Vehicle_Rate * input.Completed_Vehicles;
+			                }
+			            )
+			        }
+			    }
+			
+}

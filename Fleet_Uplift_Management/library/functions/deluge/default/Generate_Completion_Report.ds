@@ -1,0 +1,27 @@
+void Generate_Completion_Report(int programId)
+{
+
+			    programRecord = Programs[ID == programId];
+			    if(programRecord.count() > 0)
+			    {
+			        configurationRecord = System_Configuration[ID != 0];
+			        companyName = "Fleet Upfit Management";
+			        primaryColor = "#6147E5";
+			        footerText = "";
+			        if(configurationRecord.count() > 0)
+			        {
+			            companyName = ifnull(configurationRecord.Company_Name, companyName);
+			            primaryColor = ifnull(configurationRecord.Primary_Color, primaryColor);
+			            footerText = ifnull(configurationRecord.Document_Footer, "");
+			        }
+			        vehicleRows = "";
+			        for each vehicleRecord in Vehicles[Program == programId]
+			        {
+			            vehicleRows = vehicleRows + "<tr><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.VIN + "</td><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.Vehicle_Status + "</td><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.QC_Status + "</td><td style='padding:7px;border-bottom:1px solid #ddd'>" + vehicleRecord.QC_Date + "</td></tr>";
+			        }
+			        html = "<html><body style='font-family:Arial,sans-serif;color:#1f2937;padding:32px'><div style='border-top:8px solid " + primaryColor + ";padding-top:22px'><h1 style='color:" + primaryColor + "'>" + companyName + "</h1><h2>Program Completion Report</h2><p><b>Program:</b> " + programRecord.Service_ID + " - " + programRecord.Program_Name + "</p><p><b>Vehicles:</b> " + Vehicles[Program == programId].count() + " &nbsp; <b>QC Approved:</b> " + Vehicles[Program == programId && QC_Status == "Approved"].count() + "</p><table style='width:100%;border-collapse:collapse'><tr><th style='text-align:left'>VIN</th><th style='text-align:left'>Status</th><th style='text-align:left'>QC</th><th style='text-align:left'>QC Date</th></tr>" + vehicleRows + "</table><div style='margin-top:36px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#6b7280'>" + footerText + "</div></div></body></html>";
+			        pdfFile = zoho.file.convertToPDF(html);
+			        programRecord.Completion_Report = pdfFile;
+			    }
+			
+}

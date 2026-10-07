@@ -1,0 +1,23 @@
+void Generate_PO_Acknowledgement(int poId)
+{
+
+			    poRecord = Purchase_Orders[ID == poId];
+			    if(poRecord.count() > 0)
+			    {
+			        programRecord = Programs[ID == poRecord.Program];
+			        configurationRecord = System_Configuration[ID != 0];
+			        companyName = "Fleet Upfit Management";
+			        primaryColor = "#6147E5";
+			        footerText = "";
+			        if(configurationRecord.count() > 0)
+			        {
+			            companyName = ifnull(configurationRecord.Company_Name, companyName);
+			            primaryColor = ifnull(configurationRecord.Primary_Color, primaryColor);
+			            footerText = ifnull(configurationRecord.Document_Footer, "");
+			        }
+			        html = "<html><body style='font-family:Arial,sans-serif;color:#1f2937;padding:32px'><div style='border-top:8px solid " + primaryColor + ";padding-top:22px'><h1 style='color:" + primaryColor + "'>" + companyName + "</h1><h2>Purchase Order Acknowledgement</h2><p>We acknowledge receipt of the following fleet upfit purchase order.</p><table style='width:100%;border-collapse:collapse'><tr><td style='padding:8px'><b>FMC PO Number</b></td><td>" + poRecord.FMC_PO_Number + "</td></tr><tr><td style='padding:8px'><b>Program</b></td><td>" + ifnull(programRecord.Service_ID, "") + " - " + ifnull(programRecord.Program_Name, "") + "</td></tr><tr><td style='padding:8px'><b>PO Date</b></td><td>" + poRecord.PO_Date + "</td></tr><tr><td style='padding:8px'><b>PO Amount</b></td><td>$" + poRecord.PO_Amount + "</td></tr><tr><td style='padding:8px'><b>Status</b></td><td>" + poRecord.Status + "</td></tr></table><div style='margin-top:28px'>" + ifnull(poRecord.Notes, "") + "</div><div style='margin-top:36px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#6b7280'>" + footerText + "</div></div></body></html>";
+			        pdfFile = zoho.file.convertToPDF(html);
+			        poRecord.PO_Acknowledgement_Document = pdfFile;
+			    }
+			
+}

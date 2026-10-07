@@ -1,0 +1,20 @@
+<page linkname = "Upfitter_Network" displayname = "Upfitters"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Upfitters_Directory_DSP' elementName='Upfitters_Directory_DSP'>
+          <![CDATA[htmlpage Upfitters_Directory_DSP()
+content
+			<%{%>
+            <file name:Upfitters_Directory_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,25 @@
+void Generate_Closeout_Document(int programId)
+{
+
+			    programRecord = Programs[ID == programId];
+			    if(programRecord.count() > 0)
+			    {
+			        configurationRecord = System_Configuration[ID != 0];
+			        companyName = "Fleet Upfit Management";
+			        primaryColor = "#6147E5";
+			        footerText = "";
+			        if(configurationRecord.count() > 0)
+			        {
+			            companyName = ifnull(configurationRecord.Company_Name, companyName);
+			            primaryColor = ifnull(configurationRecord.Primary_Color, primaryColor);
+			            footerText = ifnull(configurationRecord.Document_Footer, "");
+			        }
+			        approvedQuoteVersion = Quotes[Program == programId && Status == "Approved"].maximum(Version_Number);
+			        approvedQuote = Quotes[Program == programId && Status == "Approved" && Version_Number == approvedQuoteVersion];
+			        invoiceRecord = Client_Invoices[Program == programId];
+			        html = "<html><body style='font-family:Arial,sans-serif;color:#1f2937;padding:32px'><div style='border-top:8px solid " + primaryColor + ";padding-top:22px'><h1 style='color:" + primaryColor + "'>" + companyName + "</h1><h2>Program Closeout</h2><p><b>Program:</b> " + programRecord.Service_ID + " - " + programRecord.Program_Name + "</p><p><b>Closed:</b> " + zoho.currentdate + "</p><h3 style='color:" + primaryColor + "'>Summary</h3><p>All " + Vehicles[Program == programId].count() + " vehicles completed final quality control approval.</p><p><b>Approved quote:</b> " + ifnull(approvedQuote.Quote_Number, "") + " &nbsp; <b>Amount:</b> $" + ifnull(approvedQuote.Quote_Total, 0) + "</p><p><b>Client invoice:</b> " + ifnull(invoiceRecord.Invoice_Number, "Pending") + " &nbsp; <b>Terms:</b> Net 45</p><div style='margin-top:36px;padding-top:12px;border-top:1px solid #ddd;font-size:11px;color:#6b7280'>" + footerText + "</div></div></body></html>";
+			        pdfFile = zoho.file.convertToPDF(html);
+			        programRecord.Closeout_Document = pdfFile;
+			    }
+			
+}

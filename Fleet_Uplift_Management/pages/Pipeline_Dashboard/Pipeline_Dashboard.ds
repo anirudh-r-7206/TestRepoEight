@@ -1,0 +1,20 @@
+<page linkname = "Pipeline_Dashboard" displayname = "Pipeline Dashboard"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Pipeline_Dashboard_View_DSP' elementName='Pipeline_Dashboard_View_DSP'>
+          <![CDATA[htmlpage Pipeline_Dashboard_View_DSP()
+content
+			<%{%>
+            <file name:Pipeline_Dashboard_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

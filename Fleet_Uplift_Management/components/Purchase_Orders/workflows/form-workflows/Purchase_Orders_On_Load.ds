@@ -1,0 +1,20 @@
+Purchase_Orders_On_Load as "Prepare Purchase Order Form"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Client_Portal_User, Green_Light_Date, PO_Acknowledgement_Document;
+			            )
+			        }
+			    }
+			
+}

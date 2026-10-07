@@ -1,0 +1,19 @@
+Upfitter_Payables_On_Add_Success as "Create Upfitter Payable"
+{
+
+			    type = form
+			    form = Upfitter_Payables
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Upfitter_Payables", input.ID, input.Program, "Created", "", input.Payment_Status, "Payable calculated from " + input.Completed_Vehicles + " QC-approved vehicles.");
+			            )
+			        }
+			    }
+			
+}

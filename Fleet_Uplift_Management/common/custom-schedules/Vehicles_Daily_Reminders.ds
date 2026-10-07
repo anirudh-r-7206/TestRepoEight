@@ -1,0 +1,59 @@
+Vehicles_Daily_Reminders as "Vehicle Arrival and Delay Reminders"
+{
+
+			    type = schedule
+			    start = "2025-01-01 08:00:00"
+			    frequency = daily
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                for each vehicleRecord in Vehicles[Arrival_Date != null && Vehicle_Status != "Completed" && Vehicle_Status != "Picked Up"]
+			                {
+			                    if(vehicleRecord.Arrival_Date == zoho.currentdate.addDay(1) && vehicleRecord.Assigned_Upfitter != null)
+			                    {
+			                        upfitterRecord = Upfitters[ID == vehicleRecord.Assigned_Upfitter];
+			                        programRecord = Programs[ID == vehicleRecord.Program];
+			                        if(upfitterRecord.count() > 0 && programRecord.count() > 0)
+			                        {
+			                            templateData = Map();
+			                            templateData.put("service_id", programRecord.Service_ID);
+			                            templateData.put("vin", vehicleRecord.VIN);
+			                            templateData.put("arrival_date", vehicleRecord.Arrival_Date);
+			                            templateData.put("dropoff_location", vehicleRecord.Dropoff_Location);
+			                            reminderKey = "VEHICLE_ARRIVAL_REMINDER-" + vehicleRecord.ID + "-" + vehicleRecord.Arrival_Date;
+			                            thisapp.Send_Template_Email("VEHICLE_ARRIVAL_REMINDER", upfitterRecord.Contact_Email, templateData, reminderKey);
+			                        }
+			                    }
+			                    if(vehicleRecord.Arrival_Date < zoho.currentdate.addDay(-3))
+			                    {
+			                        openDelayIssue = Issues[Program == vehicleRecord.Program && Vehicle == vehicleRecord.ID && Issue_Type == "Schedule Delay" && (Status == "Open" || Status == "In Progress")];
+			                        if(openDelayIssue.count() == 0)
+			                        {
+			                            insertedIssue = insert into Issues
+			                            [
+			                                Program = vehicleRecord.Program
+			                                Vehicle = vehicleRecord.ID
+			                                Issue_Type = "Schedule Delay"
+			                                Priority = "High"
+			                                Status = "Open"
+			                                Description = "VIN " + vehicleRecord.VIN + " is more than three days past its planned arrival date."
+			                            ];
+			                        }
+			                        templateData = Map();
+			                        templateData.put("vin", vehicleRecord.VIN);
+			                        templateData.put("arrival_date", vehicleRecord.Arrival_Date);
+			                        templateData.put("vehicle_status", vehicleRecord.Vehicle_Status);
+			                        overdueKey = "VEHICLE_OVERDUE_INTERNAL-" + vehicleRecord.ID + "-" + zoho.currentdate.toString("yyyyMMdd") + "-" + zoho.adminuserid;
+			                        thisapp.Send_Template_Email("VEHICLE_OVERDUE_INTERNAL", zoho.adminuserid, templateData, overdueKey);
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

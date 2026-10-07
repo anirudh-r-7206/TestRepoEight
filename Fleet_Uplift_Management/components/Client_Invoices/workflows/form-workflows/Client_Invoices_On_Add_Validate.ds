@@ -1,0 +1,40 @@
+Client_Invoices_On_Add_Validate as "Validate New Client Invoice"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                latestVersion = Quotes[Program == input.Program && Status == "Approved"].maximum(Version_Number);
+			                approvedQuote = Quotes[Program == input.Program && Status == "Approved" && Version_Number == latestVersion];
+			                if(approvedQuote.count() == 0)
+			                {
+			                    alert(Program, "An approved quote is required before creating a client invoice.");
+			                    cancel submit;
+			                }
+			                input.Invoice_Date = zoho.currentdate;
+			                input.Due_Date = input.Invoice_Date.addDay(45);
+			                input.Invoice_Amount = approvedQuote.Quote_Total;
+			                input.Payment_Terms = "Net 45";
+			                input.Payment_Status = "Unpaid";
+			                input.Payment_Date = null;
+			                if(input.Invoice_Number == null || input.Invoice_Number == "")
+			                {
+			                    input.Invoice_Number = "PENDING-" + zoho.currenttime.toLong();
+			                }
+			            )
+			        }
+			    }
+			
+}

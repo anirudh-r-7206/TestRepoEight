@@ -1,0 +1,34 @@
+Client_Invoices_Program_On_User_Input as "Calculate Client Invoice"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on add or edit
+			
+			    on user input of Program
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Program != null)
+			                {
+			                    programRecord = Programs[ID == input.Program];
+			                    if(programRecord.count() > 0)
+			                    {
+			                        input.Client_Portal_User = programRecord.Client_Portal_User;
+			                    }
+			                    latestVersion = Quotes[Program == input.Program && Status == "Approved"].maximum(Version_Number);
+			                    approvedQuote = Quotes[Program == input.Program && Status == "Approved" && Version_Number == latestVersion];
+			                    if(approvedQuote.count() > 0)
+			                    {
+			                        input.Invoice_Amount = approvedQuote.Quote_Total;
+			                    }
+			                    input.Invoice_Date = zoho.currentdate;
+			                    input.Due_Date = zoho.currentdate.addDay(45);
+			                }
+			            )
+			        }
+			    }
+			
+}

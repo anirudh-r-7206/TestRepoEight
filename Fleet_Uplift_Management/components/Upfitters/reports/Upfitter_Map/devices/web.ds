@@ -1,0 +1,7 @@
+report Upfitter_Map
+{
+
+		 quickview ( layout ( type = 1 datablock1 ( layout type = -1 fields ( Upfitter_Name Upfitter_Type Status Address Service_Radius_Miles ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Upfitter_Name Upfitter_Type Status Address Service_Radius_Miles Capabilities Contact_Email Contact_Phone ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

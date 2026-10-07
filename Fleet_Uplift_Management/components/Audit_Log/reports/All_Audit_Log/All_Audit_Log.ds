@@ -1,0 +1,33 @@
+default list All_Audit_Log
+{
+
+		    displayName = "All Audit Log"
+		    show all rows from Audit_Log
+		    (
+		        Audit_ID
+		        Event_Date
+		        User_Email
+		        User_Profile
+		        Module_Name
+		        Record_ID
+		        Program
+		        Action
+		        Before_Value
+		        After_Value
+		        Details
+		    )
+		    filters
+		    (
+		        Event_Date
+		        User_Email
+		        User_Profile
+		        Module_Name
+		        Program
+		        Action
+		    )
+		    sort by
+		    (
+		        Event_Date descending
+		    )
+		
+}

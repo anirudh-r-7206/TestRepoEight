@@ -1,0 +1,20 @@
+Upfitter_Payables_On_Load as "Prepare Upfitter Payable Form"
+{
+
+			    type = form
+			    form = Upfitter_Payables
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Upfitter_Portal_User, Completed_Vehicles, Per_Vehicle_Rate, Payable_Amount, Payment_Terms;
+			            )
+			        }
+			    }
+			
+}

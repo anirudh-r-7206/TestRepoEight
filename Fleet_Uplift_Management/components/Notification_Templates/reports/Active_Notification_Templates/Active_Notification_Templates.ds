@@ -1,0 +1,24 @@
+list Active_Notification_Templates
+{
+
+		    displayName = "Active Notification Templates"
+		    show all rows from Notification_Templates [Status == "Active"]
+		    (
+		        Template_ID
+		        Template_Code
+		        Template_Name
+		        Audience
+		        Subject
+		        Status
+		        Notes
+		    )
+		    filters
+		    (
+		        Audience
+		    )
+		    sort by
+		    (
+		        Template_Name ascending
+		    )
+		
+}

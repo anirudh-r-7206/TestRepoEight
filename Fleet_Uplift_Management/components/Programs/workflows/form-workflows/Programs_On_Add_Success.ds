@@ -1,0 +1,55 @@
+Programs_On_Add_Success as "Initialize New Program"
+{
+
+			    type = form
+			    form = Programs
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                sequenceText = input.Program_Sequence.toString();
+			                paddedSequence = ("0000" + sequenceText).right(4);
+			                generatedServiceID = "FMC-" + zoho.currentdate.toString("yyyyMM") + "-" + paddedSequence;
+			                clientRecord = FMC_Clients[ID == input.FMC_Client];
+			                currentMarkup = Markup_Configurations[Status == "Active" && Effective_From <= zoho.currentdate && (Effective_To == null || Effective_To >= zoho.currentdate)];
+			                if(clientRecord.count() > 0 && currentMarkup.count() > 0)
+			                {
+			                    update Programs[ID == input.ID]
+			                    [
+			                        Service_ID = generatedServiceID
+			                        Client_Portal_User = clientRecord.Portal_User
+			                        Client_Contact = clientRecord.Contact_Email
+			                        Region_Market = clientRecord.Region_Market
+			                        Markup_Percent = currentMarkup.Markup_Percent
+			                        Program_Status = "Request Intake"
+			                    ];
+			                }
+			                else if(clientRecord.count() > 0)
+			                {
+			                    update Programs[ID == input.ID]
+			                    [
+			                        Service_ID = generatedServiceID
+			                        Client_Portal_User = clientRecord.Portal_User
+			                        Client_Contact = clientRecord.Contact_Email
+			                        Region_Market = clientRecord.Region_Market
+			                        Program_Status = "Request Intake"
+			                    ];
+			                }
+			                else
+			                {
+			                    update Programs[ID == input.ID]
+			                    [
+			                        Service_ID = generatedServiceID
+			                        Program_Status = "Request Intake"
+			                    ];
+			                }
+			                thisapp.Create_Audit_Log("Programs", input.ID, input.ID, "Created", "", generatedServiceID, "Program created: " + input.Program_Name);
+			            )
+			        }
+			    }
+			
+}

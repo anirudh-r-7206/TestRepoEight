@@ -1,0 +1,23 @@
+float Calculate_Distance_Miles(float lat1, float lon1, float lat2, float lon2)
+{
+
+			    distanceMiles = 0.0;
+			    if(lat1 != null && lon1 != null && lat2 != null && lon2 != null)
+			    {
+			        lat1Radians = lat1.radians();
+			        lat2Radians = lat2.radians();
+			        deltaLat = (lat2 - lat1).radians();
+			        deltaLon = (lon2 - lon1).radians();
+			        halfLatSin = (deltaLat / 2).sin();
+			        halfLonSin = (deltaLon / 2).sin();
+			        haversineValue = (halfLatSin * halfLatSin) + (lat1Radians.cos() * lat2Radians.cos() * halfLonSin * halfLonSin);
+			        if(haversineValue > 1)
+			        {
+			            haversineValue = 1;
+			        }
+			        centralAngle = 2 * haversineValue.sqrt().atan2((1 - haversineValue).sqrt());
+			        distanceMiles = 3958.7613 * centralAngle;
+			    }
+			    return distanceMiles;
+			
+}

@@ -1,0 +1,7 @@
+report Vehicles_Picked_Up
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Program VIN Make Model Assigned_Upfitter Vehicle_Status QC_Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Program VIN Year Make Model Pickup_Date Assigned_Upfitter Vehicle_Status QC_Status QC_Date Billing_Eligible ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

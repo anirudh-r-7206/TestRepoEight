@@ -1,0 +1,70 @@
+Vehicles_On_Validate as "Validate Vehicle Progress"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                if(input.Assigned_Upfitter != null)
+			                {
+			                    upfitterRecord = Upfitters[ID == input.Assigned_Upfitter];
+			                    if(upfitterRecord.count() > 0)
+			                    {
+			                        input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                    }
+			                    input.Manual_Override = input.Suggested_Upfitter == null || input.Assigned_Upfitter != input.Suggested_Upfitter;
+			                }
+			                else
+			                {
+			                    input.Upfitter_Portal_User = null;
+			                    input.Manual_Override = false;
+			                }
+			                if(input.Vehicle_Status == "Completed" && input.Completion_Photos == null)
+			                {
+			                    alert(Completion_Photos, "At least one completion photo is required before a vehicle can be completed.");
+			                    cancel submit;
+			                }
+			                if(input.Vehicle_Status == "Picked Up" && input.QC_Status != "Approved")
+			                {
+			                    alert(Vehicle_Status, "QC must be approved before a vehicle can be marked Picked Up.");
+			                    cancel submit;
+			                }
+			                if(input.QC_Status == "Rejected" && ifnull(input.QC_Notes, "") == "")
+			                {
+			                    alert(QC_Notes, "QC notes are required when QC is rejected.");
+			                    cancel submit;
+			                }
+			                if(input.ID != null && input.QC_Status != null)
+			                {
+			                    if(input.QC_Status == "Approved")
+			                    {
+			                        input.QC_Date = zoho.currenttime;
+			                        input.Billing_Eligible = true;
+			                    }
+			                    else if(input.QC_Status == "Rejected")
+			                    {
+			                        input.QC_Date = zoho.currenttime;
+			                        input.Billing_Eligible = false;
+			                    }
+			                    else
+			                    {
+			                        input.QC_Date = null;
+			                        input.Billing_Eligible = false;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

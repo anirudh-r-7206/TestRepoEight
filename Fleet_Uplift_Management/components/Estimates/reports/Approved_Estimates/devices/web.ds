@@ -1,0 +1,7 @@
+report Approved_Estimates
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Estimate_ID Program Upfitter Estimate_Total Response_Date ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Estimate_ID Program Upfitter Vehicles_In_Scope Parts_Total Labor_Total Estimate_Total Response_Date ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

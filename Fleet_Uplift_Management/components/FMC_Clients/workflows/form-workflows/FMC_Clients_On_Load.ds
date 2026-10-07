@@ -1,0 +1,16 @@
+FMC_Clients_On_Load as "FMC Clients On Load"
+{
+
+			    type = form
+			    form = FMC_Clients
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}

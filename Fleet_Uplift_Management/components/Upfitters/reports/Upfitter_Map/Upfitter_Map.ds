@@ -1,0 +1,26 @@
+map Upfitter_Map
+{
+
+		    displayName = "Upfitter Map"
+		    show all rows from Upfitters [Status == "Active"]
+		    (
+		        Upfitter_Name
+		        Upfitter_Type
+		        Status
+		        Address
+		        Service_Radius_Miles
+		        Capabilities
+		        Contact_Email
+		        Contact_Phone
+		    )
+		    filters
+		    (
+		        Upfitter_Type
+		        Capabilities
+		    )
+		    options
+		    (
+		        display field = Address
+		    )
+		
+}

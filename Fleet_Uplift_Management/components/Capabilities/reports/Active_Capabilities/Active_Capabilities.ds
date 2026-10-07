@@ -1,0 +1,17 @@
+list Active_Capabilities
+{
+
+		    displayName = "Active Capabilities"
+		    show all rows from Capabilities [Status == "Active"]
+		    (
+		        Capability_ID
+		        Capability_Name
+		        Description
+		        Status
+		    )
+		    sort by
+		    (
+		        Capability_Name ascending
+		    )
+		
+}

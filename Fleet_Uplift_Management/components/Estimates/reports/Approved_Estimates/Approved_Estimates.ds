@@ -1,0 +1,27 @@
+list Approved_Estimates
+{
+
+		    displayName = "Approved Estimates"
+		    show all rows from Estimates [Status == "Approved"]
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Parts_Total
+		        Labor_Total
+		        Estimate_Total
+		        Response_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Response_Date
+		    )
+		    sort by
+		    (
+		        Response_Date descending
+		    )
+		
+}

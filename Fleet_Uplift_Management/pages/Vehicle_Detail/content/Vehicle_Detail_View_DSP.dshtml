@@ -1,0 +1,219 @@
+<%
+vehicleId = input.Vehicle_ID;
+vehicleRecord = Vehicles[ID == vehicleId];
+if(vehicleRecord.count() == 0)
+{
+%>
+<style>
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-page-bg-color:#F3F3F4;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-teritiary-text-color:var(--zcs_tertiary_text_color);--zcs-white-color:#fff;font-size:16px}.zcs-flex{display:flex}.zcs-direction-column{flex-direction:column}.zcs-align-items-center{align-items:center}.zcs-justify-center{justify-content:center}.zcs-gap-12{gap:.75rem}.zcs-p-24{padding:1.5rem}.zcs-m-0{margin:0}.zcs-font-14{font-size:.875rem}.zcs-font-18{font-size:1.125rem}.zcs-font-medium{font-weight:500}.zcs-color-primary{color:var(--zcs-primary-text-color)}.zcs-color-tertiary{color:var(--zcs-teritiary-text-color)}.zcs-box-border{box-sizing:border-box}.zcs-card{background:var(--zcs-white-color);border:1px solid #e7e7ee;border-radius:12px}.vehicle-empty{min-height:280px;background:var(--zcs-page-bg-color);padding:15px}
+</style>
+<div class='vehicle-empty zcs-flex zcs-align-items-center zcs-justify-center zcs-box-border'>
+	<div class='zcs-card zcs-flex zcs-direction-column zcs-align-items-center zcs-gap-12 zcs-p-24 zcs-box-border'>
+		<i class='zc-li-outline ui-1-search-zoom-out zcs-font-18 zcs-color-tertiary'></i>
+		<h2 class='zcs-font-18 zcs-font-medium zcs-color-primary zcs-m-0'>Vehicle not available</h2>
+		<p class='zcs-font-14 zcs-color-tertiary zcs-m-0'>The VIN does not exist or is not accessible to the current user.</p>
+	</div>
+</div>
+<%
+}
+else
+{
+		statusValue = ifnull(vehicleRecord.Vehicle_Status,"Scheduled");
+		qcValue = ifnull(vehicleRecord.QC_Status,"Pending");
+		statusSteps = {"Scheduled","Parts Ordered","Arrived","In Progress","Completed","Picked Up"};
+		currentStep = statusSteps.indexOf(statusValue);
+		statusClass = "zcs-badge-theme";
+		if(statusValue == "Completed" || statusValue == "Picked Up")
+		{
+				statusClass = "zcs-badge-green";
+		}
+		else if(statusValue == "In Progress" || statusValue == "Arrived")
+		{
+				statusClass = "zcs-badge-blue";
+		}
+		else if(statusValue == "Parts Ordered")
+		{
+				statusClass = "zcs-badge-orange";
+		}
+		qcClass = "zcs-badge-yellow";
+		if(qcValue == "Approved")
+		{
+				qcClass = "zcs-badge-green";
+		}
+		else if(qcValue == "Rejected")
+		{
+				qcClass = "zcs-badge-red";
+		}
+
+		isAdmin = thisapp.permissions.isUserInProfile("Internal_Admin");
+		isOperations = thisapp.permissions.isUserInProfile("Internal_Operations");
+		isInternal = isAdmin || isOperations;
+		isAssignedUpfitter = false;
+		currentProfile = thisapp.permissions.loginUserProfile();
+		if(currentProfile == "Member_Upfitter" || currentProfile == "Contracted_Upfitter")
+		{
+				isAssignedUpfitter = true;
+		}
+		canProgress = statusValue != "Picked Up" && (isInternal || isAssignedUpfitter);
+		canUpload = statusValue != "Picked Up" && (isInternal || isAssignedUpfitter);
+		canApprove = isAdmin && statusValue == "Completed" && qcValue != "Approved";
+		canReject = isAdmin && statusValue == "Completed" && qcValue != "Rejected";
+		canAssign = isInternal && statusValue != "Picked Up";
+
+		pageReturn = "%23Page%3AVehicle_Detail%3FVehicle_ID%3D" + vehicleId;
+		commonDialog = "&zc_LoadIn=dialog&zc_Header=false&zc_OpenUrlIn=same%20window&zc_NextUrl=" + pageReturn;
+		editBase = "#Form:Vehicles?recLinkID=" + vehicleId + "&viewLinkName=All_Vehicles";
+		statusUrl = editBase + "&Vehicle_Action=Update_Status" + commonDialog + "&zc_SuccMsg=Vehicle%20status%20updated";
+		photoUrl = editBase + "&Vehicle_Action=Upload_Photos" + commonDialog + "&zc_SuccMsg=Completion%20photos%20uploaded";
+		assignmentUrl = editBase + "&Vehicle_Action=Edit_Assignment" + commonDialog + "&zc_SuccMsg=Vehicle%20assignment%20updated";
+		approveUrl = editBase + "&Vehicle_Action=Approve_QC&QC_Status=Approved" + commonDialog + "&zc_SuccMsg=QC%20approved";
+		rejectUrl = editBase + "&Vehicle_Action=Reject_QC&QC_Status=Rejected" + commonDialog + "&zc_SuccMsg=QC%20rejected";
+
+		assignedShop = "Not assigned";
+		if(vehicleRecord.Assigned_Upfitter != null)
+		{
+				assignedShop = ifnull(vehicleRecord.Assigned_Upfitter.Upfitter_Name,"Not assigned");
+		}
+		programLabel = "";
+		if(vehicleRecord.Program != null)
+		{
+				programLabel = ifnull(vehicleRecord.Program.Service_ID,"");
+		}
+		vehicleLabel = (ifnull(vehicleRecord.Year,"") + " " + ifnull(vehicleRecord.Make,"") + " " + ifnull(vehicleRecord.Model,"")).trim();
+		scopeEstimates = Estimates[Vehicles_In_Scope.contains(vehicleId)];
+		partLineCount = 0;
+		laborLineCount = 0;
+		for each estimateRecord in scopeEstimates
+		{
+				partLineCount = partLineCount + Estimate_Parts_Lines[Estimate == estimateRecord.ID].count();
+				laborLineCount = laborLineCount + Estimate_Labor_Lines[Estimate == estimateRecord.ID].count();
+		}
+%>
+<style>
+/* ZCS global utility sheet, scoped subset used by this page */
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-light-bg-color:var(--zcs_brand_light_color);--zcs-page-bg-color:#F3F3F4;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-teritiary-text-color:var(--zcs_tertiary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-white-color:#fff;--zcs-thead-color:#F9FAFE;--zcs-tr-h-color:#F9FAFE;font-size:16px;line-height:1.5;--column-gap:0px}.zcs-row{display:flex;flex-wrap:wrap}.zcs-flex{display:flex}.zcs-inline-flex{display:inline-flex}.zcs-direction-column{flex-direction:column}.zcs-row-wrap{flex-wrap:wrap}.zcs-col-common{flex:1 1 0}.zcs-col-3{flex:0 0 25%;max-width:25%}.zcs-col-4{flex:0 0 33.333%;max-width:33.333%}.zcs-col-6{flex:0 0 50%;max-width:50%}.zcs-col-12{flex:0 0 100%;max-width:100%}.zcs-align-items-center{align-items:center}.zcs-align-items-start{align-items:flex-start}.zcs-justify-center{justify-content:center}.zcs-justify-space-between{justify-content:space-between}.zcs-gap-4{gap:.25rem}.zcs-gap-8{gap:.5rem}.zcs-gap-10{gap:.625rem}.zcs-gap-12{gap:.75rem}.zcs-gap-15{gap:.9375rem}.zcs-gap-16{gap:1rem}.zcs-gap-20{gap:1.25rem}.zcs-p-0{padding:0}.zcs-p-2{padding:.125rem}.zcs-p-8{padding:.5rem}.zcs-p-12{padding:.75rem}.zcs-p-15{padding:.9375rem}.zcs-p-16{padding:1rem}.zcs-p-20{padding:1.25rem}.zcs-p-24{padding:1.5rem}.zcs-px-10{padding-left:.625rem;padding-right:.625rem}.zcs-px-12{padding-left:.75rem;padding-right:.75rem}.zcs-px-15{padding-left:.9375rem;padding-right:.9375rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-px-20{padding-left:1.25rem;padding-right:1.25rem}.zcs-px-30{padding-left:1.875rem;padding-right:1.875rem}.zcs-py-2{padding-top:.125rem;padding-bottom:.125rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-py-10{padding-top:.625rem;padding-bottom:.625rem}.zcs-py-12{padding-top:.75rem;padding-bottom:.75rem}.zcs-py-16{padding-top:1rem;padding-bottom:1rem}.zcs-py-20{padding-top:1.25rem;padding-bottom:1.25rem}.zcs-m-0{margin:0}.zcs-mt-4{margin-top:.25rem}.zcs-mt-8{margin-top:.5rem}.zcs-mt-12{margin-top:.75rem}.zcs-mb-0{margin-bottom:0}.zcs-w-full{width:100%}.zcs-wh-full{width:100%;height:100%}.zcs-font-12{font-size:.75rem}.zcs-font-13{font-size:.8125rem}.zcs-font-14{font-size:.875rem}.zcs-font-16{font-size:1rem}.zcs-font-18{font-size:1.125rem}.zcs-font-22{font-size:1.375rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-font-semibold{font-weight:600}.zcs-font-bold{font-weight:700}.zcs-lh-body{line-height:1.5}.zcs-lh-heading{line-height:1.25}.zcs-color-primary{color:var(--zcs-primary-text-color)}.zcs-color-secondary{color:var(--zcs-secondary-text-color)}.zcs-color-tertiary{color:var(--zcs-teritiary-text-color)}.zcs-color-theme{color:var(--zcs-theme-brand-color)}.zcs-color-white{color:#fff}.zcs-box-border{box-sizing:border-box}.zcs-rounded-sm{border-radius:.25rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-lg{border-radius:.5rem}.zcs-rounded-xl{border-radius:.75rem}.zcs-rounded-half{border-radius:50%}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-text-center{text-align:center}.zcs-relative{position:relative}.zcs-sticky{position:sticky}.zcs-overflow-auto{overflow:auto}.zcs-card{background:var(--zcs-white-color);border:1px solid #e7e7ee;border-radius:12px}a{text-decoration:none}
+/* ZCS header and buttons */
+.zcs-button{width:auto;min-width:5rem;min-height:36px}.zcs-primary-button{background:var(--zcs_brand_color);color:var(--zcs_brand_foreground_color)}.zcs-primary-outline-button{border:1px solid var(--zcs_brand_color);background:var(--zcs-white-color);color:var(--zcs_brand_color)}.zcs-primary-button:hover{background:var(--zcs_brand_dark_color)}.zcs-primary-outline-button:hover{background:var(--zcs_component_hover_color)}.zcs-button:focus{outline:2px solid var(--zcs_brand_color);outline-offset:2px}.zcs-button-icon{width:16px;max-height:16px}.zcs-back:hover{color:var(--zcs_primary_text_color)}
+/* ZCS filled outlined badges */
+.zcs-badge{width:auto;white-space:nowrap}.zcs-badge-filled-outline{border:1px solid}.zcs-badge-filled-outline.zcs-badge-theme{background:var(--zcs_component_hover_color);border-color:var(--zcs_brand_color);color:var(--zcs_brand_color)}.zcs-badge-filled-outline.zcs-badge-green{background:#E4FCF3;border-color:#179E6C;color:#179E6C}.zcs-badge-filled-outline.zcs-badge-red{background:#FDE3E6;border-color:#FE455D;color:#FE455D}.zcs-badge-filled-outline.zcs-badge-yellow{background:#FCF4E6;border-color:#FAAE13;color:#9A6500}.zcs-badge-filled-outline.zcs-badge-blue{background:#E8EFFF;border-color:#2A6FFC;color:#2A6FFC}.zcs-badge-filled-outline.zcs-badge-orange{background:#F8F0EB;border-color:#F4660C;color:#C54D05}
+/* ZCS stepper */
+.zcs-stepper-status{width:32px;height:32px;background:var(--zcs_brand_color);border:4px solid var(--zcs-white-color)}.zcs-stepper-count{border:1px solid var(--zcs_tertiary_border_color);display:none}.zcs-stepper-icon.zcs-stepper-failed{display:none}.zcs-stepper:not(:last-child):before{content:'';width:100%;height:1px;border-top:1px solid var(--zcs_brand_color);box-sizing:border-box;position:absolute;top:15px;left:50%}.zcs-stepper-active .zcs-stepper-status{border:1px solid var(--zcs_brand_color);outline:4px solid var(--zcs-white-color);background:var(--zcs-white-color)}.zcs-stepper-active .zcs-stepper-count{display:flex;border-width:0;color:var(--zcs_brand_color)}.zcs-stepper-active .zcs-stepper-icon{display:none}.zcs-stepper-active .zcs-stepper-text{font-weight:500;color:var(--zcs_brand_color)}.zcs-stepper.zcs-stepper-active:before,.zcs-stepper.zcs-stepper-active~.zcs-stepper:before{border-color:var(--zcs_tertiary_border_color)}.zcs-stepper-active~.zcs-stepper .zcs-stepper-status{background:var(--zcs-white-color)}.zcs-stepper-active~.zcs-stepper .zcs-stepper-count{display:flex}.zcs-stepper-active~.zcs-stepper .zcs-stepper-icon{display:none}.zcs-stepper-active~.zcs-stepper .zcs-stepper-text{color:var(--zcs_tertiary_text_color)}
+/* ZCS simple table */
+.zcs-table-wrapper{border:1px solid var(--zcs_tertiary_border_color);background:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse}.zcs-table-wrapper table thead{top:0}.zcs-table-wrapper table thead tr th{background:var(--zcs-thead-color);box-shadow:0 -1px 0 var(--zcs_tertiary_border_color) inset;white-space:nowrap}.zcs-table-wrapper table tbody tr td{border-top:1px solid var(--zcs_tertiary_border_color)}.zcs-table-wrapper table tbody tr:first-child td{border-color:transparent}.zcs-table-wrapper table tbody tr:hover td{background:var(--zcs-tr-h-color)}
+/* Vehicle detail adaptation */
+.vehicle-page{min-height:100%;background:var(--zcs-page-bg-color);font-size:14px}.vehicle-header{background:var(--zcs-white-color);border-bottom:1px solid var(--zcs-border-color);position:sticky;top:0;z-index:5}.vehicle-title{min-width:0}.vehicle-actions{justify-content:flex-end}.vehicle-content{padding:15px}.vehicle-summary{background:var(--zcs-white-color)}.vehicle-details-grid{background:#F9FAFE}.vehicle-detail-item{min-width:0}.vehicle-detail-value{overflow-wrap:anywhere}.vehicle-layout{align-items:flex-start}.vehicle-main{flex:1 1 670px;min-width:0}.vehicle-side{flex:1 1 320px;min-width:280px;max-width:430px}.vehicle-section-heading{border-bottom:1px solid var(--zcs-border-color)}.vehicle-upfits{list-style:none}.vehicle-upfit{border:1px solid var(--zcs-border-color);background:#F9FAFE}.vehicle-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.vehicle-photo{display:block;min-height:150px;background:#F9FAFE;overflow:hidden}.vehicle-photo img{width:100%;height:170px;object-fit:cover;display:block}.vehicle-empty-gallery{min-height:140px;background:#F9FAFE}.vehicle-qc-panel{border-left:3px solid var(--zcs_brand_color);background:var(--zcs_component_hover_color)}.vehicle-note{border-left:3px solid var(--zcs_brand_color);background:#F9FAFE}.scope-subtitle{letter-spacing:.06em;text-transform:uppercase}.scope-empty{min-height:90px}.vehicle-program-link:hover{text-decoration:underline}
+@media(max-width:992px){.zcs-col-md-6{flex:0 0 50%;max-width:50%}.vehicle-header{position:static}.vehicle-side{max-width:none;flex-basis:100%}}
+@media(max-width:768px){.zcs-col-sm-12{flex:0 0 100%;max-width:100%}.vehicle-header{padding:14px 15px;align-items:flex-start;flex-direction:column}.vehicle-actions{width:100%;justify-content:flex-start;overflow-x:auto}.vehicle-content{padding:12px}.vehicle-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.vehicle-photo img{height:145px}.vehicle-side{min-width:0}}
+@media(max-width:575px){.zcs-col-xs-12{flex:0 0 100%;max-width:100%}.vehicle-actions{display:grid;grid-template-columns:1fr 1fr}.vehicle-actions .zcs-button{min-width:0;width:100%}.vehicle-gallery{grid-template-columns:1fr}.vehicle-photo img{height:220px}.zcs-stepper-wrapper ul{flex-direction:column;gap:24px}.zcs-stepper-wrapper ul .zcs-stepper{flex-direction:row;gap:16px}.zcs-stepper:not(:last-child):before{width:1px;height:100%;border-left:1px solid var(--zcs_brand_color);border-top:0;left:15px}.vehicle-summary{padding:18px}.vehicle-section{padding:16px}}
+</style>
+<div class='vehicle-page zcs-wh-full zcs-flex zcs-direction-column'>
+	<header class='vehicle-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-16 zcs-px-30 zcs-py-16 zcs-box-border'>
+		<div class='vehicle-title zcs-flex zcs-direction-column zcs-gap-4'>
+			<div class='zcs-flex zcs-align-items-center zcs-gap-8'>
+				<a href='#Page:Program_Detail?Program_ID=<%=vehicleRecord.Program.ID%>' class='zcs-back zcs-color-tertiary' aria-label='Back to program'><i class='zc-li-outline arrows-1-tail-left zcs-font-18'></i></a>
+				<span class='zcs-font-12 zcs-font-semibold zcs-color-tertiary'>VEHICLE DETAIL</span>
+			</div>
+			<div class='zcs-flex zcs-align-items-center zcs-row-wrap zcs-gap-10'>
+				<h1 class='zcs-font-22 zcs-font-semibold zcs-lh-heading zcs-color-primary zcs-m-0'><%=ifnull(vehicleRecord.VIN,"")%></h1>
+				<span class='zcs-badge zcs-badge-filled-outline zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=statusClass%>'><%=statusValue%></span>
+			</div>
+			<p class='zcs-font-14 zcs-color-tertiary zcs-m-0'><%=if(vehicleLabel == "","Vehicle details",vehicleLabel)%><% if(programLabel != "") { %> · <a class='vehicle-program-link zcs-color-theme' href='#Page:Program_Detail?Program_ID=<%=vehicleRecord.Program.ID%>'><%=programLabel%></a><% } %></p>
+		</div>
+		<div class='vehicle-actions zcs-flex zcs-align-items-center zcs-row-wrap zcs-gap-8'>
+			<% if(canProgress) { %><a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=statusUrl%>'><i class='zcs-button-icon zc-li-outline arrows-1-refresh-69'></i><span>Update Status</span></a><% } %>
+			<% if(canUpload) { %><a class='zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=photoUrl%>'><i class='zcs-button-icon zc-li-outline images-image'></i><span>Upload Photos</span></a><% } %>
+			<% if(canAssign) { %><a class='zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=assignmentUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-edit-72'></i><span>Edit Assignment</span></a><% } %>
+			<% if(canApprove) { %><a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=approveUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-check-circle-08'></i><span>Approve QC</span></a><% } %>
+			<% if(canReject) { %><a class='zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=rejectUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-circle-remove'></i><span>Reject QC</span></a><% } %>
+		</div>
+	</header>
+
+	<div class='vehicle-content zcs-flex zcs-direction-column zcs-gap-15 zcs-box-border'>
+		<section class='vehicle-summary zcs-card zcs-flex zcs-direction-column zcs-gap-20 zcs-p-24 zcs-box-border'>
+			<div class='zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12'>
+				<div><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Vehicle overview</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>VIN, configuration, logistics, and shop assignment.</p></div>
+				<span class='zcs-badge zcs-badge-filled-outline zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 <%=qcClass%>'>QC <%=qcValue%></span>
+			</div>
+			<div class='vehicle-details-grid zcs-row zcs-rounded-xl zcs-p-8 zcs-box-border'>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Year / Make / Model</span><strong class='vehicle-detail-value zcs-font-16 zcs-color-primary'><%=if(vehicleLabel == "","—",vehicleLabel)%></strong></div>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Cab / Bed</span><strong class='vehicle-detail-value zcs-font-16 zcs-color-primary'><%=ifnull(vehicleRecord.Cab_Type,"—")%> / <%=ifnull(vehicleRecord.Bed_Length,"—")%></strong></div>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Assigned shop</span><strong class='vehicle-detail-value zcs-font-16 zcs-color-primary'><%=assignedShop%></strong></div>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Drop-off</span><strong class='vehicle-detail-value zcs-font-14 zcs-color-primary'><%=ifnull(vehicleRecord.Dropoff_Location,"—")%></strong></div>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Arrival date</span><strong class='vehicle-detail-value zcs-font-16 zcs-color-primary'><%=ifnull(vehicleRecord.Arrival_Date,"—")%></strong></div>
+				<div class='vehicle-detail-item zcs-col-3 zcs-col-md-6 zcs-col-xs-12 zcs-flex zcs-direction-column zcs-gap-4 zcs-p-12 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Pickup date</span><strong class='vehicle-detail-value zcs-font-16 zcs-color-primary'><%=ifnull(vehicleRecord.Pickup_Date,"—")%></strong></div>
+			</div>
+			<div>
+				<h3 class='zcs-font-14 zcs-font-semibold zcs-color-primary zcs-m-0'>Requested upfits</h3>
+				<ul class='vehicle-upfits zcs-flex zcs-row-wrap zcs-gap-8 zcs-p-0 zcs-mt-8 zcs-mb-0'>
+					<% if(vehicleRecord.Requested_Upfits == null || vehicleRecord.Requested_Upfits.isEmpty()) { %><li class='zcs-font-14 zcs-color-tertiary'>No requested upfits recorded.</li><% } else { for each requestedId in vehicleRecord.Requested_Upfits { requestedCapability = Capabilities[ID == requestedId]; %><li class='vehicle-upfit zcs-inline-flex zcs-align-items-center zcs-gap-8 zcs-rounded-md zcs-px-12 zcs-py-8 zcs-font-14 zcs-color-primary'><i class='zc-li-outline ui-1-check-small zcs-color-theme'></i><%=ifnull(requestedCapability.Capability_Name,"Requested capability")%></li><% } } %>
+				</ul>
+			</div>
+		</section>
+
+		<section class='vehicle-section zcs-card zcs-p-20 zcs-box-border'>
+			<div class='vehicle-section-heading zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Status progression</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Current execution stage for this VIN.</p></div>
+			<div class='zcs-stepper-wrapper zcs-mt-12'>
+				<ul class='zcs-flex zcs-gap-8 zcs-p-0 zcs-m-0'>
+				<% for each index i in statusSteps { stepName = statusSteps.get(i); stepClass = ""; if(i == currentStep) { stepClass = "zcs-stepper-active"; } %>
+					<li class='zcs-stepper <%=stepClass%> zcs-col-common zcs-flex zcs-direction-column zcs-align-items-center zcs-gap-4 zcs-text-center zcs-relative'>
+						<div class='zcs-stepper-status zcs-flex zcs-direction-column zcs-align-items-center zcs-justify-center zcs-rounded-half zcs-relative zcs-box-border'>
+							<h6 class='zcs-stepper-count zcs-col-common zcs-w-full zcs-align-items-center zcs-justify-center zcs-rounded-half zcs-font-12 zcs-font-semibold zcs-color-tertiary zcs-m-0'><%=i + 1%></h6>
+							<i class='zcs-stepper-icon zcs-stepper-passed zcs-font-18 zcs-font-bold zcs-color-white zc-li-outline ui-1-check-small'></i>
+							<i class='zcs-stepper-icon zcs-stepper-failed zcs-font-18 zcs-color-white zc-li-outline ui-1-circle-remove'></i>
+						</div>
+						<span class='zcs-stepper-text zcs-font-13 zcs-color-primary'><%=stepName%></span>
+					</li>
+				<% } %>
+				</ul>
+			</div>
+		</section>
+
+		<div class='vehicle-layout zcs-flex zcs-row-wrap zcs-gap-15'>
+			<main class='vehicle-main zcs-flex zcs-direction-column zcs-gap-15'>
+				<section class='vehicle-section zcs-card zcs-p-20 zcs-box-border'>
+					<div class='vehicle-section-heading zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-py-8'><div><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Completion photos</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Mobile uploads and completion evidence.</p></div><% if(canUpload) { %><a class='zcs-color-theme zcs-font-14 zcs-font-medium' href='<%=photoUrl%>'><i class='zc-li-outline images-image'></i> Upload</a><% } %></div>
+					<% if(vehicleRecord.Completion_Photos == null || vehicleRecord.Completion_Photos.isEmpty()) { %><div class='vehicle-empty-gallery zcs-flex zcs-direction-column zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-lg zcs-mt-12'><i class='zc-li-outline images-image zcs-font-22 zcs-color-tertiary'></i><span class='zcs-font-14 zcs-color-tertiary'>No completion photos uploaded.</span></div><% } else { %>
+					<div class='vehicle-gallery zcs-gap-12 zcs-mt-12'>
+						<% for each photo in vehicleRecord.Completion_Photos { %><a class='vehicle-photo zcs-card zcs-rounded-lg' href='<%=photo%>' target='_blank'><img src='<%=photo%>' alt='Completion photo for VIN <%=vehicleRecord.VIN%>'></a><% } %>
+					</div><% } %>
+				</section>
+
+				<section class='vehicle-section zcs-card zcs-p-20 zcs-box-border'>
+					<div class='vehicle-section-heading zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Estimate scope</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Related parts and labor scope only. Prices, rates, totals, markup, and client finance are not rendered on this page.</p></div>
+					<h3 class='scope-subtitle zcs-font-12 zcs-font-semibold zcs-color-tertiary zcs-mt-12 zcs-mb-0'>Parts (<%=partLineCount%>)</h3>
+					<% if(partLineCount == 0) { %><div class='scope-empty zcs-flex zcs-align-items-center zcs-justify-center zcs-font-14 zcs-color-tertiary'>No accessible part scope.</div><% } else { %>
+					<div class='zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative zcs-mt-8'><table class='zcs-w-full'><thead class='zcs-sticky'><tr><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary'>Part</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary'>Quantity</th></tr></thead><tbody>
+					<% for each estimateRecord in scopeEstimates { for each partLine in Estimate_Parts_Lines[Estimate == estimateRecord.ID] { partName = "Part"; if(partLine.Part != null) { partName = ifnull(partLine.Part.Part_Name,"Part"); } %><tr><td class='zcs-px-16 zcs-py-8 zcs-font-14 zcs-color-primary'><%=partName%></td><td class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-color-primary'><%=ifnull(partLine.Quantity,"—")%></td></tr><% } } %>
+					</tbody></table></div><% } %>
+
+					<h3 class='scope-subtitle zcs-font-12 zcs-font-semibold zcs-color-tertiary zcs-mt-20 zcs-mb-0'>Labor (<%=laborLineCount%>)</h3>
+					<% if(laborLineCount == 0) { %><div class='scope-empty zcs-flex zcs-align-items-center zcs-justify-center zcs-font-14 zcs-color-tertiary'>No accessible labor scope.</div><% } else { %>
+					<div class='zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative zcs-mt-8'><table class='zcs-w-full'><thead class='zcs-sticky'><tr><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary'>Description</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary'>Hours</th></tr></thead><tbody>
+					<% for each estimateRecord in scopeEstimates { for each laborLine in Estimate_Labor_Lines[Estimate == estimateRecord.ID] { %><tr><td class='zcs-px-16 zcs-py-8 zcs-font-14 zcs-color-primary'><%=ifnull(laborLine.Description,"Labor")%></td><td class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-color-primary'><%=ifnull(laborLine.Hours,"—")%></td></tr><% } } %>
+					</tbody></table></div><% } %>
+				</section>
+			</main>
+
+			<aside class='vehicle-side zcs-flex zcs-direction-column zcs-gap-15'>
+				<section class='vehicle-section zcs-card zcs-p-20 zcs-box-border'>
+					<div class='vehicle-section-heading zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Quality control</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>QC gate and review timing.</p></div>
+					<div class='vehicle-qc-panel zcs-flex zcs-direction-column zcs-gap-12 zcs-rounded-lg zcs-p-16 zcs-mt-12 zcs-box-border'>
+						<div class='zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8'><span class='zcs-font-14 zcs-color-tertiary'>Status</span><span class='zcs-badge zcs-badge-filled-outline zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 <%=qcClass%>'><%=qcValue%></span></div>
+						<div class='zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8'><span class='zcs-font-14 zcs-color-tertiary'>QC date</span><strong class='zcs-font-14 zcs-color-primary'><%=ifnull(vehicleRecord.QC_Date,"—")%></strong></div>
+					</div>
+					<% if(isInternal && vehicleRecord.QC_Notes != null && vehicleRecord.QC_Notes != "") { %><div class='vehicle-note zcs-rounded-lg zcs-p-16 zcs-mt-12 zcs-box-border'><div class='zcs-flex zcs-align-items-center zcs-gap-8'><i class='zc-li-outline ui-3-chat-45 zcs-color-theme'></i><strong class='zcs-font-14 zcs-color-primary'>QC notes</strong></div><p class='zcs-font-14 zcs-color-secondary zcs-mt-8 zcs-mb-0'><%=vehicleRecord.QC_Notes%></p></div><% } %>
+				</section>
+
+				<% if(isInternal && vehicleRecord.Internal_Notes != null && vehicleRecord.Internal_Notes != "") { %>
+				<section class='vehicle-section zcs-card zcs-p-20 zcs-box-border'>
+					<div class='vehicle-section-heading zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Permitted notes</h2></div>
+					<div class='vehicle-note zcs-rounded-lg zcs-p-16 zcs-mt-12 zcs-box-border'><p class='zcs-notes-text zcs-m-0 zcs-font-14 zcs-color-primary'><span class='zcs-font-medium zcs-color-tertiary'>Internal note: </span><%=vehicleRecord.Internal_Notes%></p></div>
+				</section>
+				<% } %>
+			</aside>
+		</div>
+	</div>
+</div>
+<%
+
+%>

@@ -1,0 +1,30 @@
+default list All_Work_Orders
+{
+
+		    displayName = "All Work Orders"
+		    show all rows from Work_Orders
+		    (
+		        Work_Order_Number
+		        Program
+		        Purchase_Order
+		        Upfitter
+		        Issue_Date
+		        Parts_Order_By_Date
+		        Status
+		        Work_Order_Document
+		    )
+		    filters
+		    (
+		        Program
+		        Purchase_Order
+		        Upfitter
+		        Status
+		        Issue_Date
+		        Parts_Order_By_Date
+		    )
+		    sort by
+		    (
+		        Issue_Date descending
+		    )
+		
+}

@@ -1,0 +1,20 @@
+list Active_Markup_Configurations
+{
+
+		    displayName = "Active Markup Configurations"
+		    show all rows from Markup_Configurations [Status == "Active"]
+		    (
+		        Markup_Config_ID
+		        Configuration_Name
+		        Markup_Percent
+		        Effective_From
+		        Effective_To
+		        Status
+		        Notes
+		    )
+		    sort by
+		    (
+		        Effective_From descending
+		    )
+		
+}

@@ -1,0 +1,139 @@
+"Member_Upfitter"
+{
+
+	    name = "Member_Upfitter"
+	    type = customer_portal
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:false, ePHIAccess:false }
+	    description = "Member shop access to owned estimates, work orders, and assigned vehicle execution."
+	    ModulePermissions
+	    {
+	        Upfitters
+	        {
+	            enabled = View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Upfitter_ID{visibility:true,readonly:true}
+	                Upfitter_Details{visibility:true,readonly:true}
+	                Upfitter_Name{visibility:true,readonly:true}
+	                Upfitter_Type{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:true}
+	                Portal_User{visibility:true,readonly:true}
+	                Address{visibility:true,readonly:false}
+	                City{visibility:true,readonly:false}
+	                State{visibility:true,readonly:false}
+	                ZIP{visibility:true,readonly:false}
+	                Service_Radius_Miles{visibility:true,readonly:false}
+	                Capabilities{visibility:true,readonly:false}
+	                Payment_Terms{visibility:true,readonly:true}
+	                Primary_Contact{visibility:true,readonly:false}
+	                Contact_Email{visibility:true,readonly:false}
+	                Contact_Phone{visibility:true,readonly:false}
+	                Certifications{visibility:true,readonly:false}
+	                Cert_Expiry_Date{visibility:true,readonly:false}
+	                Notes{visibility:false}
+	            }
+	        }
+	        Capabilities
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { Active_Capabilities={"View"} }
+	        }
+	        Parts
+	        {
+	            enabled = View,Search
+	            allFieldsVisible = true
+	            ReportPermissions { Active_Parts={"View"} }
+	        }
+	        Estimates
+	        {
+	            enabled = View,Edit,Search
+	            allFieldsVisible = true
+	            ReportPermissions { Assigned_Estimates={"View","Edit"} Pending_Estimates={"View","Edit"} Approved_Estimates={"View"} Revision_Requested_Estimates={"View","Edit"} Declined_Estimates={"View"} }
+	        }
+	        Estimate_Parts_Lines
+	        {
+	            enabled = Create,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Estimate_Parts_Lines={"View","Edit","Delete"} }
+	        }
+	        Estimate_Labor_Lines
+	        {
+	            enabled = Create,View,Edit,Delete,Search
+	            allFieldsVisible = true
+	            ReportPermissions { All_Estimate_Labor_Lines={"View","Edit","Delete"} }
+	        }
+	        Work_Orders
+	        {
+	            enabled = View,Edit,Search
+	            allFieldsVisible = true
+	            ReportPermissions { Work_Orders_Issued={"View","Edit"} Work_Orders_Parts_Ordered={"View","Edit"} Work_Orders_In_Progress={"View","Edit"} Work_Orders_Completed={"View"} }
+	        }
+	        Vehicles
+	        {
+	            enabled = View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Vehicle_ID{visibility:true,readonly:true}
+	                Upfitter_Portal_User{visibility:true,readonly:true}
+	                Vehicle_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:true}
+	                VIN{visibility:true,readonly:true}
+	                Year{visibility:true,readonly:true}
+	                Make{visibility:true,readonly:true}
+	                Model{visibility:true,readonly:true}
+	                Cab_Type{visibility:true,readonly:true}
+	                Bed_Length{visibility:true,readonly:true}
+	                Dropoff_Location{visibility:true,readonly:true}
+	                Arrival_Date{visibility:true,readonly:false}
+	                Pickup_Date{visibility:true,readonly:false}
+	                Requested_Upfits{visibility:true,readonly:true}
+	                Assigned_Upfitter{visibility:true,readonly:true}
+	                Vehicle_Status{visibility:true,readonly:false}
+	                Completion_Photos{visibility:true,readonly:false}
+	                QC_Status{visibility:true,readonly:true}
+	                Client_Portal_User{visibility:false}
+	                Matching_Distance_Miles{visibility:false}
+	                Manual_Override{visibility:false}
+	                Billing_Eligible{visibility:false}
+	                Assignment{visibility:false}
+	                Suggested_Upfitter{visibility:false}
+	                QC{visibility:false}
+	                QC_Notes{visibility:false}
+	                QC_Date{visibility:false}
+	                Internal_Notes{visibility:false}
+	            }
+	            ReportPermissions { Assigned_Vehicles={"View","Edit"} Vehicles_Scheduled={"View","Edit"} Vehicles_Arrived={"View","Edit"} Vehicles_Parts_Ordered={"View","Edit"} Vehicles_In_Progress={"View","Edit"} Vehicles_Completed={"View"} Vehicles_Picked_Up={"View"} }
+	        }
+	        Issues
+	        {
+	            enabled = Create,View,Edit,Search
+	            allFieldsVisible = false
+	            FieldPermissions
+	            {
+	                Issue_ID{visibility:true,readonly:true}
+	                Issue_Details{visibility:true,readonly:true}
+	                Program{visibility:true,readonly:true}
+	                Vehicle{visibility:true,readonly:false}
+	                Issue_Type{visibility:true,readonly:false}
+	                Priority{visibility:true,readonly:false}
+	                Status{visibility:true,readonly:true}
+	                Description{visibility:true,readonly:false}
+	                Resolution{visibility:true,readonly:true}
+	                Opened_Date{visibility:true,readonly:true}
+	                Closed_Date{visibility:true,readonly:true}
+	                Alert_Sent{visibility:false}
+	                Assigned_To{visibility:false}
+	            }
+	            ReportPermissions { Open_Issues={"View"} In_Progress_Issues={"View"} Resolved_Issues={"View"} Closed_Issues={"View"} }
+	        }
+	        Estimate_Review { enabled = tab }
+	        Work_Order_Hub { enabled = tab }
+	        Work_Order_Detail { enabled = tab }
+	        Vehicle_Detail { enabled = tab }
+	        Execution_Tracker { enabled = tab }
+	    }
+	
+}

@@ -1,0 +1,25 @@
+list Unpaid_Invoices
+{
+
+		    displayName = "Unpaid Invoices"
+		    show all rows from Client_Invoices [Payment_Status == "Unpaid"]
+		    (
+		        Invoice_Number
+		        Program
+		        Invoice_Date
+		        Due_Date
+		        Invoice_Amount
+		        Payment_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Invoice_Date
+		        Due_Date
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		
+}

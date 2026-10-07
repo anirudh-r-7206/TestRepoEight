@@ -1,0 +1,19 @@
+Action_Items_On_Add_Success as "Create Action Item"
+{
+
+			    type = form
+			    form = Action_Items
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Action_Items", input.ID, input.Program, "Created", "", input.Status, input.Action_Type + " action item created.");
+			            )
+			        }
+			    }
+			
+}

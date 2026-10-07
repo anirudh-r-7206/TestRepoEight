@@ -1,0 +1,16 @@
+Capabilities_On_Load as "Capabilities On Load"
+{
+
+			    type = form
+			    form = Capabilities
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}

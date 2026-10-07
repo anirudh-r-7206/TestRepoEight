@@ -1,0 +1,30 @@
+Estimates_Upfitter_On_User_Input as "Copy Upfitter Ownership"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add or edit
+			
+			    on user input of Upfitter
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Upfitter != null)
+			                {
+			                    upfitterRecord = Upfitters[ID == input.Upfitter];
+			                    if(upfitterRecord.count() > 0)
+			                    {
+			                        input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                    }
+			                }
+			                else
+			                {
+			                    input.Upfitter_Portal_User = null;
+			                }
+			            )
+			        }
+			    }
+			
+}

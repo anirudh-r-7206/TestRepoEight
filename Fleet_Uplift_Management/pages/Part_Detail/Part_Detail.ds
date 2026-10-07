@@ -1,0 +1,20 @@
+<page linkname = "Part_Detail" parameters = "int Part_ID" displayname = "Part Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Part_Detail_View_DSP' elementName='Part_Detail_View_DSP'>
+          <![CDATA[htmlpage Part_Detail_View_DSP()
+content
+			<%{%>
+            <file name:Part_Detail_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

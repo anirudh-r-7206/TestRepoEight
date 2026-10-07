@@ -1,0 +1,45 @@
+Quotes_On_Edit_Success as "Process Quote Status"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Sent to Client")
+			                {
+			                    thisapp.Generate_Quote_PDF(input.ID);
+			                    programRecord = Programs[ID == input.Program];
+			                    if(programRecord.count() > 0)
+			                    {
+			                        templateData = Map();
+			                        templateData.put("service_id", programRecord.Service_ID);
+			                        templateData.put("quote_number", input.Quote_Number);
+			                        templateData.put("quote_total", input.Quote_Total);
+			                        templateData.put("valid_until", input.Valid_Until);
+			                        quoteSentKey = "QUOTE_SENT-" + input.ID + "-V" + input.Version_Number;
+			                        thisapp.Send_Template_Email("QUOTE_SENT", programRecord.Client_Contact, templateData, quoteSentKey);
+			                    }
+			                }
+			                else if(input.Status == "Approved")
+			                {
+			                    update Programs[ID == input.Program]
+			                    [
+			                        Program_Status = "Pending Quote Approval"
+			                    ];
+			                }
+			                else if(input.Status == "Revised")
+			                {
+			                    thisapp.Generate_Quote_PDF(input.ID);
+			                }
+			                thisapp.Create_Audit_Log("Quotes", input.ID, input.Program, "Updated", "", input.Status, "Quote details updated.");
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,39 @@
+Quotes_On_Add_Validate as "Prepare New Quote"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                    input.Markup_Percent = ifnull(programRecord.Markup_Percent, 0.00);
+			                }
+			                input.Estimate_Subtotal = ifnull(Estimates[Program == input.Program && Status == "Approved"].sum(Estimate_Total), 0.00);
+			                input.Markup_Amount = input.Estimate_Subtotal * ifnull(input.Markup_Percent, 0.00) / 100;
+			                input.Quote_Total = input.Estimate_Subtotal + input.Markup_Amount;
+			                input.Quote_Date = zoho.currentdate;
+			                validityDays = 30;
+			                configRecord = System_Configuration[ID != 0];
+			                if(configRecord.count() > 0)
+			                {
+			                    validityDays = configRecord.Quote_Validity_Days;
+			                }
+			                input.Valid_Until = zoho.currentdate.addDay(validityDays);
+			                input.Quote_Number = "PENDING-" + zoho.currenttime.toString("yyyyMMddHHmmss") + "-" + zoho.loginuserid;
+			                input.Status = "Draft";
+			                input.FMC_Approval_Date = null;
+			                input.Version_Number = 1;
+			            )
+			        }
+			    }
+			
+}

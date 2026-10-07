@@ -1,0 +1,20 @@
+Client_Invoices_On_Load as "Prepare Client Invoice Form"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Invoice_Number, Client_Portal_User, Due_Date, Invoice_Amount;
+			            )
+			        }
+			    }
+			
+}

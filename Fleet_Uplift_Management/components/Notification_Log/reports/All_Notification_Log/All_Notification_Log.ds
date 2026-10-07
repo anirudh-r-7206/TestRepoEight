@@ -1,0 +1,30 @@
+default list All_Notification_Log
+{
+
+		    displayName = "All Notification Log"
+		    show all rows from Notification_Log
+		    (
+		        Notification_ID
+		        Alert_Key
+		        Template_Code
+		        Reference_Type
+		        Reference_ID
+		        Recipient_Email
+		        Sent_Date
+		        Delivery_Status
+		        Error_Message
+		    )
+		    filters
+		    (
+		        Template_Code
+		        Reference_Type
+		        Recipient_Email
+		        Sent_Date
+		        Delivery_Status
+		    )
+		    sort by
+		    (
+		        Sent_Date descending
+		    )
+		
+}

@@ -1,0 +1,28 @@
+FMC_Client_On_User_Input as "Populate Client Program Details"
+{
+
+			    type = form
+			    form = Programs
+			    record event = on add or edit
+			
+			    on user input of FMC_Client
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.FMC_Client != null)
+			                {
+			                    clientRecord = FMC_Clients[ID == input.FMC_Client];
+			                    if(clientRecord.count() > 0)
+			                    {
+			                        input.Client_Portal_User = clientRecord.Portal_User;
+			                        input.Client_Contact = clientRecord.Contact_Email;
+			                        input.Region_Market = clientRecord.Region_Market;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

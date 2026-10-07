@@ -1,0 +1,20 @@
+<page linkname = "Payout_Report" displayname = "Payout Report"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Payout_Report_Analytics_DSP' elementName='Payout_Report_Analytics_DSP'>
+          <![CDATA[htmlpage Payout_Report_Analytics_DSP()
+content
+			<%{%>
+            <file name:Payout_Report_Analytics_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,19 @@
+Parts_On_Edit_Success as "Audit Part Update"
+{
+
+			    type = form
+			    form = Parts
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Parts", input.ID, 0, "Updated", "", input.Status, "Part record updated: " + input.Part_Name);
+			            )
+			        }
+			    }
+			
+}

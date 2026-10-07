@@ -1,0 +1,20 @@
+<page linkname = "Program_Workspace" displayname = "Programs"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Programs_Workspace_DSP' elementName='Programs_Workspace_DSP'>
+          <![CDATA[htmlpage Programs_Workspace_DSP()
+content
+			<%{%>
+            <file name:Programs_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

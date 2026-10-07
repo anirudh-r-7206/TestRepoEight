@@ -1,0 +1,7 @@
+report All_Audit_Log
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Audit_ID Event_Date User_Email Module_Name Action ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Audit_ID Event_Date User_Email User_Profile Module_Name Record_ID Program Action Before_Value After_Value Details ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

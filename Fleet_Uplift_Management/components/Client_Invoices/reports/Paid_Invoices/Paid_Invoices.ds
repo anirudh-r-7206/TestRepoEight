@@ -1,0 +1,27 @@
+list Paid_Invoices
+{
+
+		    displayName = "Paid Invoices"
+		    show all rows from Client_Invoices [Payment_Status == "Paid"]
+		    (
+		        Invoice_Number
+		        Program
+		        Invoice_Date
+		        Due_Date
+		        Invoice_Amount
+		        Payment_Status
+		        Payment_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Invoice_Date
+		        Due_Date
+		        Payment_Date
+		    )
+		    sort by
+		    (
+		        Payment_Date descending
+		    )
+		
+}

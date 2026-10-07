@@ -1,0 +1,23 @@
+default list All_Estimate_Labor_Lines
+{
+
+		    displayName = "All Estimate Labor Lines"
+		    show all rows from Estimate_Labor_Lines
+		    (
+		        Estimate_Labor_Line_ID
+		        Estimate
+		        Description
+		        Hours
+		        Hourly_Rate
+		        Line_Total
+		    )
+		    filters
+		    (
+		        Estimate
+		    )
+		    sort by
+		    (
+		        Estimate_Labor_Line_ID ascending
+		    )
+		
+}

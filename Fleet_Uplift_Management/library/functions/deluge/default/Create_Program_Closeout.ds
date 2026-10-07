@@ -1,0 +1,84 @@
+void Create_Program_Closeout(int programId)
+{
+
+			    programRecord = Programs[ID == programId];
+			    if(programRecord.count() > 0)
+			    {
+			        totalVehicles = Vehicles[Program == programId].count();
+			        approvedVehicles = Vehicles[Program == programId && QC_Status == "Approved"].count();
+			        if(totalVehicles > 0 && totalVehicles == approvedVehicles)
+			        {
+			            existingInvoice = Client_Invoices[Program == programId];
+			            if(existingInvoice.count() == 0)
+			            {
+			                approvedQuoteVersion = Quotes[Program == programId && Status == "Approved"].maximum(Version_Number);
+			                approvedQuote = Quotes[Program == programId && Status == "Approved" && Version_Number == approvedQuoteVersion];
+			                if(approvedQuote.count() > 0)
+			                {
+			                    pendingInvoice = "PENDING-INV-" + programId;
+			                    invoiceId = insert into Client_Invoices
+			                    [
+			                        Invoice_Number = pendingInvoice
+			                        Client_Portal_User = programRecord.Client_Portal_User
+			                        Program = programId
+			                        Invoice_Date = zoho.currentdate
+			                        Payment_Terms = "Net 45"
+			                        Due_Date = zoho.currentdate.addDay(45)
+			                        Invoice_Amount = approvedQuote.Quote_Total
+			                        Payment_Status = "Unpaid"
+			                        Notes = "Automatically created during program closeout."
+			                    ];
+			                    invoiceRecord = Client_Invoices[ID == invoiceId];
+			                    sequenceText = "0000" + invoiceRecord.Invoice_Sequence.toString();
+			                    invoiceRecord.Invoice_Number = "INV-" + zoho.currentdate.toString("yyyyMM") + "-" + sequenceText.right(4);
+			                    thisapp.Create_Audit_Log("Client_Invoices", invoiceId, programId, "Created", "", "Unpaid", "Client invoice created during program closeout.");
+			                }
+			            }
+			            assignedUpfitters = Vehicles[Program == programId && Assigned_Upfitter != null].distinct(Assigned_Upfitter);
+			            for each upfitterId in assignedUpfitters
+			            {
+			                existingPayable = Upfitter_Payables[Program == programId && Upfitter == upfitterId];
+			                if(existingPayable.count() == 0)
+			                {
+			                    upfitterRecord = Upfitters[ID == upfitterId];
+			                    assignedCount = Vehicles[Program == programId && Assigned_Upfitter == upfitterId].count();
+			                    qcApprovedCount = Vehicles[Program == programId && Assigned_Upfitter == upfitterId && QC_Status == "Approved"].count();
+			                    estimateTotal = ifnull(Estimates[Program == programId && Upfitter == upfitterId && Status == "Approved"].sum(Estimate_Total), 0);
+			                    perVehicleRate = 0;
+			                    if(assignedCount > 0)
+			                    {
+			                        perVehicleRate = estimateTotal / assignedCount;
+			                    }
+			                    payableId = insert into Upfitter_Payables
+			                    [
+			                        Upfitter_Portal_User = upfitterRecord.Portal_User
+			                        Program = programId
+			                        Upfitter = upfitterId
+			                        Completed_Vehicles = qcApprovedCount
+			                        Per_Vehicle_Rate = perVehicleRate
+			                        Payable_Amount = perVehicleRate * qcApprovedCount
+			                        Payment_Terms = upfitterRecord.Payment_Terms
+			                        Payment_Status = "Pending Approval"
+			                        Notes = "Automatically calculated during program closeout."
+			                    ];
+			                    thisapp.Create_Audit_Log("Upfitter_Payables", payableId, programId, "Created", "", "Pending Approval", "Upfitter payable created during program closeout.");
+			                }
+			            }
+			            thisapp.Generate_Completion_Report(programId);
+			            update Programs[ID == programId]
+			            [
+			                Program_Status = "Closed"
+			            ];
+			            thisapp.Generate_Closeout_Document(programId);
+			            templateData = Map();
+			            templateData.put("service_id", programRecord.Service_ID);
+			            templateData.put("program_name", programRecord.Program_Name);
+			            templateData.put("vehicle_count", totalVehicles);
+			            templateData.put("closeout_date", zoho.currentdate);
+			            closeoutKey = "PROGRAM_CLOSEOUT-" + programId;
+			            thisapp.Send_Template_Email("PROGRAM_CLOSEOUT", programRecord.Client_Contact, templateData, closeoutKey);
+			            thisapp.Create_Audit_Log("Programs", programId, programId, "Closed", "In Execution", "Closed", "Program closeout completed after all vehicles passed QC.");
+			        }
+			    }
+			
+}

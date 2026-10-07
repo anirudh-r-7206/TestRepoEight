@@ -1,0 +1,20 @@
+<page linkname = "AR_Aging_Report" displayname = "AR Aging Report"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='AR_Aging_Analytics_DSP' elementName='AR_Aging_Analytics_DSP'>
+          <![CDATA[htmlpage AR_Aging_Analytics_DSP()
+content
+			<%{%>
+            <file name:AR_Aging_Analytics_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

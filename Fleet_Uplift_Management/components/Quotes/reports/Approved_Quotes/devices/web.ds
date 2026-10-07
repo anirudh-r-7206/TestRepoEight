@@ -1,0 +1,7 @@
+report Approved_Quotes
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Quote_Number Program Quote_Total Status FMC_Approval_Date ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Quote_Number Program Quote_Date Valid_Until Quote_Total Status FMC_Approval_Date Version_Number Quote_PDF ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

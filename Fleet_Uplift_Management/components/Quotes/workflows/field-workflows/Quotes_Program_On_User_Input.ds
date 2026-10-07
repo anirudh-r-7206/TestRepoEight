@@ -1,0 +1,30 @@
+Quotes_Program_On_User_Input as "Calculate Quote from Program"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on add or edit
+			
+			    on user input of Program
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Program != null)
+			                {
+			                    programRecord = Programs[ID == input.Program];
+			                    if(programRecord.count() > 0)
+			                    {
+			                        input.Client_Portal_User = programRecord.Client_Portal_User;
+			                        input.Markup_Percent = ifnull(programRecord.Markup_Percent, 0.00);
+			                        input.Estimate_Subtotal = ifnull(Estimates[Program == input.Program && Status == "Approved"].sum(Estimate_Total), 0.00);
+			                        input.Markup_Amount = input.Estimate_Subtotal * input.Markup_Percent / 100;
+			                        input.Quote_Total = input.Estimate_Subtotal + input.Markup_Amount;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

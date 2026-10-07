@@ -1,0 +1,19 @@
+Issues_On_Edit_Success as "Audit Issue Update"
+{
+
+			    type = form
+			    form = Issues
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Issues", input.ID, input.Program, "Updated", "", input.Status, "Issue details updated.");
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,31 @@
+list Vehicles_Completed
+{
+
+		    displayName = "Vehicles - Completed"
+		    show all rows from Vehicles [Vehicle_Status == "Completed"]
+		    (
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Pickup_Date
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        Completion_Photos
+		        QC_Status
+		        QC_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        Pickup_Date
+		        QC_Status
+		    )
+		    sort by
+		    (
+		        Pickup_Date descending
+		    )
+		
+}

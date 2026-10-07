@@ -1,0 +1,33 @@
+default list All_Quotes
+{
+
+		    displayName = "All Quotes"
+		    show all rows from Quotes
+		    (
+		        Quote_Number
+		        Program
+		        Quote_Date
+		        Valid_Until
+		        Estimate_Subtotal
+		        Markup_Percent
+		        Markup_Amount
+		        Quote_Total
+		        Status
+		        FMC_Approval_Date
+		        Version_Number
+		        Quote_PDF
+		    )
+		    filters
+		    (
+		        Program
+		        Status
+		        Quote_Date
+		        Valid_Until
+		    )
+		    sort by
+		    (
+		        Quote_Date descending
+		        Quote_Number descending
+		    )
+		
+}

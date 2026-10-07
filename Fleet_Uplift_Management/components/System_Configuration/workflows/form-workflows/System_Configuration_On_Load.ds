@@ -1,0 +1,16 @@
+System_Configuration_On_Load as "System Configuration On Load"
+{
+
+			    type = form
+			    form = System_Configuration
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}

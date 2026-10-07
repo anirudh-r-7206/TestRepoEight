@@ -1,0 +1,35 @@
+Purchase_Orders_On_Add_Validate as "Validate New Purchase Order"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                quoteRecord = Quotes[ID == input.Quote];
+			                if(quoteRecord.count() == 0 || quoteRecord.Status != "Approved" || quoteRecord.Program != input.Program)
+			                {
+			                    alert(Quote, "The selected quote must be approved and belong to the selected program.");
+			                    cancel submit;
+			                }
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                if(input.PO_Amount == null || input.PO_Amount <= 0)
+			                {
+			                    input.PO_Amount = quoteRecord.Quote_Total;
+			                }
+			                input.Status = "Received";
+			                input.Green_Light_Date = null;
+			            )
+			        }
+			    }
+			
+}

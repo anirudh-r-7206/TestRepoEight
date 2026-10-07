@@ -1,0 +1,19 @@
+System_Configuration_On_Edit_Success as "Audit System Configuration Update"
+{
+
+			    type = form
+			    form = System_Configuration
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("System Configuration", input.ID, 0, "Updated", "", input.Primary_Color, "Platform branding and process settings updated");
+			            )
+			        }
+			    }
+			
+}

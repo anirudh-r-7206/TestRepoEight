@@ -1,0 +1,20 @@
+<page linkname = "Revenue_Report" displayname = "Revenue Report"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Revenue_Analytics_DSP' elementName='Revenue_Analytics_DSP'>
+          <![CDATA[htmlpage Revenue_Analytics_DSP()
+content
+			<%{%>
+            <file name:Revenue_Analytics_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,28 @@
+list Work_Orders_Parts_Ordered
+{
+
+		    displayName = "Work Orders - Parts Ordered"
+		    show all rows from Work_Orders [Status == "Parts Ordered"]
+		    (
+		        Work_Order_Number
+		        Program
+		        Purchase_Order
+		        Upfitter
+		        Issue_Date
+		        Parts_Order_By_Date
+		        Status
+		        Work_Order_Document
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Issue_Date
+		        Parts_Order_By_Date
+		    )
+		    sort by
+		    (
+		        Issue_Date descending
+		    )
+		
+}

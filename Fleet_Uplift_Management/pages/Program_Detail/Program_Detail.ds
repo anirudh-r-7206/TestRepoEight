@@ -1,0 +1,20 @@
+<page linkname = "Program_Detail" parameters = "int Program_ID" displayname = "Program Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Program_Detail_View_DSP' elementName='Program_Detail_View_DSP'>
+          <![CDATA[htmlpage Program_Detail_View_DSP()
+content
+			<%{%>
+            <file name:Program_Detail_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

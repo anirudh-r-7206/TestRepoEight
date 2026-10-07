@@ -1,0 +1,7 @@
+report Programs_Closed
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Service_ID Program_Name FMC_Client Program_Status Vehicle_Count ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Service_ID Program_Name FMC_Client Request_Date Program_Status Vehicle_Count Region_Market Completion_Report Closeout_Document ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

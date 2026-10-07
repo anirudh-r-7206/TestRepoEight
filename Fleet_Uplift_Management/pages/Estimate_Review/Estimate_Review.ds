@@ -1,0 +1,20 @@
+<page linkname = "Estimate_Review" parameters = "int Estimate_ID" displayname = "Estimate Review"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Estimate_Review_Workspace_V2' elementName='Estimate_Review_Workspace_V2'>
+          <![CDATA[htmlpage Estimate_Review_Workspace_V2()
+content
+			<%{%>
+            <file name:Estimate_Review_Workspace_V2.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

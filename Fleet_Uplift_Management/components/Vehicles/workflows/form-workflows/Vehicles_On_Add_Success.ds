@@ -1,0 +1,24 @@
+Vehicles_On_Add_Success as "Initialize Vehicle"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                vehicleTotal = Vehicles[Program == input.Program].count();
+			                update Programs[ID == input.Program]
+			                [
+			                    Vehicle_Count = vehicleTotal
+			                ];
+			                thisapp.Create_Audit_Log("Vehicles", input.ID, input.Program, "Created", "", input.Vehicle_Status, "Vehicle created for VIN " + input.VIN + ".");
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,19 @@
+customize
+{
+
+	    layout = twocolumncard
+	    font = "lato"
+	    style = "3"
+	    color options
+	    {
+	        name = "Fleet Purple"
+	        brand color = "#6147E5"
+	        type = "custom"
+	        dark mode color = "#4F3BC2"
+	    }
+	    logo
+	    {
+	        preference = "app_icon"
+	    }
+	
+}

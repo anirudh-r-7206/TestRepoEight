@@ -1,0 +1,25 @@
+default list All_Notification_Templates
+{
+
+		    displayName = "All Notification Templates"
+		    show all rows from Notification_Templates
+		    (
+		        Template_ID
+		        Template_Code
+		        Template_Name
+		        Audience
+		        Subject
+		        Status
+		        Notes
+		    )
+		    filters
+		    (
+		        Audience
+		        Status
+		    )
+		    sort by
+		    (
+		        Template_Name ascending
+		    )
+		
+}

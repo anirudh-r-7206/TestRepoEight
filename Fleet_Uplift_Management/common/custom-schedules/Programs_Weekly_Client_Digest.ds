@@ -1,0 +1,41 @@
+Programs_Weekly_Client_Digest as "Weekly FMC Client Program Digest"
+{
+
+			    type = schedule
+			    start = "2025-01-06 08:00:00"
+			    frequency = daily
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                configuration = System_Configuration[Weekly_Digest_Enabled == true];
+			                if(configuration.count() > 0 && zoho.currentdate.toString("EEEE") == configuration.Digest_Day)
+			                {
+			                    for each clientRecord in FMC_Clients[Status == "Active"]
+			                    {
+			                        openPrograms = Programs[FMC_Client == clientRecord.ID && Program_Status != "Closed"];
+			                        if(openPrograms.count() > 0)
+			                        {
+			                            programSummary = "";
+			                            for each programRecord in openPrograms
+			                            {
+			                                programSummary = programSummary + "<tr><td>" + programRecord.Service_ID + "</td><td>" + programRecord.Program_Name + "</td><td>" + programRecord.Program_Status + "</td><td>" + programRecord.Vehicle_Count + "</td></tr>";
+			                            }
+			                            templateData = Map();
+			                            templateData.put("client_name", clientRecord.Client_Name);
+			                            templateData.put("program_summary", programSummary);
+			                            templateData.put("as_of_date", zoho.currentdate.toString("MMM dd, yyyy"));
+			                            digestKey = "WEEKLY_FMC_DIGEST-" + clientRecord.ID + "-" + zoho.currentdate.toString("yyyyMMdd");
+			                            thisapp.Send_Template_Email("WEEKLY_FMC_DIGEST", clientRecord.Contact_Email, templateData, digestKey);
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

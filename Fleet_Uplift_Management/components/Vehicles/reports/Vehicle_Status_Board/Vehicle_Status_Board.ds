@@ -1,0 +1,37 @@
+kanban Vehicle_Status_Board
+{
+
+		    displayName = "Vehicle Status Board"
+		    show all rows from Vehicles
+		    (
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Arrival_Date
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        QC_Status
+		        Arrival_Date
+		    )
+		    sort by
+		    (
+		        Arrival_Date ascending
+		    )
+		    options
+		    (
+		        display field = Vehicle_Status
+		        othercolumn = "Other"
+		        filter type = manual
+		        sort order = custom
+		        record count = enable
+		    )
+		
+}

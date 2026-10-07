@@ -1,0 +1,20 @@
+<page linkname = "PO_Green_Light" parameters = "int Program_ID" displayname = "PO Green Light"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='PO_Green_Light_View_DSP' elementName='PO_Green_Light_View_DSP'>
+          <![CDATA[htmlpage PO_Green_Light_View_DSP()
+content
+			<%{%>
+            <file name:PO_Green_Light_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,28 @@
+list Paid_Payables
+{
+
+		    displayName = "Paid Payables"
+		    show all rows from Upfitter_Payables [Payment_Status == "Paid"]
+		    (
+		        Program
+		        Upfitter
+		        Completed_Vehicles
+		        Per_Vehicle_Rate
+		        Payable_Amount
+		        Payment_Terms
+		        Payment_Status
+		        Payment_Date
+		        Payment_Reference
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Payment_Date
+		    )
+		    sort by
+		    (
+		        Payment_Date descending
+		    )
+		
+}

@@ -1,0 +1,28 @@
+Issues_On_Load as "Prepare Issue Form"
+{
+
+			    type = form
+			    form = Issues
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Alert_Sent, Opened_Date, Closed_Date;
+			                if(input.Status == "Resolved" || input.Status == "Closed")
+			                {
+			                    show Resolution;
+			                }
+			                else
+			                {
+			                    hide Resolution;
+			                }
+			            )
+			        }
+			    }
+			
+}

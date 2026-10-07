@@ -1,0 +1,16 @@
+Upfitters_On_Load as "Upfitters On Load"
+{
+
+			    type = form
+			    form = Upfitters
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}

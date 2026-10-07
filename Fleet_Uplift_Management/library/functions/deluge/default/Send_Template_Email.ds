@@ -1,0 +1,104 @@
+void Send_Template_Email(string templateCode, string recipient, map dataMap, string dedupeKey)
+{
+
+			    alertKey = ifnull(dedupeKey, "").trim();
+			    if(alertKey == "")
+			    {
+			        alertKey = ifnull(templateCode, "UNKNOWN") + "-" + zoho.currenttime.toLong();
+			    }
+			    existingLog = Notification_Log[Alert_Key == alertKey];
+			    if(existingLog.count() == 0)
+			    {
+			        if(recipient == null || recipient.trim() == "")
+			        {
+			            insert into Notification_Log
+			            [
+			                Alert_Key = alertKey
+			                Template_Code = templateCode
+			                Reference_Type = templateCode
+			                Reference_ID = 0
+			                Recipient_Email = recipient
+			                Sent_Date = zoho.currenttime
+			                Delivery_Status = "Failed"
+			                Error_Message = "Recipient email is required."
+			            ];
+			        }
+			        else
+			        {
+			            templateRecord = Notification_Templates[Template_Code == templateCode && Status == "Active"];
+			            if(templateRecord.count() == 0)
+			            {
+			                insert into Notification_Log
+			                [
+			                    Alert_Key = alertKey
+			                    Template_Code = templateCode
+			                    Reference_Type = templateCode
+			                    Reference_ID = 0
+			                    Recipient_Email = recipient
+			                    Sent_Date = zoho.currenttime
+			                    Delivery_Status = "Failed"
+			                    Error_Message = "No active notification template exists for " + templateCode + "."
+			                ];
+			            }
+			            else
+			            {
+			                try
+			                {
+			                    subjectText = templateRecord.Subject;
+			                    bodyText = templateRecord.HTML_Body;
+			                    if(dataMap != null)
+			                    {
+			                        for each dataKey in dataMap.keys()
+			                        {
+			                            token = "{{" + dataKey + "}}";
+			                            replacementValue = ifnull(dataMap.get(dataKey), "").toString();
+			                            subjectText = subjectText.replaceAll(token, replacementValue, true);
+			                            bodyText = bodyText.replaceAll(token, replacementValue, true);
+			                        }
+			                    }
+			                    configurationRecord = System_Configuration[ID != 0];
+			                    if(configurationRecord.count() > 0)
+			                    {
+			                        primaryColor = ifnull(configurationRecord.Primary_Color, "#6147E5");
+			                        companyName = ifnull(configurationRecord.Company_Name, "Fleet Upfit Management");
+			                        footerText = ifnull(configurationRecord.Document_Footer, "");
+			                        bodyText = "<div style='font-family:Arial,sans-serif;color:#202124'><div style='border-top:6px solid " + primaryColor + ";padding:20px'><h2 style='color:" + primaryColor + "'>" + companyName + "</h2>" + bodyText + "<div style='margin-top:24px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280'>" + footerText + "</div></div></div>";
+			                    }
+			                    sendmail
+			                    [
+			                        from : zoho.adminuserid
+			                        to : recipient
+			                        subject : subjectText
+			                        message : bodyText
+			                    ];
+			                    insert into Notification_Log
+			                    [
+			                        Alert_Key = alertKey
+			                        Template_Code = templateCode
+			                        Reference_Type = templateCode
+			                        Reference_ID = 0
+			                        Recipient_Email = recipient
+			                        Sent_Date = zoho.currenttime
+			                        Delivery_Status = "Sent"
+			                        Error_Message = ""
+			                    ];
+			                }
+			                catch(sendError)
+			                {
+			                    insert into Notification_Log
+			                    [
+			                        Alert_Key = alertKey
+			                        Template_Code = templateCode
+			                        Reference_Type = templateCode
+			                        Reference_ID = 0
+			                        Recipient_Email = recipient
+			                        Sent_Date = zoho.currenttime
+			                        Delivery_Status = "Failed"
+			                        Error_Message = sendError.message
+			                    ];
+			                }
+			            }
+			        }
+			    }
+			
+}

@@ -1,0 +1,19 @@
+Estimates_On_Edit_Success as "Audit Estimate Update"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Estimates", input.ID, input.Program, "Updated", "", input.Status, "Estimate details updated.");
+			            )
+			        }
+			    }
+			
+}

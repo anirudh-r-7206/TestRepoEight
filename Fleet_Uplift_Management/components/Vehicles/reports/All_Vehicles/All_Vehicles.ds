@@ -1,0 +1,37 @@
+default list All_Vehicles
+{
+
+		    displayName = "All Vehicles"
+		    show all rows from Vehicles
+		    (
+		        Vehicle_ID
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Arrival_Date
+		        Pickup_Date
+		        Requested_Upfits
+		        Suggested_Upfitter
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		        QC_Date
+		        Billing_Eligible
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		        Arrival_Date
+		    )
+		    sort by
+		    (
+		        Arrival_Date ascending
+		        VIN ascending
+		    )
+		
+}

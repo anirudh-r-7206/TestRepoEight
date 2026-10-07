@@ -1,0 +1,27 @@
+list Declined_Estimates
+{
+
+		    displayName = "Declined Estimates"
+		    show all rows from Estimates [Status == "Declined"]
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Status
+		        Upfitter_Response
+		        Response_Date
+		        Reassignment_Flag
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Response_Date
+		    )
+		    sort by
+		    (
+		        Response_Date descending
+		    )
+		
+}

@@ -1,0 +1,38 @@
+Client_Invoices_On_Edit_Validate as "Validate Client Invoice Payment"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                if(input.Payment_Status == "Paid")
+			                {
+			                    if(input.Payment_Date == null)
+			                    {
+			                        input.Payment_Date = zoho.currentdate;
+			                    }
+			                }
+			                else
+			                {
+			                    input.Payment_Date = null;
+			                }
+			                if(old.Payment_Status != input.Payment_Status)
+			                {
+			                    thisapp.Create_Audit_Log("Client_Invoices", input.ID, input.Program, "Payment Status Changed", old.Payment_Status, input.Payment_Status, "Client invoice payment status updated.");
+			                }
+			            )
+			        }
+			    }
+			
+}

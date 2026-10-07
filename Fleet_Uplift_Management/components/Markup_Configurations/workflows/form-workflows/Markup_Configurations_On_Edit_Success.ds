@@ -1,0 +1,19 @@
+Markup_Configurations_On_Edit_Success as "Audit Markup Configuration Update"
+{
+
+			    type = form
+			    form = Markup_Configurations
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Markup Configurations", input.ID, 0, "Updated", "", input.Markup_Percent.toString(), "Markup configuration updated: " + input.Configuration_Name);
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,355 @@
+form Vehicles
+{
+
+		    title
+		    {
+		        displayname = "Vehicles"
+		        on add = "Create Vehicle"
+		        on edit = "Edit Vehicle"
+		    }
+		    record owner = Client_Portal_User
+		    Hidden_Section
+		    (
+		        type = section
+		        displayname = "System Information"
+		        row = 1
+		        column = 0
+		    )
+		    Vehicle_ID
+		    (
+		        type = autonumber
+		        displayname = "Vehicle ID"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client_Portal_User
+		    (
+		        type = picklist
+		        displayname = "Client Portal User"
+		        module = users
+		        displayformat = [name]
+		        user type = "portal users"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Upfitter_Portal_User
+		    (
+		        type = picklist
+		        displayname = "Upfitter Portal User"
+		        module = users
+		        displayformat = [name]
+		        user type = "portal users"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Matching_Distance_Miles
+		    (
+		        type = decimal
+		        displayname = "Matching Distance (Miles)"
+		        decimalplace = 2
+		        maxchar = 10
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Manual_Override
+		    (
+		        type = checkbox
+		        displayname = "Manual Assignment Override"
+		        initial value = false
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Eligible
+		    (
+		        type = checkbox
+		        displayname = "Billing Eligible"
+		        initial value = false
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Vehicle_Details
+		    (
+		        type = section
+		        displayname = "Vehicle Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have Program
+		    (
+		        type = picklist
+		        displayname = "Program"
+		        values = Programs.ID
+		        displayformat = [Service_ID]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have unique VIN
+		    (
+		        type = text
+		        displayname = "VIN"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Year
+		    (
+		        type = number
+		        displayname = "Year"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Make
+		    (
+		        type = text
+		        displayname = "Make"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Model
+		    (
+		        type = text
+		        displayname = "Model"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Cab_Type
+		    (
+		        type = picklist
+		        displayname = "Cab Type"
+		        values = {"Regular","Extended","Crew","Other"}
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Bed_Length
+		    (
+		        type = picklist
+		        displayname = "Bed Length"
+		        values = {"Short","Standard","Long","N/A"}
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Dropoff_Location
+		    (
+		        type = address
+		        displayname = "Drop-off Location"
+		        capture_coordinates = true
+		        adjust_using_map = true
+		        address_line_1
+		        (
+		            type = address_line_1
+		            displayname = "Street Address"
+		        )
+		        address_line_2
+		        (
+		            type = address_line_2
+		            displayname = "Suite / Unit"
+		        )
+		        district_city
+		        (
+		            type = district_city
+		            displayname = "City"
+		        )
+		        state_province
+		        (
+		            type = state_province
+		            displayname = "State / Province"
+		        )
+		        postal_Code
+		        (
+		            type = postal_Code
+		            displayname = "ZIP / Postal Code"
+		        )
+		        country
+		        (
+		            type = country
+		            displayname = "Country"
+		        )
+		        latitude
+		        (
+		            type = latitude
+		            displayname = "Latitude"
+		            visibility = false
+		        )
+		        longitude
+		        (
+		            type = longitude
+		            displayname = "Longitude"
+		            visibility = false
+		        )
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Arrival_Date
+		    (
+		        type = date
+		        displayname = "Arrival Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Pickup_Date
+		    (
+		        type = date
+		        displayname = "Pickup Date"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Requested_Upfits
+		    (
+		        type = list
+		        displayname = "Requested Upfits"
+		        values = Capabilities[Status == "Active"].ID
+		        displayformat = [Capability_Name]
+		        searchable = true
+		        height = 120px
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Assignment
+		    (
+		        type = section
+		        displayname = "Assignment and Progress"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Suggested_Upfitter
+		    (
+		        type = picklist
+		        displayname = "Suggested Upfitter"
+		        values = Upfitters[Status == "Active"].ID
+		        displayformat = [Upfitter_Name]
+		        searchable = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Assigned_Upfitter
+		    (
+		        type = picklist
+		        displayname = "Assigned Upfitter"
+		        values = Upfitters[Status == "Active"].ID
+		        displayformat = [Upfitter_Name]
+		        searchable = true
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    Vehicle_Status
+		    (
+		        type = picklist
+		        displayname = "Vehicle Status"
+		        values = {"Scheduled","Parts Ordered","Arrived","In Progress","Completed","Picked Up"}
+		        initial value = "Scheduled"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Completion_Photos
+		    (
+		        type = image
+		        displayname = "Completion Photos"
+		        source = file,camera
+		        compression = true
+		        file count = 10
+		        camera = primary
+		        switch camera = true
+		        show gallery = true
+		        preview duration = 0
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		    QC
+		    (
+		        type = section
+		        displayname = "Quality Control"
+		        visibility = true
+		        row = 4
+		        column = 1
+		    )
+		    QC_Status
+		    (
+		        type = picklist
+		        displayname = "QC Status"
+		        values = {"Pending","Approved","Rejected"}
+		        initial value = "Pending"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    QC_Notes
+		    (
+		        type = textarea
+		        displayname = "QC Notes"
+		        height = 100px
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    QC_Date
+		    (
+		        type = datetime
+		        displayname = "QC Date"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Internal_Notes
+		    (
+		        type = textarea
+		        displayname = "Internal Notes"
+		        height = 100px
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

@@ -1,0 +1,28 @@
+Quote_On_User_Input as "Copy Approved Quote Values"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on add or edit
+			
+			    on user input of Quote
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Quote != null)
+			                {
+			                    quoteRecord = Quotes[ID == input.Quote];
+			                    if(quoteRecord.count() > 0)
+			                    {
+			                        input.Program = quoteRecord.Program;
+			                        input.Client_Portal_User = quoteRecord.Client_Portal_User;
+			                        input.PO_Amount = quoteRecord.Quote_Total;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

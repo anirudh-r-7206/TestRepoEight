@@ -1,0 +1,7 @@
+report All_Estimate_Labor_Lines
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Estimate_Labor_Line_ID Estimate Description Line_Total ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Estimate_Labor_Line_ID Estimate Description Hours Hourly_Rate Line_Total ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

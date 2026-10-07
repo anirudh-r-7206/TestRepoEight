@@ -1,0 +1,7 @@
+report Work_Orders_Parts_Ordered
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Work_Order_Number Program Upfitter Parts_Order_By_Date Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Work_Order_Number Program Purchase_Order Upfitter Issue_Date Parts_Order_By_Date Status Work_Order_Document ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

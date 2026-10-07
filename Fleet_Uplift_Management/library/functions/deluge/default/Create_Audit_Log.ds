@@ -1,0 +1,45 @@
+void Create_Audit_Log(string moduleName, int recordId, int programId, string actionName, string beforeValue, string afterValue, string detailsText)
+{
+
+			    currentProfile = "System";
+			    try
+			    {
+			        currentProfile = thisapp.permissions.loginUserProfile();
+			    }
+			    catch(profileError)
+			    {
+			        currentProfile = "System";
+			    }
+			    if(programId != null && programId > 0)
+			    {
+			        insert into Audit_Log
+			        [
+			            Event_Date = zoho.currenttime
+			            User_Email = zoho.loginuserid
+			            User_Profile = currentProfile
+			            Module_Name = ifnull(moduleName, "Unknown")
+			            Record_ID = ifnull(recordId, 0)
+			            Program = programId
+			            Action = ifnull(actionName, "Updated")
+			            Before_Value = ifnull(beforeValue, "")
+			            After_Value = ifnull(afterValue, "")
+			            Details = ifnull(detailsText, "")
+			        ];
+			    }
+			    else
+			    {
+			        insert into Audit_Log
+			        [
+			            Event_Date = zoho.currenttime
+			            User_Email = zoho.loginuserid
+			            User_Profile = currentProfile
+			            Module_Name = ifnull(moduleName, "Unknown")
+			            Record_ID = ifnull(recordId, 0)
+			            Action = ifnull(actionName, "Updated")
+			            Before_Value = ifnull(beforeValue, "")
+			            After_Value = ifnull(afterValue, "")
+			            Details = ifnull(detailsText, "")
+			        ];
+			    }
+			
+}

@@ -1,0 +1,25 @@
+Estimate_Parts_Lines_On_Delete_Row as "Recalculate Parts after Delete"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add or edit
+			
+			    on delete row of Estimate_Parts_Lines
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                partsTotal = 0.00;
+			                for each partsRow in input.Estimate_Parts_Lines
+			                {
+			                    partsTotal = partsTotal + ifnull(partsRow.Line_Total, 0.00);
+			                }
+			                input.Parts_Total = partsTotal;
+			                input.Estimate_Total = partsTotal + ifnull(input.Labor_Total, 0.00);
+			            )
+			        }
+			    }
+			
+}

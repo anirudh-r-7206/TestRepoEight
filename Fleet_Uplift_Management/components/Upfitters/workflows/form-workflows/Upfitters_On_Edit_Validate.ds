@@ -1,0 +1,22 @@
+Upfitters_On_Edit_Validate as "Audit Upfitter Status Change"
+{
+
+			    type = form
+			    form = Upfitters
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(old.Status != input.Status)
+			                {
+			                    thisapp.Create_Audit_Log("Upfitters", input.ID, 0, "Status Changed", old.Status, input.Status, "Upfitter status updated");
+			                }
+			            )
+			        }
+			    }
+			
+}

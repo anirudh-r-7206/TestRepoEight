@@ -1,0 +1,36 @@
+list Open_Action_Items
+{
+
+		    displayName = "Open Action Items"
+		    show all rows from Action_Items [Status == "Open" || Status == "In Progress"]
+		    (
+		        Action_Item_ID
+		        Action_Type
+		        Program
+		        Vehicle
+		        Estimate
+		        Assigned_To
+		        Due_Date
+		        Priority
+		        Status
+		        Description
+		        Created_Date
+		    )
+		    filters
+		    (
+		        Action_Type
+		        Program
+		        Vehicle
+		        Estimate
+		        Assigned_To
+		        Due_Date
+		        Priority
+		        Status
+		        Created_Date
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		
+}

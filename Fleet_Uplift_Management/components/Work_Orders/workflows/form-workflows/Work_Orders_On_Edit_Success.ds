@@ -1,0 +1,19 @@
+Work_Orders_On_Edit_Success as "Audit Work Order Update"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Work_Orders", input.ID, input.Program, "Updated", "", input.Status, "Work order details updated.");
+			            )
+			        }
+			    }
+			
+}

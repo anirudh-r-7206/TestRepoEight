@@ -1,0 +1,20 @@
+<page linkname = "Finance_Dashboard" displayname = "Finance Dashboard"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Finance_Dashboard_Snippet_DSP' elementName='Finance_Dashboard_Snippet_DSP'>
+          <![CDATA[htmlpage Finance_Dashboard_Snippet_DSP()
+content
+			<%{%>
+            <file name:Finance_Dashboard_Snippet_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,31 @@
+list Resolved_Issues
+{
+
+		    displayName = "Resolved Issues"
+		    show all rows from Issues [Status == "Resolved"]
+		    (
+		        Issue_ID
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Status
+		        Assigned_To
+		        Resolution
+		        Opened_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Assigned_To
+		        Opened_Date
+		    )
+		    sort by
+		    (
+		        Opened_Date descending
+		    )
+		
+}

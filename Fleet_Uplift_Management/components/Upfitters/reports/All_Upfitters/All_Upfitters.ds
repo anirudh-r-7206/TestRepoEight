@@ -1,0 +1,34 @@
+default list All_Upfitters
+{
+
+		    displayName = "All Upfitters"
+		    show all rows from Upfitters
+		    (
+		        Upfitter_ID
+		        Upfitter_Name
+		        Upfitter_Type
+		        Status
+		        City
+		        State
+		        ZIP
+		        Service_Radius_Miles
+		        Capabilities
+		        Payment_Terms
+		        Primary_Contact
+		        Contact_Email
+		        Contact_Phone
+		        Cert_Expiry_Date
+		    )
+		    filters
+		    (
+		        Upfitter_Type
+		        Status
+		        State
+		        Capabilities
+		    )
+		    sort by
+		    (
+		        Upfitter_Name ascending
+		    )
+		
+}

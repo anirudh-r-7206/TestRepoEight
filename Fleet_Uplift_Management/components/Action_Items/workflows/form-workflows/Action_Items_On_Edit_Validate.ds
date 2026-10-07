@@ -1,0 +1,33 @@
+Action_Items_On_Edit_Validate as "Complete or Reopen Action Item"
+{
+
+			    type = form
+			    form = Action_Items
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Status == "Completed")
+			                {
+			                    if(old.Status != "Completed" || old.Completed_Date == null)
+			                    {
+			                        input.Completed_Date = zoho.currenttime;
+			                    }
+			                }
+			                else
+			                {
+			                    input.Completed_Date = null;
+			                }
+			                if(old.Status != input.Status)
+			                {
+			                    thisapp.Create_Audit_Log("Action_Items", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Action item status updated.");
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,27 @@
+Work_Orders_On_Edit_Validate as "Audit Work Order Status"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                if(upfitterRecord.count() > 0)
+			                {
+			                    input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                }
+			                if(old.Status != input.Status)
+			                {
+			                    thisapp.Create_Audit_Log("Work_Orders", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Work order status updated without changing vehicle status.");
+			                }
+			            )
+			        }
+			    }
+			
+}

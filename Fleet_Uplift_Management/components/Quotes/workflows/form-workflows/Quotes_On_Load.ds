@@ -1,0 +1,20 @@
+Quotes_On_Load as "Prepare Quote Form"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Quote_Number, Client_Portal_User, Quote_Date, Valid_Until, Estimate_Subtotal, Markup_Amount, Quote_Total, FMC_Approval_Date, Quote_PDF, Version_Number;
+			            )
+			        }
+			    }
+			
+}

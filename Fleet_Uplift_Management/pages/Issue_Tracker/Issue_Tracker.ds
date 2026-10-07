@@ -1,0 +1,20 @@
+<page linkname = "Issue_Tracker" displayname = "Issue Tracker"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Issue_Tracker_Workspace_DSP' elementName='Issue_Tracker_Workspace_DSP'>
+          <![CDATA[htmlpage Issue_Tracker_Workspace_DSP()
+content
+			<%{%>
+            <file name:Issue_Tracker_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

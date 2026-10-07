@@ -1,0 +1,27 @@
+list Assigned_Estimates
+{
+
+		    displayName = "Assigned Estimates"
+		    show all rows from Estimates [Upfitter != null]
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Estimate_Total
+		        Status
+		        Response_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Status
+		        Response_Date
+		    )
+		    sort by
+		    (
+		        Estimate_ID descending
+		    )
+		
+}

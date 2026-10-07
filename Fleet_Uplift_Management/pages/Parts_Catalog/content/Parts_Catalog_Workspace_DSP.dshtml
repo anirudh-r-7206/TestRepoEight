@@ -1,0 +1,316 @@
+<%
+activeCount = Parts[Status == "Active"].count();
+discontinuedCount = Parts[Status == "Discontinued"].count();
+addPartUrl = "#Form:Parts?zc_LoadIn=dialog&zc_Header=false&zc_NextUrl=%23Page%3AParts_Catalog&zc_OpenUrlIn=same%20window&zc_SuccMsg=Part%20added%20successfully";
+%>
+<style>
+/* ZCS global utility styles used by this page. */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color);
+	--zcs-light-bg-color: var(--zcs_brand_light_color);
+	--zcs-page-bg-color: #f3f3f4;
+	--zcs-primary-text-color: var(--zcs_primary_text_color);
+	--zcs-secondary-text-color: var(--zcs_secondary_text_color);
+	--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+	--zcs-border-color: var(--zcs_tertiary_border_color);
+	--zcs-white-color: #ffffff;
+	--catalog-container-spacing: 15px;
+	--catalog-radius: 12px;
+	--catalog-base-size: 14px;
+	--catalog-surface: var(--zcs-white-color);
+	--catalog-page-bg: var(--zcs-page-bg-color);
+	--catalog-border: var(--zcs_tertiary_border_color);
+	--catalog-text: var(--zcs_primary_text_color);
+	--catalog-muted: var(--zcs_secondary_text_color);
+	--catalog-brand: var(--zcs_brand_color);
+}
+.zcs-flex { display: flex; }
+.zcs-inline-flex { display: inline-flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-center { justify-content: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: 6px; }
+.zcs-gap-8 { gap: 8px; }
+.zcs-gap-12 { gap: 12px; }
+.zcs-w-full { width: 100%; }
+.zcs-wh-full { width: 100%; height: 100%; }
+.zcs-col-common { flex: 1 1 0%; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-p-20 { padding: 20px; }
+.zcs-px-6 { padding-left: 6px; padding-right: 6px; }
+.zcs-px-10 { padding-left: 10px; padding-right: 10px; }
+.zcs-px-16 { padding-left: 16px; padding-right: 16px; }
+.zcs-py-0 { padding-top: 0; padding-bottom: 0; }
+.zcs-py-2 { padding-top: 2px; padding-bottom: 2px; }
+.zcs-py-8 { padding-top: 8px; padding-bottom: 8px; }
+.zcs-py-12 { padding-top: 12px; padding-bottom: 12px; }
+.zcs-m-0 { margin: 0; }
+.zcs-mt-10 { margin-top: 10px; }
+.zcs-mt-12 { margin-top: 12px; }
+.zcs-mt-20 { margin-top: 20px; }
+.zcs-mx-0 { margin-left: 0; margin-right: 0; }
+.zcs-mb-0 { margin-bottom: 0; }
+.zcs-font-12 { font-size: 12px; }
+.zcs-font-14 { font-size: 14px; }
+.zcs-font-18 { font-size: 18px; }
+.zcs-font-24 { font-size: 24px; }
+.zcs-font-normal { font-weight: 400; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-font-semibold { font-weight: 600; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-lh-heading { line-height: 1.25; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-tertiary { color: var(--zcs-teritiary-text-color); }
+.zcs-text-center { text-align: center; }
+.zcs-rounded-sm { border-radius: 4px; }
+.zcs-rounded-md { border-radius: 6px; }
+.zcs-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a { text-decoration: none; }
+
+/* ZCS Heading with Button / Primary Button. */
+.zcs-button {
+	width: auto;
+	min-width: 5rem;
+	min-height: 36px;
+	border: 0;
+	cursor: pointer;
+}
+.zcs-primary-button {
+	background-color: var(--zcs_brand_color);
+	color: var(--zcs_brand_foreground_color);
+}
+.zcs-primary-button:hover { background-color: var(--zcs_brand_dark_color); }
+.zcs-primary-button:focus {
+	background-color: var(--zcs_component_hover_color);
+	outline: 2px solid var(--zcs_brand_color);
+	outline-offset: 2px;
+}
+.zcs-button-icon { width: 16px; max-height: 16px; }
+
+/* ZCS Horizontal Tab With Count. */
+.zcs-horizontal-tabpanel { min-height: 520px; }
+.zcs-horizontal-tabhead {
+	box-shadow: 0 -1px 0 0 var(--zcs_tertiary_border_color) inset;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+}
+.zcs-horizontal-tabhead::-webkit-scrollbar { display: none; }
+.zcs-horizontal-tabitem {
+	flex: 0 0 auto;
+	list-style: none;
+	border-bottom: 2px solid transparent;
+	letter-spacing: .1px;
+}
+.zcs-horizontal-tablink {
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+	color: var(--zcs_teritiary_text_color);
+}
+.zcs-horizontal-tabitem:hover .zcs-horizontal-tablink { color: var(--zcs_brand_color); }
+.zcs-horizontal-tabcount {
+	min-width: 24px;
+	background-color: var(--zcs-page-bg-color);
+}
+.zcs-horizontal-tabbody { overflow: visible; }
+
+/* ZCS No Data With Button, adapted to use a Nucleo icon. */
+.zcs-nodata-content { max-width: 440px; }
+.zcs-nodata-desc { max-width: 390px; }
+
+.parts-catalog,
+.parts-catalog * { box-sizing: border-box; }
+.parts-catalog {
+	width: 100%;
+	min-height: 100%;
+	padding: var(--catalog-container-spacing);
+	background: var(--catalog-page-bg);
+	color: var(--catalog-text);
+	font-size: var(--catalog-base-size);
+	line-height: 1.5;
+}
+.catalog-header {
+	min-height: 88px;
+	margin-bottom: var(--catalog-container-spacing);
+	padding: 20px 22px;
+	background: var(--catalog-surface);
+	border: 1px solid var(--catalog-border);
+	border-radius: var(--catalog-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.catalog-header-copy { min-width: 0; }
+.catalog-header-title { margin: 0; color: var(--catalog-text); }
+.catalog-header-subtitle {
+	margin: 4px 0 0;
+	color: var(--catalog-muted);
+	font-size: var(--catalog-base-size);
+}
+.catalog-add-action { flex: 0 0 auto; }
+.catalog-tabs-card {
+	position: relative;
+	overflow: hidden;
+	background: var(--catalog-surface);
+	border: 1px solid var(--catalog-border);
+	border-radius: var(--catalog-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.catalog-tab-control {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+.catalog-tab-control:focus-visible ~ .zcs-horizontal-tabpanel .zcs-horizontal-tabhead {
+	outline: 2px solid var(--catalog-brand);
+	outline-offset: -2px;
+}
+.catalog-tabhead { padding: 0 12px; }
+.catalog-tabpane { display: none; padding: var(--catalog-container-spacing); }
+.catalog-report-shell {
+	position: relative;
+	min-height: 480px;
+	overflow: hidden;
+	background: var(--catalog-surface);
+	border: 1px solid var(--catalog-border);
+	border-radius: var(--catalog-radius);
+}
+.catalog-report {
+	width: 100%;
+	min-height: 480px;
+	border: 0;
+	background: transparent;
+}
+.catalog-report-empty { display: none; }
+.catalog-empty-state { min-height: 480px; color: var(--catalog-muted); }
+.catalog-empty-icon {
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 12px;
+	border-radius: 12px;
+	background: var(--zcs_brand_light_color);
+	color: var(--catalog-brand);
+	font-size: 24px;
+}
+.catalog-empty-copy { margin: 6px 0 0; color: var(--catalog-muted); }
+.catalog-guidance {
+	padding: 10px 15px;
+	color: var(--catalog-muted);
+	background: var(--zcs_brand_light_color);
+	border-top: 1px solid var(--catalog-border);
+	font-size: 13px;
+}
+.catalog-guidance strong { color: var(--catalog-text); font-weight: 600; }
+
+#catalog-tab-active:checked ~ .zcs-horizontal-tabpanel .tab-active,
+#catalog-tab-discontinued:checked ~ .zcs-horizontal-tabpanel .tab-discontinued { border-bottom-color: var(--catalog-brand); }
+#catalog-tab-active:checked ~ .zcs-horizontal-tabpanel .tab-active .zcs-horizontal-tablink,
+#catalog-tab-discontinued:checked ~ .zcs-horizontal-tabpanel .tab-discontinued .zcs-horizontal-tablink { color: var(--catalog-brand); }
+#catalog-tab-active:checked ~ .zcs-horizontal-tabpanel .pane-active,
+#catalog-tab-discontinued:checked ~ .zcs-horizontal-tabpanel .pane-discontinued { display: block; }
+
+.status-active { background: #e2f6ee; color: #116f50; }
+.status-discontinued { background: #e9ebef; color: #4f5461; }
+
+@media (max-width: 768px) {
+	.catalog-header { align-items: flex-start; flex-direction: column; padding: 18px; }
+	.catalog-add-action { width: 100%; }
+	.catalog-add-action .zcs-button { width: 100%; }
+	.catalog-tabhead { padding: 0 6px; }
+	.zcs-horizontal-tablink { padding: 11px 9px; }
+	.catalog-tabpane { padding: 12px; }
+	.catalog-report-shell,
+	.catalog-report,
+	.catalog-empty-state { min-height: 560px; }
+}
+@media (max-width: 480px) {
+	.parts-catalog { padding: 10px; }
+	.catalog-header { margin-bottom: 10px; }
+	.catalog-header-title { font-size: 21px; }
+	.catalog-header-subtitle { font-size: 13px; }
+}
+</style>
+
+<div class='parts-catalog'>
+	<header class='catalog-header zcs-page-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12 zcs-box-border'>
+		<div class='catalog-header-copy zcs-ellipsis'>
+			<h1 class='catalog-header-title zcs-font-24 zcs-font-semibold zcs-lh-heading zcs-ellipsis'>Parts Catalog</h1>
+			<p class='catalog-header-subtitle'>Manage priced parts, sourcing, lead times, and installation capabilities.</p>
+		</div>
+		<div class='catalog-add-action zcs-flex zcs-align-items-center'>
+			<a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium zcs-lh-body'
+				 href='<%=addPartUrl%>'>
+				<i class='zcs-button-icon zc-li-outline ui-1-simple-add'></i>
+				<span class='zcs-button-text'>Add Part</span>
+			</a>
+		</div>
+	</header>
+
+	<section class='catalog-tabs-card'>
+		<input class='catalog-tab-control' type='radio' name='part-status' id='catalog-tab-active' checked='checked'>
+		<input class='catalog-tab-control' type='radio' name='part-status' id='catalog-tab-discontinued'>
+
+		<div class='zcs-horizontal-tabpanel zcs-flex zcs-direction-column zcs-w-full'>
+			<ul class='catalog-tabhead zcs-horizontal-tabhead zcs-flex zcs-gap-6 zcs-py-0 zcs-m-0 zcs-box-border' role='tablist' aria-label='Part status'>
+				<li class='tab-active zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='catalog-tab-active'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Active</span>
+						<span class='zcs-horizontal-tabcount status-active zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=activeCount%></span>
+					</label>
+				</li>
+				<li class='tab-discontinued zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='catalog-tab-discontinued'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Discontinued</span>
+						<span class='zcs-horizontal-tabcount status-discontinued zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=discontinuedCount%></span>
+					</label>
+				</li>
+			</ul>
+
+			<div class='zcs-horizontal-tabbody zcs-col-common'>
+				<div class='catalog-tabpane pane-active'>
+					<div class='catalog-report-shell'>
+						<% if(activeCount == 0) { %>
+						<div class='catalog-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-p-20 zcs-box-border'>
+								<div class='catalog-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline e-commerce-box'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No active parts</h5>
+								<p class='zcs-nodata-desc catalog-empty-copy zcs-font-14 zcs-font-normal zcs-lh-body zcs-mt-12 zcs-mx-0 zcs-mb-0'>Add the first catalog item to make it available for estimates and sourcing.</p>
+								<div class='zcs-nodata-btn-wrapper zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-mt-20'>
+									<a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body' href='<%=addPartUrl%>'>
+										<i class='zcs-button-icon zc-li-outline ui-1-simple-add'></i>
+										<span class='zcs-button-text'>Add Part</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<% } %>
+						<div class='catalog-report <% if(activeCount == 0) { %>catalog-report-empty<% } %>' elName='zc-component' viewLinkName='Active_Parts' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='catalog-tabpane pane-discontinued'>
+					<div class='catalog-report-shell'>
+						<% if(discontinuedCount == 0) { %>
+						<div class='catalog-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-p-20 zcs-box-border'>
+								<div class='catalog-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-archive'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No discontinued parts</h5>
+								<p class='zcs-nodata-desc catalog-empty-copy zcs-font-14 zcs-font-normal zcs-lh-body zcs-mt-12 zcs-mx-0 zcs-mb-0'>Parts removed from active sourcing will remain here for historical reference.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='catalog-report <% if(discontinuedCount == 0) { %>catalog-report-empty<% } %>' elName='zc-component' viewLinkName='Discontinued_Parts' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+			</div>
+
+			<div class='catalog-guidance'><strong>Part details:</strong> select a configured part-name link in either report to open its Part Detail workspace.</div>
+		</div>
+	</section>
+</div>

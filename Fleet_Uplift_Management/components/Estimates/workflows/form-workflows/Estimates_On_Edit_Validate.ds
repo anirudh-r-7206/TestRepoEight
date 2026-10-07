@@ -1,0 +1,135 @@
+Estimates_On_Edit_Validate as "Process Estimate Response"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                if(upfitterRecord.count() > 0)
+			                {
+			                    input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                }
+			                for each vehicleId in input.Vehicles_In_Scope
+			                {
+			                    scopedVehicle = Vehicles[ID == vehicleId && Program == input.Program];
+			                    if(scopedVehicle.count() == 0)
+			                    {
+			                        alert(Vehicles_In_Scope, "Every vehicle in scope must belong to the selected program.");
+			                        cancel submit;
+			                    }
+			                }
+			                if((input.Status == "Declined" || input.Status == "Revision Requested") && ifnull(input.Upfitter_Response, "") == "")
+			                {
+			                    alert(Upfitter_Response, "A response is required for declined or revision-requested estimates.");
+			                    cancel submit;
+			                }
+			                if(old.Status != input.Status)
+			                {
+			                    if(input.Status == "Pending Upfitter Review")
+			                    {
+			                        input.Response_Date = null;
+			                    }
+			                    else
+			                    {
+			                        input.Response_Date = zoho.currenttime;
+			                    }
+			                    if(input.Status == "Declined")
+			                    {
+			                        input.Reassignment_Flag = true;
+			                        existingDeclineIssue = Issues[Program == input.Program && Issue_Type == "Estimate Decline" && (Status == "Open" || Status == "In Progress")];
+			                        if(existingDeclineIssue.count() == 0)
+			                        {
+			                            insertedIssue = insert into Issues
+			                            [
+			                                Program = input.Program
+			                                Issue_Type = "Estimate Decline"
+			                                Priority = "High"
+			                                Status = "Open"
+			                                Description = "Estimate " + input.Estimate_ID + " was declined. " + input.Upfitter_Response
+			                            ];
+			                        }
+			                        existingReassignment = Action_Items[Program == input.Program && Estimate == input.ID && Action_Type == "Reassignment" && (Status == "Open" || Status == "In Progress")];
+			                        if(existingReassignment.count() == 0)
+			                        {
+			                            insertedAction = insert into Action_Items
+			                            [
+			                                Action_Type = "Reassignment"
+			                                Program = input.Program
+			                                Estimate = input.ID
+			                                Assigned_To = zoho.adminuserid
+			                                Due_Date = zoho.currenttime.addDay(1)
+			                                Priority = "High"
+			                                Status = "Open"
+			                                Description = "Reassign vehicles after estimate " + input.Estimate_ID + " was declined."
+			                                Created_Date = zoho.currenttime
+			                            ];
+			                            templateData = Map();
+			                            templateData.put("estimate_id", input.Estimate_ID);
+			                            templateData.put("response", input.Upfitter_Response);
+			                            declineKey = "ESTIMATE_DECLINED_INTERNAL-" + input.ID + "-" + zoho.adminuserid;
+			                            thisapp.Send_Template_Email("ESTIMATE_DECLINED_INTERNAL", zoho.adminuserid, templateData, declineKey);
+			                        }
+			                    }
+			                    else if(input.Status == "Approved")
+			                    {
+			                        input.Reassignment_Flag = false;
+			                        estimateCount = Estimates[Program == input.Program].count();
+			                        approvedOtherCount = Estimates[Program == input.Program && Status == "Approved" && ID != input.ID].count();
+			                        if(estimateCount > 0 && approvedOtherCount + 1 == estimateCount)
+			                        {
+			                            existingQuote = Quotes[Program == input.Program];
+			                            if(existingQuote.count() == 0)
+			                            {
+			                                estimateSubtotal = ifnull(input.Estimate_Total, 0.00);
+			                                for each approvedEstimate in Estimates[Program == input.Program && Status == "Approved" && ID != input.ID]
+			                                {
+			                                    estimateSubtotal = estimateSubtotal + ifnull(approvedEstimate.Estimate_Total, 0.00);
+			                                }
+			                                programRecord = Programs[ID == input.Program];
+			                                markupPercent = ifnull(programRecord.Markup_Percent, 0.00);
+			                                markupAmount = estimateSubtotal * markupPercent / 100;
+			                                validityDays = 30;
+			                                configRecord = System_Configuration[ID != 0];
+			                                if(configRecord.count() > 0)
+			                                {
+			                                    validityDays = configRecord.Quote_Validity_Days;
+			                                }
+			                                quoteId = insert into Quotes
+			                                [
+			                                    Quote_Number = "TEMP-" + input.ID
+			                                    Client_Portal_User = programRecord.Client_Portal_User
+			                                    Program = input.Program
+			                                    Quote_Date = zoho.currentdate
+			                                    Valid_Until = zoho.currentdate.addDay(validityDays)
+			                                    Estimate_Subtotal = estimateSubtotal
+			                                    Markup_Percent = markupPercent
+			                                    Markup_Amount = markupAmount
+			                                    Quote_Total = estimateSubtotal + markupAmount
+			                                    Status = "Draft"
+			                                    Version_Number = 1
+			                                ];
+			                                quoteRecord = Quotes[ID == quoteId];
+			                                sequenceText = "0000" + quoteRecord.Quote_Sequence.toString();
+			                                quoteRecord.Quote_Number = "QT-" + zoho.currentdate.toString("yyyyMM") + "-" + sequenceText.right(4);
+			                                thisapp.Generate_Quote_PDF(quoteId);
+			                            }
+			                            update Programs[ID == input.Program]
+			                            [
+			                                Program_Status = "Pending Quote Approval"
+			                            ];
+			                        }
+			                    }
+			                    thisapp.Create_Audit_Log("Estimates", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Estimate response recorded.");
+			                }
+			            )
+			        }
+			    }
+			
+}

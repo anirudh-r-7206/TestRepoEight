@@ -1,0 +1,28 @@
+list Active_Parts
+{
+
+		    displayName = "Active Parts"
+		    show all rows from Parts [Status == "Active"]
+		    (
+		        Part_ID
+		        Part_Name
+		        Brand
+		        Part_Number
+		        Sourcing
+		        Unit_Price
+		        Linked_Capability
+		        Lead_Time_Days
+		        Status
+		    )
+		    filters
+		    (
+		        Brand
+		        Sourcing
+		        Linked_Capability
+		    )
+		    sort by
+		    (
+		        Part_Name ascending
+		    )
+		
+}

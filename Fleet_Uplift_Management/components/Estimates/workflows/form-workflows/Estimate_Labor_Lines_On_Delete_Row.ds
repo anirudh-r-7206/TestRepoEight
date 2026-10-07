@@ -1,0 +1,25 @@
+Estimate_Labor_Lines_On_Delete_Row as "Recalculate Labor after Delete"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add or edit
+			
+			    on delete row of Estimate_Labor_Lines
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                laborTotal = 0.00;
+			                for each laborRow in input.Estimate_Labor_Lines
+			                {
+			                    laborTotal = laborTotal + ifnull(laborRow.Line_Total, 0.00);
+			                }
+			                input.Labor_Total = laborTotal;
+			                input.Estimate_Total = ifnull(input.Parts_Total, 0.00) + laborTotal;
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,27 @@
+QC_Status_On_User_Input as "Update QC Notes Visibility"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on add or edit
+			
+			    on user input of QC_Status
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                isAdmin = thisapp.permissions.isUserInProfile("Internal_Admin");
+			                if(input.QC_Status == "Rejected" || isAdmin)
+			                {
+			                    show QC_Notes;
+			                }
+			                else
+			                {
+			                    hide QC_Notes;
+			                }
+			            )
+			        }
+			    }
+			
+}

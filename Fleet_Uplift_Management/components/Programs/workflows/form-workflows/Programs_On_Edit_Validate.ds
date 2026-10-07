@@ -1,0 +1,22 @@
+Programs_On_Edit_Validate as "Audit Program Status Change"
+{
+
+			    type = form
+			    form = Programs
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(old.Program_Status != input.Program_Status)
+			                {
+			                    thisapp.Create_Audit_Log("Programs", input.ID, input.ID, "Status Changed", old.Program_Status, input.Program_Status, "Program lifecycle stage changed.");
+			                }
+			            )
+			        }
+			    }
+			
+}

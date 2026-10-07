@@ -1,0 +1,20 @@
+<page linkname = "Parts_Catalog" displayname = "Parts Catalog"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Parts_Catalog_Workspace_DSP' elementName='Parts_Catalog_Workspace_DSP'>
+          <![CDATA[htmlpage Parts_Catalog_Workspace_DSP()
+content
+			<%{%>
+            <file name:Parts_Catalog_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,189 @@
+menu
+{
+
+	    unused
+	    {
+	        form Programs { icon = "business-agenda" }
+	        form Vehicles { icon = "transportation-car-simple" }
+	        form Estimates { icon = "business-calculator" }
+	        form Estimate_Labor_Lines { icon = "business-math" }
+	        form Estimate_Parts_Lines { icon = "objects-puzzle-09" }
+	        form Quotes { icon = "business-signature" }
+	        form Purchase_Orders { icon = "business-cheque" }
+	        form Work_Orders { icon = "business-briefcase-24" }
+	        form Issues { icon = "objects-cone" }
+	        form Action_Items { icon = "business-notes" }
+	        form Upfitters { icon = "users-network" }
+	        form Capabilities { icon = "business-award-48" }
+	        form Parts { icon = "objects-puzzle-10" }
+	        form FMC_Clients { icon = "business-contacts" }
+	        form Client_Invoices { icon = "business-payment" }
+	        form Upfitter_Payables { icon = "business-money-coins" }
+	        form Markup_Configurations { icon = "business-percentage-38" }
+	        form Notification_Templates { icon = "business-notes" }
+	        form Notification_Log { icon = "business-agenda" }
+	        form Audit_Log { icon = "business-safe" }
+	        form System_Configuration { icon = "objects-key-26" }
+	        report All_Programs { icon = "business-agenda" }
+	        report Programs_Request_Intake { icon = "business-agenda" }
+	        report Programs_Scope_Source { icon = "business-strategy" }
+	        report Programs_Upfitter_Matching { icon = "business-connect" }
+	        report Programs_Pending_Estimates { icon = "business-calculator" }
+	        report Programs_Pending_Quote_Approval { icon = "business-signature" }
+	        report Programs_PO_Received { icon = "business-cheque" }
+	        report Programs_In_Execution { icon = "business-progress" }
+	        report Programs_Closed { icon = "business-goal-64" }
+	        report All_Vehicles { icon = "transportation-car-simple" }
+	        report Vehicle_Status_Board { icon = "business-board-30" }
+	        report Assigned_Vehicles { icon = "transportation-car-front" }
+	        report Vehicles_Scheduled { icon = "business-agenda" }
+	        report Vehicles_Arrived { icon = "transportation-road" }
+	        report Vehicles_Parts_Ordered { icon = "objects-puzzle-09" }
+	        report Vehicles_In_Progress { icon = "business-progress" }
+	        report Vehicles_Completed { icon = "business-goal-64" }
+	        report Vehicles_Picked_Up { icon = "transportation-car" }
+	        report All_Estimates { icon = "business-calculator" }
+	        report Assigned_Estimates { icon = "business-handout" }
+	        report Pending_Estimates { icon = "business-money-time" }
+	        report Approved_Estimates { icon = "business-signature" }
+	        report Revision_Requested_Estimates { icon = "business-sign" }
+	        report Declined_Estimates { icon = "business-businessman-03" }
+	        report All_Estimate_Parts_Lines { icon = "objects-puzzle-09" }
+	        report All_Estimate_Labor_Lines { icon = "business-math" }
+	        report All_Quotes { icon = "business-signature" }
+	        report Draft_Quotes { icon = "business-notes" }
+	        report Sent_Quotes { icon = "business-handout" }
+	        report Approved_Quotes { icon = "business-goal-64" }
+	        report Declined_Quotes { icon = "business-businessman-03" }
+	        report All_Purchase_Orders { icon = "business-cheque" }
+	        report Received_Purchase_Orders { icon = "business-handout" }
+	        report Acknowledged_Purchase_Orders { icon = "business-signature" }
+	        report Green_Light_Purchase_Orders { icon = "business-goal-65" }
+	        report All_Work_Orders { icon = "business-briefcase-24" }
+	        report Work_Orders_Issued { icon = "business-handout" }
+	        report Work_Orders_Parts_Ordered { icon = "objects-puzzle-10" }
+	        report Work_Orders_In_Progress { icon = "business-progress" }
+	        report Work_Orders_Completed { icon = "business-goal-64" }
+	        report All_Issues { icon = "objects-cone" }
+	        report Open_Issues { icon = "objects-cone" }
+	        report In_Progress_Issues { icon = "business-progress" }
+	        report Resolved_Issues { icon = "objects-support-17" }
+	        report Closed_Issues { icon = "business-goal-64" }
+	        report All_Action_Items { icon = "business-notes" }
+	        report Open_Action_Items { icon = "business-agenda" }
+	        report My_Open_Action_Items { icon = "users-single-01" }
+	        report All_Upfitters { icon = "users-network" }
+	        report Active_Upfitters { icon = "users-multiple-11" }
+	        report Inactive_Upfitters { icon = "users-circle-09" }
+	        report Upfitter_Map { icon = "business-globe" }
+	        report All_Capabilities { icon = "business-award-48" }
+	        report Active_Capabilities { icon = "business-award-49" }
+	        report All_Parts { icon = "objects-puzzle-09" }
+	        report Active_Parts { icon = "business-stock" }
+	        report Discontinued_Parts { icon = "objects-broom" }
+	        report All_FMC_Clients { icon = "business-contacts" }
+	        report Active_FMC_Clients { icon = "business-business-contact-85" }
+	        report All_Client_Invoices { icon = "business-payment" }
+	        report Unpaid_Invoices { icon = "business-money-time" }
+	        report Partial_Invoices { icon = "business-percentage-39" }
+	        report Paid_Invoices { icon = "business-goal-64" }
+	        report Overdue_Invoices { icon = "objects-cone" }
+	        report All_Upfitter_Payables { icon = "business-money-coins" }
+	        report Pending_Approval_Payables { icon = "business-money-time" }
+	        report Approved_Payables { icon = "business-signature" }
+	        report Paid_Payables { icon = "business-goal-64" }
+	        report All_Markup_Configurations { icon = "business-percentage-38" }
+	        report Active_Markup_Configurations { icon = "business-percentage-39" }
+	        report All_Notification_Templates { icon = "business-notes" }
+	        report Active_Notification_Templates { icon = "business-agenda" }
+	        report All_Notification_Log { icon = "business-board-27" }
+	        report All_Audit_Log { icon = "business-safe" }
+	        report Program_Activity_Log { icon = "business-progress" }
+	        report System_Configuration_Report { icon = "objects-key-26" }
+	        page Program_Detail { icon = "business-agenda" }
+	        page Vehicle_Detail { icon = "transportation-car-simple" }
+	        page Quote_Detail { icon = "business-signature" }
+	        page Work_Order_Detail { icon = "business-briefcase-24" }
+	        page Invoice_Detail { icon = "business-payment" }
+	        page Upfitter_Detail { icon = "users-network" }
+	        page Part_Detail { icon = "objects-puzzle-09" }
+	        page Finance_Dashboard { icon = "business-chart-pie-35" }
+	        page Revenue_Report { icon = "business-money-growth" }
+	        page Payout_Report { icon = "business-money-bag" }
+	        page Upfitter_Performance { icon = "business-award-49" }
+	    }
+	    space Program_Management
+	    {
+	        displayname = "Program Management"
+	        icon = "business-agenda"
+	        page Program_Workspace { icon = "business-agenda" }
+	    }
+	    space Upfitter_Management
+	    {
+	        displayname = "Upfitter Management"
+	        icon = "users-network"
+	        page Upfitter_Network { icon = "users-multiple-11" }
+	    }
+	    space Parts_And_Catalog
+	    {
+	        displayname = "Parts & Catalog"
+	        icon = "objects-puzzle-09"
+	        page Parts_Catalog { icon = "business-stock" }
+	    }
+	    space Estimating_And_Quoting
+	    {
+	        displayname = "Estimating & Quoting"
+	        icon = "business-calculator"
+	        page Estimate_Review { icon = "business-calculator" }
+	        page PO_Green_Light { icon = "business-goal-65" }
+	    }
+	    space Operations
+	    {
+	        displayname = "Operations"
+	        icon = "transportation-car"
+	        page Work_Order_Hub { icon = "business-briefcase-24" }
+	        page Issue_Tracker { icon = "objects-cone" }
+	        page Execution_Tracker { icon = "transportation-road" }
+	    }
+	    space Finance
+	    {
+	        displayname = "Finance"
+	        icon = "business-currency-dollar"
+	        page Invoices { icon = "business-cheque" }
+	        page Upfitter_Payables_Hub { icon = "business-money-coins" }
+	    }
+	    space Reports_And_Dashboards
+	    {
+	        displayname = "Reports & Dashboards"
+	        icon = "business-chart-bar-33"
+	        page Pipeline_Dashboard { icon = "business-chart-bar-32" }
+	        page AR_Aging_Report { icon = "business-money-time" }
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	    space Administration
+	    {
+	        displayname = "Administration"
+	        icon = "business-briefcase-25"
+	        section App_Preferences
+	        {
+	            displayname = "Application"
+	            icon = "objects-key-26"
+	            systemcomponent { type = localization displayname = "Language" icon = "business-globe" }
+	            systemcomponent { type = connection displayname = "Connections" icon = "business-connect" }
+	        }
+	    }
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	
+}

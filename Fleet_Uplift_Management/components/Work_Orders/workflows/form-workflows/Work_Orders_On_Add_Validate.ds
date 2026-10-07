@@ -1,0 +1,61 @@
+Work_Orders_On_Add_Validate as "Calculate Work Order Values"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on add
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                purchaseOrderRecord = Purchase_Orders[ID == input.Purchase_Order];
+			                if(purchaseOrderRecord.count() == 0 || purchaseOrderRecord.Program != input.Program || purchaseOrderRecord.Status != "Green Light Issued")
+			                {
+			                    alert(Purchase_Order, "The purchase order must belong to the program and have Green Light status.");
+			                    cancel submit;
+			                }
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                if(upfitterRecord.count() > 0)
+			                {
+			                    input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                }
+			                input.Issue_Date = zoho.currentdate;
+			                input.Status = "Issued";
+			                earliestArrival = Vehicles[Program == input.Program && Assigned_Upfitter == input.Upfitter && Arrival_Date != null].minimum(Arrival_Date);
+			                requestedCapabilityIds = List();
+			                for each vehicleRecord in Vehicles[Program == input.Program && Assigned_Upfitter == input.Upfitter]
+			                {
+			                    for each capabilityId in vehicleRecord.Requested_Upfits
+			                    {
+			                        if(!requestedCapabilityIds.contains(capabilityId))
+			                        {
+			                            requestedCapabilityIds.add(capabilityId);
+			                        }
+			                    }
+			                }
+			                maximumLeadDays = 0;
+			                for each capabilityId in requestedCapabilityIds
+			                {
+			                    capabilityLeadDays = ifnull(Parts[Status == "Active" && Linked_Capability == capabilityId].maximum(Lead_Time_Days), 0);
+			                    if(capabilityLeadDays > maximumLeadDays)
+			                    {
+			                        maximumLeadDays = capabilityLeadDays;
+			                    }
+			                }
+			                input.Parts_Order_By_Date = zoho.currentdate;
+			                if(earliestArrival != null)
+			                {
+			                    input.Parts_Order_By_Date = earliestArrival.addDay(0 - maximumLeadDays);
+			                }
+			                if(input.Work_Order_Number == null || input.Work_Order_Number == "")
+			                {
+			                    input.Work_Order_Number = "PENDING-" + zoho.currenttime.toLong();
+			                }
+			            )
+			        }
+			    }
+			
+}

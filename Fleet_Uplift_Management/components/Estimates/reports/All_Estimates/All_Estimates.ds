@@ -1,0 +1,30 @@
+default list All_Estimates
+{
+
+		    displayName = "All Estimates"
+		    show all rows from Estimates
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Parts_Total
+		        Labor_Total
+		        Estimate_Total
+		        Status
+		        Response_Date
+		        Reassignment_Flag
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Status
+		        Response_Date
+		    )
+		    sort by
+		    (
+		        Estimate_ID descending
+		    )
+		
+}

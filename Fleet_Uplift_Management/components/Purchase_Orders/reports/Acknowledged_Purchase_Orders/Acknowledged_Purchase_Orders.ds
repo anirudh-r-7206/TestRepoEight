@@ -1,0 +1,26 @@
+list Acknowledged_Purchase_Orders
+{
+
+		    displayName = "Acknowledged Purchase Orders"
+		    show all rows from Purchase_Orders [Status == "Acknowledged"]
+		    (
+		        Program
+		        Quote
+		        FMC_PO_Number
+		        PO_Date
+		        PO_Amount
+		        Status
+		        PO_Acknowledgement_Document
+		    )
+		    filters
+		    (
+		        Program
+		        Quote
+		        PO_Date
+		    )
+		    sort by
+		    (
+		        PO_Date descending
+		    )
+		
+}

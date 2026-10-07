@@ -1,0 +1,27 @@
+Upfitters_Certification_Expiry as "Upfitter Certification Expiry Reminder"
+{
+
+			    type = schedule
+			    form = Upfitters[Status == "Active" && Cert_Expiry_Date != null]
+			    start = before 30 days from Cert_Expiry_Date at "08:00:00"
+			    frequency = daily
+			    end = Cert_Expiry_Date
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                templateData = Map();
+			                templateData.put("upfitter_name", input.Upfitter_Name);
+			                templateData.put("cert_expiry_date", input.Cert_Expiry_Date);
+			                templateData.put("contact_email", input.Contact_Email);
+			                alertKey = "CERT_EXPIRY_INTERNAL-" + input.ID + "-" + input.Cert_Expiry_Date + "-" + zoho.adminuserid;
+			                thisapp.Send_Template_Email("CERT_EXPIRY_INTERNAL", zoho.adminuserid, templateData, alertKey);
+			            )
+			        }
+			    }
+			
+}

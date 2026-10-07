@@ -1,0 +1,358 @@
+<%
+openCount = Issues[Status == "Open"].count();
+inProgressCount = Issues[Status == "In Progress"].count();
+resolvedCount = Issues[Status == "Resolved"].count();
+closedCount = Issues[Status == "Closed"].count();
+%>
+<style>
+/* ZCS global utilities used by this page. */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color);
+	--zcs-light-bg-color: var(--zcs_brand_light_color);
+	--zcs-page-bg-color: #f3f3f4;
+	--zcs-primary-text-color: var(--zcs_primary_text_color);
+	--zcs-secondary-text-color: var(--zcs_secondary_text_color);
+	--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+	--zcs-border-color: var(--zcs_tertiary_border_color);
+	--zcs-white-color: #ffffff;
+	--issue-container-spacing: 15px;
+	--issue-radius: 12px;
+	--issue-base-size: 14px;
+	--issue-surface: var(--zcs-white-color);
+	--issue-page-bg: var(--zcs-page-bg-color);
+	--issue-border: var(--zcs_tertiary_border_color);
+	--issue-text: var(--zcs_primary_text_color);
+	--issue-muted: var(--zcs_secondary_text_color);
+	--issue-brand: var(--zcs_brand_color);
+}
+.zcs-flex { display: flex; }
+.zcs-inline-flex { display: inline-flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-center { justify-content: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: 6px; }
+.zcs-gap-8 { gap: 8px; }
+.zcs-gap-12 { gap: 12px; }
+.zcs-w-full { width: 100%; }
+.zcs-wh-full { width: 100%; height: 100%; }
+.zcs-col-common { flex: 1 1 0%; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-px-6 { padding-left: 6px; padding-right: 6px; }
+.zcs-px-10 { padding-left: 10px; padding-right: 10px; }
+.zcs-px-16 { padding-left: 16px; padding-right: 16px; }
+.zcs-py-0 { padding-top: 0; padding-bottom: 0; }
+.zcs-py-2 { padding-top: 2px; padding-bottom: 2px; }
+.zcs-py-8 { padding-top: 8px; padding-bottom: 8px; }
+.zcs-py-12 { padding-top: 12px; padding-bottom: 12px; }
+.zcs-m-0 { margin: 0; }
+.zcs-mt-10 { margin-top: 10px; }
+.zcs-mx-0 { margin-left: 0; margin-right: 0; }
+.zcs-mb-0 { margin-bottom: 0; }
+.zcs-font-12 { font-size: 12px; }
+.zcs-font-14 { font-size: 14px; }
+.zcs-font-18 { font-size: 18px; }
+.zcs-font-24 { font-size: 24px; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-font-semibold { font-weight: 600; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-lh-heading { line-height: 1.25; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-tertiary { color: var(--zcs-teritiary-text-color); }
+.zcs-text-center { text-align: center; }
+.zcs-rounded-sm { border-radius: 4px; }
+.zcs-rounded-md { border-radius: 6px; }
+.zcs-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a { text-decoration: none; }
+
+/* ZCS Heading with Button. */
+.zcs-button {
+	width: auto;
+	min-width: 5rem;
+	min-height: 36px;
+	border: 0;
+	cursor: pointer;
+}
+.zcs-primary-button {
+	background-color: var(--zcs_brand_color);
+	color: var(--zcs_brand_foreground_color);
+}
+.zcs-primary-button:hover { background-color: var(--zcs_brand_dark_color); }
+.zcs-primary-button:focus {
+	outline: 2px solid var(--zcs_brand_color);
+	outline-offset: 2px;
+}
+.zcs-button-icon { width: 16px; max-height: 16px; }
+
+/* ZCS Horizontal Tab With Count. */
+.zcs-horizontal-tabpanel { min-height: 520px; }
+.zcs-horizontal-tabhead {
+	box-shadow: 0 -1px 0 0 var(--zcs_tertiary_border_color) inset;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: none;
+}
+.zcs-horizontal-tabhead::-webkit-scrollbar { display: none; }
+.zcs-horizontal-tabitem {
+	flex: 0 0 auto;
+	list-style: none;
+	border-bottom: 2px solid transparent;
+	letter-spacing: .1px;
+}
+.zcs-horizontal-tablink {
+	cursor: pointer;
+	user-select: none;
+	white-space: nowrap;
+	color: var(--zcs_teritiary_text_color);
+}
+.zcs-horizontal-tabitem:hover .zcs-horizontal-tablink { color: var(--zcs_brand_color); }
+.zcs-horizontal-tabcount {
+	min-width: 24px;
+	background-color: var(--zcs-page-bg-color);
+}
+.zcs-horizontal-tabbody { overflow: visible; }
+
+/* ZCS No Data, adapted to use a Nucleo icon. */
+.zcs-nodata-content { max-width: 440px; padding: 32px 20px; }
+.zcs-nodata-header { color: var(--issue-text); }
+
+.issue-workspace,
+.issue-workspace * { box-sizing: border-box; }
+.issue-workspace {
+	width: 100%;
+	min-height: 100%;
+	padding: var(--issue-container-spacing);
+	background: var(--issue-page-bg);
+	color: var(--issue-text);
+	font-size: var(--issue-base-size);
+	line-height: 1.5;
+}
+.issue-header {
+	min-height: 88px;
+	margin-bottom: var(--issue-container-spacing);
+	padding: 20px 22px;
+	background: var(--issue-surface);
+	border: 1px solid var(--issue-border);
+	border-radius: var(--issue-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.issue-header-copy { min-width: 0; }
+.issue-header-title { margin: 0; color: var(--issue-text); }
+.issue-header-subtitle {
+	margin: 4px 0 0;
+	color: var(--issue-muted);
+	font-size: var(--issue-base-size);
+}
+.issue-create-action { flex: 0 0 auto; }
+.issue-tabs-card {
+	position: relative;
+	overflow: hidden;
+	background: var(--issue-surface);
+	border: 1px solid var(--issue-border);
+	border-radius: var(--issue-radius);
+	box-shadow: 0 1px 2px rgba(18,19,43,.04);
+}
+.issue-tab-control {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+.issue-tab-control:focus-visible ~ .zcs-horizontal-tabpanel .zcs-horizontal-tabhead {
+	outline: 2px solid var(--issue-brand);
+	outline-offset: -2px;
+}
+.issue-tabhead { padding: 0 12px; }
+.issue-tabpane { display: none; padding: var(--issue-container-spacing); }
+.issue-report-shell {
+	position: relative;
+	min-height: 440px;
+	overflow: hidden;
+	background: var(--issue-surface);
+	border: 1px solid var(--issue-border);
+	border-radius: var(--issue-radius);
+}
+.issue-report {
+	width: 100%;
+	min-height: 440px;
+	border: 0;
+	background: transparent;
+}
+.issue-report-empty { display: none; }
+.issue-empty-state { min-height: 440px; color: var(--issue-muted); }
+.issue-empty-icon {
+	width: 52px;
+	height: 52px;
+	margin: 0 auto 12px;
+	border-radius: 12px;
+	background: var(--zcs_brand_light_color);
+	color: var(--issue-brand);
+	font-size: 23px;
+}
+.issue-empty-copy { margin: 6px 0 0; color: var(--issue-muted); }
+.issue-guidance {
+	padding: 10px 15px;
+	color: var(--issue-muted);
+	background: var(--zcs_brand_light_color);
+	border-top: 1px solid var(--issue-border);
+	font-size: 13px;
+}
+.issue-guidance a { color: var(--issue-brand); font-weight: 600; }
+
+#issue-tab-open:checked ~ .zcs-horizontal-tabpanel .tab-open,
+#issue-tab-progress:checked ~ .zcs-horizontal-tabpanel .tab-progress,
+#issue-tab-resolved:checked ~ .zcs-horizontal-tabpanel .tab-resolved,
+#issue-tab-closed:checked ~ .zcs-horizontal-tabpanel .tab-closed { border-bottom-color: var(--issue-brand); }
+#issue-tab-open:checked ~ .zcs-horizontal-tabpanel .tab-open .zcs-horizontal-tablink,
+#issue-tab-progress:checked ~ .zcs-horizontal-tabpanel .tab-progress .zcs-horizontal-tablink,
+#issue-tab-resolved:checked ~ .zcs-horizontal-tabpanel .tab-resolved .zcs-horizontal-tablink,
+#issue-tab-closed:checked ~ .zcs-horizontal-tabpanel .tab-closed .zcs-horizontal-tablink { color: var(--issue-brand); }
+#issue-tab-open:checked ~ .zcs-horizontal-tabpanel .pane-open,
+#issue-tab-progress:checked ~ .zcs-horizontal-tabpanel .pane-progress,
+#issue-tab-resolved:checked ~ .zcs-horizontal-tabpanel .pane-resolved,
+#issue-tab-closed:checked ~ .zcs-horizontal-tabpanel .pane-closed { display: block; }
+
+.status-open { background: #fee9e7; color: #a82e24; }
+.status-progress { background: #fff2d6; color: #8a5a00; }
+.status-resolved { background: #e2f6ee; color: #116f50; }
+.status-closed { background: #e9ebef; color: #4f5461; }
+
+@media (max-width: 768px) {
+	.issue-header { align-items: flex-start; flex-direction: column; padding: 18px; }
+	.issue-create-action { width: 100%; }
+	.issue-create-action .zcs-button { width: 100%; }
+	.issue-tabhead { padding: 0 6px; }
+	.zcs-horizontal-tablink { padding: 11px 9px; }
+	.issue-tabpane { padding: 12px; }
+	.issue-report-shell,
+	.issue-report,
+	.issue-empty-state { min-height: 520px; }
+}
+@media (max-width: 480px) {
+	.issue-workspace { padding: 10px; }
+	.issue-header { margin-bottom: 10px; }
+	.issue-header-title { font-size: 21px; }
+	.issue-header-subtitle { font-size: 13px; }
+}
+</style>
+
+<div class='issue-workspace'>
+	<header class='issue-header zcs-page-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12 zcs-box-border'>
+		<div class='issue-header-copy zcs-ellipsis'>
+			<h1 class='issue-header-title zcs-font-24 zcs-font-semibold zcs-lh-heading zcs-ellipsis'>Issue Tracker</h1>
+			<p class='issue-header-subtitle'>Manage operational exceptions from identification through resolution.</p>
+		</div>
+		<div class='issue-create-action zcs-flex zcs-align-items-center'>
+			<a class='zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium zcs-lh-body'
+				 href='#Form:Issues?zc_LoadIn=dialog&amp;zc_Header=false&amp;zc_NextUrl=%23Page%3AIssue_Tracker&amp;zc_OpenUrlIn=same%20window&amp;zc_SuccMsg=Issue%20created%20successfully'>
+				<i class='zcs-button-icon zc-li-outline ui-1-simple-add'></i>
+				<span class='zcs-button-text'>Create Issue</span>
+			</a>
+		</div>
+	</header>
+
+	<section class='issue-tabs-card'>
+		<input class='issue-tab-control' type='radio' name='issue-status' id='issue-tab-open' checked='checked'>
+		<input class='issue-tab-control' type='radio' name='issue-status' id='issue-tab-progress'>
+		<input class='issue-tab-control' type='radio' name='issue-status' id='issue-tab-resolved'>
+		<input class='issue-tab-control' type='radio' name='issue-status' id='issue-tab-closed'>
+
+		<div class='zcs-horizontal-tabpanel zcs-flex zcs-direction-column zcs-w-full'>
+			<ul class='issue-tabhead zcs-horizontal-tabhead zcs-flex zcs-gap-6 zcs-py-0 zcs-m-0 zcs-box-border' role='tablist' aria-label='Issue status'>
+				<li class='tab-open zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='issue-tab-open'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Open</span>
+						<span class='zcs-horizontal-tabcount status-open zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=openCount%></span>
+					</label>
+				</li>
+				<li class='tab-progress zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='issue-tab-progress'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>In Progress</span>
+						<span class='zcs-horizontal-tabcount status-progress zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=inProgressCount%></span>
+					</label>
+				</li>
+				<li class='tab-resolved zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='issue-tab-resolved'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Resolved</span>
+						<span class='zcs-horizontal-tabcount status-resolved zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=resolvedCount%></span>
+					</label>
+				</li>
+				<li class='tab-closed zcs-horizontal-tabitem'>
+					<label class='zcs-horizontal-tablink zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-10 zcs-py-12 zcs-box-border zcs-font-medium zcs-lh-body' for='issue-tab-closed'>
+						<span class='zcs-horizontal-tabtext zcs-font-14'>Closed</span>
+						<span class='zcs-horizontal-tabcount status-closed zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-rounded-sm zcs-px-6 zcs-py-2 zcs-box-border zcs-font-12 zcs-text-center'><%=closedCount%></span>
+					</label>
+				</li>
+			</ul>
+
+			<div class='zcs-horizontal-tabbody zcs-col-common'>
+				<div class='issue-tabpane pane-open'>
+					<div class='issue-report-shell'>
+						<% if(openCount == 0) { %>
+						<div class='issue-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='issue-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-1-check-circle-08'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-mt-10 zcs-mx-0 zcs-mb-0'>No open issues</h5>
+								<p class='issue-empty-copy'>New exceptions and coverage gaps will appear here for triage.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='issue-report <% if(openCount == 0) { %>issue-report-empty<% } %>' elName='zc-component' viewLinkName='Open_Issues' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='issue-tabpane pane-progress'>
+					<div class='issue-report-shell'>
+						<% if(inProgressCount == 0) { %>
+						<div class='issue-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='issue-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-2-time'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-mt-10 zcs-mx-0 zcs-mb-0'>No issues in progress</h5>
+								<p class='issue-empty-copy'>Issues being actively investigated or corrected will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='issue-report <% if(inProgressCount == 0) { %>issue-report-empty<% } %>' elName='zc-component' viewLinkName='In_Progress_Issues' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='issue-tabpane pane-resolved'>
+					<div class='issue-report-shell'>
+						<% if(resolvedCount == 0) { %>
+						<div class='issue-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='issue-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline ui-1-check-circle-08'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-mt-10 zcs-mx-0 zcs-mb-0'>No resolved issues</h5>
+								<p class='issue-empty-copy'>Documented resolutions awaiting final closure will appear here.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='issue-report <% if(resolvedCount == 0) { %>issue-report-empty<% } %>' elName='zc-component' viewLinkName='Resolved_Issues' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+
+				<div class='issue-tabpane pane-closed'>
+					<div class='issue-report-shell'>
+						<% if(closedCount == 0) { %>
+						<div class='issue-empty-state zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+							<div class='zcs-nodata-content zcs-box-border'>
+								<div class='issue-empty-icon zcs-flex zcs-align-items-center zcs-justify-center'><i class='zc-li-outline files-archive'></i></div>
+								<h5 class='zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-mt-10 zcs-mx-0 zcs-mb-0'>No closed issues</h5>
+								<p class='issue-empty-copy'>Completed exception records will remain available here for reference.</p>
+							</div>
+						</div>
+						<% } %>
+						<div class='issue-report <% if(closedCount == 0) { %>issue-report-empty<% } %>' elName='zc-component' viewLinkName='Closed_Issues' params='zc_Header=false&amp;zc_Search=false&amp;zc_Filter=false&amp;zc_AddRec=false' zc_mobileView='inline'></div>
+					</div>
+				</div>
+			</div>
+
+			<div class='issue-guidance'>Open the Program or Vehicle lookup in an issue row to follow its record context. Related workspaces: <a href='#Page:Program_Detail'>Program Detail</a> and <a href='#Page:Vehicle_Detail'>Vehicle Detail</a>.</div>
+		</div>
+	</section>
+</div>

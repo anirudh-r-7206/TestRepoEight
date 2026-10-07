@@ -1,0 +1,7 @@
+report My_Open_Action_Items
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Action_Item_ID Action_Type Program Due_Date Priority Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Action_Item_ID Action_Type Program Vehicle Estimate Assigned_To Due_Date Priority Status Description Created_Date ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

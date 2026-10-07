@@ -1,0 +1,33 @@
+Estimates_On_Load as "Prepare Estimate Form"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			            disable Upfitter_Portal_User, Parts_Total, Labor_Total, Estimate_Total, Response_Date, Reassignment_Flag;
+			        }
+			        actions ( Status == "Pending Upfitter Review" || Status == null )
+			        {
+			            enable Status, Upfitter_Response, Estimate_Parts_Lines, Estimate_Labor_Lines;
+			            show add row of Estimate_Parts_Lines;
+			            show delete row of Estimate_Parts_Lines;
+			            show add row of Estimate_Labor_Lines;
+			            show delete row of Estimate_Labor_Lines;
+			        }
+			        actions ( Status != "Pending Upfitter Review" && Status != null )
+			        {
+			            disable Status, Upfitter_Response, Estimate_Parts_Lines, Estimate_Labor_Lines;
+			            hide add row of Estimate_Parts_Lines;
+			            hide delete row of Estimate_Parts_Lines;
+			            hide add row of Estimate_Labor_Lines;
+			            hide delete row of Estimate_Labor_Lines;
+			        }
+			    }
+			
+}

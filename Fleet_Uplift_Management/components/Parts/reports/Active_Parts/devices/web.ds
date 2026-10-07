@@ -1,0 +1,7 @@
+report Active_Parts
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Part_ID Part_Name Brand Part_Number Unit_Price Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Part_ID Part_Name Brand Part_Number Sourcing Unit_Price Linked_Capability Lead_Time_Days Status ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

@@ -1,0 +1,30 @@
+list Inactive_Upfitters
+{
+
+		    displayName = "Inactive Upfitters"
+		    show all rows from Upfitters [Status == "Inactive"]
+		    (
+		        Upfitter_ID
+		        Upfitter_Name
+		        Upfitter_Type
+		        Status
+		        City
+		        State
+		        ZIP
+		        Capabilities
+		        Primary_Contact
+		        Contact_Email
+		        Contact_Phone
+		        Cert_Expiry_Date
+		    )
+		    filters
+		    (
+		        Upfitter_Type
+		        State
+		    )
+		    sort by
+		    (
+		        Upfitter_Name ascending
+		    )
+		
+}

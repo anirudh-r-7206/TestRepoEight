@@ -1,0 +1,44 @@
+Markup_Configurations_On_Validate as "Validate Markup Configuration"
+{
+
+			    type = form
+			    form = Markup_Configurations
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Markup_Percent < 0 || input.Markup_Percent > 100)
+			                {
+			                    alert(Markup_Percent, "Markup percent must be between 0 and 100.");
+			                    cancel submit;
+			                }
+			                if(input.Effective_To != null && input.Effective_To < input.Effective_From)
+			                {
+			                    alert(Effective_To, "Effective To must be on or after Effective From.");
+			                    cancel submit;
+			                }
+			                if(input.Status == "Active")
+			                {
+			                    for each existingConfig in Markup_Configurations[Status == "Active"]
+			                    {
+			                        if(input.ID == null || existingConfig.ID != input.ID)
+			                        {
+			                            startsBeforeCurrentEnds = input.Effective_To == null || existingConfig.Effective_From <= input.Effective_To;
+			                            endsAfterCurrentStarts = existingConfig.Effective_To == null || existingConfig.Effective_To >= input.Effective_From;
+			                            if(startsBeforeCurrentEnds && endsAfterCurrentStarts)
+			                            {
+			                                alert "An active markup configuration already overlaps this effective date range.";
+			                                cancel submit;
+			                            }
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

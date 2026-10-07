@@ -1,0 +1,27 @@
+list Sent_Quotes
+{
+
+		    displayName = "Sent Quotes"
+		    show all rows from Quotes [Status == "Sent to Client"]
+		    (
+		        Quote_Number
+		        Program
+		        Quote_Date
+		        Valid_Until
+		        Quote_Total
+		        Status
+		        Version_Number
+		        Quote_PDF
+		    )
+		    filters
+		    (
+		        Program
+		        Quote_Date
+		        Valid_Until
+		    )
+		    sort by
+		    (
+		        Quote_Date descending
+		    )
+		
+}

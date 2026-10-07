@@ -1,0 +1,20 @@
+<page linkname = "Upfitter_Detail" parameters = "int Upfitter_ID" displayname = "Upfitter Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Upfitter_Detail_View_DSP' elementName='Upfitter_Detail_View_DSP'>
+          <![CDATA[htmlpage Upfitter_Detail_View_DSP()
+content
+			<%{%>
+            <file name:Upfitter_Detail_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

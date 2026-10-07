@@ -1,0 +1,33 @@
+Work_Orders_Parts_Reminder as "Work Order Parts Order Reminder"
+{
+
+			    type = schedule
+			    start = "2025-01-01 08:00:00"
+			    frequency = daily
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                for each workOrderRecord in Work_Orders[Parts_Order_By_Date == zoho.currentdate.addDay(2) && Status == "Issued"]
+			                {
+			                    upfitterRecord = Upfitters[ID == workOrderRecord.Upfitter];
+			                    programRecord = Programs[ID == workOrderRecord.Program];
+			                    if(upfitterRecord.count() > 0 && programRecord.count() > 0)
+			                    {
+			                        templateData = Map();
+			                        templateData.put("work_order_number", workOrderRecord.Work_Order_Number);
+			                        templateData.put("service_id", programRecord.Service_ID);
+			                        templateData.put("parts_order_by_date", workOrderRecord.Parts_Order_By_Date);
+			                        reminderKey = "PARTS_ORDER_REMINDER-" + workOrderRecord.ID + "-" + workOrderRecord.Parts_Order_By_Date;
+			                        thisapp.Send_Template_Email("PARTS_ORDER_REMINDER", upfitterRecord.Contact_Email, templateData, reminderKey);
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

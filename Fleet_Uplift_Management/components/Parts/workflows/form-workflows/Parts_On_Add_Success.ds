@@ -1,0 +1,19 @@
+Parts_On_Add_Success as "Audit New Part"
+{
+
+			    type = form
+			    form = Parts
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Parts", input.ID, 0, "Created", "", input.Unit_Price.toString(), "Part created: " + input.Part_Name);
+			            )
+			        }
+			    }
+			
+}

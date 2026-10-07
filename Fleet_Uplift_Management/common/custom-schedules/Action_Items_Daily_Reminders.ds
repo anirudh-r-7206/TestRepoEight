@@ -1,0 +1,53 @@
+Action_Items_Daily_Reminders as "Action Item Due and Overdue Reminders"
+{
+
+			    type = schedule
+			    start = "2025-01-01 08:00:00"
+			    frequency = daily
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                for each actionRecord in Action_Items[(Status == "Open" || Status == "In Progress") && Assigned_To != null]
+			                {
+			                    if(actionRecord.Due_Date.toDate() <= zoho.currentdate)
+			                    {
+			                        assigneeEmail = actionRecord.Assigned_To.email;
+			                        reminderKey = "ACTION_ITEM_REMINDER-" + actionRecord.ID + "-" + assigneeEmail + "-" + zoho.currentdate.toString("yyyyMMdd");
+			                        priorReminder = Notification_Log[Alert_Key == reminderKey];
+			                        if(assigneeEmail != null && priorReminder.count() == 0)
+			                        {
+			                            overdueLabel = "due today";
+			                            if(actionRecord.Due_Date.toDate() < zoho.currentdate)
+			                            {
+			                                overdueLabel = "overdue";
+			                            }
+			                            sendmail
+			                            [
+			                                from : zoho.adminuserid
+			                                to : assigneeEmail
+			                                subject : "Action item " + overdueLabel + ": " + actionRecord.Action_Type
+			                                message : actionRecord.Description + "<br><br>Due: " + actionRecord.Due_Date
+			                            ]
+			                            insert into Notification_Log
+			                            [
+			                                Alert_Key = reminderKey
+			                                Template_Code = "ACTION_ITEM_REMINDER"
+			                                Reference_Type = "Action_Items"
+			                                Reference_ID = actionRecord.ID
+			                                Recipient_Email = assigneeEmail
+			                                Sent_Date = zoho.currenttime
+			                                Delivery_Status = "Sent"
+			                            ];
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

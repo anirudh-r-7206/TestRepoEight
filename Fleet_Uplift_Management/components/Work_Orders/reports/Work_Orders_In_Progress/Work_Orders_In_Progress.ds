@@ -1,0 +1,28 @@
+list Work_Orders_In_Progress
+{
+
+		    displayName = "Work Orders - In Progress"
+		    show all rows from Work_Orders [Status == "In Progress"]
+		    (
+		        Work_Order_Number
+		        Program
+		        Purchase_Order
+		        Upfitter
+		        Issue_Date
+		        Parts_Order_By_Date
+		        Status
+		        Work_Order_Document
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Issue_Date
+		        Parts_Order_By_Date
+		    )
+		    sort by
+		    (
+		        Issue_Date descending
+		    )
+		
+}

@@ -1,0 +1,36 @@
+Work_Orders_On_Add_Success as "Issue Work Order"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                workOrderRecord = Work_Orders[ID == input.ID];
+			                sequenceText = "0000" + workOrderRecord.Work_Order_Sequence.toString();
+			                generatedNumber = "WO-" + zoho.currentdate.toString("yyyyMM") + "-" + sequenceText.right(4);
+			                workOrderRecord.Work_Order_Number = generatedNumber;
+			                thisapp.Generate_Work_Order_Document(input.ID);
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                programRecord = Programs[ID == input.Program];
+			                if(upfitterRecord.count() > 0 && programRecord.count() > 0)
+			                {
+			                    templateData = Map();
+			                    templateData.put("work_order_number", generatedNumber);
+			                    templateData.put("service_id", programRecord.Service_ID);
+			                    templateData.put("parts_order_by_date", input.Parts_Order_By_Date);
+			                    templateData.put("issue_date", input.Issue_Date);
+			                    alertKey = "WORK_ORDER_ISSUED-" + input.ID;
+			                    thisapp.Send_Template_Email("WORK_ORDER_ISSUED", upfitterRecord.Contact_Email, templateData, alertKey);
+			                }
+			                thisapp.Create_Audit_Log("Work_Orders", input.ID, input.Program, "Created", "", input.Status, "Work order " + generatedNumber + " issued.");
+			            )
+			        }
+			    }
+			
+}

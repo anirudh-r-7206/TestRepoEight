@@ -1,0 +1,26 @@
+Work_Orders_Upfitter_On_User_Input as "Copy Work Order Upfitter Owner"
+{
+
+			    type = form
+			    form = Work_Orders
+			    record event = on add or edit
+			
+			    on user input of Upfitter
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Upfitter != null)
+			                {
+			                    upfitterRecord = Upfitters[ID == input.Upfitter];
+			                    if(upfitterRecord.count() > 0)
+			                    {
+			                        input.Upfitter_Portal_User = upfitterRecord.Portal_User;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

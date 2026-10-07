@@ -1,0 +1,341 @@
+<%
+currentUserEmail = zoho.loginuserid;
+currentShopId = 0;
+currentShopName = "";
+for each currentShop in Upfitters[Portal_User == currentUserEmail && Status == "Active"]
+{
+		if(currentShopId == 0)
+		{
+				currentShopId = currentShop.ID;
+				currentShopName = ifnull(currentShop.Upfitter_Name,"Assigned shop");
+		}
+}
+isShopUser = currentShopId > 0;
+isDetailMode = input.Estimate_ID != null && input.Estimate_ID > 0;
+%>
+<style>
+/* ===== zcs-global.css: utility classes used on this page ===== */
+:root{--zcs-theme-brand-color:var(--zcs_brand_color);--zcs-light-bg-color:var(--zcs_brand_light_color);--zcs-page-bg-color:#F3F3F4;--zcs-primary-text-color:var(--zcs_primary_text_color);--zcs-secondary-text-color:var(--zcs_secondary_text_color);--zcs-teritiary-text-color:var(--zcs_tertiary_text_color);--zcs-border-color:var(--zcs_tertiary_border_color);--zcs-white-color:#fff;--column-gap:0;font-size:16px;line-height:1.5}.zcs-row{display:flex;flex-wrap:wrap}.zcs-flex{display:flex}.zcs-inline-flex{display:inline-flex}.zcs-direction-column{flex-direction:column}.zcs-row-wrap{flex-wrap:wrap}.zcs-col-3{flex:0 0 25%;max-width:25%}.zcs-col-4{flex:0 0 33.333%;max-width:33.333%}.zcs-col-6{flex:0 0 50%;max-width:50%}.zcs-col-12{flex:0 0 100%;max-width:100%}.zcs-align-items-center{align-items:center}.zcs-align-items-start{align-items:flex-start}.zcs-justify-center{justify-content:center}.zcs-justify-space-between{justify-content:space-between}.zcs-justify-end{justify-content:flex-end}.zcs-gap-4{gap:.25rem}.zcs-gap-6{gap:.375rem}.zcs-gap-8{gap:.5rem}.zcs-gap-10{gap:.625rem}.zcs-gap-12{gap:.75rem}.zcs-gap-16{gap:1rem}.zcs-gap-20{gap:1.25rem}.zcs-gap-24{gap:1.5rem}.zcs-p-0{padding:0}.zcs-p-2{padding:.125rem}.zcs-p-12{padding:.75rem}.zcs-p-16{padding:1rem}.zcs-p-20{padding:1.25rem}.zcs-p-24{padding:1.5rem}.zcs-px-10{padding-left:.625rem;padding-right:.625rem}.zcs-px-15{padding-left:.9375rem;padding-right:.9375rem}.zcs-px-16{padding-left:1rem;padding-right:1rem}.zcs-px-30{padding-left:1.875rem;padding-right:1.875rem}.zcs-py-2{padding-top:.125rem;padding-bottom:.125rem}.zcs-py-5{padding-top:.3125rem;padding-bottom:.3125rem}.zcs-py-8{padding-top:.5rem;padding-bottom:.5rem}.zcs-py-10{padding-top:.625rem;padding-bottom:.625rem}.zcs-py-12{padding-top:.75rem;padding-bottom:.75rem}.zcs-py-16{padding-top:1rem;padding-bottom:1rem}.zcs-py-24{padding-top:1.5rem;padding-bottom:1.5rem}.zcs-m-0{margin:0}.zcs-mt-4{margin-top:.25rem}.zcs-mt-8{margin-top:.5rem}.zcs-mt-10{margin-top:.625rem}.zcs-mt-12{margin-top:.75rem}.zcs-mt-16{margin-top:1rem}.zcs-mb-0{margin-bottom:0}.zcs-mx-0{margin-left:0;margin-right:0}.zcs-w-full{width:100%}.zcs-wh-full{width:100%;height:100%}.zcs-font-12{font-size:.75rem}.zcs-font-13{font-size:.8125rem}.zcs-font-14{font-size:.875rem}.zcs-font-15{font-size:.9375rem}.zcs-font-16{font-size:1rem}.zcs-font-18{font-size:1.125rem}.zcs-font-20{font-size:1.25rem}.zcs-font-22{font-size:1.375rem}.zcs-font-24{font-size:1.5rem}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-font-semibold{font-weight:600}.zcs-font-bold{font-weight:700}.zcs-lh-body{line-height:1.5}.zcs-lh-heading{line-height:1.25}.zcs-color-primary{color:var(--zcs-primary-text-color)}.zcs-color-secondary{color:var(--zcs-secondary-text-color)}.zcs-color-tertiary{color:var(--zcs-teritiary-text-color)}.zcs-color-theme{color:var(--zcs-theme-brand-color)}.zcs-color-white{color:#fff}.zcs-box-border{box-sizing:border-box}.zcs-rounded-sm{border-radius:.25rem}.zcs-rounded-md{border-radius:.375rem}.zcs-rounded-lg{border-radius:.5rem}.zcs-rounded-xl{border-radius:.75rem}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-text-center{text-align:center}.zcs-relative{position:relative}.zcs-sticky{position:sticky}.zcs-overflow-auto{overflow:auto}.zcs-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.zcs-card{background:var(--zcs-white-color);border:1px solid #e7e7ee;border-radius:12px}a{text-decoration:none}
+/* ZCS Header: header-heading-with-back */
+.zcs-back:hover{color:#131635}
+/* ZCS Badge: badge-filled-badge */
+.zcs-badge{width:auto;white-space:nowrap}.zcs-badge-filled{border:1px solid transparent}.zcs-badge-filled.zcs-badge-theme{background:var(--zcs_brand_color);border-color:var(--zcs_brand_color);color:#fff}.zcs-badge-filled.zcs-badge-green{background:#179E6C;border-color:#179E6C;color:#fff}.zcs-badge-filled.zcs-badge-red{background:#FE455D;border-color:#FE455D;color:#fff}.zcs-badge-filled.zcs-badge-grey{background:#52525B;border-color:#52525B;color:#fff}.zcs-badge-filled.zcs-badge-yellow{background:#FAAE13;border-color:#FAAE13;color:#fff}.zcs-badge-filled.zcs-badge-blue{background:#2A6FFC;border-color:#2A6FFC;color:#fff}.zcs-badge-filled.zcs-badge-orange{background:#F4660C;border-color:#F4660C;color:#fff}
+/* ZCS Button: button-primary-outline-button */
+.zcs-button{width:auto;min-width:5rem;min-height:36px}.zcs-primary-outline-button{border:1px solid var(--zcs_brand_color);background:#fff;color:var(--zcs_brand_color)}.zcs-primary-outline-button:hover{background:var(--zcs_component_hover_color);border-color:var(--zcs_brand_color);color:var(--zcs_brand_color)}.zcs-primary-outline-button:focus{outline:2px solid var(--zcs_brand_color);outline-offset:2px}.zcs-primary-outline-button.zcs-action-green{--action-color:#179E6C;border-color:var(--action-color);color:var(--action-color)}.zcs-primary-outline-button.zcs-action-red{--action-color:#D73347;border-color:var(--action-color);color:var(--action-color)}.zcs-primary-outline-button.zcs-action-orange{--action-color:#B44B09;border-color:var(--action-color);color:var(--action-color)}.zcs-button-icon{width:16px;max-height:16px}
+/* ZCS Table: table-grouping-table and approve-reject composite */
+:root{--zcs-thead-color:#F9FAFE;--zcs-tr-h-color:#F9FAFE;--zcs-tgroup-color:#F1F2F8}.zcs-table-wrapper{border:1px solid var(--zcs-border-color);background:#fff;overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse;min-width:680px}.zcs-table-wrapper thead{top:0;z-index:1}.zcs-table-wrapper th{background:var(--zcs-thead-color);box-shadow:0 -1px 0 var(--zcs-border-color) inset;white-space:nowrap}.zcs-table-wrapper td{border-top:1px solid var(--zcs-border-color)}.zcs-table-wrapper tbody tr:first-child td{border-top-color:transparent}.zcs-table-wrapper tbody tr:hover td{background:var(--zcs-tr-h-color)}.zcs-table-wrapper tr.zcs-tgroup td{background:var(--zcs-tgroup-color)}.zcs-labelvalue-wrapper.zcs-labelvalue-with-bg{background:#F9FAFE}.zcs-notes-text a:hover{text-decoration:underline}
+/* Page-specific responsive workspace */
+.estimate-page{min-height:100%;background:var(--zcs-page-bg-color)}.estimate-header{background:#fff;border-bottom:1px solid var(--zcs-border-color)}.estimate-content{padding:15px;max-width:1440px;margin:0 auto}.estimate-section{min-width:0}.estimate-section-head{border-bottom:1px solid var(--zcs-border-color)}.estimate-kicker{text-transform:uppercase;letter-spacing:.08em}.estimate-actions{justify-content:flex-end}.estimate-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.estimate-summary-item{min-width:0;background:#F9FAFE}.estimate-summary-item strong{overflow-wrap:anywhere}.estimate-queue-row{cursor:pointer}.estimate-queue-link{color:var(--zcs_brand_color)}.estimate-queue-link:hover{text-decoration:underline}.estimate-empty{min-height:220px}.estimate-callout{border-left:3px solid var(--zcs_brand_color);background:var(--zcs_component_hover_color)}.estimate-response{white-space:pre-wrap;overflow-wrap:anywhere}.estimate-total-row td{font-weight:600}.estimate-grand-total{font-size:20px;color:var(--zcs_brand_color)}.estimate-action-card{border-color:var(--zcs_brand_color)}.estimate-table-title{min-width:0}.estimate-vehicle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.estimate-vehicle{background:#F9FAFE}.estimate-sensitive-note{font-size:12px}.estimate-table-stack{display:flex;flex-direction:column;gap:15px}
+@media(max-width:992px){.estimate-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.estimate-header{align-items:flex-start;flex-direction:column}.estimate-actions{width:100%;justify-content:flex-start}.estimate-vehicle-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.estimate-content{padding:10px}.estimate-section{padding:15px}.estimate-header{padding:12px 15px}.estimate-summary-grid{grid-template-columns:1fr 1fr}.estimate-actions{display:grid;grid-template-columns:1fr}.estimate-actions .zcs-button{width:100%}.estimate-table-wrapper table{min-width:0}.estimate-table-wrapper thead{display:none}.estimate-table-wrapper table,.estimate-table-wrapper tbody,.estimate-table-wrapper tr,.estimate-table-wrapper td{display:block;width:100%;box-sizing:border-box}.estimate-table-wrapper tr{border-top:1px solid var(--zcs-border-color);padding:8px 0}.estimate-table-wrapper tbody tr:first-child{border-top:0}.estimate-table-wrapper td{border:0!important;display:flex;justify-content:space-between;gap:16px;padding:7px 12px;text-align:right!important}.estimate-table-wrapper td:before{content:attr(data-label);color:var(--zcs-teritiary-text-color);font-weight:400;text-align:left}.estimate-table-wrapper tr.zcs-tgroup td{display:block;text-align:left!important;font-weight:600}.estimate-table-wrapper tr.zcs-tgroup td:before{display:none}.estimate-table-wrapper .estimate-description{display:block;text-align:left!important}.estimate-table-wrapper .estimate-description:before{display:block;margin-bottom:4px}.estimate-grand-total{font-size:18px}}
+@media(max-width:576px){.estimate-summary-grid{grid-template-columns:1fr}.estimate-header .zcs-page-header{padding:0}.estimate-page h1{font-size:20px}.estimate-section{padding:12px}.estimate-queue-meta{align-items:flex-start;flex-direction:column}}
+</style>
+<div class='estimate-page zcs-wh-full zcs-flex zcs-direction-column'>
+<%
+if(!isDetailMode)
+{
+		accessibleCount = 0;
+		if(isShopUser)
+		{
+				accessibleCount = Estimates[Upfitter == currentShopId].count();
+		}
+		else
+		{
+				accessibleCount = Estimates[Upfitter != null].count();
+		}
+%>
+	<header class='estimate-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-16 zcs-px-30 zcs-py-16 zcs-box-border'>
+		<div class='zcs-flex zcs-direction-column zcs-gap-4'>
+			<span class='estimate-kicker zcs-font-12 zcs-font-semibold zcs-color-tertiary'>Estimate workspace</span>
+			<h1 class='zcs-font-24 zcs-font-semibold zcs-color-primary zcs-m-0'>Assigned Estimates</h1>
+			<p class='zcs-font-14 zcs-color-tertiary zcs-m-0'><%=if(isShopUser,currentShopName + " queue","Accessible estimate queue")%> &middot; <%=accessibleCount%> assigned</p>
+		</div>
+	</header>
+	<main class='estimate-content zcs-w-full zcs-flex zcs-direction-column zcs-gap-16 zcs-box-border'>
+		<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+			<div class='estimate-section-head zcs-py-8'>
+				<h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Current queue</h2>
+				<p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Open an estimate to review the vehicles, parts, labor, totals, and response status.</p>
+			</div>
+			<%
+			if(accessibleCount == 0)
+			{
+			%>
+			<div class='estimate-empty zcs-nodata-wrapper zcs-w-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center'>
+				<div class='zcs-nodata-content zcs-p-20 zcs-box-border'>
+					<i class='zc-li-outline business-file-check zcs-font-24 zcs-color-tertiary'></i>
+					<h3 class='zcs-font-18 zcs-font-medium zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0'>No assigned estimates</h3>
+					<p class='zcs-font-14 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>There are no estimates available to this account.</p>
+				</div>
+			</div>
+			<%
+			}
+			else
+			{
+					statusGroups = {"Pending Upfitter Review","Revision Requested","Approved","Declined"};
+			%>
+			<div class='estimate-table-wrapper zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative zcs-mt-12'>
+				<table class='zcs-w-full'>
+					<thead class='zcs-sticky'><tr><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Estimate</th><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Program</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Vehicles</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Total</th><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Status</th><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Response date</th></tr></thead>
+					<tbody>
+					<%
+					for each statusName in statusGroups
+					{
+							statusCount = 0;
+							if(isShopUser)
+							{
+									statusCount = Estimates[Upfitter == currentShopId && Status == statusName].count();
+							}
+							else
+							{
+									statusCount = Estimates[Upfitter != null && Status == statusName].count();
+							}
+							if(statusCount > 0)
+							{
+									badgeClass = "zcs-badge-grey";
+									if(statusName == "Pending Upfitter Review")
+									{
+											badgeClass = "zcs-badge-yellow";
+									}
+									else if(statusName == "Revision Requested")
+									{
+											badgeClass = "zcs-badge-orange";
+									}
+									else if(statusName == "Approved")
+									{
+											badgeClass = "zcs-badge-green";
+									}
+									else if(statusName == "Declined")
+									{
+											badgeClass = "zcs-badge-red";
+									}
+					%>
+						<tr class='zcs-tgroup'><td class='zcs-px-16 zcs-py-5 zcs-font-14 zcs-font-semibold' colspan='6'><%=statusName%> &middot; <%=statusCount%></td></tr>
+					<%
+									if(isShopUser)
+									{
+											for each queueEstimate in Estimates[Upfitter == currentShopId && Status == statusName] sort by Estimate_ID desc
+											{
+													programRecord = Programs[ID == queueEstimate.Program];
+					%>
+						<tr class='estimate-queue-row'><td data-label='Estimate' class='zcs-px-16 zcs-py-10 zcs-font-14'><a class='estimate-queue-link zcs-font-semibold' href='#Page:Estimate_Review?Estimate_ID=<%=queueEstimate.ID%>'>EST-<%=queueEstimate.Estimate_ID%></a></td><td data-label='Program' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-primary'><%=ifnull(programRecord.Service_ID,"Program")%></td><td data-label='Vehicles' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right zcs-color-primary'><%=if(queueEstimate.Vehicles_In_Scope == null,0,queueEstimate.Vehicles_In_Scope.size())%></td><td data-label='Total' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right zcs-color-primary'>$<%=ifnull(queueEstimate.Estimate_Total,0.00)%></td><td data-label='Status' class='zcs-px-16 zcs-py-10'><span class='zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-font-13 <%=badgeClass%>'><%=statusName%></span></td><td data-label='Response date' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-tertiary'><%=ifnull(queueEstimate.Response_Date,"Not responded")%></td></tr>
+					<%
+											}
+									}
+									else
+									{
+											for each queueEstimate in Estimates[Upfitter != null && Status == statusName] sort by Estimate_ID desc
+											{
+													programRecord = Programs[ID == queueEstimate.Program];
+					%>
+						<tr class='estimate-queue-row'><td data-label='Estimate' class='zcs-px-16 zcs-py-10 zcs-font-14'><a class='estimate-queue-link zcs-font-semibold' href='#Page:Estimate_Review?Estimate_ID=<%=queueEstimate.ID%>'>EST-<%=queueEstimate.Estimate_ID%></a></td><td data-label='Program' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-primary'><%=ifnull(programRecord.Service_ID,"Program")%></td><td data-label='Vehicles' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right zcs-color-primary'><%=if(queueEstimate.Vehicles_In_Scope == null,0,queueEstimate.Vehicles_In_Scope.size())%></td><td data-label='Total' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right zcs-color-primary'>$<%=ifnull(queueEstimate.Estimate_Total,0.00)%></td><td data-label='Status' class='zcs-px-16 zcs-py-10'><span class='zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-font-13 <%=badgeClass%>'><%=statusName%></span></td><td data-label='Response date' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-tertiary'><%=ifnull(queueEstimate.Response_Date,"Not responded")%></td></tr>
+					<%
+											}
+									}
+							}
+					}
+					%>
+					</tbody>
+				</table>
+			</div>
+<%
+			}
+%>
+		</section>
+	</main>
+<%
+}
+else
+{
+		estimateRecord = Estimates[ID == input.Estimate_ID];
+		canAccess = false;
+		if(estimateRecord.count() > 0)
+		{
+				if(!isShopUser || estimateRecord.Upfitter == currentShopId)
+				{
+						canAccess = true;
+				}
+		}
+		if(!canAccess)
+		{
+%>
+	<header class='estimate-header zcs-w-full zcs-px-30 zcs-py-16 zcs-box-border'>
+		<div class='zcs-page-header zcs-w-full zcs-flex zcs-align-items-center zcs-gap-8'>
+			<a href='#Page:Estimate_Review' class='zcs-back zcs-color-tertiary' aria-label='Back to assigned estimates'><i class='zc-li-outline arrows-1-tail-left zcs-font-22'></i></a>
+			<h1 class='zcs-font-20 zcs-font-medium zcs-color-primary zcs-m-0'>Estimate unavailable</h1>
+		</div>
+	</header>
+	<main class='estimate-content zcs-w-full zcs-box-border'><section class='estimate-section estimate-empty zcs-card zcs-flex zcs-direction-column zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-p-24 zcs-text-center zcs-box-border'><i class='zc-li-outline ui-1-lock zcs-font-24 zcs-color-tertiary'></i><h2 class='zcs-font-18 zcs-font-medium zcs-color-primary zcs-m-0'>This estimate is not accessible</h2><p class='zcs-font-14 zcs-color-tertiary zcs-m-0'>It may not exist or it may belong to another shop.</p></section></main>
+<%
+		}
+		else
+		{
+				programRecord = Programs[ID == estimateRecord.Program];
+				upfitterRecord = Upfitters[ID == estimateRecord.Upfitter];
+				statusValue = ifnull(estimateRecord.Status,"Pending Upfitter Review");
+				badgeClass = "zcs-badge-grey";
+				if(statusValue == "Pending Upfitter Review")
+				{
+						badgeClass = "zcs-badge-yellow";
+				}
+				else if(statusValue == "Revision Requested")
+				{
+						badgeClass = "zcs-badge-orange";
+				}
+				else if(statusValue == "Approved")
+				{
+						badgeClass = "zcs-badge-green";
+				}
+				else if(statusValue == "Declined")
+				{
+						badgeClass = "zcs-badge-red";
+				}
+				vehicleCount = 0;
+				if(estimateRecord.Vehicles_In_Scope != null)
+				{
+						vehicleCount = estimateRecord.Vehicles_In_Scope.size();
+				}
+				pageReturn = "%23Page%3AEstimate_Review%3FEstimate_ID%3D" + estimateRecord.ID;
+				commonDialog = "&zc_LoadIn=dialog&zc_Header=true&zc_OpenUrlIn=same%20window&zc_NextUrl=" + pageReturn;
+				approveUrl = "#Form:Estimates?recLinkID=" + estimateRecord.ID + "&viewLinkName=Assigned_Estimates&Status=Approved" + commonDialog + "&zc_SuccMsg=Estimate%20approved";
+				declineUrl = "#Form:Estimates?recLinkID=" + estimateRecord.ID + "&viewLinkName=Assigned_Estimates&Status=Declined" + commonDialog + "&zc_SuccMsg=Estimate%20declined";
+				revisionUrl = "#Form:Estimates?recLinkID=" + estimateRecord.ID + "&viewLinkName=Assigned_Estimates&Status=Revision%20Requested" + commonDialog + "&zc_SuccMsg=Revision%20requested";
+%>
+	<header class='estimate-header zcs-w-full zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-16 zcs-px-30 zcs-py-16 zcs-box-border'>
+		<div class='zcs-flex zcs-direction-column zcs-gap-4'>
+			<div class='zcs-flex zcs-align-items-center zcs-gap-8'><a href='#Page:Estimate_Review' class='zcs-back zcs-color-tertiary' aria-label='Back to assigned estimates'><i class='zc-li-outline arrows-1-tail-left zcs-font-22'></i></a><span class='estimate-kicker zcs-font-12 zcs-font-semibold zcs-color-tertiary'>Estimate review</span></div>
+			<div class='zcs-flex zcs-align-items-center zcs-row-wrap zcs-gap-10'><h1 class='zcs-font-24 zcs-font-semibold zcs-color-primary zcs-m-0'>EST-<%=estimateRecord.Estimate_ID%></h1><span class='zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-font-13 <%=badgeClass%>'><%=statusValue%></span></div>
+			<p class='zcs-font-14 zcs-color-tertiary zcs-m-0'>Program <%=ifnull(programRecord.Service_ID,"Not available")%> &middot; <%=vehicleCount%> vehicles in scope</p>
+		</div>
+<%
+				if(statusValue == "Pending Upfitter Review")
+				{
+%>
+		<div class='estimate-actions zcs-flex zcs-align-items-center zcs-row-wrap zcs-gap-8'>
+			<a class='zcs-button zcs-primary-outline-button zcs-action-green zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=approveUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-check-circle-08'></i><span>Approve</span></a>
+			<a class='zcs-button zcs-primary-outline-button zcs-action-red zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=declineUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-circle-remove'></i><span>Decline</span></a>
+			<a class='zcs-button zcs-primary-outline-button zcs-action-orange zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-medium' href='<%=revisionUrl%>'><i class='zcs-button-icon zc-li-outline ui-1-edit-72'></i><span>Request Clarification</span></a>
+		</div>
+<%
+				}
+%>
+	</header>
+	<main class='estimate-content zcs-w-full zcs-flex zcs-direction-column zcs-gap-16 zcs-box-border'>
+		<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+			<div class='estimate-summary-grid'>
+				<div class='estimate-summary-item zcs-rounded-xl zcs-p-16 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Program reference</span><strong class='zcs-font-16 zcs-color-primary zcs-mt-4'><%=ifnull(programRecord.Service_ID,"Not available")%></strong></div>
+				<div class='estimate-summary-item zcs-rounded-xl zcs-p-16 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Assigned shop</span><strong class='zcs-font-16 zcs-color-primary zcs-mt-4'><%=ifnull(upfitterRecord.Upfitter_Name,"Assigned shop")%></strong></div>
+				<div class='estimate-summary-item zcs-rounded-xl zcs-p-16 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Vehicles in scope</span><strong class='zcs-font-16 zcs-color-primary zcs-mt-4'><%=vehicleCount%></strong></div>
+				<div class='estimate-summary-item zcs-rounded-xl zcs-p-16 zcs-box-border'><span class='zcs-font-13 zcs-color-tertiary'>Response date</span><strong class='zcs-font-16 zcs-color-primary zcs-mt-4'><%=ifnull(estimateRecord.Response_Date,"Not responded")%></strong></div>
+			</div>
+		</section>
+
+		<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+			<div class='estimate-section-head zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Vehicles in scope</h2><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Only vehicle information needed to prepare this estimate is shown.</p></div>
+<%
+				if(vehicleCount == 0)
+				{
+%>
+			<div class='estimate-empty zcs-flex zcs-align-items-center zcs-justify-center zcs-color-tertiary'>No vehicles are attached to this estimate.</div>
+<%
+				}
+				else
+				{
+%>
+			<div class='estimate-vehicle-grid zcs-mt-12'>
+<%
+						for each vehicleId in estimateRecord.Vehicles_In_Scope
+						{
+								vehicleRecord = Vehicles[ID == vehicleId];
+%>
+				<article class='estimate-vehicle zcs-rounded-xl zcs-p-16 zcs-box-border'><div class='zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-12'><div class='zcs-flex zcs-align-items-center zcs-gap-10'><i class='zc-li-outline transportation-car zcs-font-20 zcs-color-theme'></i><div><h3 class='zcs-font-16 zcs-font-semibold zcs-color-primary zcs-m-0'><%=ifnull(vehicleRecord.VIN,"VIN unavailable")%></h3><p class='zcs-font-13 zcs-color-tertiary zcs-m-0'><%=ifnull(vehicleRecord.Year,"")%> <%=ifnull(vehicleRecord.Make,"")%> <%=ifnull(vehicleRecord.Model,"")%></p></div></div><span class='zcs-font-13 zcs-color-tertiary'><%=ifnull(vehicleRecord.Vehicle_Status,"Assigned")%></span></div></article>
+<%
+						}
+%>
+			</div>
+<%
+				}
+%>
+		</section>
+
+		<div class='estimate-table-stack'>
+			<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+				<div class='estimate-section-head zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Parts</h2></div>
+				<div class='estimate-table-wrapper zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative zcs-mt-12'><table class='zcs-w-full'><thead class='zcs-sticky'><tr><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Part</th><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Part number</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Quantity</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Unit price</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Line total</th></tr></thead><tbody>
+<%
+				partsCount = Estimate_Parts_Lines[Estimate == estimateRecord.ID].count();
+				if(partsCount == 0)
+				{
+%>
+					<tr><td class='zcs-px-16 zcs-py-16 zcs-text-center zcs-color-tertiary' colspan='5'>No parts lines.</td></tr>
+<%
+				}
+				else
+				{
+						for each partLine in Estimate_Parts_Lines[Estimate == estimateRecord.ID]
+						{
+								partRecord = Parts[ID == partLine.Part];
+%>
+					<tr><td data-label='Part' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-primary'><%=ifnull(partRecord.Part_Name,"Part")%></td><td data-label='Part number' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-tertiary'><%=ifnull(partRecord.Part_Number,"Not provided")%></td><td data-label='Quantity' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right'><%=ifnull(partLine.Quantity,0)%></td><td data-label='Unit price' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right'>$<%=ifnull(partLine.Unit_Price,0.00)%></td><td data-label='Line total' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-font-semibold zcs-text-right'>$<%=ifnull(partLine.Line_Total,0.00)%></td></tr>
+<%
+						}
+				}
+%>
+				<tr class='estimate-total-row'><td data-label='Parts total' class='zcs-px-16 zcs-py-10 zcs-text-right' colspan='4'>Parts total</td><td data-label='Total' class='zcs-px-16 zcs-py-10 zcs-text-right'>$<%=ifnull(estimateRecord.Parts_Total,0.00)%></td></tr></tbody></table></div>
+			</section>
+
+			<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+				<div class='estimate-section-head zcs-py-8'><h2 class='zcs-font-18 zcs-font-semibold zcs-color-primary zcs-m-0'>Labor</h2></div>
+				<div class='estimate-table-wrapper zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative zcs-mt-12'><table class='zcs-w-full'><thead class='zcs-sticky'><tr><th class='zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium'>Description</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Hours</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Hourly rate</th><th class='zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium'>Line total</th></tr></thead><tbody>
+<%
+				laborCount = Estimate_Labor_Lines[Estimate == estimateRecord.ID].count();
+				if(laborCount == 0)
+				{
+%>
+					<tr><td class='zcs-px-16 zcs-py-16 zcs-text-center zcs-color-tertiary' colspan='4'>No labor lines.</td></tr>
+<%
+				}
+				else
+				{
+						for each laborLine in Estimate_Labor_Lines[Estimate == estimateRecord.ID]
+						{
+%>
+					<tr><td data-label='Description' class='estimate-description zcs-px-16 zcs-py-10 zcs-font-14 zcs-color-primary'><%=ifnull(laborLine.Description,"Labor")%></td><td data-label='Hours' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right'><%=ifnull(laborLine.Hours,0.00)%></td><td data-label='Hourly rate' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-text-right'>$<%=ifnull(laborLine.Hourly_Rate,0.00)%></td><td data-label='Line total' class='zcs-px-16 zcs-py-10 zcs-font-14 zcs-font-semibold zcs-text-right'>$<%=ifnull(laborLine.Line_Total,0.00)%></td></tr>
+<%
+						}
+				}
+%>
+				<tr class='estimate-total-row'><td data-label='Labor total' class='zcs-px-16 zcs-py-10 zcs-text-right' colspan='3'>Labor total</td><td data-label='Total' class='zcs-px-16 zcs-py-10 zcs-text-right'>$<%=ifnull(estimateRecord.Labor_Total,0.00)%></td></tr></tbody></table></div>
+			</section>
+		</div>
+
+		<section class='estimate-section zcs-card zcs-p-20 zcs-box-border'>
+			<div class='zcs-flex zcs-align-items-center zcs-justify-space-between zcs-row-wrap zcs-gap-16'><div><span class='zcs-font-13 zcs-color-tertiary'>Estimate total</span><div class='estimate-grand-total zcs-font-bold'>$<%=ifnull(estimateRecord.Estimate_Total,0.00)%></div></div><span class='zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-font-13 <%=badgeClass%>'><%=statusValue%></span></div>
+<%
+				if(estimateRecord.Upfitter_Response != null && estimateRecord.Upfitter_Response != "")
+				{
+%>
+			<div class='estimate-callout zcs-rounded-lg zcs-p-16 zcs-mt-16 zcs-box-border'><div class='zcs-flex zcs-align-items-center zcs-gap-8'><i class='zc-li-outline business-notes zcs-color-theme'></i><strong class='zcs-font-14 zcs-color-primary'>Response</strong></div><p class='estimate-response zcs-font-14 zcs-color-secondary zcs-mt-8 zcs-mb-0'><%=estimateRecord.Upfitter_Response%></p></div>
+<%
+				}
+				else
+				{
+%>
+			<p class='zcs-font-14 zcs-color-tertiary zcs-mt-16 zcs-mb-0'>No response has been recorded.</p>
+<%
+				}
+				if(statusValue == "Pending Upfitter Review")
+				{
+%>
+			<div class='estimate-action-card zcs-card zcs-p-16 zcs-mt-16 zcs-box-border'><h3 class='zcs-font-16 zcs-font-semibold zcs-color-primary zcs-m-0'>Response required</h3><p class='zcs-font-13 zcs-color-tertiary zcs-mt-4 zcs-mb-0'>Approve the estimate, or open Decline or Request Clarification to enter the required response. The workspace reloads after the edit form is saved.</p></div>
+<%
+				}
+%>
+			<p class='estimate-sensitive-note zcs-color-tertiary zcs-mt-12 zcs-mb-0'><i class='zc-li-outline ui-1-lock'></i> This workspace intentionally excludes quote markup, client finance, and administrative QC notes.</p>
+		</section>
+	</main>
+<%
+		}
+}
+%>
+</div>

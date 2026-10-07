@@ -1,0 +1,68 @@
+Vehicles_On_Edit_Success as "Process Vehicle Update"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                vehicleTotal = Vehicles[Program == input.Program].count();
+			                update Programs[ID == input.Program]
+			                [
+			                    Vehicle_Count = vehicleTotal
+			                ];
+			                thisapp.Create_Audit_Log("Vehicles", input.ID, input.Program, "Updated", "", input.Vehicle_Status, "Vehicle updated for VIN " + input.VIN + ".");
+			                if(input.Vehicle_Status == "Completed")
+			                {
+			                    existingQCAction = Action_Items[Program == input.Program && Vehicle == input.ID && Action_Type == "QC Review" && (Status == "Open" || Status == "In Progress")];
+			                    if(existingQCAction.count() == 0)
+			                    {
+			                        insertedAction = insert into Action_Items
+			                        [
+			                            Action_Type = "QC Review"
+			                            Program = input.Program
+			                            Vehicle = input.ID
+			                            Assigned_To = zoho.adminuserid
+			                            Due_Date = zoho.currenttime.addDay(1)
+			                            Priority = "High"
+			                            Status = "Open"
+			                            Description = "Review completion evidence and perform QC for VIN " + input.VIN + "."
+			                            Created_Date = zoho.currenttime
+			                        ];
+			                    }
+			                }
+			                if(input.QC_Status == "Rejected")
+			                {
+			                    existingQCFail = Issues[Program == input.Program && Vehicle == input.ID && Issue_Type == "QC Fail" && (Status == "Open" || Status == "In Progress")];
+			                    if(existingQCFail.count() == 0)
+			                    {
+			                        insertedIssue = insert into Issues
+			                        [
+			                            Program = input.Program
+			                            Vehicle = input.ID
+			                            Issue_Type = "QC Fail"
+			                            Priority = "High"
+			                            Status = "Open"
+			                            Description = "QC rejected for VIN " + input.VIN + ". " + input.QC_Notes
+			                        ];
+			                    }
+			                }
+			                if(input.QC_Status == "Approved")
+			                {
+			                    programVehicleCount = Vehicles[Program == input.Program].count();
+			                    approvedVehicleCount = Vehicles[Program == input.Program && QC_Status == "Approved"].count();
+			                    if(programVehicleCount > 0 && programVehicleCount == approvedVehicleCount)
+			                    {
+			                        thisapp.Create_Program_Closeout(input.Program);
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

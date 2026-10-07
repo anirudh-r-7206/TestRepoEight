@@ -1,0 +1,20 @@
+Estimate_Labor_Lines_On_Load as "Prepare Estimate Labor Line"
+{
+
+			    type = form
+			    form = Estimate_Labor_Lines
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Line_Total;
+			            )
+			        }
+			    }
+			
+}

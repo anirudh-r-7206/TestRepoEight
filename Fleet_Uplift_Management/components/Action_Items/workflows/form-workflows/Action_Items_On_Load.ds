@@ -1,0 +1,20 @@
+Action_Items_On_Load as "Prepare Action Item Form"
+{
+
+			    type = form
+			    form = Action_Items
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Created_Date, Completed_Date;
+			            )
+			        }
+			    }
+			
+}

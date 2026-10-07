@@ -1,0 +1,29 @@
+Vehicles_On_Load as "Prepare Vehicle Form"
+{
+
+			    type = form
+			    form = Vehicles
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Suggested_Upfitter, Matching_Distance_Miles, QC_Date, Billing_Eligible;
+			                isAdmin = thisapp.permissions.isUserInProfile("Internal_Admin");
+			                if(input.QC_Status == "Rejected" || isAdmin)
+			                {
+			                    show QC_Notes;
+			                }
+			                else
+			                {
+			                    hide QC_Notes;
+			                }
+			            )
+			        }
+			    }
+			
+}

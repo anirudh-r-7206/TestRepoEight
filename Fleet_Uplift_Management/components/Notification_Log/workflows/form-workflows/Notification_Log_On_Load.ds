@@ -1,0 +1,20 @@
+Notification_Log_On_Load as "Lock Notification Log"
+{
+
+			    type = form
+			    form = Notification_Log
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                hide Hidden_Section;
+			                disable Alert_Key, Template_Code, Reference_Type, Reference_ID, Recipient_Email, Sent_Date, Delivery_Status, Error_Message;
+			            )
+			        }
+			    }
+			
+}

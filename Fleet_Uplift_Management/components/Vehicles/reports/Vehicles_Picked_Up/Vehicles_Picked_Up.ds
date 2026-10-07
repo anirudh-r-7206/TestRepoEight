@@ -1,0 +1,31 @@
+list Vehicles_Picked_Up
+{
+
+		    displayName = "Vehicles - Picked Up"
+		    show all rows from Vehicles [Vehicle_Status == "Picked Up"]
+		    (
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Pickup_Date
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		        QC_Date
+		        Billing_Eligible
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        Pickup_Date
+		        QC_Status
+		    )
+		    sort by
+		    (
+		        Pickup_Date descending
+		    )
+		
+}

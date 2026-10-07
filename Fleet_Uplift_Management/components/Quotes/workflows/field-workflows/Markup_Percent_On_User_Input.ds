@@ -1,0 +1,20 @@
+Markup_Percent_On_User_Input as "Recalculate Quote Markup"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on add or edit
+			
+			    on user input of Markup_Percent
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.Markup_Amount = ifnull(input.Estimate_Subtotal, 0.00) * ifnull(input.Markup_Percent, 0.00) / 100;
+			                input.Quote_Total = ifnull(input.Estimate_Subtotal, 0.00) + input.Markup_Amount;
+			            )
+			        }
+			    }
+			
+}

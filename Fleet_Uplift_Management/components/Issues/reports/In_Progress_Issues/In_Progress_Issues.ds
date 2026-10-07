@@ -1,0 +1,32 @@
+list In_Progress_Issues
+{
+
+		    displayName = "In Progress Issues"
+		    show all rows from Issues [Status == "In Progress"]
+		    (
+		        Issue_ID
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Status
+		        Description
+		        Assigned_To
+		        Opened_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Assigned_To
+		        Opened_Date
+		    )
+		    sort by
+		    (
+		        Priority ascending
+		        Opened_Date descending
+		    )
+		
+}

@@ -1,0 +1,24 @@
+Quotes_On_Add_Success as "Generate New Quote"
+{
+
+			    type = form
+			    form = Quotes
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                quoteRecord = Quotes[ID == input.ID];
+			                sequenceText = "0000" + quoteRecord.Quote_Sequence.toString();
+			                generatedQuoteNumber = "QT-" + zoho.currentdate.toString("yyyyMM") + "-" + sequenceText.right(4);
+			                quoteRecord.Quote_Number = generatedQuoteNumber;
+			                thisapp.Generate_Quote_PDF(input.ID);
+			                thisapp.Create_Audit_Log("Quotes", input.ID, input.Program, "Created", "", input.Status, "Quote " + generatedQuoteNumber + " created.");
+			            )
+			        }
+			    }
+			
+}

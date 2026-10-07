@@ -1,0 +1,25 @@
+list Partial_Invoices
+{
+
+		    displayName = "Partial Invoices"
+		    show all rows from Client_Invoices [Payment_Status == "Partial"]
+		    (
+		        Invoice_Number
+		        Program
+		        Invoice_Date
+		        Due_Date
+		        Invoice_Amount
+		        Payment_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Invoice_Date
+		        Due_Date
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		
+}

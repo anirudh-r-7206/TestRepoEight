@@ -1,0 +1,25 @@
+list Received_Purchase_Orders
+{
+
+		    displayName = "Received Purchase Orders"
+		    show all rows from Purchase_Orders [Status == "Received"]
+		    (
+		        Program
+		        Quote
+		        FMC_PO_Number
+		        PO_Date
+		        PO_Amount
+		        Status
+		    )
+		    filters
+		    (
+		        Program
+		        Quote
+		        PO_Date
+		    )
+		    sort by
+		    (
+		        PO_Date descending
+		    )
+		
+}

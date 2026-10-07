@@ -1,0 +1,34 @@
+Purchase_Orders_On_Edit_Validate as "Validate Purchase Order Status"
+{
+
+			    type = form
+			    form = Purchase_Orders
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                quoteRecord = Quotes[ID == input.Quote];
+			                if(quoteRecord.count() == 0 || quoteRecord.Status != "Approved" || quoteRecord.Program != input.Program)
+			                {
+			                    alert(Quote, "The selected quote must be approved and belong to the selected program.");
+			                    cancel submit;
+			                }
+			                programRecord = Programs[ID == input.Program];
+			                if(programRecord.count() > 0)
+			                {
+			                    input.Client_Portal_User = programRecord.Client_Portal_User;
+			                }
+			                if(old.Status != input.Status && input.Status == "Green Light Issued" && old.Green_Light_Date == null)
+			                {
+			                    input.Green_Light_Date = zoho.currenttime;
+			                }
+			                thisapp.Create_Audit_Log("Purchase_Orders", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Purchase order status updated.");
+			            )
+			        }
+			    }
+			
+}

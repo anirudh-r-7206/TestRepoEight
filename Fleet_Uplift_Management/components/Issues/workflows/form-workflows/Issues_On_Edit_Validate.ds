@@ -1,0 +1,67 @@
+Issues_On_Edit_Validate as "Validate and Escalate Issue"
+{
+
+			    type = form
+			    form = Issues
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if((input.Status == "Resolved" || input.Status == "Closed") && (input.Resolution == null || input.Resolution.trim() == ""))
+			                {
+			                    alert(Resolution, "Resolution is required when an issue is Resolved or Closed.");
+			                    cancel submit;
+			                }
+			                if(input.Status == "Closed")
+			                {
+			                    if(old.Status != "Closed" || old.Closed_Date == null)
+			                    {
+			                        input.Closed_Date = zoho.currenttime;
+			                    }
+			                }
+			                else
+			                {
+			                    input.Closed_Date = null;
+			                }
+			                assignmentChanged = old.Assigned_To != input.Assigned_To;
+			                escalatedToHigh = old.Priority != "High" && input.Priority == "High";
+			                if(input.Assigned_To != null && (assignmentChanged || escalatedToHigh))
+			                {
+			                    assigneeEmail = input.Assigned_To.email;
+			                    alertKey = "ISSUE_ALERT-" + input.ID + "-" + assigneeEmail + "-" + input.Priority;
+			                    priorAlert = Notification_Log[Alert_Key == alertKey];
+			                    if(assigneeEmail != null && priorAlert.count() == 0)
+			                    {
+			                        sendmail
+			                        [
+			                            from : zoho.adminuserid
+			                            to : assigneeEmail
+			                            subject : "Issue alert: " + input.Issue_Type + " (" + input.Priority + ")"
+			                            message : "An issue has been assigned or escalated to you.<br><br>" + input.Description
+			                        ]
+			                        insert into Notification_Log
+			                        [
+			                            Alert_Key = alertKey
+			                            Template_Code = "ISSUE_ALERT"
+			                            Reference_Type = "Issues"
+			                            Reference_ID = input.ID
+			                            Recipient_Email = assigneeEmail
+			                            Sent_Date = zoho.currenttime
+			                            Delivery_Status = "Sent"
+			                        ];
+			                        input.Alert_Sent = true;
+			                    }
+			                }
+			                if(old.Status != input.Status)
+			                {
+			                    thisapp.Create_Audit_Log("Issues", input.ID, input.Program, "Status Changed", old.Status, input.Status, "Issue status updated.");
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,7 @@
+report All_Client_Invoices
+{
+
+		 quickview ( layout ( type = -1 datablock1 ( layout type = -1 fields ( Invoice_Number Program Due_Date Invoice_Amount Payment_Status ) ) ) menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) ) action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) ) )
+		 detailview ( layout ( type = 1 datablock1 ( layout type = -2 fields ( Invoice_Number Program Invoice_Date Payment_Terms Due_Date Invoice_Amount Payment_Status Payment_Date ) ) ) menu ( header ( Edit Duplicate Delete ) ) )
+		
+}

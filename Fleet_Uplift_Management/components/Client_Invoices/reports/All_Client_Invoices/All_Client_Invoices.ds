@@ -1,0 +1,28 @@
+default list All_Client_Invoices
+{
+
+		    displayName = "All Client Invoices"
+		    show all rows from Client_Invoices
+		    (
+		        Invoice_Number
+		        Program
+		        Invoice_Date
+		        Payment_Terms
+		        Due_Date
+		        Invoice_Amount
+		        Payment_Status
+		        Payment_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Invoice_Date
+		        Due_Date
+		        Payment_Status
+		    )
+		    sort by
+		    (
+		        Invoice_Date descending
+		    )
+		
+}

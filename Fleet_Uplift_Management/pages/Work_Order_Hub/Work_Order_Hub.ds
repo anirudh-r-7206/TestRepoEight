@@ -1,0 +1,20 @@
+<page linkname = "Work_Order_Hub" displayname = "Work Orders"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Work_Orders_Workspace_DSP' elementName='Work_Orders_Workspace_DSP'>
+          <![CDATA[htmlpage Work_Orders_Workspace_DSP()
+content
+			<%{%>
+            <file name:Work_Orders_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

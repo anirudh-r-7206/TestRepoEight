@@ -1,0 +1,20 @@
+<page linkname = "Work_Order_Detail" parameters = "int Work_Order_ID" displayname = "Work Order Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Work_Order_Detail_View_DSP' elementName='Work_Order_Detail_View_DSP'>
+          <![CDATA[htmlpage Work_Order_Detail_View_DSP()
+content
+			<%{%>
+            <file name:Work_Order_Detail_View_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

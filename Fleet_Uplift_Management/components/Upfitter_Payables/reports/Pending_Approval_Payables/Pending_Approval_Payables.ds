@@ -1,0 +1,25 @@
+list Pending_Approval_Payables
+{
+
+		    displayName = "Pending Approval Payables"
+		    show all rows from Upfitter_Payables [Payment_Status == "Pending Approval"]
+		    (
+		        Program
+		        Upfitter
+		        Completed_Vehicles
+		        Per_Vehicle_Rate
+		        Payable_Amount
+		        Payment_Terms
+		        Payment_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		    )
+		    sort by
+		    (
+		        Program ascending
+		    )
+		
+}

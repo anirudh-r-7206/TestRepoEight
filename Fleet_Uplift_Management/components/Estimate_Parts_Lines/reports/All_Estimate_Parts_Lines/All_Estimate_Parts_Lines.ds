@@ -1,0 +1,24 @@
+default list All_Estimate_Parts_Lines
+{
+
+		    displayName = "All Estimate Parts Lines"
+		    show all rows from Estimate_Parts_Lines
+		    (
+		        Estimate_Part_Line_ID
+		        Estimate
+		        Part
+		        Quantity
+		        Unit_Price
+		        Line_Total
+		    )
+		    filters
+		    (
+		        Estimate
+		        Part
+		    )
+		    sort by
+		    (
+		        Estimate_Part_Line_ID ascending
+		    )
+		
+}

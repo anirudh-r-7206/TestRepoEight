@@ -1,0 +1,18 @@
+default list System_Configuration_Report
+{
+
+		    displayName = "System Configuration"
+		    show all rows from System_Configuration
+		    (
+		        Configuration_ID
+		        Company_Name
+		        FMC_Logo
+		        Primary_Color
+		        Quote_Validity_Days
+		        Weekly_Digest_Enabled
+		        Digest_Day
+		        Default_Currency
+		        Notes
+		    )
+		
+}

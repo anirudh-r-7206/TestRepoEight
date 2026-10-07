@@ -1,0 +1,26 @@
+list Programs_Pending_Quote_Approval
+{
+
+		    displayName = "Programs - Pending Quote Approval"
+		    show all rows from Programs [Program_Status == "Pending Quote Approval"]
+		    (
+		        Service_ID
+		        Program_Name
+		        FMC_Client
+		        Request_Date
+		        Program_Status
+		        Vehicle_Count
+		        Region_Market
+		    )
+		    filters
+		    (
+		        FMC_Client
+		        Region_Market
+		        Request_Date
+		    )
+		    sort by
+		    (
+		        Request_Date ascending
+		    )
+		
+}

@@ -1,0 +1,27 @@
+list Revision_Requested_Estimates
+{
+
+		    displayName = "Revision Requested Estimates"
+		    show all rows from Estimates [Status == "Revision Requested"]
+		    (
+		        Estimate_ID
+		        Program
+		        Upfitter
+		        Vehicles_In_Scope
+		        Estimate_Total
+		        Status
+		        Upfitter_Response
+		        Response_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Response_Date
+		    )
+		    sort by
+		    (
+		        Response_Date descending
+		    )
+		
+}

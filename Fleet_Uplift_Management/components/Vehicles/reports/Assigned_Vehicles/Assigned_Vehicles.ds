@@ -1,0 +1,31 @@
+list Assigned_Vehicles
+{
+
+		    displayName = "Assigned Vehicles"
+		    show all rows from Vehicles [Assigned_Upfitter != null]
+		    (
+		        Program
+		        VIN
+		        Year
+		        Make
+		        Model
+		        Arrival_Date
+		        Pickup_Date
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		    )
+		    filters
+		    (
+		        Program
+		        Assigned_Upfitter
+		        Vehicle_Status
+		        QC_Status
+		        Arrival_Date
+		    )
+		    sort by
+		    (
+		        Arrival_Date ascending
+		    )
+		
+}

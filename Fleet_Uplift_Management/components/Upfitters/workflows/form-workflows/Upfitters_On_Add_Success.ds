@@ -1,0 +1,19 @@
+Upfitters_On_Add_Success as "Audit New Upfitter"
+{
+
+			    type = form
+			    form = Upfitters
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Upfitters", input.ID, 0, "Created", "", input.Status, "Upfitter created: " + input.Upfitter_Name);
+			            )
+			        }
+			    }
+			
+}

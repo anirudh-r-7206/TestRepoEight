@@ -1,0 +1,19 @@
+Client_Invoices_On_Edit_Success as "Audit Client Invoice Update"
+{
+
+			    type = form
+			    form = Client_Invoices
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                thisapp.Create_Audit_Log("Client_Invoices", input.ID, input.Program, "Updated", "", input.Payment_Status, "Client invoice details updated.");
+			            )
+			        }
+			    }
+			
+}

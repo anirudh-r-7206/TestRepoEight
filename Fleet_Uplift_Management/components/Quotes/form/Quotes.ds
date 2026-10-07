@@ -1,0 +1,200 @@
+form Quotes
+{
+
+		    title
+		    {
+		        displayname = "Quotes"
+		        on add = "Create Quote"
+		        on edit = "Edit Quote"
+		    }
+		    record owner = Client_Portal_User
+		    Hidden_Section
+		    (
+		        type = section
+		        displayname = "System Information"
+		        row = 1
+		        column = 0
+		    )
+		    Quote_Sequence
+		    (
+		        type = autonumber
+		        displayname = "Quote Sequence"
+		        start index = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    unique Quote_Number
+		    (
+		        type = text
+		        displayname = "Quote Number"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client_Portal_User
+		    (
+		        type = picklist
+		        displayname = "Client Portal User"
+		        module = users
+		        displayformat = [name]
+		        user type = "portal users"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Quote_Details
+		    (
+		        type = section
+		        displayname = "Quote Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    must have Program
+		    (
+		        type = picklist
+		        displayname = "Program"
+		        values = Programs.ID
+		        displayformat = [Service_ID]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Quote_Date
+		    (
+		        type = date
+		        displayname = "Quote Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Valid_Until
+		    (
+		        type = date
+		        displayname = "Valid Until"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Estimate_Subtotal
+		    (
+		        type = USD
+		        displayname = "Estimate Subtotal"
+		        initial value = 0.00
+		        decimalplace = 2
+		        maxchar = 16
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Markup_Percent
+		    (
+		        type = decimal
+		        displayname = "Markup Percent"
+		        decimalplace = 2
+		        maxchar = 8
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Markup_Amount
+		    (
+		        type = USD
+		        displayname = "Markup Amount"
+		        initial value = 0.00
+		        decimalplace = 2
+		        maxchar = 16
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Quote_Total
+		    (
+		        type = USD
+		        displayname = "Quote Total"
+		        initial value = 0.00
+		        decimalplace = 2
+		        maxchar = 16
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Draft","Sent to Client","Approved","Declined","Revised"}
+		        initial value = "Draft"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    FMC_Approval_Date
+		    (
+		        type = date
+		        displayname = "FMC Approval Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    FMC_Notes
+		    (
+		        type = textarea
+		        displayname = "FMC Notes"
+		        height = 100px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Quote_PDF
+		    (
+		        type = upload file
+		        displayname = "Quote PDF"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Version_Number
+		    (
+		        type = number
+		        displayname = "Version Number"
+		        initial value = 1
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

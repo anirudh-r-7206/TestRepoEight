@@ -1,0 +1,26 @@
+Parts_On_Edit_Validate as "Audit Part Changes"
+{
+
+			    type = form
+			    form = Parts
+			    record event = on edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(old.Status != input.Status)
+			                {
+			                    thisapp.Create_Audit_Log("Parts", input.ID, 0, "Status Changed", old.Status, input.Status, "Part status updated");
+			                }
+			                if(old.Unit_Price != input.Unit_Price)
+			                {
+			                    thisapp.Create_Audit_Log("Parts", input.ID, 0, "Price Changed", old.Unit_Price.toString(), input.Unit_Price.toString(), "Part unit price updated");
+			                }
+			            )
+			        }
+			    }
+			
+}

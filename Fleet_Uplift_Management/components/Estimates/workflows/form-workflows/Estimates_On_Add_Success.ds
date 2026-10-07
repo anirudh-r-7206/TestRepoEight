@@ -1,0 +1,64 @@
+Estimates_On_Add_Success as "Issue Estimate Request"
+{
+
+			    type = form
+			    form = Estimates
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                update Programs[ID == input.Program]
+			                [
+			                    Program_Status = "Pending Estimates"
+			                ];
+			                upfitterRecord = Upfitters[ID == input.Upfitter];
+			                programRecord = Programs[ID == input.Program];
+			                if(upfitterRecord.count() > 0 && programRecord.count() > 0)
+			                {
+			                    templateData = Map();
+			                    templateData.put("service_id", programRecord.Service_ID);
+			                    templateData.put("estimate_id", input.Estimate_ID);
+			                    templateData.put("vehicle_count", input.Vehicles_In_Scope.size());
+			                    estimateReviewKey = "ESTIMATE_REVIEW-" + input.ID;
+			                    thisapp.Send_Template_Email("ESTIMATE_REVIEW", upfitterRecord.Contact_Email, templateData, estimateReviewKey);
+			                }
+			                dueDate = zoho.currenttime;
+			                businessDays = 0;
+			                for each dayOffset in {1,2,3,4,5,6,7}
+			                {
+			                    if(businessDays < 3)
+			                    {
+			                        dueDate = dueDate.addDay(1);
+			                        dayName = dueDate.toString("EEEE");
+			                        if(dayName != "Saturday" && dayName != "Sunday")
+			                        {
+			                            businessDays = businessDays + 1;
+			                        }
+			                    }
+			                }
+			                existingFollowup = Action_Items[Program == input.Program && Estimate == input.ID && Action_Type == "Estimate Follow-up" && (Status == "Open" || Status == "In Progress")];
+			                if(existingFollowup.count() == 0)
+			                {
+			                    insertedAction = insert into Action_Items
+			                    [
+			                        Action_Type = "Estimate Follow-up"
+			                        Program = input.Program
+			                        Estimate = input.ID
+			                        Assigned_To = zoho.adminuserid
+			                        Due_Date = dueDate
+			                        Priority = "Medium"
+			                        Status = "Open"
+			                        Description = "Follow up on estimate " + input.Estimate_ID + " for program " + programRecord.Service_ID + "."
+			                        Created_Date = zoho.currenttime
+			                    ];
+			                }
+			                thisapp.Create_Audit_Log("Estimates", input.ID, input.Program, "Created", "", input.Status, "Estimate request created.");
+			            )
+			        }
+			    }
+			
+}

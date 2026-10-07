@@ -1,0 +1,30 @@
+default list All_Upfitter_Payables
+{
+
+		    displayName = "All Upfitter Payables"
+		    show all rows from Upfitter_Payables
+		    (
+		        Payable_ID
+		        Program
+		        Upfitter
+		        Completed_Vehicles
+		        Per_Vehicle_Rate
+		        Payable_Amount
+		        Payment_Terms
+		        Payment_Status
+		        Payment_Date
+		        Payment_Reference
+		    )
+		    filters
+		    (
+		        Program
+		        Upfitter
+		        Payment_Status
+		        Payment_Date
+		    )
+		    sort by
+		    (
+		        Payment_Status ascending
+		    )
+		
+}

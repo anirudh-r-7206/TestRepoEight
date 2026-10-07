@@ -1,0 +1,33 @@
+list Closed_Issues
+{
+
+		    displayName = "Closed Issues"
+		    show all rows from Issues [Status == "Closed"]
+		    (
+		        Issue_ID
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Status
+		        Assigned_To
+		        Resolution
+		        Opened_Date
+		        Closed_Date
+		    )
+		    filters
+		    (
+		        Program
+		        Vehicle
+		        Issue_Type
+		        Priority
+		        Assigned_To
+		        Opened_Date
+		        Closed_Date
+		    )
+		    sort by
+		    (
+		        Closed_Date descending
+		    )
+		
+}

@@ -1,0 +1,26 @@
+Client_Invoices_Daily_Aging as "Age Overdue Client Invoices"
+{
+
+			    type = schedule
+			    start = "2025-01-01 08:00:00"
+			    frequency = daily
+			    time zone = "America/New_York"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                overdueInvoices = Client_Invoices[Due_Date < zoho.currentdate && (Payment_Status == "Unpaid" || Payment_Status == "Partial")];
+			                for each invoiceRecord in overdueInvoices
+			                {
+			                    priorStatus = invoiceRecord.Payment_Status;
+			                    invoiceRecord.Payment_Status = "Overdue";
+			                    thisapp.Create_Audit_Log("Client_Invoices", invoiceRecord.ID, invoiceRecord.Program, "Payment Status Changed", priorStatus, "Overdue", "Invoice passed its Net 45 due date.");
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,20 @@
+<page linkname = "Invoices" displayname = "Invoices"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Invoices_Workspace_DSP' elementName='Invoices_Workspace_DSP'>
+          <![CDATA[htmlpage Invoices_Workspace_DSP()
+content
+			<%{%>
+            <file name:Invoices_Workspace_DSP.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

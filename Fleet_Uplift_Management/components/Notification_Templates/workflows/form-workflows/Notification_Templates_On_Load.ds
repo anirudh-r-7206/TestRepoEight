@@ -1,0 +1,16 @@
+Notification_Templates_On_Load as "Notification Templates On Load"
+{
+
+			    type = form
+			    form = Notification_Templates
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide Hidden_Section;
+			        }
+			    }
+			
+}
