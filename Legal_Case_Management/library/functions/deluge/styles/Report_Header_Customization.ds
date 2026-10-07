@@ -1,0 +1,14 @@
+string styles.Report_Header_Customization()
+{
+
+			
+			                 	common = thisapp.Localization.Common();
+			                 	add_value = common.get("zcp.add");
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	style_txt = ".zc-pra-page-container .view-header { height: 69px; padding: 16px 15px; border-bottom: 1px solid " + color_codes.get("zc-pra-border-color") + "; border-radius: 12px 12px 0px 0px; } .zc-pra-page-container .view-header .zc-new-report-header { height: 36px; } .zc-pra-page-container .view-header .view-options { padding: 0px; } .zc-pra-page-container .view-header>.row h3 .zc-view-name { line-height: 26px; font-weight: 500; } .zc-pra-page-container .view-header .zc-add-record { width: auto; height: 36px; padding: 0px 20px; font-size: 14px; line-height: 36px; font-weight: 400; } .zc-pra-page-container .view-header .zc-add-record .fa { display: inline-block; vertical-align: top; } .zc-pra-page-container .view-header .zc-add-record .fa:before { content: '\ed29'; display: inline-block; vertical-align: top; font: normal normal normal 14px/36px 'ZC Live Outline'; font-size: 12px; font-weight: 600; margin-right: 8px; } .zc-pra-page-container .view-header .zc-add-record:after { content: '" + add_value + "'; display: inline-block; vertical-align: top; } .zc-pra-page-container .view-header.zc-show-new-menu .zc-new-report-header .zc-report-newheader { top: 3px; } .zc-pra-page-container .view-header .zc-more-options { width: 36px; height: 36px; border: 1px solid " + color_codes.get("zc-pra-border-color") + "; border-radius: 6px; } .zc-pra-page-container .view-header .zc-more-options i, .zc-pra-page-container .view-header .zc-reportnameheader .view-name-save { line-height: 36px; } .zc-pra-page-container .view-header .zc-add-record .zc-tooltip { display: none !important; }";
+			                 	rtl_txt = ".zc-rtl-wrapper .zc-pra-page-container .view-header .zc-add-record .fa:before { margin-right: 0px; margin-left: 8px; }";
+			                 	style_txt = style_txt + rtl_txt;
+			                 	return style_txt;
+			                 
+			
+}

@@ -1,0 +1,23 @@
+On_success4 as "On success"
+{
+
+			
+							type =  form
+							form = Add_Approval_Setup
+			
+							record event = on add or edit
+			
+							on success
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														openUrl("#Page:Approval_Setup?zc_LoadIn=embed-embedDiv&recID=" + input.Approval_Setup_For,"same window");
+									)
+								}
+							}
+			
+						
+			
+}

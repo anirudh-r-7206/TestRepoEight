@@ -1,0 +1,16 @@
+report All_Invoice_Items
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Invoice Case Source_Type Description Quantity Amount Line_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Invoice Case Source_Type Description Quantity Rate Amount Taxable Line_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

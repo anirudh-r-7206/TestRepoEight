@@ -1,0 +1,17 @@
+Create_Invoice_On_Load as "Create Invoice On Load"
+{
+
+			    type = form
+			    form = Create_Invoice
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Invoice_Number;
+			            disable Invoice_Number, Invoice_Status, Subtotal, Total_Amount, Amount_Paid, Balance_Due, Sent_On;
+			        }
+			    }
+			
+}

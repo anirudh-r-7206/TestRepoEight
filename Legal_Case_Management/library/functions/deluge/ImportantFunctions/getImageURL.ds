@@ -1,0 +1,23 @@
+string ImportantFunctions.getImageURL(string img, string imgFieldLinkName, string reportName, int recID)
+{
+
+			
+			                 	if(input.img != "")
+			                 	{
+			                 		if(input.img.contains("lowqual"))
+			                 		{
+			                 			imagefile = input.img.getSuffix("fieldName/image/").getPrefix("\" lowqual");
+			                 			return "/file" + zoho.appuri + input.reportName + "/" + input.recID + "/" + input.imgFieldLinkName + "/image-download?filepath=/" + imagefile;
+			                 		}
+			                 		else
+			                 		{
+			                 			return input.img.getSuffix("src = \"").getprefix("\" border");
+			                 		}
+			                 	}
+			                 	else
+			                 	{
+			                 		return "https://sm.pcmag.com/pcmag_me/review/z/zoho-creat/zoho-creator_1vtu.png";
+			                 	}
+			                 
+			
+}

@@ -1,0 +1,16 @@
+report Cleared_Conflict_Checks
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Client Opposing_Party_Name Potential_Conflict Decision Approval_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Client Opposing_Party_Name Potential_Conflict Conflict_Severity Decision Approval_Status Checked_By Checked_On ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

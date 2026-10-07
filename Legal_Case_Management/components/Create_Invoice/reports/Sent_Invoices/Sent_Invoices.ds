@@ -1,0 +1,35 @@
+list Sent_Invoices
+{
+
+		    displayName = "Sent Invoices"
+		    show all rows from Create_Invoice [Invoice_Status == "Sent"]
+		    (
+		        Invoice_Number
+		        Case
+		        Client
+		        Invoice_Date
+		        Due_Date
+		        Invoice_Status
+		        Subtotal
+		        Tax_Amount
+		        Discount_Amount
+		        Total_Amount
+		        Amount_Paid
+		        Balance_Due
+		        Prepared_By
+		        Approved_By
+		    )
+		    filters
+		    (
+		        Client
+		        Case
+		        Invoice_Status
+		        Prepared_By
+		        Approved_By
+		    )
+		    sort by
+		    (
+		        Invoice_Date descending
+		    )
+		
+}

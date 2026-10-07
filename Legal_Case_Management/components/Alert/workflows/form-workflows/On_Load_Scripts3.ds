@@ -1,0 +1,25 @@
+On_Load_Scripts3 as "On-Load Scripts"
+{
+
+			
+							type =  form
+							form = Alert
+			
+							record event = on add
+			
+							on load
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														href = "https://files-accl.zohoexternal.com/public/workdrive-external/download/fydz8a3badd49a2854928ae1d582ab52d17e7?x-cli-msg=%7B%22linkId%22%3A%226OxchHbDC83-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D" + randomnumber(0,10000);
+													x = "<div style='text-align:center; width:350px;'><img style='height:50px;' src=" + href + "><p style='font-size:14px; font-weight:600; '>Please select all Approvers to proceed further !</p></div>";
+													input.plain = x;
+									)
+								}
+							}
+			
+						
+			
+}

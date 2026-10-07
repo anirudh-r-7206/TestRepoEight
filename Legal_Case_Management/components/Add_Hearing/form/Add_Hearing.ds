@@ -1,0 +1,184 @@
+form Add_Hearing
+{
+
+		    displayname = "Add Hearing"
+		    success message = "Hearing saved successfully"
+		
+		    Hearing_Details
+		    (
+		        type = section
+		        displayname = "Hearing Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Court
+		    (
+		        type = picklist
+		        displayname = "Court"
+		        values = Add_Court.ID
+		        displayformat = [Court_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Hearing_Type
+		    (
+		        type = picklist
+		        displayname = "Hearing Type"
+		        values = {"Mention","Motion","Evidence","Trial","Mediation","Arbitration","Conference","Judgment","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Hearing_DateTime
+		    (
+		        type = datetime
+		        displayname = "Hearing DateTime"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Venue
+		    (
+		        type = text
+		        displayname = "Venue"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Judge_or_Officer
+		    (
+		        type = text
+		        displayname = "Judge or Officer"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Preparation_Owner
+		    (
+		        type = picklist
+		        displayname = "Preparation Owner"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Hearing_Status
+		    (
+		        type = picklist
+		        displayname = "Hearing Status"
+		        values = {"Scheduled","Prepared","Adjourned","Completed","Cancelled"}
+		        initial value = "Scheduled"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Outcome_Details
+		    (
+		        type = section
+		        displayname = "Outcome Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Outcome
+		    (
+		        type = textarea
+		        displayname = "Outcome"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Next_Hearing_DateTime
+		    (
+		        type = datetime
+		        displayname = "Next Hearing DateTime"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Related_Document
+		    (
+		        type = picklist
+		        displayname = "Related Document"
+		        values = Add_Case_Document.ID
+		        displayformat = [Document_Title]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Hearing_ID
+		    (
+		        type = autonumber
+		        displayname = "Hearing ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Hearing"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Hearing"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

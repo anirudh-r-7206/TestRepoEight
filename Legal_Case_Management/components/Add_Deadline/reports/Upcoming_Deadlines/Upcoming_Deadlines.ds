@@ -1,0 +1,29 @@
+list Upcoming_Deadlines
+{
+
+		    displayName = "Upcoming Deadlines"
+		    show all rows from Add_Deadline [(Deadline_Status == "Open" || Deadline_Status == "Extended") && Deadline_Date in next 30 days]
+		    (
+		        Case
+		        Deadline_Type
+		        Deadline_Date
+		        Reminder_Date
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		        Related_Task
+		    )
+		    filters
+		    (
+		        Case
+		        Deadline_Type
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		    )
+		    sort by
+		    (
+		        Deadline_Date ascending
+		    )
+		
+}

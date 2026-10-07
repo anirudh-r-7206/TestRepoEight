@@ -1,0 +1,20 @@
+<page linkname = "Compliance_Audit_Dashboard" displayname = "Compliance Audit Dashboard"/>
+<content>
+<zml webDeviceConfig='{\"layout\":{\"displayType\":\"plain\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;\"}}'>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Compliance_Audit_Main' elementName='Compliance_Audit_Main' bgColor=\"#FFFFFF\">
+          <![CDATA[htmlpage Compliance_Audit_Main()
+						content
+			<%{%>
+            <file name:Compliance_Audit_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,50 @@
+default list all_cases
+{
+
+		    displayName = "Legal All Cases"
+		    show all rows from Create_Case
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Client_Contact
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Confidentiality_Level
+		        Matter_Manager
+		        Lead_Attorney
+		        Paralegal
+		        Billing_Attorney
+		        Fee_Schedule
+		        Estimated_Value
+		        Retainer_Amount
+		        Court
+		        Court_Case_Number
+		        Filing_Date
+		        Limitation_Date
+		        Case_Status
+		        Conflict_Status
+		        Engagement_Status
+		        Billing_Status
+		        Opened_On
+		        Closed_On
+		        Archived_On
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

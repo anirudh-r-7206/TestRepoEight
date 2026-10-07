@@ -1,0 +1,29 @@
+On_success7 as "On success"
+{
+
+			
+							type =  form
+							form = Create_Template
+			
+							record event = on add or edit
+			
+							on success
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														if(input.Active)
+													{
+														for each  rec in Create_Template[Email_For == input.Email_For && ID != input.ID]
+														{
+															rec.Active=false;
+														}
+													}
+									)
+								}
+							}
+			
+						
+			
+}

@@ -1,0 +1,17 @@
+Add_Case_Document_On_Load as "Add Case Document On Load"
+{
+
+			    type = form
+			    form = Add_Case_Document
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Document_ID;
+			            disable Document_ID;
+			        }
+			    }
+			
+}

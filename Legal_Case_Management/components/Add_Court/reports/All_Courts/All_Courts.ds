@@ -1,0 +1,24 @@
+default list All_Courts
+{
+
+		    displayName = "All Courts"
+		    show all rows from Add_Court
+		    (
+		        Court_Name
+		        Court_Type
+		        Jurisdiction
+		        Registry_Email
+		        Phone
+		        Status
+		    )
+		    filters
+		    (
+		        Court_Type
+		        Status
+		    )
+		    sort by
+		    (
+		        Court_Name ascending
+		    )
+		
+}

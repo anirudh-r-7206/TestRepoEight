@@ -1,0 +1,138 @@
+form Add_Case_Type
+{
+
+		    displayname = "Add Case Type"
+		    success message = "Case type added successfully"
+		
+		    Case_Type_Details
+		    (
+		        type = section
+		        displayname = "Case Type Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Practice_Area
+		    (
+		        type = picklist
+		        displayname = "Practice Area"
+		        values = Add_Practice_Area.ID
+		        displayformat = [Practice_Area_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Case_Type_Name
+		    (
+		        type = text
+		        displayname = "Case Type Name"
+		        maxchar = 120
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Process_Template
+		    (
+		        type = picklist
+		        displayname = "Process Template"
+		        values = {"Litigation","Arbitration","Corporate Advisory","Compliance","IP","Employment","Tax","General"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Default_Priority
+		    (
+		        type = picklist
+		        displayname = "Default Priority"
+		        values = {"Low","Medium","High","Critical"}
+		        initial value = "Medium"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    Rules_Status
+		    (
+		        type = section
+		        displayname = "Rules Status"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Limitation_Days
+		    (
+		        type = number
+		        displayname = "Limitation Days"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Active","Inactive"}
+		        initial value = "Active"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        height = 120px
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Case_Type_ID
+		    (
+		        type = autonumber
+		        displayname = "Case Type ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Add"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

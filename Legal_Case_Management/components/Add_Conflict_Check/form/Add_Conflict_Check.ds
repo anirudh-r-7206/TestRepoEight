@@ -1,0 +1,196 @@
+form Add_Conflict_Check
+{
+
+		    displayname = "Add Conflict Check"
+		    success message = "Conflict check saved successfully"
+		
+		    Conflict_Details
+		    (
+		        type = section
+		        displayname = "Conflict Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client
+		    (
+		        type = picklist
+		        displayname = "Client"
+		        values = Add_Client.ID
+		        displayformat = [Client_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Opposing_Party_Name
+		    (
+		        type = text
+		        displayname = "Opposing Party Name"
+		        maxchar = 150
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Search_Terms
+		    (
+		        type = textarea
+		        displayname = "Search Terms"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Potential_Conflict
+		    (
+		        type = checkbox
+		        displayname = "Potential Conflict"
+		        initial value = false
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Conflict_Severity
+		    (
+		        type = picklist
+		        displayname = "Conflict Severity"
+		        values = {"None","Low","Medium","High","Critical"}
+		        initial value = "None"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Conflict_Summary
+		    (
+		        type = textarea
+		        displayname = "Conflict Summary"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Review_Decision
+		    (
+		        type = section
+		        displayname = "Review Decision"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Checked_By
+		    (
+		        type = picklist
+		        displayname = "Checked By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Checked_On
+		    (
+		        type = date
+		        displayname = "Checked On"
+		        initial value = "${zoho.currentdate}"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Decision
+		    (
+		        type = picklist
+		        displayname = "Decision"
+		        values = {"Pending","Cleared","Waiver Required","Conflict Found"}
+		        initial value = "Pending"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Waiver_Document
+		    (
+		        type = upload file
+		        displayname = "Waiver Document"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Approval_Status
+		    (
+		        type = picklist
+		        displayname = "Approval Status"
+		        values = {"Pending","Approved","Rejected"}
+		        initial value = "Pending"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Conflict_Check_ID
+		    (
+		        type = autonumber
+		        displayname = "Conflict Check ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Conflict Check"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Conflict Check"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

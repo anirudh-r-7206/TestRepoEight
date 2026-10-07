@@ -1,0 +1,23 @@
+default list All_Practice_Areas
+{
+
+		    displayName = "All Practice Areas"
+		    show all rows from Add_Practice_Area
+		    (
+		        Practice_Area_Name
+		        Category
+		        Responsible_Practice_Head
+		        Default_Billing_Rate
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		        Status
+		    )
+		    sort by
+		    (
+		        Practice_Area_Name ascending
+		    )
+		
+}

@@ -1,0 +1,58 @@
+Add_Invoice_Action_On_Success as "Add Invoice Action On Success"
+{
+
+			    type = form
+			    form = Add_Invoice_Action
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                inv = Create_Invoice[ID == input.Invoice];
+			                if(inv.count() > 0)
+			                {
+			                    inv.Invoice_Status = input.To_Status;
+			                    if(input.Action_Type == "Send Invoice")
+			                    {
+			                        inv.Sent_On = zoho.currentdate;
+			                    }
+			                    if(input.Action_Type == "Approve Invoice")
+			                    {
+			                        inv.Approved_By = input.Action_By;
+			                    }
+			                    insert into Add_Case_History
+			                    [
+			                        Case = inv.Case
+			                        Event_Date = zoho.currenttime
+			                        Event_Type = "Invoice Updated"
+			                        Previous_Status = input.From_Status
+			                        New_Status = input.To_Status
+			                        Summary = input.Action_Type + ": " + input.Action_Notes
+			                        Changed_By = input.Action_By
+			                        Source_Record_ID = input.ID
+			                    ];
+			                    caseRec = Create_Case[ID == inv.Case];
+			                    if(caseRec.count() > 0 && caseRec.Billing_Attorney != null)
+			                    {
+			                        billEmp = Add_Employee[ID == caseRec.Billing_Attorney];
+			                        if(billEmp.count() > 0 && ifnull(billEmp.Email,"") != "")
+			                        {
+			                            sendmail
+			                            (
+			                                from : zoho.adminuserid
+			                                to : billEmp.Email
+			                                subject : "Invoice status updated"
+			                                message : "Invoice status changed from " + input.From_Status + " to " + input.To_Status + "."
+			                            )
+			                        }
+			                    }
+			                    openUrl("#Page:Billing_Detail?Invoice_ID=" + input.Invoice,"same window");
+			                }
+			            )
+			        }
+			    }
+			
+}

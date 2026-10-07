@@ -1,0 +1,23 @@
+Add_Case_Party_On_Validate as "Add Case Party On Validate"
+{
+
+			    type = form
+			    form = Add_Case_Party
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Counsel_Name not in {"",null} && input.Counsel_Email in {"",null})
+			                {
+			                    alert "Counsel Email is required when Counsel Name is provided.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

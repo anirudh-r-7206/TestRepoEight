@@ -1,0 +1,415 @@
+form Create_Case
+{
+
+		    displayname = "Create Case"
+		    success message = "Case saved successfully"
+		
+		    Matter_Details
+		    (
+		        type = section
+		        displayname = "Matter Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Case_Title
+		    (
+		        type = text
+		        displayname = "Case Title"
+		        maxchar = 200
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Client
+		    (
+		        type = picklist
+		        displayname = "Client"
+		        values = Add_Client.ID
+		        displayformat = [Client_Name]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Client_Contact
+		    (
+		        type = picklist
+		        displayname = "Client Contact"
+		        values = Add_Client_Contact.ID
+		        displayformat = [Contact_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Practice_Area
+		    (
+		        type = picklist
+		        displayname = "Practice Area"
+		        values = Add_Practice_Area.ID
+		        displayformat = [Practice_Area_Name]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Case_Type
+		    (
+		        type = picklist
+		        displayname = "Case Type"
+		        values = Add_Case_Type.ID
+		        displayformat = [Case_Type_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Priority
+		    (
+		        type = picklist
+		        displayname = "Priority"
+		        values = {"Low","Medium","High","Critical"}
+		        initial value = "Medium"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Confidentiality_Level
+		    (
+		        type = picklist
+		        displayname = "Confidentiality Level"
+		        values = {"Standard","Restricted","Highly Confidential"}
+		        initial value = "Standard"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    Team_Billing
+		    (
+		        type = section
+		        displayname = "Team Billing"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Matter_Manager
+		    (
+		        type = picklist
+		        displayname = "Matter Manager"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Lead_Attorney
+		    (
+		        type = picklist
+		        displayname = "Lead Attorney"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Paralegal
+		    (
+		        type = picklist
+		        displayname = "Paralegal"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Attorney
+		    (
+		        type = picklist
+		        displayname = "Billing Attorney"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Fee_Schedule
+		    (
+		        type = picklist
+		        displayname = "Fee Schedule"
+		        values = Add_Fee_Schedule.ID
+		        displayformat = [Schedule_Name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Estimated_Value
+		    (
+		        type = USD
+		        displayname = "Estimated Value"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Retainer_Amount
+		    (
+		        type = USD
+		        displayname = "Retainer Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    Matter_Narrative
+		    (
+		        type = section
+		        displayname = "Matter Narrative"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Summary
+		    (
+		        type = textarea
+		        displayname = "Summary"
+		        height = 140px
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Desired_Outcome
+		    (
+		        type = textarea
+		        displayname = "Desired Outcome"
+		        height = 140px
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		
+		    Litigation_Details
+		    (
+		        type = section
+		        displayname = "Litigation Details"
+		        visibility = true
+		        row = 4
+		        column = 1
+		    )
+		    Court
+		    (
+		        type = picklist
+		        displayname = "Court"
+		        values = Add_Court.ID
+		        displayformat = [Court_Name]
+		        searchable = true
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Court_Case_Number
+		    (
+		        type = text
+		        displayname = "Court Case Number"
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		    Filing_Date
+		    (
+		        type = date
+		        displayname = "Filing Date"
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Limitation_Date
+		    (
+		        type = date
+		        displayname = "Limitation Date"
+		        row = 4
+		        column = 2
+		        width = medium
+		    )
+		
+		    Corporate_Details
+		    (
+		        type = section
+		        displayname = "Corporate Details"
+		        visibility = true
+		        row = 5
+		        column = 1
+		    )
+		    Transaction_Counterparty
+		    (
+		        type = text
+		        displayname = "Transaction Counterparty"
+		        row = 5
+		        column = 1
+		        width = medium
+		    )
+		    Transaction_Value
+		    (
+		        type = USD
+		        displayname = "Transaction Value"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 5
+		        column = 2
+		        width = medium
+		    )
+		    Execution_Target_Date
+		    (
+		        type = date
+		        displayname = "Execution Target Date"
+		        row = 5
+		        column = 1
+		        width = medium
+		    )
+		
+		    Compliance_Details
+		    (
+		        type = section
+		        displayname = "Compliance Details"
+		        visibility = true
+		        row = 6
+		        column = 1
+		    )
+		    Regulator
+		    (
+		        type = text
+		        displayname = "Regulator"
+		        row = 6
+		        column = 1
+		        width = medium
+		    )
+		    Compliance_Due_Date
+		    (
+		        type = date
+		        displayname = "Compliance Due Date"
+		        row = 6
+		        column = 2
+		        width = medium
+		    )
+		
+		    System_Status
+		    (
+		        type = section
+		        displayname = "System Status"
+		        visibility = true
+		        row = 7
+		        column = 1
+		    )
+		    Case_Number
+		    (
+		        type = autonumber
+		        displayname = "Case Number"
+		        start index = 10000
+		        row = 7
+		        column = 1
+		        width = medium
+		    )
+		    Case_Status
+		    (
+		        type = picklist
+		        displayname = "Case Status"
+		        values = {"New Intake","Conflict Check","Engagement Pending","Open Matter","Strategy and Pleadings","Discovery and Diligence","Negotiation and Mediation","Hearing and Trial","Awaiting Order or Execution","Billing Review","Closed","Archived","Rejected"}
+		        initial value = "New Intake"
+		        row = 7
+		        column = 2
+		        width = medium
+		    )
+		    Conflict_Status
+		    (
+		        type = picklist
+		        displayname = "Conflict Status"
+		        values = {"Not Started","In Review","Cleared","Waiver Required","Conflict Found"}
+		        initial value = "Not Started"
+		        row = 7
+		        column = 1
+		        width = medium
+		    )
+		    Engagement_Status
+		    (
+		        type = picklist
+		        displayname = "Engagement Status"
+		        values = {"Not Sent","Sent","Signed","Declined"}
+		        initial value = "Not Sent"
+		        row = 7
+		        column = 2
+		        width = medium
+		    )
+		    Billing_Status
+		    (
+		        type = picklist
+		        displayname = "Billing Status"
+		        values = {"Not Ready","Ready for Review","Invoicing","Closed"}
+		        initial value = "Not Ready"
+		        row = 7
+		        column = 1
+		        width = medium
+		    )
+		    Opened_On
+		    (
+		        type = date
+		        displayname = "Opened On"
+		        row = 7
+		        column = 2
+		        width = medium
+		    )
+		    Closed_On
+		    (
+		        type = date
+		        displayname = "Closed On"
+		        row = 7
+		        column = 1
+		        width = medium
+		    )
+		    Archived_On
+		    (
+		        type = date
+		        displayname = "Archived On"
+		        row = 7
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Case"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Case"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

@@ -1,0 +1,159 @@
+form Add_Deadline
+{
+
+		    displayname = "Add Deadline"
+		    success message = "Deadline saved successfully"
+		
+		    Deadline_Details
+		    (
+		        type = section
+		        displayname = "Deadline Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Deadline_Type
+		    (
+		        type = picklist
+		        displayname = "Deadline Type"
+		        values = {"Limitation","Filing","Response","Appeal","Contractual","Internal Review","Payment","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Deadline_Date
+		    (
+		        type = date
+		        displayname = "Deadline Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Reminder_Date
+		    (
+		        type = date
+		        displayname = "Reminder Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Responsible_Attorney
+		    (
+		        type = picklist
+		        displayname = "Responsible Attorney"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Priority
+		    (
+		        type = picklist
+		        displayname = "Priority"
+		        values = {"Low","Medium","High","Critical"}
+		        initial value = "High"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Deadline_Status
+		    (
+		        type = picklist
+		        displayname = "Deadline Status"
+		        values = {"Open","Extended","Met","Missed","Cancelled"}
+		        initial value = "Open"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Linkage_Details
+		    (
+		        type = section
+		        displayname = "Linkage Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Related_Task
+		    (
+		        type = picklist
+		        displayname = "Related Task"
+		        values = Add_Case_Task.ID
+		        displayformat = [Task_Title]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Deadline_ID
+		    (
+		        type = autonumber
+		        displayname = "Deadline ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Deadline"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Deadline"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

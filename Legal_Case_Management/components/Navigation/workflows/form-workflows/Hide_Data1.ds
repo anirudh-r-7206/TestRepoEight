@@ -1,0 +1,20 @@
+Hide_Data1 as "Hide Data"
+{
+
+			
+							type =  form
+							form = Navigation
+			
+							record event = on add
+			
+							field rules
+							{
+								actions 
+								{
+									hide Hidden;
+								}
+							}
+			
+						
+			
+}

@@ -1,0 +1,27 @@
+default list All_Case_Parties
+{
+
+		    displayName = "All Case Parties"
+		    show all rows from Add_Case_Party
+		    (
+		        Case
+		        Party_Type
+		        Party_Name
+		        Organization
+		        Counsel_Name
+		        Email
+		        Phone
+		        Status
+		    )
+		    filters
+		    (
+		        Case
+		        Party_Type
+		        Status
+		    )
+		    sort by
+		    (
+		        Party_Name ascending
+		    )
+		
+}

@@ -1,0 +1,29 @@
+map Page.Get_Tabs(string page)
+{
+
+			
+			                 	common = thisapp.Localization.Common();
+			                 	language = thisapp.Localization.Pages();
+			                 	display_name = thisapp.Localization.Tab_Names();
+			                 	login_profile = "";
+			                 	mp = Map();
+			                 	if(input.page == "Free_Issue")
+			                 	{
+			                 		mp.put("general",{"Display":"Preference","Link":"Add_Free_Issue_Report","Comp":"Report"});
+			                 		mp.put("email-templates",{"Display":display_name.get("zcp.setup.emailtemplates"),"Link":"All_Mail_Templates1","Comp":"Page"});
+			                 		mp.put("approval-setup",{"Display":"Approval Setup","Link":"All_Approval_Setup","Comp":"Page"});
+			                 	}
+			                 	else if(input.page == "Preference")
+			                 	{
+			                 		mp.put("general",{"Display":"Preference","Link":"Add_Preference","Comp":"Form"});
+			                 		mp.put("email-templates",{"Display":display_name.get("zcp.setup.emailtemplates"),"Link":"All_Mail_Templates1","Comp":"Page"});
+			                 		mp.put("approval-setup",{"Display":"Approval Setup","Link":"All_Approval_Setup","Comp":"Page"});
+			                 	}
+			                 	else
+			                 	{
+			                 		mp.put("key","Invalid");
+			                 	}
+			                 	return mp;
+			                 
+			
+}

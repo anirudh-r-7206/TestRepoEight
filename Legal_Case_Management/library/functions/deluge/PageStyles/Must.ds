@@ -1,0 +1,8 @@
+string PageStyles.Must()
+{
+
+			
+			                 	return ".zc-content-loader, .zc-content-loader div { display: none !important; } // 	.zc-content-loader{ // 		width: 100%; // 		aspect-ratio: 1.154; // 		background: var(--grad) 50%  0, var(--grad) 0 100%, var(--grad) 100% 100%; // 		background-size: 35% calc(35% * 1.154); // 		animation: l16 1s infinite; // 	} // 	@keyframes l16{ // 		50%,100% {background-position: 100% 100%,50% 0,0 100%} // 	} .zc_live_adminbar .zc-container-wrapper { height: 100% !important; } * { padding: 0; margin: 0; border: none; box-sizing: border-box; } div#zppagesLive, div#elementsContainer, .Layout.elemContainment, div#row_1, .zc-pb-formreport-placeholder { height: 100% !important; } .Layout.elemContainment { padding: unset !important; } .zc-pb-page-content-wrapper .elemContainment { padding: unset !important; } .column-container .zc-pb-tile-container { padding: unset !important; } .zpcontent-wrapper div.zpelement-wrapper { height: 100% !important; } .zpcontent-wrapper div.zpelement-wrapper { height: 100% !important; } .zc-pb-tile-card::-webkit-scrollbar { display: none !important; } .inner .zc-page-content-wrapper .zc-form-fullheight .form-outer-wrapper { overflow: hidden !important; } .zc-dem-container .inner .form-outer-wrapper form.form-table { overflow: hidden !important; }";
+			                 
+			
+}

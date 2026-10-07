@@ -1,0 +1,23 @@
+list Active_Courts
+{
+
+		    displayName = "Active Courts"
+		    show all rows from Add_Court [Status == "Active"]
+		    (
+		        Court_Name
+		        Court_Type
+		        Jurisdiction
+		        Registry_Email
+		        Phone
+		        Status
+		    )
+		    filters
+		    (
+		        Court_Type
+		    )
+		    sort by
+		    (
+		        Court_Name ascending
+		    )
+		
+}

@@ -1,0 +1,33 @@
+Add_Engagement_Letter_On_Load as "Add Engagement Letter On Load"
+{
+
+			    type = form
+			    form = Add_Engagement_Letter
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Engagement_ID;
+			            disable Engagement_ID;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Client = caseRec.Client;
+			                        input.Fee_Schedule = caseRec.Fee_Schedule;
+			                        input.Retainer_Amount = caseRec.Retainer_Amount;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

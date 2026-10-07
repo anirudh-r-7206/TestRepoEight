@@ -1,0 +1,36 @@
+Task_Status_On_User_Input as "Task Status On User Input"
+{
+
+			    type = form
+			    form = Add_Case_Task
+			    record event = on add or edit
+			
+			    on user input of Task_Status
+			    {
+			        actions (Task_Status == "Completed")
+			        {
+			            show Completion_Date;
+			            enable Completion_Date;
+			        }
+			        actions (Task_Status != "Completed")
+			        {
+			            hide Completion_Date;
+			            disable Completion_Date;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Task_Status == "Completed" && input.Completion_Date == null)
+			                {
+			                    input.Completion_Date = zoho.currentdate;
+			                }
+			                if(input.Task_Status != "Completed")
+			                {
+			                    input.Completion_Date = null;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,17 @@
+Add_Client_On_Load as "Add Client On Load"
+{
+
+			    type = form
+			    form = Add_Client
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Status, Client_ID, Conflict_Flag;
+			            disable Client_ID, Conflict_Flag;
+			        }
+			    }
+			
+}

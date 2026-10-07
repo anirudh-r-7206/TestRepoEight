@@ -1,0 +1,35 @@
+Add_Invoice_Item_On_Delete as "Add Invoice Item On Delete"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on delete
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                inv = Create_Invoice[ID == input.Invoice];
+			                if(inv.count() > 0)
+			                {
+			                    lines = Add_Invoice_Item[Invoice == input.Invoice];
+			                    subtotal = 0;
+			                    tax = 0;
+			                    for each line in lines
+			                    {
+			                        subtotal = subtotal + ifnull(line.Amount,0);
+			                        if(line.Taxable == true)
+			                        {
+			                            tax = tax + (ifnull(line.Amount,0) * 0.1);
+			                        }
+			                    }
+			                    inv.Subtotal = subtotal;
+			                    inv.Tax_Amount = tax;
+			                }
+			            )
+			        }
+			    }
+			
+}

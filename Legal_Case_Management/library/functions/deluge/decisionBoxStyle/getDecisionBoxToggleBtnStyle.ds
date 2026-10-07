@@ -1,0 +1,16 @@
+string decisionBoxStyle.getDecisionBoxToggleBtnStyle(string type, string fieldLinkName, string checkedBgClr, String uncheckedBgClr)
+{
+
+			
+			                 	if(type = "All")
+			                 	{
+			                 		return "<style>.zc-decisionbox-field-group label.zc_decision_box_label { cursor: pointer; background-color: " + uncheckedBgClr + "; transition: 0.4s; border-radius: 30px; width: 50px; height: 25px; outline: none; border: none !important; box-shadow: none !important; display: flex; align-items: center; padding: 5px; box-sizing: border-box;} label.zc_decision_box_label:before { display: flex; content: \"\"; height: 15px; width: 15px; background-color: white; transition: 0.4s !important; border-radius: 50%; } .customCheckbox:checked+ label.zc_decision_box_label { background: " + checkedBgClr + "; } .customCheckbox:checked+ label.zc_decision_box_label:before { transform: translateX(25px); } .customCheckbox:checked+label.zc_decision_box_label:after { display: none; }  label.form-label.decision-box-label { margin-left: 60px !important; display: flex; align-items: center; height: 25px; }</style>";
+			                 	}
+			                 	else if(type = "Individual")
+			                 	{
+			                 		return "<style>.zc-" + fieldLinkName + "-group label.zc_decision_box_label { cursor: pointer; background-color: " + uncheckedBgClr + "; transition: 0.4s; border-radius: 30px; width: 50px; height: 25px; outline: none; border: none !important; box-shadow: none !important; display: flex; align-items: center; padding: 5px; box-sizing: border-box;} .zc-" + fieldLinkName + "-group label.zc_decision_box_label:before { display: flex; content: \"\"; height: 15px; width: 15px; background-color: white; transition: 0.4s !important; border-radius: 50%; } .zc-" + fieldLinkName + "-group .customCheckbox:checked+ label.zc_decision_box_label { background: " + checkedBgClr + "; } .zc-" + fieldLinkName + "-group .customCheckbox:checked+ label.zc_decision_box_label:before { transform: translateX(25px); } .zc-" + fieldLinkName + "-group .customCheckbox:checked+label.zc_decision_box_label:after { display: none; } .zc-" + fieldLinkName + "-group label.form-label.decision-box-label { margin-left: 60px !important; display: flex; align-items: center; height: 25px; }</style>";
+			                 	}
+			                 	return "";
+			                 
+			
+}

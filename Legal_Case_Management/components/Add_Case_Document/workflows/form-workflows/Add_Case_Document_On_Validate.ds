@@ -1,0 +1,33 @@
+Add_Case_Document_On_Validate as "Add Case Document On Validate"
+{
+
+			    type = form
+			    form = Add_Case_Document
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Document_Status in {"Approved","Filed","Served"} && input.Document_File == null)
+			                {
+			                    alert "Document File is required before approving, filing, or serving a document.";
+			                    cancel submit;
+			                }
+			                if(input.Confidentiality_Level == "Highly Confidential" && input.Visible_To_Client == true)
+			                {
+			                    alert "Highly Confidential documents cannot be marked visible to client.";
+			                    cancel submit;
+			                }
+			                if(input.Review_Required == true && input.Review_Due_Date == null)
+			                {
+			                    alert "Review Due Date is required when review is required.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

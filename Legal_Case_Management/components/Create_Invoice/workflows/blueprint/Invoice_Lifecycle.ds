@@ -1,0 +1,256 @@
+Invoice_Lifecycle as "Invoice Lifecycle"
+{
+
+			    type = blueprint
+			    form = Create_Invoice
+			
+			    start
+			    {
+			        start stage = "Draft"
+			    }
+			
+			    stages
+			    {
+			        "Draft" { }
+			        "Submitted for Review" { }
+			        "Approved" { }
+			        "Sent" { }
+			        "Partially Paid" { }
+			        "Paid" { }
+			        "Overdue" { }
+			        "Cancelled" { }
+			    }
+			
+			    transitions
+			    {
+			        Submit_For_Review as "Submit For Review"
+			        {
+			            type = normal
+			            from stage = "Draft"
+			            to stage = "Submitted for Review"
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing","Attorney"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Submitted for Review";
+			                        insert into Add_Case_History
+			                        [
+			                            Case = input.Case
+			                            Event_Date = zoho.currenttime
+			                            Event_Type = "Invoice Submitted"
+			                            New_Status = "Submitted for Review"
+			                            Summary = "Invoice submitted for review."
+			                            Changed_By = input.Prepared_By
+			                            Source_Record_ID = input.ID
+			                        ];
+			                    )
+			                }
+			            }
+			        }
+			        Approve_Invoice as "Approve Invoice"
+			        {
+			            type = normal
+			            from stage = "Submitted for Review"
+			            to stage = "Approved"
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing","Managing_Partner"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Approved";
+			                        insert into Add_Case_History
+			                        [
+			                            Case = input.Case
+			                            Event_Date = zoho.currenttime
+			                            Event_Type = "Invoice Approved"
+			                            New_Status = "Approved"
+			                            Summary = "Invoice approved."
+			                            Changed_By = input.Approved_By
+			                            Source_Record_ID = input.ID
+			                        ];
+			                    )
+			                }
+			            }
+			        }
+			        Send_Invoice as "Send Invoice"
+			        {
+			            type = normal
+			            from stage = "Approved"
+			            to stage = "Sent"
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Sent";
+			                        input.Sent_On = zoho.currentdate;
+			                        insert into Add_Case_History
+			                        [
+			                            Case = input.Case
+			                            Event_Date = zoho.currenttime
+			                            Event_Type = "Invoice Sent"
+			                            New_Status = "Sent"
+			                            Summary = "Invoice sent to client."
+			                            Changed_By = input.Prepared_By
+			                            Source_Record_ID = input.ID
+			                        ];
+			                    )
+			                }
+			            }
+			        }
+			        Mark_Partially_Paid as "Mark Partially Paid"
+			        {
+			            type = normal
+			            from stage = "Sent"
+			            to stage = "Partially Paid"
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Partially Paid";
+			                    )
+			                }
+			            }
+			        }
+			        Mark_Paid as "Mark Paid"
+			        {
+			            type = common
+			            from stage = "Sent"
+			            to stage = "Paid"
+			            common stages = {"Partially Paid","Overdue"}
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Paid";
+			                        insert into Add_Case_History
+			                        [
+			                            Case = input.Case
+			                            Event_Date = zoho.currenttime
+			                            Event_Type = "Invoice Paid"
+			                            New_Status = "Paid"
+			                            Summary = "Invoice marked paid."
+			                            Changed_By = input.Prepared_By
+			                            Source_Record_ID = input.ID
+			                        ];
+			                    )
+			                }
+			            }
+			        }
+			        Mark_Overdue as "Mark Overdue"
+			        {
+			            type = common
+			            from stage = "Sent"
+			            to stage = "Overdue"
+			            common stages = {"Partially Paid"}
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Overdue";
+			                    )
+			                }
+			            }
+			        }
+			        Cancel_Invoice as "Cancel Invoice"
+			        {
+			            type = common
+			            from stage = "Draft"
+			            to stage = "Cancelled"
+			            common stages = {"Submitted for Review","Approved","Sent"}
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing","Managing_Partner"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Cancelled";
+			                    )
+			                }
+			            }
+			        }
+			        Reopen_Invoice as "Reopen Invoice"
+			        {
+			            type = normal
+			            from stage = "Cancelled"
+			            to stage = "Draft"
+			            before
+			            {
+			                transition owner
+			                (
+			                    permissions = {"Finance_Billing","Managing_Partner"}
+			                )
+			            }
+			            after
+			            {
+			                actions
+			                {
+			                    custom deluge script
+			                    (
+			                        input.Invoice_Status = "Draft";
+			                    )
+			                }
+			            }
+			        }
+			    }
+			
+}

@@ -1,0 +1,127 @@
+form Create_Template
+{
+
+		
+					displayname = "Create Template"
+					success message = "Data Added Successfully!"
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					must have Email_For
+					(
+						type = picklist
+						displayname = "Email For"
+						maxchar = 100
+						values = {""}
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Select_Template
+					(
+						type = picklist	
+						displayname = "Select Template"
+						values  = Create_Template[Email_For == input.Email_For].ID
+		    			displayformat = [Title]
+						sortorder = ascending
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					must have Title
+					(
+		    			type = text
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Template_Subject
+					(
+		    			type = text
+						displayname = "Template Subject"
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Template
+					(
+		    			type = richtext
+						height = 200px
+						toolbar = enable
+						[
+							style, strike-through, indent, font-color, background-color, remove-formatting, alignment, link, table, ruler, bullets-and-numbering, script-text, code, html, quote, 
+							font-size : {1, 2, 3, 4, 5, 6, 7},
+							font-family : {"Serif", "Arimo", "Ptmono", "Heuristica", "OpenSans", "Tinos", "Lato", "DejaVuSans", "ComicNeue", "EBGaramond", "RobotoCondensed", "ArchivoBlack", "Carlito", "Barlow", "Comfortaa", "Montserrat", "Nunito", "Poppins", "Quicksand", "Raleway", "Rubik", "SourceSansPro"}
+						]
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Active
+					(
+		    			type = checkbox
+						initial value = false
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					plain
+					(
+		    			type = plaintext
+						value = "<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: rgb(51, 51, 51); line-height: 1.6\"><h2 style=\"color: rgb(41, 66, 134); border-bottom: 2px solid rgb(212, 221, 245); padding-bottom: 4px\">Note:<br /></h2><p>Use the following placeholders to dynamically insert values into the template content. These tags will be replaced with actual data from the Vendor Onboarding form.<br /></p><ul style=\"background-color: rgb(233, 238, 250); padding: 14px 18px; border-radius: 10px; list-style-type: none; margin: 16px 0\"><li><b>&lt;Vendor_ID&gt;</b> → <i>Vendor ID</i><br /></li><li><b>&lt;Vendor_Name&gt;</b> → <i>Vendor Name</i><br /></li><li><b>&lt;Org_Email&gt;</b> → <i>Org. Email</i><br /></li><li><b>&lt;Phone_Number&gt;</b> → <i>Phone</i><br /></li><li><b>&lt;Vendor_Type&gt;</b> → <i>Vendor Type</i><br /></li><li><b>&lt;Logo&gt;</b> → <i>Logo</i><br /></li><li><b>&lt;Website&gt;</b> → <i>Website</i><br /></li><li><b>&lt;Brokers&gt;</b> → <i>Brokers</i><br /></li><li><b>&lt;Registered_Business_Name&gt;</b> → <i>Registered Business Name</i><br /></li><li><b>&lt;Year_of_Establishment&gt;</b> → <i>Year of Establishment</i><br /></li><li><b>&lt;Registration_Number&gt;</b> → <i>Registration Number</i><br /></li><li><b>&lt;PAN_Number&gt;</b> → <i>PAN Number</i><br /></li><li><b>&lt;GST_Number&gt;</b> → <i>GST Number</i><br /></li><li><b>&lt;Address.address_line_1&gt;</b> → <i>Address Line 1</i><br /></li><li><b>&lt;Address.address_line_2&gt;</b> → <i>Address Line 2</i><br /></li><li><b>&lt;Address.district_city&gt;</b> → <i>City / District</i><br /></li><li><b>&lt;Address.state_province&gt;</b> → <i>State / Province</i><br /></li><li><b>&lt;Address.postal_Code&gt;</b> → <i>Postal Code</i><br /></li><li><b>&lt;Address.country&gt;</b> → <i>Country</i><br /></li><li><b>&lt;Bank_Name&gt;</b> → <i>Bank Name</i><br /></li><li><b>&lt;Account_Number&gt;</b> → <i>Account Number</i><br /></li><li><b>&lt;IFSC_Code&gt;</b> → <i>IFSC Code</i><br /></li><li><b>&lt;Account_Type&gt;</b> → <i>Account Type</i><br /></li><li><b>&lt;Documents&gt;</b> → <i>Bank Account Authorization Letter</i><br /></li><li><b>&lt;Documents1&gt;</b> → <i>Documents Grid</i><br /></li><li><b>&lt;Product&gt;</b> → <i>Products Grid</i><br /></li><li><b>&lt;Services&gt;</b> → <i>Services Grid</i><br /></li><li><b>&lt;Compliance_Declarations&gt;</b> → <i>Vendor Declaration Form</i><br /></li><li><b>&lt;Non_Disclosure_Agreement_NDA&gt;</b> → <i>Non-Disclosure Agreement (NDA)</i><br /></li><li><b>&lt;Insurance_Certificate_Public_Liability_Policy&gt;</b> → <i>Insurance Certificate / Public Liability Policy</i><br /></li><li><b>&lt;Other_Documents&gt;</b> → <i>Other Documents</i><br /></li><li><b>&lt;Notes&gt;</b> → <i>Notes</i><br /></li></ul><p style=\"color: rgb(102, 102, 102)\">You can place these tags anywhere in the template. They will be replaced with their corresponding values from the form data.<br /></p></div><div><br /></div>"
+			 			row = 1
+			 			column = 2   
+						width = medium
+					)
+					Hidden
+					(
+						type = section
+			 			row = 2
+			 			column = 0   
+						width = medium
+					)
+					plain1
+					(
+		    			type = plaintext
+						value = "<div> <br /></div>"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+			
+					actions
+					{
+						on add
+						{
+							submit
+							(
+		   						type = submit
+		   						displayname = "Add"
+							)
+							reset
+							(
+		   						type = reset
+		   						displayname = "Reset"
+							)
+						}
+						on edit
+						{
+							update
+							(
+		   						type = submit
+		   						displayname = "Update"
+							)
+							cancel
+							(
+		   						type = cancel
+		   						displayname = "Cancel"
+							)
+						}
+					}
+				
+		
+}

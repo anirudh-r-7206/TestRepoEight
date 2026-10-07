@@ -1,0 +1,25 @@
+default list All_Case_Types
+{
+
+		    displayName = "All Case Types"
+		    show all rows from Add_Case_Type
+		    (
+		        Practice_Area
+		        Case_Type_Name
+		        Process_Template
+		        Default_Priority
+		        Limitation_Days
+		        Status
+		    )
+		    filters
+		    (
+		        Practice_Area
+		        Process_Template
+		        Status
+		    )
+		    sort by
+		    (
+		        Case_Type_Name ascending
+		    )
+		
+}

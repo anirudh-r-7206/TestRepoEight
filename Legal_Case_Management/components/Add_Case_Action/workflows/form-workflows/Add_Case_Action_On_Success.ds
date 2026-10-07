@@ -1,0 +1,111 @@
+Add_Case_Action_On_Success as "Add Case Action On Success"
+{
+
+			    type = form
+			    form = Add_Case_Action
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() > 0)
+			                {
+			                    oldStatus = caseRec.Case_Status;
+			                    caseRec.Case_Status = input.To_Status;
+			                    if(input.Action_Type == "Submit Conflict Check")
+			                    {
+			                        caseRec.Conflict_Status = "In Review";
+			                    }
+			                    else if(input.Action_Type == "Clear Conflict")
+			                    {
+			                        caseRec.Conflict_Status = "Cleared";
+			                        caseRec.Engagement_Status = "Not Sent";
+			                    }
+			                    else if(input.Action_Type == "Flag Conflict")
+			                    {
+			                        caseRec.Conflict_Status = "Conflict Found";
+			                    }
+			                    else if(input.Action_Type == "Send Engagement")
+			                    {
+			                        caseRec.Engagement_Status = "Sent";
+			                    }
+			                    else if(input.Action_Type == "Mark Engagement Signed" || input.Action_Type == "Open Matter")
+			                    {
+			                        caseRec.Engagement_Status = "Signed";
+			                        caseRec.Opened_On = zoho.currentdate;
+			                    }
+			                    else if(input.Action_Type == "Send To Billing Review")
+			                    {
+			                        caseRec.Billing_Status = "Ready for Review";
+			                    }
+			                    else if(input.Action_Type == "Close Case")
+			                    {
+			                        caseRec.Billing_Status = "Closed";
+			                        caseRec.Closed_On = zoho.currentdate;
+			                    }
+			                    else if(input.Action_Type == "Archive Case")
+			                    {
+			                        caseRec.Archived_On = zoho.currentdate;
+			                    }
+			                    else if(input.Action_Type == "Reopen Case")
+			                    {
+			                        caseRec.Closed_On = null;
+			                        caseRec.Archived_On = null;
+			                        caseRec.Billing_Status = "Not Ready";
+			                    }
+			                    insert into Add_Case_History
+			                    [
+			                        Case = input.Case
+			                        Event_Date = zoho.currenttime
+			                        Event_Type = "Status Changed"
+			                        Previous_Status = oldStatus
+			                        New_Status = input.To_Status
+			                        Summary = input.Action_Type + ": " + input.Action_Notes
+			                        Source_Record_ID = input.ID
+			                    ];
+			                    notifyTo = "";
+			                    if(caseRec.Lead_Attorney != null)
+			                    {
+			                        leadRec = Add_Employee[ID == caseRec.Lead_Attorney];
+			                        if(leadRec.count() > 0)
+			                        {
+			                            notifyTo = ifnull(leadRec.Email,"");
+			                        }
+			                    }
+			                    if(caseRec.Matter_Manager != null)
+			                    {
+			                        managerRec = Add_Employee[ID == caseRec.Matter_Manager];
+			                        if(managerRec.count() > 0 && ifnull(managerRec.Email,"") != "")
+			                        {
+			                            notifyTo = notifyTo + "," + managerRec.Email;
+			                        }
+			                    }
+			                    if(caseRec.Billing_Attorney != null && input.Action_Type == "Send To Billing Review")
+			                    {
+			                        billingRec = Add_Employee[ID == caseRec.Billing_Attorney];
+			                        if(billingRec.count() > 0 && ifnull(billingRec.Email,"") != "")
+			                        {
+			                            notifyTo = notifyTo + "," + billingRec.Email;
+			                        }
+			                    }
+			                    if(notifyTo != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : notifyTo
+			                            subject : "Matter action completed"
+			                            message : "Action completed for " + caseRec.Case_Title + ": " + input.Action_Type
+			                        )
+			                    }
+			                }
+			                openUrl("#Page:Case_Detail?Case_ID=" + input.Case,"same window");
+			            )
+			        }
+			    }
+			
+}

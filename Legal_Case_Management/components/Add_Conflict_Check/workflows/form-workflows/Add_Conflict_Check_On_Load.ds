@@ -1,0 +1,31 @@
+Add_Conflict_Check_On_Load as "Add Conflict Check On Load"
+{
+
+			    type = form
+			    form = Add_Conflict_Check
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Conflict_Check_ID;
+			            disable Conflict_Check_ID, Checked_On;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Client = caseRec.Client;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

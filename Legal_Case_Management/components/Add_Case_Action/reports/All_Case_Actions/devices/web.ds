@@ -1,0 +1,16 @@
+report All_Case_Actions
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Action_Type Action_Date Action_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Action_Type From_Status To_Status Action_Date Action_By Notify_Client ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

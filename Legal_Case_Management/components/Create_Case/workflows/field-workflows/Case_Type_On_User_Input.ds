@@ -1,0 +1,47 @@
+Case_Type_On_User_Input as "Case Type On User Input"
+{
+
+			    type = form
+			    form = Create_Case
+			    record event = on add or edit
+			
+			    on user input of Case_Type
+			    {
+			        actions
+			        {
+			            hide Litigation_Details, Court, Court_Case_Number, Filing_Date, Limitation_Date;
+			            hide Corporate_Details, Transaction_Counterparty, Transaction_Value, Execution_Target_Date;
+			            hide Compliance_Details, Regulator, Compliance_Due_Date;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case_Type != null)
+			                {
+			                    caseTypeRec = Add_Case_Type[ID == input.Case_Type];
+			                    if(caseTypeRec.count() > 0)
+			                    {
+			                        if(input.Priority in {"",null})
+			                        {
+			                            input.Priority = caseTypeRec.Default_Priority;
+			                        }
+			                        if(caseTypeRec.Process_Template in {"Litigation","Arbitration"})
+			                        {
+			                            show Litigation_Details, Court, Court_Case_Number, Filing_Date, Limitation_Date;
+			                        }
+			                        if(caseTypeRec.Process_Template == "Corporate Advisory")
+			                        {
+			                            show Corporate_Details, Transaction_Counterparty, Transaction_Value, Execution_Target_Date;
+			                        }
+			                        if(caseTypeRec.Process_Template == "Compliance")
+			                        {
+			                            show Compliance_Details, Regulator, Compliance_Due_Date;
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

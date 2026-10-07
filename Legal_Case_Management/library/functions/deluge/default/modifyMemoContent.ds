@@ -1,0 +1,50 @@
+map modifyMemoContent(int templateID, int vendorID, int invoiceID, int invoiceID1)
+{
+
+			
+			                 	nullList = {"",null};
+			                 	fetchTemplate = Create_Template[ID == input.templateID];
+			                 	returnContent = "";
+			                 	returnSubj = "";
+			                 	if(fetchTemplate.count() != 0)
+			                 	{
+			                 		returnContent = fetchTemplate.Template;
+			                 		returnSubj = fetchTemplate.Template_Subject;
+			                 		fetchRequest = Add_Preference[ID == input.vendorID];
+			                 		emailFor = fetchTemplate.Email_For;
+			                 		dynContentMap = Map();
+			                 		if(emailFor in {"Transfer Request Initiation","Transfer Request Approval","Transfer Request Rejection"})
+			                 		{
+			                 			dynContentMap.put("Request_ID",fetchRequest.ID);
+			                 		}
+			                 		for each  rec in dynContentMap.Keys()
+			                 		{
+			                 			// 			dynContent1 = "<" + rec + ">";
+			                 			// 			dynContent2 = "&lt;" + rec + "&gt;";
+			                 			dynContent1 = "${" + rec + "}";
+			                 			dynContent2 = "&#36;&#123;" + rec + "&#125;";
+			                 			if(returnContent.contains(dynContent1))
+			                 			{
+			                 				returnContent = returnContent.replaceAll(dynContent1,dynContentMap.get(rec),true);
+			                 			}
+			                 			if(returnContent.contains(dynContent2))
+			                 			{
+			                 				returnContent = returnContent.replaceAll(dynContent2,dynContentMap.get(rec),true);
+			                 			}
+			                 			if(returnSubj.contains(dynContent1))
+			                 			{
+			                 				returnSubj = returnSubj.replaceAll(dynContent1,dynContentMap.get(rec),true);
+			                 			}
+			                 			if(returnSubj.contains(dynContent2))
+			                 			{
+			                 				returnSubj = returnSubj.replaceAll(dynContent2,dynContentMap.get(rec),true);
+			                 			}
+			                 		}
+			                 	}
+			                 	returnSubjContent = Map();
+			                 	returnSubjContent.put("subj",returnSubj);
+			                 	returnSubjContent.put("content",returnContent);
+			                 	return returnSubjContent;
+			                 
+			
+}

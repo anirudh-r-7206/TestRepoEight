@@ -1,0 +1,16 @@
+report Due_Filings
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Court Filing_Title Due_Date Filing_Status Filed_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Court Filing_Type Filing_Title Due_Date Filing_Date Filing_Status Filed_By Efiling_Reference ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

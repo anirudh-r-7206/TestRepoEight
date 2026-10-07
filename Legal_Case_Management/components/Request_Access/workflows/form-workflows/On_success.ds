@@ -1,0 +1,54 @@
+On_success as "On success"
+{
+
+			
+							type =  form
+							form = Request_Access
+			
+							record event = on add
+			
+							on success
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														if(input.Action_Type == "Provide")
+													{
+														if(input.Access_Type == "" || input.Access_Type == "User Access")
+														{
+															if(thisapp.permissions.profileForUser(input.Requester_Email) != "Administrator")
+															{
+																thisapp.permissions.assignUserInProfile(input.Requester_Email,"Write");
+															}
+															input.IsOnSuccessCodeExecuted = true;
+														}
+														else if(input.Access_Type == "Portal Access")
+														{
+															thisapp.portal.assignUserInProfile(input.Requester_Email,"Customer");
+															input.IsOnSuccessCodeExecuted = true;
+														}
+													}
+													else if(input.Action_Type == "Revoke")
+													{
+														if(input.Access_Type == "" || input.Access_Type == "User Access")
+														{
+															if(thisapp.permissions.profileForUser(input.Requester_Email) != "Administrator")
+															{
+																thisapp.permissions.deleteUser(input.Requester_Email);
+															}
+															input.IsOnSuccessCodeExecuted = true;
+														}
+														else if(input.Access_Type == "Portal Access")
+														{
+															thisapp.portal.deleteUser(input.Requester_Email);
+															input.IsOnSuccessCodeExecuted = true;
+														}
+													}
+									)
+								}
+							}
+			
+						
+			
+}

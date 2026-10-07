@@ -1,0 +1,31 @@
+list Client_Visible_Documents
+{
+
+		    displayName = "Client Visible Documents"
+		    show all rows from Add_Case_Document [Visible_To_Client == true]
+		    (
+		        Case
+		        Document_Type
+		        Document_Title
+		        Version_Number
+		        Document_Status
+		        Confidentiality_Level
+		        Review_Required
+		        Review_Due_Date
+		        Visible_To_Client
+		        Document_Date
+		    )
+		    filters
+		    (
+		        Case
+		        Document_Type
+		        Document_Status
+		        Confidentiality_Level
+		        Visible_To_Client
+		    )
+		    sort by
+		    (
+		        Document_Date descending
+		    )
+		
+}

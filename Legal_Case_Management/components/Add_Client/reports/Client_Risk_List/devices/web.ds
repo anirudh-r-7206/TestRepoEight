@@ -1,0 +1,16 @@
+report Client_Risk_List
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Client_Name Client_Type Relationship_Manager Client_Status Conflict_Flag ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Client_Name Client_Type Primary_Email Primary_Phone Relationship_Manager Client_Status Conflict_Flag ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

@@ -1,0 +1,26 @@
+list Active_Client_Contacts
+{
+
+		    displayName = "Active Client Contacts"
+		    show all rows from Add_Client_Contact [Status == "Active"]
+		    (
+		        Client
+		        Contact_Name
+		        Contact_Type
+		        Email
+		        Phone
+		        Is_Primary
+		        Status
+		    )
+		    filters
+		    (
+		        Client
+		        Contact_Type
+		    )
+		    sort by
+		    (
+		        Client ascending
+		        Contact_Name ascending
+		    )
+		
+}

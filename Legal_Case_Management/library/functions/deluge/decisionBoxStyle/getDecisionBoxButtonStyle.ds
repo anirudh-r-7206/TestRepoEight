@@ -1,0 +1,16 @@
+string decisionBoxStyle.getDecisionBoxButtonStyle(string type, string fieldLinkName, string btnBgClr, string hoverClr)
+{
+
+			
+			                 	if(type = "All")
+			                 	{
+			                 		return "<style>..customCheckbox:checked+label{background: none; border: none;} .decision-box-field .customCheckbox+label { width: 80px; height: 36px; border-radius: 7px; border: none !important; background: " + btnBgClr + "; top: -8px; position: relative; box-shadow: none !important;} label.form-label.decision-box-label { color: #ffffff !important;margin: 0 !important; padding: 0 !important; width: 80px !important; !important;text-align: center !important;} .customCheckbox:checked+label:after{display:none;} .decision-box-field .customCheckbox+label:hover {background: " + hoverClr + ";} input.customCheckbox.zc_decisionbox[readonly]+label.zc_decision_box_label { opacity: 0.6 !important;}</style>";
+			                 	}
+			                 	else if(type = "Individual")
+			                 	{
+			                 		return "<style>.zc-" + fieldLinkName + "-group .customCheckbox:checked+label{background: none; border: none;}.zc-" + fieldLinkName + "-group .decision-box-field .customCheckbox+label { width: 80px; height: 36px; border-radius: 7px; border: none !important; background: " + btnBgClr + "; top: -8px; position: relative; box-shadow: none !important;} .zc-" + fieldLinkName + "-group label.form-label.decision-box-label { color: #ffffff !important;margin: 0 !important; padding: 0 !important; width: 80px !important; !important; text-align: center !important;} .zc-" + fieldLinkName + "-group .customCheckbox:checked+label:after{display:none;} .zc-" + fieldLinkName + "-group .decision-box-field .customCheckbox+label:hover {background: " + hoverClr + ";} input.customCheckbox.zc_decisionbox[readonly]+label.zc_decision_box_label { opacity: 0.6 !important;}</style>";
+			                 	}
+			                 	return "";
+			                 
+			
+}

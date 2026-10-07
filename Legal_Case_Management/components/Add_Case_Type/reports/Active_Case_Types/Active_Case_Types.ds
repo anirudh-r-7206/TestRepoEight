@@ -1,0 +1,24 @@
+list Active_Case_Types
+{
+
+		    displayName = "Active Case Types"
+		    show all rows from Add_Case_Type [Status == "Active"]
+		    (
+		        Practice_Area
+		        Case_Type_Name
+		        Process_Template
+		        Default_Priority
+		        Limitation_Days
+		        Status
+		    )
+		    filters
+		    (
+		        Practice_Area
+		        Process_Template
+		    )
+		    sort by
+		    (
+		        Case_Type_Name ascending
+		    )
+		
+}

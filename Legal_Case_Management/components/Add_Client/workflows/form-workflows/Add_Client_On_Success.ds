@@ -1,0 +1,19 @@
+Add_Client_On_Success as "Add Client On Success"
+{
+
+			    type = form
+			    form = Add_Client
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                info "Client created: " + input.Client_Name;
+			            )
+			        }
+			    }
+			
+}

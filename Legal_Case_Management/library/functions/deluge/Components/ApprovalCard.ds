@@ -1,0 +1,84 @@
+string Components.ApprovalCard(map params)
+{
+
+			
+			                 	common = thisapp.Localization.Common();
+			                 	card_dom = "<li class='zc-pra-zigzag-li zc-pra-clearfix'>";
+			                 	if(params.get("Show_Add_Before") == true && params.get("Is_Preview") == false || params.get("Is_Preview") == null)
+			                 	{
+			                 		if(params.get("from") == "Employee_Approval_Setup")
+			                 		{
+			                 			card_dom = card_dom + "<div class='zc-pra-add-card zc-pra-flt-left'><a href='#Form:Add_Employee_Approvals?Type_field=" + params.get('Type_field') + "&Approval_Template=" + params.get('Template_ID') + "&Requester=" + params.get('Requester_Role_Param') + "&Previous_Sequence_Number=0&Sequence_Order=0&Add_Type=Specific&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-simple-add'></i></a></div>";
+			                 		}
+			                 		else
+			                 		{
+			                 			card_dom = card_dom + "<div class='zc-pra-add-card zc-pra-flt-left'><a href='#Form:Add_Approval_Setup?Designation=" + params.get('Type_field') + "&Approval_Template=" + params.get('Template_ID') + "&Requester=" + params.get('Requester_Role_Param') + "&Previous_Sequence_Number=0&Sequence_Order=0&Add_Type=Specific&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-simple-add'></i></a></div>";
+			                 		}
+			                 	}
+			                 	colour_map = {"Open":"#696f73","Approved":"#2ecc71","Rejected":"#e74c3c","Pending":"#dbad48","":""};
+			                 	card_dom = card_dom + "<div class='zc-pra-card zc-pra-flt-left'><div class='zc-pra-zcard-header zc-pra-clearfix zc-pra-fw' style='background:" + colour_map.get(params.get("status")) + "'><div class='zc-pra-zcard-title zc-pra-flt-left zc-pra-clearfix'><span class='zc-pra-flt-left zc-pra-no-wrapper'>" + params.get('Sequence_Order') + "</span><h6 class='zc-pra-flt-left'>" + params.get('Level_name') + "</h6></div>";
+			                 	if(params.get("Is_Preview") == false || params.get("Is_Preview") == null)
+			                 	{
+			                 		if(params.get('Type_field') == "Purchase Order" && params.get("Is_Last_Step") == true)
+			                 		{
+			                 			if(params.get("from") == "Employee_Approval_Setup")
+			                 			{
+			                 				card_dom = card_dom + "<div class='zc-pra-more-options zc-pra-rounded zc-pra-flt-right'><div class='zc-pra-hover-extend'></div><i class='ui-2-menu-dots zc-li-solid'></i><ul><li><a href='#Form:Add_Employee_Approvals?recLinkID=" + params.get('ID') + "&viewLinkName=Add_Employee_Approvals_Report&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-edit-72'></i><span>" + common.get('zcp.edit') + " </span></a></li></ul></div>";
+			                 			}
+			                 			else
+			                 			{
+			                 				card_dom = card_dom + "<div class='zc-pra-more-options zc-pra-rounded zc-pra-flt-right'><div class='zc-pra-hover-extend'></div><i class='ui-2-menu-dots zc-li-solid'></i><ul><li><a href='#Form:Add_Approval_Setup?recLinkID=" + params.get('ID') + "&viewLinkName=All_Approval_Setups&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-edit-72'></i><span>" + common.get('zcp.edit') + " </span></a></li></ul></div>";
+			                 			}
+			                 		}
+			                 		else
+			                 		{
+			                 			if(params.get("from") == "Employee_Approval_Setup")
+			                 			{
+			                 				card_dom = card_dom + "<div class='zc-pra-more-options zc-pra-rounded zc-pra-flt-right'><div class='zc-pra-hover-extend'></div><i class='ui-2-menu-dots zc-li-solid'></i><ul><li><a href='#Form:Add_Employee_Approvals?recLinkID=" + params.get('ID') + "&viewLinkName=Add_Employee_Approvals_Report&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-edit-72'></i><span>" + common.get('zcp.edit') + " </span></a></li><li class='zc-pra-color-red'><a href='#Form:Delete_form?Approval_Setup=" + params.get('ID') + "&zc_LoadIn=dialog&zc_Header=false'><i class='zc-li-outline ui-1-circle-remove'></i><span>" + common.get('zcp.remove') + " </span></a></li></ul></div>";
+			                 			}
+			                 			else
+			                 			{
+			                 				card_dom = card_dom + "<div class='zc-pra-more-options zc-pra-rounded zc-pra-flt-right'><div class='zc-pra-hover-extend'></div><i class='ui-2-menu-dots zc-li-solid'></i><ul><li><a href='#Form:Add_Approval_Setup?recLinkID=" + params.get('ID') + "&viewLinkName=All_Approval_Setups&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-edit-72'></i><span>" + common.get('zcp.edit') + " </span></a></li><li class='zc-pra-color-red'><a href='#Form:Delete_form?Approval_Setup=" + params.get('ID') + "&zc_LoadIn=dialog&zc_Header=false'><i class='zc-li-outline ui-1-circle-remove'></i><span>" + common.get('zcp.remove') + " </span></a></li></ul></div>";
+			                 			}
+			                 		}
+			                 	}
+			                 	// 	for each  role in params.get("Approval_For_Role")
+			                 	// 	{
+			                 	if(params.get("from") == "Employee_Approval_Setup")
+			                 	{
+			                 		card_dom = card_dom + "</div><div class='zc-pra-zcard-content'><ul><li><label>Role :</label><div class='zc-pra-zcard-badge'>";
+			                 		card_dom = card_dom + "<span>" + params.get('Approver_Role') + " </span>";
+			                 		card_dom = card_dom + "</div></li>";
+			                 		card_dom = card_dom + "<li>";
+			                 		card_dom = card_dom + "<label>User :</label>" + "<span class='zc-pra-color-green' style=color:" + if(params.get('users') == null || params.get('users') == "","Red","") + ";>" + if(params.get('users') == null || params.get('users') == "","Not yet Selected",params.get('users')) + "</span>";
+			                 		card_dom = card_dom + "</li>";
+			                 		card_dom = card_dom + "</ul></div></div>";
+			                 	}
+			                 	else
+			                 	{
+			                 		card_dom = card_dom + "</div><div class='zc-pra-zcard-content'><ul><li><label>" + common.get('zcp.approvalcard.approver') + "</label><div class='zc-pra-zcard-badge'>";
+			                 		card_dom = card_dom + "<span>" + params.get('Approver_Role') + " </span>";
+			                 		card_dom = card_dom + "</div></li>";
+			                 		card_dom = card_dom + "<li>";
+			                 		card_dom = card_dom + "<label>User</label>" + "<span class='zc-pra-color-green'>" + if(params.get('users') == null || params.get('users') == "","Employee Can Choose",params.get('users')) + "</span>";
+			                 		card_dom = card_dom + "</li>";
+			                 		card_dom = card_dom + "</ul></div></div>";
+			                 		// 		card_dom = card_dom + "</div><div class='zc-pra-zcard-content'><ul>";
+			                 		// 		card_dom = card_dom + "<li>";
+			                 		// 		card_dom = card_dom + "<label>" + common.get('zcp.approvalcard.approver') + "</label>" + "<span class='zc-pra-color-green'>" + params.get('Approver_Role') + "</span>";
+			                 		// 		card_dom = card_dom + "</li>";
+			                 		// 		card_dom = card_dom + "</ul></div></div>";
+			                 	}
+			                 	if(params.get("Is_Preview") == false || params.get("Is_Preview") == null)
+			                 	{
+			                 		card_dom = card_dom + "<div class='zc-pra-add-card zc-pra-flt-left'><a href='#Form:Add_Approval_Setup?Designation=" + params.get('Type_field') + "&Approval_Template=" + params.get("Template_ID") + "&Previous_Sequence_Number=" + params.get('Previous_Sequence_Number') + "&Requester=" + params.get('Requester_Role_Param') + "&Sequence_Order=" + params.get('Sequence_Order') + "&Add_Type=Specific&zc_LoadIn=dialog'><i class='zc-li-outline ui-1-simple-add'></i></a></div>";
+			                 	}
+			                 	else
+			                 	{
+			                 		card_dom = card_dom + "<div class='zc-pra-add-card zc-pra-flt-left'></div>";
+			                 	}
+			                 	card_dom = card_dom + "</li>";
+			                 	return card_dom;
+			                 
+			
+}

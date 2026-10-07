@@ -1,0 +1,20 @@
+<page linkname = "Case_Workspace" displayname = "Case Workspace"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Case_Workspace_Main' elementName='Case_Workspace_Main'>
+          <![CDATA[htmlpage Case_Workspace_Main()
+						content
+			<%{%>
+            <file name:Case_Workspace_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,25 @@
+default list All_Invoice_Actions
+{
+
+		    displayName = "All Invoice Actions"
+		    show all rows from Add_Invoice_Action
+		    (
+		        Invoice
+		        Action_Type
+		        From_Status
+		        To_Status
+		        Action_Date
+		        Action_By
+		    )
+		    filters
+		    (
+		        Invoice
+		        Action_Type
+		        Action_By
+		    )
+		    sort by
+		    (
+		        Action_Date descending
+		    )
+		
+}

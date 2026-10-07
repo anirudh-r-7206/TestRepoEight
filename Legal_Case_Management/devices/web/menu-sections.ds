@@ -1,0 +1,209 @@
+menu
+{
+
+	    unused
+	    {
+	        form Add_Approval_Setup { icon = "business-law" }
+	        form Add_Case_Action { icon = "files-time" }
+	        form Add_Case_Document { icon = "files-folder-14" }
+	        form Add_Case_History { icon = "files-time" }
+	        form Add_Case_Note { icon = "files-single" }
+	        form Add_Case_Party { icon = "users-multiple-11" }
+	        form Add_Case_Task { icon = "files-check" }
+	        form Add_Case_Type { icon = "business-law" }
+	        form Add_Client { icon = "users-multiple-11" }
+	        form Add_Client_Contact { icon = "users-contacts" }
+	        form Add_Conflict_Check { icon = "business-scale" }
+	        form Add_Court { icon = "business-scale" }
+	        form Add_Deadline { icon = "files-time" }
+	        form Add_Document_Type { icon = "files-folder-14" }
+	        form Add_Employee { icon = "users-single-body" }
+	        form Add_Engagement_Letter { icon = "business-signature" }
+	        form Add_Evidence { icon = "files-folder-14" }
+	        form Add_Expense_Entry { icon = "business-money-time" }
+	        form Add_Fee_Schedule { icon = "business-money-time" }
+	        form Add_Filing { icon = "files-folder-14" }
+	        form Add_Hearing { icon = "business-scale" }
+	        form Add_Invoice_Action { icon = "files-time" }
+	        form Add_Invoice_Item { icon = "business-money-time" }
+	        form Add_Payment { icon = "business-money-time" }
+	        form Add_Practice_Area { icon = "business-law" }
+	        form Add_Preference { icon = "business-briefcase-24" }
+	        form Add_Role { icon = "users-badge-13" }
+	        form Add_Settlement_Offer { icon = "business-handshake" }
+	        form Add_Time_Entry { icon = "business-money-time" }
+	        form Alert { icon = "files-exclamation" }
+	        form Approval_Setup_For { icon = "business-signature" }
+	        form Create_Case { icon = "business-law" }
+	        form Create_Invoice { icon = "business-money-time" }
+	        form Create_Template { icon = "files-paper" }
+	        form Navigation { icon = "business-strategy" }
+	        form Request_Access { icon = "users-badge-14" }
+	        page All_Mail_Templates { icon = "files-paper" }
+	        page Detail_View_Page { icon = "files-single-content-03" }
+	        page Approval_Setup { icon = "business-signature" }
+	        page Confirmation_Page { icon = "files-check" }
+	        page All_Mail_Templates1 { icon = "files-paper" }
+	        page Preference { icon = "business-briefcase-24" }
+	        page All_Approval_Setup { icon = "business-signature" }
+	        page Other_Config { icon = "business-strategy" }
+	        report All_Approval_Setups { icon = "business-signature" }
+	        report All_Case_Actions { icon = "files-time" }
+	        report Client_Visible_Documents { icon = "files-folder-14" }
+	        report All_Case_Notes { icon = "files-single" }
+	        report Follow_Up_Notes { icon = "files-time" }
+	        report All_Case_Parties { icon = "users-multiple-11" }
+	        report Opposing_Parties { icon = "users-multiple-11" }
+	        report All_Case_Tasks { icon = "files-check" }
+	        report Open_Case_Tasks { icon = "files-check" }
+	        report Overdue_Case_Tasks { icon = "files-time" }
+	        report Completed_Case_Tasks { icon = "files-check" }
+	        report Active_Case_Types { icon = "business-law" }
+	        report Client_Risk_List { icon = "business-hammer" }
+	        report Active_Client_Contacts { icon = "users-contacts" }
+	        report All_Conflict_Checks { icon = "business-scale" }
+	        report Cleared_Conflict_Checks { icon = "business-scale" }
+	        report Active_Courts { icon = "business-scale" }
+	        report All_Deadlines { icon = "files-time" }
+	        report Active_Document_Types { icon = "files-folder-14" }
+	        report Active_Practice_Areas { icon = "business-law" }
+	        report All_Engagement_Letters { icon = "business-signature" }
+	        report Pending_Engagement_Letters { icon = "business-signature" }
+	        report Signed_Engagement_Letters { icon = "business-signature" }
+	        report Evidence_Under_Review { icon = "files-folder-14" }
+	        report Unapproved_Expenses { icon = "business-money-time" }
+	        report Unbilled_Expenses { icon = "business-money-time" }
+	        report All_Filings { icon = "files-folder-14" }
+	        report Due_Filings { icon = "files-time" }
+	        report Filed_Filings { icon = "files-folder-14" }
+	        report All_Hearings { icon = "business-scale" }
+	        report Hearings_Today { icon = "business-scale" }
+	        report Completed_Hearings { icon = "business-scale" }
+	        report All_Invoice_Actions { icon = "files-time" }
+	        report All_Invoice_Items { icon = "business-money-time" }
+	        report Payments_By_Client { icon = "business-money-time" }
+	        report All_Preferences { icon = "business-briefcase-24" }
+	        report All_Roles { icon = "users-badge-13" }
+	        report Accepted_Settlements { icon = "business-handshake" }
+	        report All_Settlement_Offers { icon = "business-handshake" }
+	        report Pending_Settlement_Offers { icon = "business-handshake" }
+	        report Approved_Time_Entries { icon = "business-money-time" }
+	        report Unapproved_Time_Entries { icon = "business-money-time" }
+	        report Unbilled_Time_Entries { icon = "business-money-time" }
+	        report Approval_Setup_For_Report { icon = "business-signature" }
+	        report Create_Template_Report { icon = "files-paper" }
+	        report Request_Access_Report { icon = "users-badge-14" }
+	    }
+	    space Legal_Operations
+	    {
+	        displayname = "Legal Operations"
+	        icon = "business-law"
+	        section Dashboard
+	        {
+	            displayname = "Dashboard"
+	            icon = "business-chart-bar-33"
+	            page Legal_Dashboard { icon = "business-chart-bar-33" }
+	            page Case_Workspace { icon = "business-law" }
+	            page Case_Detail { icon = "files-single-content-03" }
+	        }
+	        section Billing
+	        {
+	            displayname = "Billing"
+	            icon = "business-money-time"
+	            page Billing_Workspace { icon = "business-money-time" }
+	            page Billing_Detail { icon = "files-single-content-03" }
+	            report all_invoices { icon = "business-money-time" }
+	            report Draft_Invoices { icon = "files-edit" }
+	            report Invoices_For_Approval { icon = "business-signature" }
+	            report Sent_Invoices { icon = "files-upload" }
+	            report Overdue_Invoices { icon = "files-exclamation" }
+	            report Paid_Invoices { icon = "files-check" }
+	            report All_Payments { icon = "business-money-time" }
+	            report All_Time_Entries { icon = "files-time" }
+	            report All_Expense_Entries { icon = "business-money-time" }
+	        }
+	        section Client_Access
+	        {
+	            displayname = "Client Access"
+	            icon = "users-multiple-11"
+	            page Client_Portal { icon = "users-multiple-11" }
+	        }
+	        section Compliance
+	        {
+	            displayname = "Compliance"
+	            icon = "business-hammer"
+	            page Compliance_Audit_Dashboard { icon = "business-hammer" }
+	            report All_Case_History { icon = "files-time" }
+	            report Client_Visible_History { icon = "files-time" }
+	            report Pending_Conflict_Checks { icon = "business-scale" }
+	            report Conflict_Found_Checks { icon = "business-hammer" }
+	        }
+	        section Matters
+	        {
+	            displayname = "Matters"
+	            icon = "business-law"
+	            report all_cases { icon = "business-law" }
+	            report Active_Legal_Matters { icon = "business-law" }
+	            report High_Priority_Cases { icon = "files-exclamation" }
+	            report Cases_New_Intake { icon = "files-time" }
+	            report Cases_Conflict_Check { icon = "business-scale" }
+	            report Cases_Engagement_Pending { icon = "business-signature" }
+	            report Cases_Rejected { icon = "files-exclamation" }
+	            report Cases_Open_Matter { icon = "business-law" }
+	            report Cases_Strategy_and_Pleadings { icon = "business-law" }
+	            report Cases_Discovery_and_Diligence { icon = "files-folder-14" }
+	            report Cases_Negotiation_and_Mediation { icon = "business-handshake" }
+	            report Cases_Hearing_and_Trial { icon = "business-scale" }
+	            report Cases_Awaiting_Order_or_Execution { icon = "business-scale" }
+	            report Cases_Billing_Review { icon = "business-money-time" }
+	            report Cases_Closed { icon = "files-check" }
+	            report Cases_Archived { icon = "files-archive" }
+	        }
+	        section Hearings_Deadlines
+	        {
+	            displayname = "Hearings & Deadlines"
+	            icon = "business-scale"
+	            report Case_Hearing_Calendar { icon = "files-time" }
+	            report Upcoming_Hearings { icon = "business-scale" }
+	            report Upcoming_Deadlines { icon = "files-time" }
+	            report Missed_Deadlines { icon = "files-exclamation" }
+	        }
+	        section Documents_Evidence
+	        {
+	            displayname = "Documents & Evidence"
+	            icon = "files-folder-14"
+	            report All_Case_Documents { icon = "files-folder-14" }
+	            report Pending_Document_Review { icon = "files-time" }
+	            report All_Evidence { icon = "files-folder-14" }
+	        }
+	        section Masters
+	        {
+	            displayname = "Masters"
+	            icon = "users-multiple-11"
+	            report All_Clients { icon = "users-multiple-11" }
+	            report Active_Clients { icon = "users-multiple-11" }
+	            report All_Client_Contacts { icon = "users-contacts" }
+	            report All_Courts { icon = "business-scale" }
+	            report All_Practice_Areas { icon = "business-law" }
+	            report All_Case_Types { icon = "business-law" }
+	            report All_Document_Types { icon = "files-folder-14" }
+	            report All_Fee_Schedules { icon = "business-money-time" }
+	            report All_Employees { icon = "users-single-body" }
+	        }
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	
+}

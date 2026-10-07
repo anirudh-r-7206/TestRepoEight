@@ -1,0 +1,24 @@
+On_Load_Scripts8 as "On-Load Scripts"
+{
+
+			
+							type =  form
+							form = Create_Template
+			
+							record event = on add or edit
+			
+							on load
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														input.plain1 = thisapp.decisionBoxStyle.getDecisionBoxToggleBtnStyle("All","","#457eee","#dddddd");
+													input.plain = thisapp.getNotesContent(input.Email_For);
+									)
+								}
+							}
+			
+						
+			
+}

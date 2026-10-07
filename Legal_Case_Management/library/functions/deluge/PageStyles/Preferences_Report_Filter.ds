@@ -1,0 +1,13 @@
+string PageStyles.Preferences_Report_Filter()
+{
+
+			
+			                 	common = thisapp.Localization.Common();
+			                 	add_txt = common.get("zcp.add");
+			                 	style_txt = thisapp.styles.Filter() + ".zc-pb-embed-placeholder-content .zc-pra-setup .divEmbedContainer.zc-pra-filter { height: 68px !important; overflow: hidden; position: absolute; z-index: 1; right: 146px; } /* No data style */ .zc-pra-setup .view-outer-wrapper .reportfullwidth .nodata { height: 100%; position: static; transform: none; display: flex; flex-direction: row; align-items: center; justify-content: center; } .zc-pra-setup .nodata .no_record_subtext { font-size: 0px; } .zc-pra-setup .nodata .no_record_subtext:before { content: '" + common.get("zcp.nodataavailable") + "'; font-size: 20px; } .zc-pra-setup .nodata .zc-live-primary-btn.btn-big { position: absolute; top: -52px; right: 15px; /* z-index: 999; */ font-size: 0px; padding: 0px 20px; border-radius: 4px; } .zc-pra-setup .nodata .zc-live-primary-btn.btn-big:before, .zc-pra-setup .nodata .zc-live-primary-btn.btn-big:after { display: inline-block; vertical-align: top; } .zc-pra-setup .nodata .zc-live-primary-btn.btn-big:before { content: '\ed29'; font: normal normal normal 14px / 36px 'ZC Live Outline'; font-size: 12px; font-weight: 600; margin-right: 8px; } .zc-pra-setup .nodata .zc-live-primary-btn.btn-big:after { content: '" + add_txt + "'; font-size: 14px; line-height: 36px; font-weight: 400; } .zc-pra-setup .nodata .zc-importdata-report, .zc-pra-setup .nodata span { display: none; }";
+			                 	rtl_txt = ".zc-rtl-wrapper .zc-pb-embed-placeholder-content .zc-pra-setup .divEmbedContainer.zc-pra-filter { right: auto; left: 146px; } .zc-rtl-wrapper .zc-pra-setup .nodata .zc-live-primary-btn.btn-big { right: auto; left: 15px; } .zc-rtl-wrapper .zc-pra-setup .nodata .zc-live-primary-btn.btn-big:before { margin-right: 0px; margin-left: 8px; }";
+			                 	style_txt = style_txt + rtl_txt;
+			                 	return style_txt;
+			                 
+			
+}

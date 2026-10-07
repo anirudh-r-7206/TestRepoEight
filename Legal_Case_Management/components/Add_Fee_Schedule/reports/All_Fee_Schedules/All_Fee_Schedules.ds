@@ -1,0 +1,26 @@
+default list All_Fee_Schedules
+{
+
+		    displayName = "All Fee Schedules"
+		    show all rows from Add_Fee_Schedule
+		    (
+		        Schedule_Name
+		        Practice_Area
+		        Attorney_Rate
+		        Partner_Rate
+		        Paralegal_Rate
+		        Retainer_Required
+		        Default_Retainer
+		        Status
+		    )
+		    filters
+		    (
+		        Practice_Area
+		        Status
+		    )
+		    sort by
+		    (
+		        Schedule_Name ascending
+		    )
+		
+}

@@ -1,0 +1,67 @@
+Add_Payment_On_Success as "Add Payment On Success"
+{
+
+			    type = form
+			    form = Add_Payment
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                inv = Create_Invoice[ID == input.Invoice];
+			                if(inv.count() > 0)
+			                {
+			                    payments = Add_Payment[Invoice == input.Invoice];
+			                    paidTotal = 0;
+			                    for each pay in payments
+			                    {
+			                        if(pay.Payment_Status == "Received" || pay.Payment_Status == "Reconciled")
+			                        {
+			                            paidTotal = paidTotal + ifnull(pay.Amount,0);
+			                        }
+			                        else if(pay.Payment_Status == "Refunded")
+			                        {
+			                            paidTotal = paidTotal - ifnull(pay.Amount,0);
+			                        }
+			                    }
+			                    inv.Amount_Paid = paidTotal;
+			                    if(paidTotal >= ifnull(inv.Total_Amount,0) && ifnull(inv.Total_Amount,0) > 0)
+			                    {
+			                        inv.Invoice_Status = "Paid";
+			                    }
+			                    else if(paidTotal > 0)
+			                    {
+			                        inv.Invoice_Status = "Partially Paid";
+			                    }
+			                }
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Payment " + input.Payment_Status
+			                    Summary = "Payment recorded for amount " + input.Amount
+			                    Source_Record_ID = input.ID
+			                ];
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() > 0 && caseRec.Billing_Attorney != null)
+			                {
+			                    billEmp = Add_Employee[ID == caseRec.Billing_Attorney];
+			                    if(billEmp.count() > 0 && ifnull(billEmp.Email,"") != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : billEmp.Email
+			                            subject : "Payment updated"
+			                            message : "A payment has been recorded for case " + caseRec.Case_Title + "."
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

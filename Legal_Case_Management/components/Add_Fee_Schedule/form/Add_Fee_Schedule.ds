@@ -1,0 +1,169 @@
+form Add_Fee_Schedule
+{
+
+		    displayname = "Add Fee Schedule"
+		    success message = "Fee schedule added successfully"
+		
+		    Schedule_Details
+		    (
+		        type = section
+		        displayname = "Schedule Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique Schedule_Name
+		    (
+		        type = text
+		        displayname = "Schedule Name"
+		        maxchar = 120
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Practice_Area
+		    (
+		        type = picklist
+		        displayname = "Practice Area"
+		        values = Add_Practice_Area.ID
+		        displayformat = [Practice_Area_Name]
+		        searchable = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Active","Inactive"}
+		        initial value = "Active"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Retainer_Required
+		    (
+		        type = checkbox
+		        displayname = "Retainer Required"
+		        initial value = false
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    Rate_Details
+		    (
+		        type = section
+		        displayname = "Rate Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Attorney_Rate
+		    (
+		        type = USD
+		        displayname = "Attorney Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Partner_Rate
+		    (
+		        type = USD
+		        displayname = "Partner Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Paralegal_Rate
+		    (
+		        type = USD
+		        displayname = "Paralegal Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Expense_Markup_Percent
+		    (
+		        type = decimal
+		        displayname = "Expense Markup Percent"
+		        decimalplace = 2
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Default_Retainer
+		    (
+		        type = USD
+		        displayname = "Default Retainer"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        height = 120px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Fee_Schedule_ID
+		    (
+		        type = autonumber
+		        displayname = "Fee Schedule ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Add"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

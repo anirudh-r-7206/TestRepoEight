@@ -1,0 +1,31 @@
+Source_Type_On_User_Input as "Source Type On User Input"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on add or edit
+			
+			    on user input of Source_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Source_Type == "Fixed Fee")
+			                {
+			                    input.Quantity = 1;
+			                    input.Time_Entry = null;
+			                    input.Expense_Entry = null;
+			                }
+			                else if(input.Source_Type == "Adjustment")
+			                {
+			                    input.Quantity = 1;
+			                    input.Time_Entry = null;
+			                    input.Expense_Entry = null;
+			                    input.Taxable = false;
+			                }
+			            )
+			        }
+			    }
+			
+}

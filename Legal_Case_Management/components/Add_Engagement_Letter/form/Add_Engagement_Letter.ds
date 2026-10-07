@@ -1,0 +1,168 @@
+form Add_Engagement_Letter
+{
+
+		    displayname = "Add Engagement Letter"
+		    success message = "Engagement letter saved successfully"
+		
+		    Engagement_Details
+		    (
+		        type = section
+		        displayname = "Engagement Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client
+		    (
+		        type = picklist
+		        displayname = "Client"
+		        values = Add_Client.ID
+		        displayformat = [Client_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Fee_Schedule
+		    (
+		        type = picklist
+		        displayname = "Fee Schedule"
+		        values = Add_Fee_Schedule.ID
+		        displayformat = [Schedule_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Retainer_Required
+		    (
+		        type = checkbox
+		        displayname = "Retainer Required"
+		        initial value = false
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Retainer_Amount
+		    (
+		        type = USD
+		        displayname = "Retainer Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Letter_Status
+		    (
+		        type = picklist
+		        displayname = "Letter Status"
+		        values = {"Draft","Sent","Client Signed","Declined","Superseded"}
+		        initial value = "Draft"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Sent_On
+		    (
+		        type = date
+		        displayname = "Sent On"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Signed_On
+		    (
+		        type = date
+		        displayname = "Signed On"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Engagement_Document
+		    (
+		        type = upload file
+		        displayname = "Engagement Document"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Signed_Copy
+		    (
+		        type = upload file
+		        displayname = "Signed Copy"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Engagement_ID
+		    (
+		        type = autonumber
+		        displayname = "Engagement ID"
+		        start index = 1000
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Engagement"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Engagement"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

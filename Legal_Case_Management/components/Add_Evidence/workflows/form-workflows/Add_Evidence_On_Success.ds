@@ -1,0 +1,26 @@
+Add_Evidence_On_Success as "Add Evidence On Success"
+{
+
+			    type = form
+			    form = Add_Evidence
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Evidence Added"
+			                    Summary = "Evidence " + input.Admissibility_Status + ": " + input.Evidence_Title
+			                    Source_Record_ID = input.ID
+			                ];
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,35 @@
+map styles.ColorCodes()
+{
+
+			
+			                 	color_map = Map();
+			                 	color_map.put("zc-pra-white","#FFFFFF");
+			                 	color_map.put("zc-pra-bg-color","#F5F6FA");
+			                 	color_map.put("zc-pra-border-color","#EBECF0");
+			                 	color_map.put("zc-pra-primary-text-color","#131635");
+			                 	color_map.put("zc-pra-secondary-text-color","#666D79");
+			                 	color_map.put("zc-pra-box-shadow","0 2px 9px 0 #d8d8d880");
+			                 	color_map.put("zc-pra-more-option-hover-bg","#EAECF0");
+			                 	// 	Table colors
+			                 	color_map.put("zc-pra-table-header-bg","#F9FAFE");
+			                 	color_map.put("zc-pra-table-header-text-color","#3E4650");
+			                 	color_map.put("zc-pra-table-list-hover","#F9FAFE");
+			                 	// 	tooptip colors
+			                 	color_map.put("zc-pra-tooltip-bg","#0C1621");
+			                 	// Banner colors
+			                 	color_map.put('zc-pra-banner-bg','#F0F5FF');
+			                 	// 	(Conditional formate, Delete, Active, Inactive)
+			                 	color_map.put("zc-pra-red","#FE455D");
+			                 	color_map.put("zc-pra-bg_red","#FDE3E6");
+			                 	color_map.put("zc-pra-green","#179E6C");
+			                 	color_map.put("zc-pra-bg_green","#E4FCF3");
+			                 	// More Options
+			                 	color_map.put("zc-pra-more-icon-hover","#EAECF0");
+			                 	color_map.put("zc-pra-more-option-red-txt","#E71F43");
+			                 	color_map.put("zc-pra-more-option-red-bg","#E71F431A");
+			                 	// 	Star Colors
+			                 	color_map.put("zc-pra-star-color","#FDCC0D");
+			                 	return color_map;
+			                 
+			
+}

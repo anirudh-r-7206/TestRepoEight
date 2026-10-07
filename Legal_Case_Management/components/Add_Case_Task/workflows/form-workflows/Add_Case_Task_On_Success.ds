@@ -1,0 +1,59 @@
+Add_Case_Task_On_Success as "Add Case Task On Success"
+{
+
+			    type = form
+			    form = Add_Case_Task
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Task Updated"
+			                    Summary = "Task " + input.Task_Status + ": " + input.Task_Title
+			                    Changed_By = input.Assigned_To
+			                    Source_Record_ID = input.ID
+			                    Visible_To_Client = input.Client_Visible
+			                ];
+			                notifyTo = "";
+			                assignRec = Add_Employee[ID == input.Assigned_To];
+			                if(assignRec.count() > 0)
+			                {
+			                    notifyTo = ifnull(assignRec.Email,"");
+			                }
+			                if(input.Reviewer != null)
+			                {
+			                    reviewerRec = Add_Employee[ID == input.Reviewer];
+			                    if(reviewerRec.count() > 0 && ifnull(reviewerRec.Email,"") != "")
+			                    {
+			                        if(notifyTo == "")
+			                        {
+			                            notifyTo = reviewerRec.Email;
+			                        }
+			                        else
+			                        {
+			                            notifyTo = notifyTo + "," + reviewerRec.Email;
+			                        }
+			                    }
+			                }
+			                if(notifyTo != "")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : notifyTo
+			                        subject : "Case task updated"
+			                        message : "Task updated: " + input.Task_Title
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

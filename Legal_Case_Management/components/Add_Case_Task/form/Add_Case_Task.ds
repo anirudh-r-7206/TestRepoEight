@@ -1,0 +1,177 @@
+form Add_Case_Task
+{
+
+		    displayname = "Add Case Task"
+		    success message = "Case task saved successfully"
+		
+		    Task_Details
+		    (
+		        type = section
+		        displayname = "Task Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Task_Title
+		    (
+		        type = text
+		        displayname = "Task Title"
+		        maxchar = 200
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Task_Type
+		    (
+		        type = picklist
+		        displayname = "Task Type"
+		        values = {"Legal Research","Drafting","Review","Filing","Client Follow-up","Court Preparation","Billing","Administrative","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assigned_To
+		    (
+		        type = picklist
+		        displayname = "Assigned To"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Reviewer
+		    (
+		        type = picklist
+		        displayname = "Reviewer"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Priority
+		    (
+		        type = picklist
+		        displayname = "Priority"
+		        values = {"Low","Medium","High","Critical"}
+		        initial value = "Medium"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Task_Status
+		    (
+		        type = picklist
+		        displayname = "Task Status"
+		        values = {"Open","In Progress","Waiting","Completed","Cancelled","Overdue"}
+		        initial value = "Open"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Completion_Details
+		    (
+		        type = section
+		        displayname = "Completion Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Completion_Date
+		    (
+		        type = date
+		        displayname = "Completion Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        displayname = "Description"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Client_Visible
+		    (
+		        type = checkbox
+		        displayname = "Client Visible"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Task_ID
+		    (
+		        type = autonumber
+		        displayname = "Task ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Task"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Task"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

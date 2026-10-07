@@ -1,0 +1,27 @@
+list Client_Risk_List
+{
+
+		    displayName = "Client Risk List"
+		    show all rows from Add_Client [Client_Status == "Blacklisted" || Conflict_Flag == true]
+		    (
+		        Client_Name
+		        Client_Type
+		        Primary_Email
+		        Primary_Phone
+		        Relationship_Manager
+		        Client_Status
+		        Conflict_Flag
+		    )
+		    filters
+		    (
+		        Client_Type
+		        Client_Status
+		        Relationship_Manager
+		        Conflict_Flag
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		
+}

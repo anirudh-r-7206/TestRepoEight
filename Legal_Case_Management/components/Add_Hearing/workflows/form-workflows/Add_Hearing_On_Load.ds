@@ -1,0 +1,35 @@
+Add_Hearing_On_Load as "Add Hearing On Load"
+{
+
+			    type = form
+			    form = Add_Hearing
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Hearing_ID;
+			            disable Hearing_ID;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Court = caseRec.Court;
+			                        if(input.Preparation_Owner == null)
+			                        {
+			                            input.Preparation_Owner = caseRec.Lead_Attorney;
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,67 @@
+Add_Case_Action_Action_Type_On_User_Input as "Action Type On User Input"
+{
+
+			    type = form
+			    form = Add_Case_Action
+			    record event = on add or edit
+			
+			    on user input of Action_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.To_Status = "";
+			                if(input.Action_Type == "Submit Conflict Check")
+			                {
+			                    input.To_Status = "Conflict Check";
+			                }
+			                else if(input.Action_Type == "Clear Conflict" || input.Action_Type == "Send Engagement")
+			                {
+			                    input.To_Status = "Engagement Pending";
+			                }
+			                else if(input.Action_Type == "Mark Engagement Signed" || input.Action_Type == "Open Matter" || input.Action_Type == "Reopen Case")
+			                {
+			                    input.To_Status = "Open Matter";
+			                }
+			                else if(input.Action_Type == "Move To Strategy and Pleadings")
+			                {
+			                    input.To_Status = "Strategy and Pleadings";
+			                }
+			                else if(input.Action_Type == "Move To Discovery and Diligence")
+			                {
+			                    input.To_Status = "Discovery and Diligence";
+			                }
+			                else if(input.Action_Type == "Move To Negotiation and Mediation")
+			                {
+			                    input.To_Status = "Negotiation and Mediation";
+			                }
+			                else if(input.Action_Type == "Move To Hearing and Trial")
+			                {
+			                    input.To_Status = "Hearing and Trial";
+			                }
+			                else if(input.Action_Type == "Mark Awaiting Order or Execution")
+			                {
+			                    input.To_Status = "Awaiting Order or Execution";
+			                }
+			                else if(input.Action_Type == "Send To Billing Review")
+			                {
+			                    input.To_Status = "Billing Review";
+			                }
+			                else if(input.Action_Type == "Close Case")
+			                {
+			                    input.To_Status = "Closed";
+			                }
+			                else if(input.Action_Type == "Archive Case")
+			                {
+			                    input.To_Status = "Archived";
+			                }
+			                else if(input.Action_Type == "Flag Conflict" || input.Action_Type == "Reject Case")
+			                {
+			                    input.To_Status = "Rejected";
+			                }
+			            )
+			        }
+			    }
+			
+}

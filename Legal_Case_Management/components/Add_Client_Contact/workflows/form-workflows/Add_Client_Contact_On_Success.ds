@@ -1,0 +1,30 @@
+Add_Client_Contact_On_Success as "Add Client Contact On Success"
+{
+
+			    type = form
+			    form = Add_Client_Contact
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions ( Is_Primary == true )
+			        {
+			            custom deluge script
+			            (
+			                clientRec = Add_Client[ID == input.Client];
+			                if(clientRec.count() > 0)
+			                {
+			                    if((clientRec.Primary_Email == null || clientRec.Primary_Email == "") && input.Email != null)
+			                    {
+			                        clientRec.Primary_Email = input.Email;
+			                    }
+			                    if((clientRec.Primary_Phone == null || clientRec.Primary_Phone == "") && input.Phone != null)
+			                    {
+			                        clientRec.Primary_Phone = input.Phone;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,28 @@
+Add_Filing_On_Validate as "Add Filing On Validate"
+{
+
+			    type = form
+			    form = Add_Filing
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Filing_Status in {"Filed","Accepted","Served"} && input.Document == null)
+			                {
+			                    alert "Document is required before marking a filing as Filed, Accepted, or Served.";
+			                    cancel submit;
+			                }
+			                if(input.Due_Date != null && input.Filing_Date != null && input.Due_Date < input.Filing_Date)
+			                {
+			                    alert "Due Date cannot be before Filing Date.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

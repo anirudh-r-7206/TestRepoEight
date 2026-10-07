@@ -1,0 +1,69 @@
+Add_Conflict_Check_On_Success as "Add Conflict Check On Success"
+{
+
+			    type = form
+			    form = Add_Conflict_Check
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() > 0)
+			                {
+			                    previousConflict = caseRec.Conflict_Status;
+			                    if(input.Decision == "Pending")
+			                    {
+			                        caseRec.Conflict_Status = "In Review";
+			                        if(caseRec.Case_Status == "New Intake")
+			                        {
+			                            caseRec.Case_Status = "Conflict Check";
+			                        }
+			                    }
+			                    else
+			                    {
+			                        caseRec.Conflict_Status = input.Decision;
+			                    }
+			                    insert into Add_Case_History
+			                    [
+			                        Case = input.Case
+			                        Event_Date = zoho.currenttime
+			                        Event_Type = "Conflict Updated"
+			                        Previous_Status = previousConflict
+			                        New_Status = caseRec.Conflict_Status
+			                        Summary = "Conflict check decision: " + input.Decision + ". " + ifnull(input.Conflict_Summary,"")
+			                        Changed_By = input.Checked_By
+			                        Source_Record_ID = input.ID
+			                    ];
+			                    notifyTo = "";
+			                    if(caseRec.Practice_Area != null)
+			                    {
+			                        practiceRec = Add_Practice_Area[ID == caseRec.Practice_Area];
+			                        if(practiceRec.count() > 0 && practiceRec.Responsible_Practice_Head != null)
+			                        {
+			                            headRec = Add_Employee[ID == practiceRec.Responsible_Practice_Head];
+			                            if(headRec.count() > 0)
+			                            {
+			                                notifyTo = ifnull(headRec.Email,"");
+			                            }
+			                        }
+			                    }
+			                    if(input.Decision in {"Waiver Required","Conflict Found"} && notifyTo != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : notifyTo
+			                            subject : "Conflict review attention required"
+			                            message : "Conflict decision for " + caseRec.Case_Title + ": " + input.Decision
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

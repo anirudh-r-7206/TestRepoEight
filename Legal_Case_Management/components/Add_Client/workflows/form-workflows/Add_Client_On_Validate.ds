@@ -1,0 +1,24 @@
+Add_Client_On_Validate as "Add Client On Validate"
+{
+
+			    type = form
+			    form = Add_Client
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions ( Client_Status == "Blacklisted" )
+			        {
+			            custom deluge script
+			            (
+			                activeCases = Create_Case[Client == input.ID && Case_Status not in {"Closed","Archived","Rejected"}];
+			                if(activeCases.count() > 0)
+			                {
+			                    alert "This client has active matters. Close or transfer active matters before blacklisting the client.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

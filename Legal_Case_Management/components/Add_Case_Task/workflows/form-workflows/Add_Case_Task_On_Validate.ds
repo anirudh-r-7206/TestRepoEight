@@ -1,0 +1,28 @@
+Add_Case_Task_On_Validate as "Add Case Task On Validate"
+{
+
+			    type = form
+			    form = Add_Case_Task
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Task_Status == "Completed" && input.Completion_Date == null)
+			                {
+			                    alert "Completion Date is required when a task is completed.";
+			                    cancel submit;
+			                }
+			                if(input.Task_Status != "Completed" && input.Due_Date != null && input.Due_Date < zoho.currentdate)
+			                {
+			                    alert "Due Date cannot be in the past for active tasks.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

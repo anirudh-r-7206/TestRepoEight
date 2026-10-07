@@ -1,0 +1,26 @@
+default list All_Case_Actions
+{
+
+		    displayName = "All Case Actions"
+		    show all rows from Add_Case_Action
+		    (
+		        Case
+		        Action_Type
+		        From_Status
+		        To_Status
+		        Action_Date
+		        Action_By
+		        Notify_Client
+		    )
+		    filters
+		    (
+		        Case
+		        Action_Type
+		        Action_By
+		    )
+		    sort by
+		    (
+		        Action_Date descending
+		    )
+		
+}

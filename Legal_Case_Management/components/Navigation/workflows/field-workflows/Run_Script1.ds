@@ -1,0 +1,61 @@
+Run_Script1 as "Run Script"
+{
+
+			
+							type =  form
+							form = Navigation
+			
+							record event = on add
+			
+							on user input of Nav_Options
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														navOptionMap = Map();
+													fetchPreference = Add_Preference[ID != null];
+													if(fetchPreference.count() != 0)
+													{
+														preferenceID = fetchPreference.ID;
+														if(fetchPreference.Organization_Logo == "" || fetchPreference.Organization_Logo == null)
+														{
+															res = invokeurl
+															[
+																url :"https://files-accl.zohoexternal.com/public/workdrive-external/download/h814669ae0987327a4404804a6236ce5e7438?x-cli-msg=%7B%22linkId%22%3A%226OxchGOzv8B-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D"
+																type :GET
+															];
+															res.setParamName("file");
+															res.setFileName("Creator_Logo" + ".png");
+															response = invokeurl
+															[
+																url :"https://www.zohoapis.com/creator/v2.1/data" + zoho.appuri + "report/All_Preferences/" + fetchPreference.ID + "/Organization_Logo/upload"
+																type :POST
+																files:res
+																connection:"creator"
+															];
+														}
+														navOptionMap.put("Other_Config",{"Preference":{"name":"Add_Preference","type":"Form","criteria":"&viewLinkName=All_Preferences&recLinkID=" + preferenceID}});
+														navOptionMap.put("Free_Cash",{"Pending Free Issue":{"name":"Pending_Free_Issue_Report","type":"Report","criteria":""},"Employee Preference":{"name":"Employee_Preference","type":"Report","criteria":""},"All Free Issue":{"name":"Add_Free_Issue_Report","type":"Report","criteria":""}});
+														if(input.Nav_Options != "" && navOptionMap.containKey(input.Page_Name))
+														{
+															mapp = navOptionMap.get(input.Page_Name);
+															openUrl("#" + if(mapp.get(input.Nav_Options).get("type") != null,mapp.get(input.Nav_Options).get("type"),"Report") + ":" + mapp.get(input.Nav_Options).get("name") + "?zc_LoadIn=embed-showFrame" + if(mapp.get(input.Nav_Options).get("criteria") != null,mapp.get(input.Nav_Options).get("criteria"),""),"same window");
+														}
+													}
+													else
+													{
+														insert into Add_Preference
+														[
+															Added_User=zoho.loginuser
+															Email_Notification=true
+														]
+														openUrl("#Script:page.refresh","same window");
+													}
+									)
+								}
+							}
+			
+						
+			
+}

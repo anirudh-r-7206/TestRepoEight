@@ -1,0 +1,29 @@
+default list All_Deadlines
+{
+
+		    displayName = "All Deadlines"
+		    show all rows from Add_Deadline
+		    (
+		        Case
+		        Deadline_Type
+		        Deadline_Date
+		        Reminder_Date
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		        Related_Task
+		    )
+		    filters
+		    (
+		        Case
+		        Deadline_Type
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		    )
+		    sort by
+		    (
+		        Deadline_Date ascending
+		    )
+		
+}

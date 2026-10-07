@@ -1,0 +1,27 @@
+list Payments_By_Client
+{
+
+		    displayName = "Payments By Client"
+		    show all rows from Add_Payment
+		    (
+		        Client
+		        Invoice
+		        Payment_Date
+		        Amount
+		        Payment_Status
+		    )
+		    filters
+		    (
+		        Client
+		        Payment_Status
+		    )
+		    group by
+		    (
+		        Client ascending
+		    )
+		    sort by
+		    (
+		        Payment_Date descending
+		    )
+		
+}

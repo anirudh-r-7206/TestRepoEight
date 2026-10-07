@@ -1,0 +1,17 @@
+Add_Fee_Schedule_On_Load as "Add Fee Schedule On Load"
+{
+
+			    type = form
+			    form = Add_Fee_Schedule
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Fee_Schedule_ID;
+			            disable Fee_Schedule_ID;
+			        }
+			    }
+			
+}

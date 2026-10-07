@@ -1,0 +1,20 @@
+report all_cases
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case_Number Case_Title Client Practice_Area Priority Case_Status Limitation_Date ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1 ( layout type = -2 title = "Case" fields ( Case_Number Case_Title Client Client_Contact Practice_Area Case_Type Priority Confidentiality_Level Matter_Manager Lead_Attorney Paralegal Billing_Attorney Fee_Schedule Estimated_Value Retainer_Amount Court Court_Case_Number Filing_Date Limitation_Date Case_Status Conflict_Status Engagement_Status Billing_Status Opened_On Closed_On Archived_On ) )
+		        )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

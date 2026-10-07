@@ -1,0 +1,28 @@
+default list All_Evidence
+{
+
+		    displayName = "All Evidence"
+		    show all rows from Add_Evidence
+		    (
+		        Case
+		        Evidence_Title
+		        Evidence_Type
+		        Source
+		        Custodian
+		        Collected_On
+		        Admissibility_Status
+		        Confidentiality_Level
+		    )
+		    filters
+		    (
+		        Case
+		        Evidence_Type
+		        Admissibility_Status
+		        Confidentiality_Level
+		    )
+		    sort by
+		    (
+		        Collected_On descending
+		    )
+		
+}

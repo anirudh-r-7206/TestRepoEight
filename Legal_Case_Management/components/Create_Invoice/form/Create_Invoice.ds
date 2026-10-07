@@ -1,0 +1,262 @@
+form Create_Invoice
+{
+
+		    displayname = "Create Invoice"
+		    success message = "Invoice saved successfully"
+		
+		    Invoice_Details
+		    (
+		        type = section
+		        displayname = "Invoice Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client
+		    (
+		        type = picklist
+		        displayname = "Client"
+		        values = Add_Client.ID
+		        displayformat = [Client_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Invoice_Date
+		    (
+		        type = date
+		        displayname = "Invoice Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Due_Date
+		    (
+		        type = date
+		        displayname = "Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Period_Start
+		    (
+		        type = date
+		        displayname = "Billing Period Start"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Period_End
+		    (
+		        type = date
+		        displayname = "Billing Period End"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Prepared_By
+		    (
+		        type = picklist
+		        displayname = "Prepared By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Approved_By
+		    (
+		        type = picklist
+		        displayname = "Approved By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Amounts
+		    (
+		        type = section
+		        displayname = "Amounts"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Subtotal
+		    (
+		        type = USD
+		        displayname = "Subtotal"
+		        decimalplace = 2
+		        maxchar = 12
+		        initial value = 0
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Tax_Amount
+		    (
+		        type = USD
+		        displayname = "Tax Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        initial value = 0
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Discount_Amount
+		    (
+		        type = USD
+		        displayname = "Discount Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        initial value = 0
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Total_Amount
+		    (
+		        type = formula
+		        displayname = "Total Amount"
+		        value = Subtotal + Tax_Amount - Discount_Amount
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Amount_Paid
+		    (
+		        type = USD
+		        displayname = "Amount Paid"
+		        decimalplace = 2
+		        maxchar = 12
+		        initial value = 0
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Balance_Due
+		    (
+		        type = formula
+		        displayname = "Balance Due"
+		        value = Subtotal + Tax_Amount - Discount_Amount - Amount_Paid
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Terms_Status
+		    (
+		        type = section
+		        displayname = "Terms and Status"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Invoice_Status
+		    (
+		        type = picklist
+		        displayname = "Invoice Status"
+		        values = {"Draft","Submitted for Review","Approved","Sent","Partially Paid","Paid","Overdue","Cancelled"}
+		        initial value = "Draft"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Sent_On
+		    (
+		        type = date
+		        displayname = "Sent On"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Payment_Terms
+		    (
+		        type = text
+		        displayname = "Payment Terms"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		    Invoice_Number
+		    (
+		        type = autonumber
+		        displayname = "Invoice Number"
+		        start index = 5000
+		        row = 4
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Invoice"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Invoice"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+		    blueprint components
+		    {
+		        stages = {"Draft","Submitted for Review","Approved","Sent","Partially Paid","Paid","Overdue","Cancelled"}
+		    }
+		
+}

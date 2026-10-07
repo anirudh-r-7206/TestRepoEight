@@ -1,0 +1,16 @@
+report Client_Visible_History
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Event_Date Event_Type New_Status Changed_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Event_Date Event_Type Previous_Status New_Status Changed_By Visible_To_Client ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

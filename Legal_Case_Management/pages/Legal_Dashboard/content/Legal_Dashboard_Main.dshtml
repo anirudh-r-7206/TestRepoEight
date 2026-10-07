@@ -1,0 +1,228 @@
+<%
+	activeCases = Create_Case[Case_Status != "Closed" && Case_Status != "Archived" && Case_Status != "Rejected"];
+	openMatterCount = activeCases.count();
+	newIntakeCount = Create_Case[Case_Status == "New Intake"].count();
+	pendingConflictCount = Add_Conflict_Check[Decision == "Pending"].count();
+	upcomingHearingCount = Add_Hearing[Hearing_DateTime >= zoho.currenttime && (Hearing_Status == "Scheduled" || Hearing_Status == "Prepared")].count();
+	urgentDeadlineCount = Add_Deadline[(Deadline_Status == "Open" || Deadline_Status == "Extended") && Deadline_Date >= zoho.currentdate && (Deadline_Date <= zoho.currentdate.addDay(7) || Priority == "Critical")].count();
+	overdueTaskCount = Add_Case_Task[Task_Status == "Overdue" || (Due_Date < zoho.currentdate && Task_Status != "Completed" && Task_Status != "Cancelled")].count();
+	unbilledApprovedTime = Add_Time_Entry[Billable == true && Approval_Status == "Approved" && Invoice is null].sum(Amount);
+	if(unbilledApprovedTime == null)
+	{
+		unbilledApprovedTime = 0;
+	}
+	unbilledApprovedExpenses = Add_Expense_Entry[Billable == true && Approval_Status == "Approved" && Invoice is null].sum(Amount);
+	if(unbilledApprovedExpenses == null)
+	{
+		unbilledApprovedExpenses = 0;
+	}
+	overdueInvoiceCount = Create_Invoice[Invoice_Status == "Overdue" || (Due_Date < zoho.currentdate && Balance_Due > 0 && Invoice_Status != "Paid" && Invoice_Status != "Cancelled")].count();
+	overdueInvoiceBalance = Create_Invoice[Invoice_Status == "Overdue" || (Due_Date < zoho.currentdate && Balance_Due > 0 && Invoice_Status != "Paid" && Invoice_Status != "Cancelled")].sum(Balance_Due);
+	if(overdueInvoiceBalance == null)
+	{
+		overdueInvoiceBalance = 0;
+	}
+	recentMatters = Create_Case[Case_Status != "Closed" && Case_Status != "Archived" && Case_Status != "Rejected"] sort by Added_Time desc range from 1 to 8;
+	hearingRows = Add_Hearing[Hearing_DateTime >= zoho.currenttime && (Hearing_Status == "Scheduled" || Hearing_Status == "Prepared")] sort by Hearing_DateTime asc range from 1 to 8;
+	deadlineRows = Add_Deadline[(Deadline_Status == "Open" || Deadline_Status == "Extended") && Deadline_Date >= zoho.currentdate && (Deadline_Date <= zoho.currentdate.addDay(7) || Priority == "Critical")] sort by Deadline_Date asc range from 1 to 8;
+	taskRows = Add_Case_Task[Task_Status == "Overdue" || (Due_Date < zoho.currentdate && Task_Status != "Completed" && Task_Status != "Cancelled")] sort by Due_Date asc range from 1 to 8;
+	invoiceRows = Create_Invoice[Invoice_Status == "Overdue" || (Due_Date < zoho.currentdate && Balance_Due > 0 && Invoice_Status != "Paid" && Invoice_Status != "Cancelled")] sort by Due_Date asc range from 1 to 8;
+%>
+<style>
+/* ===== zcs-global.css: utility subset included once for this page ===== */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color, #6147E5);
+	--zcs_brand_color: #6147E5;
+	--zcs_brand_foreground_color: #FFFFFF;
+	--zcs_brand_dark_color: #4E38C8;
+	--zcs_brand_light_color: #F1EEFF;
+	--zcs_primary_text_color: #17142F;
+	--zcs_secondary_text_color: #4F5873;
+	--zcs_tertiary_text_color: #7A8094;
+	--zcs_tertiary_border_color: #E7E8F0;
+	--zcs_primary_border_color: #E0E2EA;
+	--zcs_component_hover_color: #F4F1FF;
+	--zcs_light_grey_color: #F7F8FC;
+	--zcs-white-color: #FFFFFF;
+	--zcs-page-bg-color: #F6F7FB;
+	--ld-primary: #6147E5;
+	--ld-primary-dark: #4E38C8;
+	--ld-bg: #F6F7FB;
+	--ld-surface: #FFFFFF;
+	--ld-border: #E7E8F0;
+	--ld-text: #17142F;
+	--ld-muted: #6B7280;
+	--ld-soft: #F1EEFF;
+	--ld-success: #179E6C;
+	--ld-warning: #B8770D;
+	--ld-danger: #D92D20;
+	--ld-info: #2A6FFC;
+	--ld-gap: 15px;
+	--ld-radius: 12px;
+	font-size: 16px;
+	line-height: 1.5;
+}
+.zcs-flex{display:flex}.zcs-inline-flex{display:inline-flex}.zcs-row{display:flex;flex-wrap:wrap}.zcs-direction-column{flex-direction:column}.zcs-align-items-center{align-items:center}.zcs-align-items-start{align-items:flex-start}.zcs-justify-center{justify-content:center}.zcs-justify-space-between{justify-content:space-between}.zcs-col-common{flex:1 1 0%;min-width:0}.zcs-no-shrink{flex-shrink:0}.zcs-gap-4{gap:4px}.zcs-gap-6{gap:6px}.zcs-gap-8{gap:8px}.zcs-gap-10{gap:10px}.zcs-gap-12{gap:12px}.zcs-gap-15{gap:15px}.zcs-gap-16{gap:16px}.zcs-p-0{padding:0}.zcs-p-8{padding:8px}.zcs-p-12{padding:12px}.zcs-p-15{padding:15px}.zcs-p-16{padding:16px}.zcs-p-20{padding:20px}.zcs-px-10{padding-left:10px;padding-right:10px}.zcs-px-12{padding-left:12px;padding-right:12px}.zcs-px-16{padding-left:16px;padding-right:16px}.zcs-py-2{padding-top:2px;padding-bottom:2px}.zcs-py-6{padding-top:6px;padding-bottom:6px}.zcs-py-8{padding-top:8px;padding-bottom:8px}.zcs-m-0{margin:0}.zcs-mt-10{margin-top:10px}.zcs-mx-0{margin-left:0;margin-right:0}.zcs-mb-0{margin-bottom:0}.zcs-w-full{width:100%}.zcs-wh-full{width:100%;height:100%}.zcs-font-12{font-size:12px}.zcs-font-13{font-size:13px}.zcs-font-14{font-size:14px}.zcs-font-15{font-size:15px}.zcs-font-16{font-size:16px}.zcs-font-18{font-size:18px}.zcs-font-20{font-size:20px}.zcs-font-24{font-size:24px}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-font-semibold{font-weight:600}.zcs-font-bold{font-weight:700}.zcs-lh-body{line-height:1.5}.zcs-lh-heading{line-height:1.25}.zcs-uppercase{text-transform:uppercase}.zcs-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.zcs-break-words{overflow-wrap:break-word}.zcs-rounded-sm{border-radius:4px}.zcs-rounded-md{border-radius:6px}.zcs-rounded-lg{border-radius:8px}.zcs-rounded-xl{border-radius:12px}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-text-center{text-align:center}.zcs-box-border{box-sizing:border-box}.zcs-color-primary{color:var(--zcs_primary_text_color)}.zcs-color-secondary{color:var(--zcs_secondary_text_color)}.zcs-color-tertiary{color:var(--zcs_tertiary_text_color)}.zcs-overflow-auto{overflow:auto}.zcs-card{background:var(--zcs-white-color);border:1px solid var(--zcs_tertiary_border_color);border-radius:12px}a{text-decoration:none}
+
+/* ===== ZCS component CSS: button-primary-button-no-icon ===== */
+.zcs-button{width:auto;min-width:5rem;min-height:36px;border:0}.zcs-primary-button{background-color:var(--zcs_brand_color);color:var(--zcs_brand_foreground_color)}.zcs-primary-button.zcs-button:hover{background-color:var(--zcs_brand_dark_color)}.zcs-primary-button.zcs-button:active,.zcs-primary-button.zcs-button:focus{outline:2px solid var(--zcs_brand_color);outline-offset:2px}.zcs-button-text{white-space:nowrap}
+/* ===== ZCS component CSS: badge-outlined-badge ===== */
+.zcs-badge{width:auto}.zcs-badge-outline{border:1px solid}.zcs-badge-outline.zcs-badge-theme{color:var(--zcs_brand_color)}.zcs-badge-outline.zcs-badge-green{color:#179E6C}.zcs-badge-outline.zcs-badge-red{color:#FE455D}.zcs-badge-outline.zcs-badge-yellow{color:#B8770D}.zcs-badge-outline.zcs-badge-blue{color:#2A6FFC}.zcs-badge-outline.zcs-badge-grey{color:#242424}.zcs-badge-outline.zcs-badge-orange{color:#F4660C}
+/* ===== ZCS component CSS: table-simple-table ===== */
+:root{--zcs-thead-color:#F9FAFE;--zcs-tr-h-color:#F9FAFE}.zcs-table-wrapper{border:1px solid var(--zcs_tertiary_border_color);background-color:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse}.zcs-table-wrapper table thead{top:0;position:sticky;z-index:1}.zcs-table-wrapper table thead tr th{background-color:var(--zcs-thead-color);box-shadow:0 -1px 0 0 var(--zcs_tertiary_border_color) inset;white-space:nowrap}.zcs-table-wrapper table tbody tr td{border-top:1px solid var(--zcs_tertiary_border_color);vertical-align:top}.zcs-table-wrapper table tbody tr:first-child td{border-color:transparent}.zcs-table-wrapper table tbody tr:hover td{background-color:var(--zcs-tr-h-color)}.zcs-table-wrapper table thead tr th.zcs-green,.zcs-table-wrapper table tbody tr td.zcs-green,.zcs-green{color:#179E6C}.zcs-table-wrapper table thead tr th.zcs-red,.zcs-table-wrapper table tbody tr td.zcs-red,.zcs-red{color:#FE455D}.zcs-table-wrapper table thead tr th.zcs-yellow,.zcs-table-wrapper table tbody tr td.zcs-yellow,.zcs-yellow{color:#B8770D}.zcs-table-wrapper table thead tr th.zcs-blue,.zcs-table-wrapper table tbody tr td.zcs-blue,.zcs-blue{color:#2A6FFC}.zcs-table-wrapper table thead tr th.zcs-l_blue,.zcs-table-wrapper table tbody tr td.zcs-l_blue,.zcs-l_blue{color:#1094C5}
+/* ===== ZCS layout-dashboard panel subset ===== */
+.zcs-panel{border:1px solid var(--zcs_tertiary_border_color);box-shadow:0 2px 8px 0 #F2F2F6;background-color:var(--zcs-white-color)}.zcs-panel-icon-wrapper{width:40px;height:40px}.zcs-panel-icon{width:24px;height:24px;line-height:24px}.zcs-panel.zcs-panel-green .zcs-panel-icon-wrapper{background-color:#E4FCF3;color:#179E6C}.zcs-panel.zcs-panel-yellow .zcs-panel-icon-wrapper{background-color:#FCF4E6;color:#B8770D}.zcs-panel.zcs-panel-red .zcs-panel-icon-wrapper{background-color:#FDE3E6;color:#FE455D}.zcs-panel.zcs-panel-d_blue .zcs-panel-icon-wrapper{background-color:#EAF2FF;color:#1652BB}.zcs-panel.zcs-panel-l_blue .zcs-panel-icon-wrapper{background-color:#E8EFFF;color:#2A6FFC}.zcs-panel.zcs-panel-violet .zcs-panel-icon-wrapper{background-color:#F1EEFF;color:#6147E5}.zcs-panel.zcs-panel-orange .zcs-panel-icon-wrapper{background-color:#FFF3E8;color:#F4660C}.zcs-panel.zcs-panel-grey .zcs-panel-icon-wrapper{background-color:#F5F8FA;color:#092441}
+
+/* ===== Legal Dashboard approved CSS block ===== */
+*{box-sizing:border-box}html,body{font-size:14px}div#zppagesLive,div#elementsContainer,.Layout.elemContainment,.zc-pb-formreport-placeholder,.zc-pb-tile-card{height:100%!important}.Layout.elemContainment,.zc-pb-tile-container{padding:0!important}.zc-pb-tile-card{border-radius:0!important;box-shadow:none!important}.legal-dashboard{width:100%;min-height:100%;background:var(--ld-bg);color:var(--ld-text);font-family:Lato,Arial,sans-serif;font-size:14px;line-height:1.45;padding:var(--ld-gap);overflow:auto}.ld-shell{display:flex;flex-direction:column;gap:var(--ld-gap);max-width:1600px;margin:0 auto}.ld-header{display:flex;justify-content:space-between;align-items:center;gap:var(--ld-gap);padding:15px;border:1px solid var(--ld-border);border-radius:var(--ld-radius);background:linear-gradient(135deg,#FFFFFF 0%,#F4F1FF 100%)}.ld-title-block{min-width:0}.ld-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ld-primary);margin:0 0 4px}.ld-title{font-size:22px;line-height:1.2;font-weight:700;color:var(--ld-text);margin:0}.ld-subtitle{margin:6px 0 0;color:var(--ld-muted)}.ld-action-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end}.ld-action-row .zcs-button{border-radius:8px;background:var(--ld-primary);color:#fff}.ld-kpi-grid{display:grid;grid-template-columns:repeat(8,minmax(140px,1fr));gap:var(--ld-gap)}.ld-kpi{min-height:108px;padding:15px;border-radius:var(--ld-radius)}.ld-kpi-label{font-size:12px;color:var(--ld-muted);font-weight:600;text-transform:uppercase;letter-spacing:.02em;margin:0}.ld-kpi-value{font-size:24px;line-height:1.1;font-weight:700;color:var(--ld-text);margin:8px 0 0;word-break:break-word}.ld-kpi-note{font-size:12px;color:var(--ld-muted);margin:6px 0 0}.ld-section-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--ld-gap);align-items:start}.ld-section{grid-column:span 6;background:var(--ld-surface);border:1px solid var(--ld-border);border-radius:var(--ld-radius);overflow:hidden;min-height:390px;display:flex;flex-direction:column}.ld-section.ld-wide{grid-column:span 12}.ld-section-header{display:flex;justify-content:space-between;align-items:center;gap:var(--ld-gap);padding:15px;border-bottom:1px solid var(--ld-border);background:#fff}.ld-section-title{display:flex;flex-direction:column;gap:2px;min-width:0}.ld-section-title h2{font-size:16px;line-height:1.25;font-weight:700;color:var(--ld-text);margin:0}.ld-section-title p{font-size:12px;color:var(--ld-muted);margin:0}.ld-section-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.ld-section-actions .zcs-button{min-height:32px;padding-top:6px;padding-bottom:6px;border-radius:8px}.ld-scroll{height:285px;overflow:auto;padding:15px}.ld-table{min-width:760px}.ld-table.compact{min-width:640px}.ld-table .ld-main{font-weight:600;color:var(--ld-text)}.ld-table .ld-sub{font-size:12px;color:var(--ld-muted);margin-top:2px}.ld-status-pill{font-size:12px;font-weight:600;line-height:1.25;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;max-width:180px}.ld-status-primary{background:#F1EEFF;color:var(--ld-primary)}.ld-status-success{background:#E4FCF3;color:var(--ld-success)}.ld-status-warning{background:#FCF4E6;color:var(--ld-warning)}.ld-status-danger{background:#FDE3E6;color:var(--ld-danger)}.ld-status-info{background:#E8EFFF;color:var(--ld-info)}.ld-billing-grid{display:grid;grid-template-columns:260px 1fr;gap:var(--ld-gap);height:100%}.ld-billing-summary{display:flex;flex-direction:column;gap:var(--ld-gap)}.ld-mini-card{border:1px solid var(--ld-border);border-radius:var(--ld-radius);padding:15px;background:#fff}.ld-mini-card label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.02em;font-weight:700;color:var(--ld-muted);margin-bottom:6px}.ld-mini-card strong{display:block;font-size:20px;line-height:1.2;color:var(--ld-text);word-break:break-word}.ld-mini-card span{display:block;font-size:12px;color:var(--ld-muted);margin-top:5px}.zcs-nodata-wrapper{min-height:180px;border:1px dashed var(--ld-border);border-radius:var(--ld-radius);background:#FCFCFF}.zcs-nodata-header{font-size:15px}.ld-empty-text{color:var(--ld-muted);margin:6px 0 0}.ld-mobile-card-list{display:none}.ld-mobile-card{border:1px solid var(--ld-border);border-radius:var(--ld-radius);padding:12px;background:#fff;margin-bottom:10px}.ld-mobile-card:last-child{margin-bottom:0}.ld-mobile-card-title{font-weight:700;margin:0 0 4px;color:var(--ld-text)}.ld-mobile-card-line{font-size:12px;color:var(--ld-muted);margin:2px 0}.ld-mobile-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}@media (max-width:1400px){.ld-kpi-grid{grid-template-columns:repeat(4,minmax(160px,1fr))}}@media (max-width:1024px){.ld-section{grid-column:span 12}.ld-billing-grid{grid-template-columns:1fr}.ld-billing-summary{display:grid;grid-template-columns:repeat(3,1fr)}}@media (max-width:768px){.legal-dashboard{padding:15px}.ld-header{align-items:flex-start;flex-direction:column}.ld-action-row,.ld-section-actions{justify-content:flex-start}.ld-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ld-section{min-height:auto}.ld-scroll{height:320px}.ld-billing-summary{grid-template-columns:1fr}.ld-table-wrapper-mobile{display:none}.ld-mobile-card-list{display:block}}@media (max-width:520px){.ld-kpi-grid{grid-template-columns:1fr}.ld-title{font-size:20px}.ld-section-header{align-items:flex-start;flex-direction:column}}
+</style>
+
+<div class="legal-dashboard">
+	<div class="ld-shell">
+		<section class="ld-header">
+			<div class="ld-title-block">
+				<p class="ld-kicker">Legal Operations</p>
+				<h1 class="ld-title">Legal Dashboard</h1>
+				<p class="ld-subtitle">Live overview of matters, hearings, deadlines, tasks, and billing exposure.</p>
+			</div>
+			<div class="ld-action-row">
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Create_Case?zc_LoadIn=dialog"><span class="zcs-button-text">Create Case</span></a>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Client?zc_LoadIn=dialog"><span class="zcs-button-text">Add Client</span></a>
+			</div>
+		</section>
+
+		<section class="ld-kpi-grid">
+			<div class="ld-kpi zcs-panel zcs-panel-violet zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Open Matters</p><strong class="ld-kpi-value"><%=openMatterCount%></strong><span class="ld-kpi-note">Active legal work</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-d_blue zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">New Intakes</p><strong class="ld-kpi-value"><%=newIntakeCount%></strong><span class="ld-kpi-note">Awaiting triage</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-yellow zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Conflict Checks Pending</p><strong class="ld-kpi-value"><%=pendingConflictCount%></strong><span class="ld-kpi-note">Review required</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-l_blue zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Upcoming Hearings</p><strong class="ld-kpi-value"><%=upcomingHearingCount%></strong><span class="ld-kpi-note">Scheduled or prepared</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-orange zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Urgent Deadlines</p><strong class="ld-kpi-value"><%=urgentDeadlineCount%></strong><span class="ld-kpi-note">Next 7 days or critical</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-red zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Overdue Tasks</p><strong class="ld-kpi-value"><%=overdueTaskCount%></strong><span class="ld-kpi-note">Past due action</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-green zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Unbilled Approved Time</p><strong class="ld-kpi-value">$<%=unbilledApprovedTime%></strong><span class="ld-kpi-note">Approved and not invoiced</span></div>
+			<div class="ld-kpi zcs-panel zcs-panel-grey zcs-flex zcs-direction-column zcs-gap-4"><p class="ld-kpi-label">Overdue Invoices</p><strong class="ld-kpi-value"><%=overdueInvoiceCount%></strong><span class="ld-kpi-note">$<%=overdueInvoiceBalance%> balance due</span></div>
+		</section>
+
+		<section class="ld-section-grid">
+			<div class="ld-section">
+				<div class="ld-section-header">
+					<div class="ld-section-title"><h2>Recent Active Matters</h2><p>Latest active records across intake, conflict, engagement, and open matter stages.</p></div>
+					<div class="ld-section-actions">
+						<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Create_Case?zc_LoadIn=dialog"><span class="zcs-button-text">Create Case</span></a>
+						<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Client?zc_LoadIn=dialog"><span class="zcs-button-text">Add Client</span></a>
+					</div>
+				</div>
+				<div class="ld-scroll">
+					<% if(recentMatters.count() == 0) { %>
+						<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No active matters yet</h5><p class="ld-empty-text">Create a case to begin tracking legal work.</p></div></div>
+					<% } else { %>
+						<div class="zcs-table-wrapper ld-table-wrapper-mobile zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full ld-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Matter</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Client</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Owner</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Status</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Limitation</th></tr></thead><tbody>
+						<% for each matter in recentMatters { %>
+							<tr><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><div class="ld-main"><%=ifnull(matter.Case_Title,"Untitled matter")%></div><div class="ld-sub">Case <%=ifnull(matter.Case_Number,"Pending number")%> · <%=ifnull(matter.Priority,"No priority")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(matter.Client.Client_Name,"No client")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(matter.Matter_Manager.Employee_Name.first_name,"Unassigned")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><span class="ld-status-pill ld-status-primary"><%=ifnull(matter.Case_Status,"No status")%></span></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(matter.Limitation_Date,"Not set")%></td></tr>
+						<% } %>
+						</tbody></table></div>
+						<div class="ld-mobile-card-list">
+						<% for each matterCard in recentMatters { %>
+							<div class="ld-mobile-card"><p class="ld-mobile-card-title"><%=ifnull(matterCard.Case_Title,"Untitled matter")%></p><p class="ld-mobile-card-line">Case <%=ifnull(matterCard.Case_Number,"Pending number")%> · <%=ifnull(matterCard.Client.Client_Name,"No client")%></p><p class="ld-mobile-card-line">Owner: <%=ifnull(matterCard.Matter_Manager.Employee_Name.first_name,"Unassigned")%></p><div class="ld-mobile-card-meta"><span class="ld-status-pill ld-status-primary"><%=ifnull(matterCard.Case_Status,"No status")%></span><span class="ld-status-pill ld-status-info"><%=ifnull(matterCard.Priority,"No priority")%></span></div></div>
+						<% } %>
+						</div>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="ld-section">
+				<div class="ld-section-header"><div class="ld-section-title"><h2>Upcoming Hearings</h2><p>Next scheduled or prepared appearances.</p></div></div>
+				<div class="ld-scroll">
+					<% if(hearingRows.count() == 0) { %>
+						<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No upcoming hearings</h5><p class="ld-empty-text">Scheduled hearings will appear here when added.</p></div></div>
+					<% } else { %>
+						<div class="zcs-table-wrapper ld-table-wrapper-mobile zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full ld-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Hearing</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Matter</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Court / Venue</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Owner</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Status</th></tr></thead><tbody>
+						<% for each hearing in hearingRows { %>
+							<tr><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><div class="ld-main"><%=ifnull(hearing.Hearing_Type,"Hearing")%></div><div class="ld-sub"><%=ifnull(hearing.Hearing_DateTime,"No date")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(hearing.Case.Case_Title,"No matter")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><div class="ld-main"><%=ifnull(hearing.Court.Court_Name,"No court")%></div><div class="ld-sub"><%=ifnull(hearing.Venue,"Venue not set")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(hearing.Preparation_Owner.Employee_Name.first_name,"Unassigned")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><span class="ld-status-pill ld-status-info"><%=ifnull(hearing.Hearing_Status,"No status")%></span></td></tr>
+						<% } %>
+						</tbody></table></div>
+						<div class="ld-mobile-card-list">
+						<% for each hearingCard in hearingRows { %>
+							<div class="ld-mobile-card"><p class="ld-mobile-card-title"><%=ifnull(hearingCard.Hearing_Type,"Hearing")%> · <%=ifnull(hearingCard.Hearing_DateTime,"No date")%></p><p class="ld-mobile-card-line"><%=ifnull(hearingCard.Case.Case_Title,"No matter")%></p><p class="ld-mobile-card-line"><%=ifnull(hearingCard.Court.Court_Name,"No court")%> · <%=ifnull(hearingCard.Venue,"Venue not set")%></p><div class="ld-mobile-card-meta"><span class="ld-status-pill ld-status-info"><%=ifnull(hearingCard.Hearing_Status,"No status")%></span></div></div>
+						<% } %>
+						</div>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="ld-section">
+				<div class="ld-section-header"><div class="ld-section-title"><h2>Urgent Deadlines</h2><p>Open or extended deadlines due soon, plus critical priority deadlines.</p></div></div>
+				<div class="ld-scroll">
+					<% if(deadlineRows.count() == 0) { %>
+						<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No urgent deadlines</h5><p class="ld-empty-text">No open critical or near-term deadlines are currently due.</p></div></div>
+					<% } else { %>
+						<div class="zcs-table-wrapper ld-table-wrapper-mobile zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full ld-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Deadline</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Matter</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Responsible</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Priority</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Status</th></tr></thead><tbody>
+						<% for each deadline in deadlineRows { deadlineClass = if(deadline.Priority == "Critical","ld-status-danger","ld-status-warning"); %>
+							<tr><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><div class="ld-main"><%=ifnull(deadline.Deadline_Type,"Deadline")%></div><div class="ld-sub"><%=ifnull(deadline.Deadline_Date,"No date")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(deadline.Case.Case_Title,"No matter")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(deadline.Responsible_Attorney.Employee_Name.first_name,"Unassigned")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><span class="ld-status-pill <%=deadlineClass%>"><%=ifnull(deadline.Priority,"No priority")%></span></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><span class="ld-status-pill ld-status-primary"><%=ifnull(deadline.Deadline_Status,"No status")%></span></td></tr>
+						<% } %>
+						</tbody></table></div>
+						<div class="ld-mobile-card-list">
+						<% for each deadlineCard in deadlineRows { dClass = if(deadlineCard.Priority == "Critical","ld-status-danger","ld-status-warning"); %>
+							<div class="ld-mobile-card"><p class="ld-mobile-card-title"><%=ifnull(deadlineCard.Deadline_Type,"Deadline")%> · <%=ifnull(deadlineCard.Deadline_Date,"No date")%></p><p class="ld-mobile-card-line"><%=ifnull(deadlineCard.Case.Case_Title,"No matter")%></p><p class="ld-mobile-card-line">Responsible: <%=ifnull(deadlineCard.Responsible_Attorney.Employee_Name.first_name,"Unassigned")%></p><div class="ld-mobile-card-meta"><span class="ld-status-pill <%=dClass%>"><%=ifnull(deadlineCard.Priority,"No priority")%></span><span class="ld-status-pill ld-status-primary"><%=ifnull(deadlineCard.Deadline_Status,"No status")%></span></div></div>
+						<% } %>
+						</div>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="ld-section">
+				<div class="ld-section-header"><div class="ld-section-title"><h2>Overdue Tasks</h2><p>Missed or explicitly overdue assignments.</p></div></div>
+				<div class="ld-scroll">
+					<% if(taskRows.count() == 0) { %>
+						<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No overdue tasks</h5><p class="ld-empty-text">There are no missed open assignments.</p></div></div>
+					<% } else { %>
+						<div class="zcs-table-wrapper ld-table-wrapper-mobile zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full ld-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Task</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Matter</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Assigned To</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Due</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Priority</th></tr></thead><tbody>
+						<% for each task in taskRows { taskClass = if(task.Priority == "Critical","ld-status-danger",if(task.Priority == "High","ld-status-warning","ld-status-info")); %>
+							<tr><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><div class="ld-main"><%=ifnull(task.Task_Title,"Untitled task")%></div><div class="ld-sub"><%=ifnull(task.Task_Type,"Task")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(task.Case.Case_Title,"No matter")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(task.Assigned_To.Employee_Name.first_name,"Unassigned")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(task.Due_Date,"No due date")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><span class="ld-status-pill <%=taskClass%>"><%=ifnull(task.Priority,"No priority")%></span></td></tr>
+						<% } %>
+						</tbody></table></div>
+						<div class="ld-mobile-card-list">
+						<% for each taskCard in taskRows { tClass = if(taskCard.Priority == "Critical","ld-status-danger",if(taskCard.Priority == "High","ld-status-warning","ld-status-info")); %>
+							<div class="ld-mobile-card"><p class="ld-mobile-card-title"><%=ifnull(taskCard.Task_Title,"Untitled task")%></p><p class="ld-mobile-card-line"><%=ifnull(taskCard.Case.Case_Title,"No matter")%></p><p class="ld-mobile-card-line">Assigned: <%=ifnull(taskCard.Assigned_To.Employee_Name.first_name,"Unassigned")%> · Due <%=ifnull(taskCard.Due_Date,"No due date")%></p><div class="ld-mobile-card-meta"><span class="ld-status-pill <%=tClass%>"><%=ifnull(taskCard.Priority,"No priority")%></span><span class="ld-status-pill ld-status-danger"><%=ifnull(taskCard.Task_Status,"Overdue")%></span></div></div>
+						<% } %>
+						</div>
+					<% } %>
+				</div>
+			</div>
+
+			<div class="ld-section ld-wide">
+				<div class="ld-section-header">
+					<div class="ld-section-title"><h2>Billing Snapshot</h2><p>Approved work not invoiced and invoices past due.</p></div>
+					<div class="ld-section-actions">
+						<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Time_Entry?zc_LoadIn=dialog"><span class="zcs-button-text">Add Time Entry</span></a>
+						<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Expense_Entry?zc_LoadIn=dialog"><span class="zcs-button-text">Add Expense</span></a>
+					</div>
+				</div>
+				<div class="ld-scroll">
+					<div class="ld-billing-grid">
+						<div class="ld-billing-summary">
+							<div class="ld-mini-card"><label>Unbilled Approved Time</label><strong>$<%=unbilledApprovedTime%></strong><span>Billable time entries approved and not tied to an invoice.</span></div>
+							<div class="ld-mini-card"><label>Unbilled Approved Expenses</label><strong>$<%=unbilledApprovedExpenses%></strong><span>Billable approved expenses pending invoice capture.</span></div>
+							<div class="ld-mini-card"><label>Overdue Invoice Balance</label><strong>$<%=overdueInvoiceBalance%></strong><span><%=overdueInvoiceCount%> invoice(s) need follow-up.</span></div>
+						</div>
+						<div>
+							<% if(invoiceRows.count() == 0) { %>
+								<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No overdue invoices</h5><p class="ld-empty-text">Past-due invoice balances will appear here.</p></div></div>
+							<% } else { %>
+								<div class="zcs-table-wrapper ld-table-wrapper-mobile zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full ld-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Invoice</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Client</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Matter</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-right zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Balance</th><th class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-medium zcs-lh-body zcs-color-primary">Due Date</th></tr></thead><tbody>
+								<% for each invoice in invoiceRows { %>
+									<tr><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left"><div class="ld-main"><%=ifnull(invoice.Invoice_Number,"Pending number")%></div><div class="ld-sub"><%=ifnull(invoice.Invoice_Status,"No status")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(invoice.Client.Client_Name,"No client")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(invoice.Case.Case_Title,"No matter")%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-right zcs-font-14 zcs-font-semibold zcs-lh-body zcs-red">$<%=ifnull(invoice.Balance_Due,0)%></td><td class="zcs-px-16 zcs-py-8 zcs-box-border zcs-text-left zcs-font-14 zcs-font-normal zcs-lh-body zcs-color-primary"><%=ifnull(invoice.Due_Date,"No due date")%></td></tr>
+								<% } %>
+								</tbody></table></div>
+								<div class="ld-mobile-card-list">
+								<% for each invoiceCard in invoiceRows { %>
+									<div class="ld-mobile-card"><p class="ld-mobile-card-title">Invoice <%=ifnull(invoiceCard.Invoice_Number,"Pending number")%></p><p class="ld-mobile-card-line"><%=ifnull(invoiceCard.Client.Client_Name,"No client")%> · <%=ifnull(invoiceCard.Case.Case_Title,"No matter")%></p><p class="ld-mobile-card-line">Due <%=ifnull(invoiceCard.Due_Date,"No due date")%> · Balance $<%=ifnull(invoiceCard.Balance_Due,0)%></p><div class="ld-mobile-card-meta"><span class="ld-status-pill ld-status-danger"><%=ifnull(invoiceCard.Invoice_Status,"Overdue")%></span></div></div>
+								<% } %>
+								</div>
+							<% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

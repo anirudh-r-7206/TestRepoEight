@@ -1,0 +1,31 @@
+list Open_Case_Tasks
+{
+
+		    displayName = "Open Case Tasks"
+		    show all rows from Add_Case_Task [Task_Status == "Open" || Task_Status == "In Progress" || Task_Status == "Waiting"]
+		    (
+		        Case
+		        Task_Title
+		        Task_Type
+		        Assigned_To
+		        Reviewer
+		        Priority
+		        Due_Date
+		        Task_Status
+		        Client_Visible
+		    )
+		    filters
+		    (
+		        Case
+		        Assigned_To
+		        Priority
+		        Task_Status
+		        Task_Type
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Due_Date ascending
+		    )
+		
+}

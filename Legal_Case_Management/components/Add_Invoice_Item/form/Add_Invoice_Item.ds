@@ -1,0 +1,184 @@
+form Add_Invoice_Item
+{
+
+		    displayname = "Add Invoice Item"
+		    success message = "Invoice item saved successfully"
+		
+		    Item_Details
+		    (
+		        type = section
+		        displayname = "Item Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Invoice
+		    (
+		        type = picklist
+		        displayname = "Invoice"
+		        values = Create_Invoice.ID
+		        displayformat = [Invoice_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Source_Type
+		    (
+		        type = picklist
+		        displayname = "Source Type"
+		        values = {"Time Entry","Expense Entry","Fixed Fee","Adjustment"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Time_Entry
+		    (
+		        type = picklist
+		        displayname = "Time Entry"
+		        values = Add_Time_Entry.ID
+		        displayformat = [Time_Entry_ID]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Expense_Entry
+		    (
+		        type = picklist
+		        displayname = "Expense Entry"
+		        values = Add_Expense_Entry.ID
+		        displayformat = [Expense_ID]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Description
+		    (
+		        type = text
+		        displayname = "Description"
+		        maxchar = 200
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Quantity
+		    (
+		        type = decimal
+		        displayname = "Quantity"
+		        decimalplace = 2
+		        initial value = 1
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Rate
+		    (
+		        type = USD
+		        displayname = "Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Amount
+		    (
+		        type = formula
+		        displayname = "Amount"
+		        value = Quantity * Rate
+		        visibility = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Status
+		    (
+		        type = section
+		        displayname = "Billing Status"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Taxable
+		    (
+		        type = checkbox
+		        displayname = "Taxable"
+		        initial value = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Line_Status
+		    (
+		        type = picklist
+		        displayname = "Line Status"
+		        values = {"Draft","Approved","Billed"}
+		        initial value = "Draft"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Invoice_Item_ID
+		    (
+		        type = autonumber
+		        displayname = "Invoice Item ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Item"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Item"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

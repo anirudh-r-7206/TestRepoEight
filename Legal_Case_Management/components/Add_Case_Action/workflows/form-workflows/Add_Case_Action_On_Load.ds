@@ -1,0 +1,32 @@
+Add_Case_Action_On_Load as "Add Case Action On Load"
+{
+
+			    type = form
+			    form = Add_Case_Action
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Action_ID, From_Status, To_Status, Action_Date;
+			            disable Action_ID, From_Status, To_Status, Action_Date;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    disable Case;
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.From_Status = caseRec.Case_Status;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

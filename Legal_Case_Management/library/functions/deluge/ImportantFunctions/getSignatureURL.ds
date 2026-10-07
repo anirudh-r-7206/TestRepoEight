@@ -1,0 +1,28 @@
+string ImportantFunctions.getSignatureURL(string SignatureName, int recID, string fieldLinkName, string reportName, string publicLink)
+{
+
+			
+			                 	if(input.SignatureName != "")
+			                 	{
+			                 		if(input.publicLink != "")
+			                 		{
+			                 			// 			if(input.SignatureName.contains("lowqual"))
+			                 			// 		    {
+			                 			// 		   	imagefile = input.SignatureName.getSuffix("fieldName/image/").getPrefix("\" lowqual");
+			                 			// 			}
+			                 			// 			prod_img = "https://creatorapp.zohopublic.com" + zoho.appuri + "report/All_Service_Closures/" + rec.ID + "/Customer_Signature/download-file/hqmgS1K8TPVAUyA1w2wbfdE3kq9K3zKDjPevZOrvpkTaykbMBBKqjeGtfmAYrrevxuyA1ppZhRDeRmBUBpzk2y2upX9msezHsDBT?filepath=/" + rec.Customer_Signature;
+			                 			prod_img = "https://creatorapp.zohopublic.com" + zoho.appuri + "report/" + input.reportName + "/" + input.recID + "/" + input.fieldLinkName + "/download-file/" + input.publicLink + "?filepath=/" + input.SignatureName;
+			                 		}
+			                 		else
+			                 		{
+			                 			prod_img = thisapp.ImportantFunctions.getImageURL(input.SignatureName,input.fieldLinkName,input.reportName,input.recID);
+			                 		}
+			                 	}
+			                 	else
+			                 	{
+			                 		prod_img = "https://files-accl.zohoexternal.com/public/workdrive-external/download/1aent25160252f45749d0a527538d0fabb776?x-cli-msg=%7B%22linkId%22%3A%226OxchHwUjPM-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D";
+			                 	}
+			                 	return prod_img;
+			                 
+			
+}

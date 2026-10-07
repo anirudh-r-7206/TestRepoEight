@@ -1,0 +1,17 @@
+Add_Practice_Area_On_Load as "Add Practice Area On Load"
+{
+
+			    type = form
+			    form = Add_Practice_Area
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Practice_Area_ID;
+			            disable Practice_Area_ID;
+			        }
+			    }
+			
+}

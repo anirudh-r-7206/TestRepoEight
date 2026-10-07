@@ -1,0 +1,168 @@
+form Add_Settlement_Offer
+{
+
+		    displayname = "Add Settlement Offer"
+		    success message = "Settlement offer saved successfully"
+		
+		    Offer_Details
+		    (
+		        type = section
+		        displayname = "Offer Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Offer_Date
+		    (
+		        type = date
+		        displayname = "Offer Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Offered_By
+		    (
+		        type = picklist
+		        displayname = "Offered By"
+		        values = {"Client","Opposing Party","Mediator","Court","Internal"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Offer_Amount
+		    (
+		        type = USD
+		        displayname = "Offer Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Non_Monetary_Terms
+		    (
+		        type = textarea
+		        displayname = "Non Monetary Terms"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Response_Due_Date
+		    (
+		        type = date
+		        displayname = "Response Due Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Offer_Status
+		    (
+		        type = picklist
+		        displayname = "Offer Status"
+		        values = {"Draft","Sent","Received","Under Review","Accepted","Rejected","Expired","Withdrawn"}
+		        initial value = "Draft"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Review_Details
+		    (
+		        type = section
+		        displayname = "Review Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Reviewed_By
+		    (
+		        type = picklist
+		        displayname = "Reviewed By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Decision_Notes
+		    (
+		        type = textarea
+		        displayname = "Decision Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Document
+		    (
+		        type = picklist
+		        displayname = "Document"
+		        values = Add_Case_Document.ID
+		        displayformat = [Document_Title]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Offer_ID
+		    (
+		        type = autonumber
+		        displayname = "Offer ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Offer"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Offer"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

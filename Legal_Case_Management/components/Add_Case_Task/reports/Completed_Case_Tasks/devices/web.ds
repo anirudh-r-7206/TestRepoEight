@@ -1,0 +1,16 @@
+report Completed_Case_Tasks
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Task_Title Assigned_To Priority Due_Date Task_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Task_Title Task_Type Assigned_To Reviewer Priority Due_Date Task_Status Client_Visible ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

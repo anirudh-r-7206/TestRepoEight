@@ -1,0 +1,17 @@
+Add_Evidence_On_Load as "Add Evidence On Load"
+{
+
+			    type = form
+			    form = Add_Evidence
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Evidence_ID;
+			            disable Evidence_ID;
+			        }
+			    }
+			
+}

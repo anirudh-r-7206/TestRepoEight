@@ -1,0 +1,760 @@
+map Localization.Pages()
+{
+
+			
+			                 	mp = Map();
+			                 	app_language = thisapp.localization.language();
+			                 	if(app_language == "Arabic")
+			                 	{
+			                 		// Procurement Dashboard
+			                 		mp.put("zcp.procurementdashboard.totalno.ofprojects","مجموع عدد المشاريع");
+			                 		mp.put("zcp.procurementdashboard.totalvendors","مجموع الباعة");
+			                 		mp.put("zcp.procurementdashboard.totalvendors.vendorchartinputs.contract","العقد");
+			                 		mp.put("zcp.procurementdashboard.totalproducts","مجموع المنتجات");
+			                 		// Finance Dashboard
+			                 		mp.put("zcp.financedashboard.totalprojects","مجموع المشاريع");
+			                 		mp.put("zcp.financedashboard.poorderapprovals","الموافقات على أمر الشراء");
+			                 		mp.put("zcp.financedashboard.paymentrequests","طلبات المدفوعات");
+			                 		mp.put("zcp.financedashboard.projects.spent","الصرف");
+			                 		mp.put("zcp.financedashboard.projects.total","المجموع");
+			                 		// Vendor Dashboard
+			                 		mp.put("zcp.vendash.quotations.title","عرض الأسعار");
+			                 		mp.put("zcp.vendash.orders.inprogressorders","الطلبات الحالية");
+			                 		mp.put("zcp.vendash.orders.completedorders","الطلبات المكتملة");
+			                 		mp.put("zcp.vendash.orders.recivedamount","الكمية المستلمة");
+			                 		mp.put("zcp.vendash.products.productimage","صورة المنتج");
+			                 		mp.put("zcp.vendash.products.productname","اسم المنتج");
+			                 		mp.put("zcp.vendash.recentorders.title","الطلبات الحديثة");
+			                 		mp.put("zcp.vendash.recentorders.expecteddeliverydate","تاريخ التوصيل المتوقع");
+			                 		mp.put("zcp.vendash.recentorders.status","الحالة");
+			                 		mp.put("zcp.vendash.monthlyrevenue.title","الإيرادات الشهرية");
+			                 		mp.put("zcp.vendash.nodata","لا توجد بيانات");
+			                 		mp.put("zcp.vendash.viewmore.button","معلومات أكثر");
+			                 		// Vendor Summary
+			                 		mp.put("zcp.vensummary.deliveredorders","طلبات الشراء المستلمة");
+			                 		mp.put("zcp.vensummary.pendingorders","الطلبات المعلقة");
+			                 		// PO Approval
+			                 		mp.put("zcp.purchaseorderapproval.poapproval.preview","عرض");
+			                 		mp.put("zcp.purchaseorderapproval.poapproval.company","الشركة");
+			                 		mp.put("zcp.purchaseorderapproval.note","ستظهر التعليقات والشروط والأحكام هنا في مستند أمر الشراء.");
+			                 		mp.put("zcp.purchaseorderapproval.shippingcharge.note","قد تختلف رسوم الشحن بناءً على العناصر المطلوبة. لن يظهر هذا إلا إذا تم تحديد العناصر من عرض الأسعار جزئيًا");
+			                 		// PO Document
+			                 		mp.put("zcp.podocument.billto","شحن إلى");
+			                 		// Request
+			                 		mp.put("zcp.request.createrequest.button","طلب جديد");
+			                 		mp.put("zcp.request.editrequest.button","تحرير الطلب");
+			                 		mp.put("zcp.request.rejected","مرفوضة");
+			                 		mp.put("zcp.request.myrequests.title","طلباتي");
+			                 		mp.put("zcp.request.approvals.title","طلبات الموافقة");
+			                 		// Procurement
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.title","ملخص المشتريات");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.sendforapproval.button","ارسال  لأجل الموافقة");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.addquotemanualy.button","إضافة عرض السعر يدوياً");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.requestdate","تاريخ الطلب");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.expectedprdeliverydate","التاريخ المتوقع لاستلام طلب المشتريات");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.cancel.button","إلغاء");
+			                 		mp.put("zcp.procurement.createprocurement.button","طلب جديد");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.selectedproducts","المنتجات المختارة");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.noproductsselected","لم يتم اختيار أي منتجات");
+			                 		mp.put("zcp.procurement.revisequotation","مراجعة الاقتباس");
+			                 		mp.put("zcp.Decline_Reason","سبب الرفض");
+			                 		// Quotation
+			                 		mp.put("zcp.quotations.newquotationrequests","سعر جديد");
+			                 		mp.put("zcp.quotations.quotationssent","إرسال السعر");
+			                 		mp.put("zcp.quotations.movedtoorder","الطلبات المؤكدة");
+			                 		mp.put("zcp.quotations.quotationdate","تاريخ الاقتباس");
+			                 		mp.put("zcp.quotations.taxinamount","الضريبة بشكل مبلغ");
+			                 		mp.put("zcp.quotations.quotationdetails","تفاصيل الاقتباس");
+			                 		// Order Tracking
+			                 		mp.put("zcp.ordertracking.ordersapproved","الطلبات المعتمدة");
+			                 		mp.put("zcp.ordertracking.orderspending","الطلبات المعلقة");
+			                 		mp.put("zcp.ordertracking.ordersinprocess","الطلبات الجارية");
+			                 		// GRN Summary
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.grnnumber","رقم اشعارات استلام البضائع:");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.ordernumber","رقم الطلب");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.receiveddate","تاريخ الاستلام");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.defectquantity","كمية الطلبات المعابة");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note1","-نسخة قسم الحسابات والمالية");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note2","-نسخة المورد");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note3","-نسخة المتاجر");
+			                 		// Order Completion
+			                 		mp.put("zcp.3waymatch.title","اتمام الطلب");
+			                 		mp.put("zcp.paymentapproval","الموافقة على الدفع");
+			                 		mp.put("zcp.paymentrejection","رفض الدفع");
+			                 		mp.put("zcp.3waymatch.podocument.tile","امر الشراء");
+			                 		mp.put("zcp.3waymatch.quotation.tile","السعر");
+			                 		mp.put("zcp.3waymatch.grn.tile","ااشعار استلام البضائع");
+			                 		mp.put("zcp.3waymatch.po-document","وثيقة البريد");
+			                 		// Vendor Orders
+			                 		mp.put("zcp.vendororders.vendororders.ordersinprogress","الطلبات الجارية");
+			                 		mp.put("zcp.vendororders.vendororders.ordersdispatched","الطلبات  المرسلة");
+			                 		// Projects
+			                 		mp.put("zcp.project.addproject.title","مشروع جديد");
+			                 		mp.put("zcp.project.detailview.projectdetails.title","معلومات المشروع");
+			                 		mp.put("zcp.project.editproject.title","تعديل المشروع");
+			                 		mp.put("zcp.project.detailview.delete.button","حذف");
+			                 		mp.put("zcp.project.detailview.projectdetails.associatewith","مشارك مع");
+			                 		mp.put("zcp.project.detailview.projectdetails.expdeliverydate","تاريخ الانتهاء المتوقع");
+			                 		mp.put("zcp.project.detailview.projectdetails.totalnoofprocurements","مجموع طلبات الشراء");
+			                 		mp.put("zcp.project.projectmanagement.title","جميع المشاريع");
+			                 		mp.put("zcp.project.projectmanagement.spendamount","مجموع الصرف");
+			                 		mp.put("zcp.project.projectmanagement.viewlog","سجل الميزانية");
+			                 		mp.put("zcp.project.projectmanagement.transfer","تحويل");
+			                 		mp.put("zcp.project.projectmanagement.costsavings","توفير في التكاليف");
+			                 		// Vendors
+			                 		mp.put("zcp.vendors.addvendor.title","بائع جديد");
+			                 		mp.put("zcp.vendors.editvendor.title","تعديل البائع");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.title","معلومات البائع");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.documents","الملفات");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.purchaseorderhistory","تاريخ أمر الشراء");
+			                 		// Products
+			                 		mp.put("zcp.products.addproduct.title","إضافة منتج");
+			                 		mp.put("zcp.editproduct.title","تعديل منتج");
+			                 		mp.put("zcp.products.detailview.title","معلومات المنتج");
+			                 		mp.put("zcp.products.detailview.category","الصنف");
+			                 		mp.put("zcp.products.detailview.parentcategory","الفئة الرئيسية");
+			                 		mp.put("zcp.products.detailview.model","الموديل");
+			                 		mp.put("zcp.products.detailview.measurementtype","وحدة القياس");
+			                 		mp.put("zcp.products.detailview.vendorname","اسم البائع");
+			                 		mp.put("zcp.products.detailview.productprice","سعر المنتج");
+			                 		mp.put("zcp.products.productname","اسم المنتج");
+			                 		// User
+			                 		mp.put("zcp.userdetailpage.title","تفاصيل المستخدم");
+			                 		mp.put("zcp.users.adduser","إضافة المستخدم");
+			                 		mp.put("zcp.users.edituser","تعديل المستخدم");
+			                 		// Setup
+			                 		mp.put("zcp.setup.setup.title","الإعداد");
+			                 		mp.put("zcp.setup.setuppending","قم باعداد ملف شركتك، والتفضيلات ومعلومات أخرى");
+			                 		mp.put("zcp.setup.taxrates","معدلات الضرائب");
+			                 		// Company Detail
+			                 		mp.put("zcp.companydetails.companydetails.phone","الهاتف");
+			                 		mp.put("zcp.companydetails.companydetails.companywebsite","الرابط الالكتروني للشركة");
+			                 		mp.put("zcp.companydetails.companydetails.fax","الفاكس");
+			                 		mp.put("zcp.companydetails.companydetails.registernumber","الرقم المسجل");
+			                 		mp.put("zcp.companydetails.vendorportalurl","عنوان URL لبوابة المورد");
+			                 		// Location Detail
+			                 		mp.put("zcp.locationdetailview.title","نظرة عامة");
+			                 		mp.put("zcp.locationdetailview.locationname","اسم الموقع");
+			                 		mp.put("zcp.locationdetailview.numberofemployees","مجموع الموظفين");
+			                 		mp.put("zcp.locationdetailview.numberofprojects","مجموع المشاريع");
+			                 		// ID Setup
+			                 		mp.put("zcp.idsetuppage.idsetup.title","اعدادات التعريف");
+			                 		mp.put("zcp.idsetuppage.id’sconfiguration.grnid","معرّف استلام اشعارات البضائع");
+			                 		// Employee Profile
+			                 		mp.put("zcp.empprofile.companyinformation.title","معلومات الشركة");
+			                 		mp.put("zcp.empprofile.companyinformation.companyname","اسم الشركة");
+			                 		// Vendor Prodile
+			                 		mp.put("zcp.vendorprofile.profiledetails.vendorstatus","حالة البائع");
+			                 		mp.put("zcp.vendorprofile.profiledetails.contactnumber","الهاتف");
+			                 		mp.put("zcp.vendorprofile.personalinformation.emailaddress","البريد الالكتروني");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.title","ملفات البائع");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.adddocuments.button","إضافة ملف");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.servicepolicy","سياسات الخدمة");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.terms&conditions","الأحكام والشروط");
+			                 		// Setup Wizard
+			                 		mp.put("zcp.addlocation.note","هذا سيكون عنوان مكتبك الرئيسي، يمكنك تعديله لاحقًا في الإعدادات");
+			                 		mp.put("zcp.setupwizrd.importnote","يمكنك إضافة { Tab Name } واحد في كل مرة أو إجراء استيراد بالجملة");
+			                 		mp.put("zcp.setupwizard.importnote1","تحميل عينتنا (ملف CSV) </a>استيراد ملف لشرح كل حقل مطلوب أثناء الاستيراد.");
+			                 		mp.put("zcp.setupwizard.importnote2","قم بإسقاط ملفاتك هنا, أو <span> تصفح </span>");
+			                 		mp.put("zcp.setupwizard.successfullycompleted","مكتمل بنجاح");
+			                 		mp.put("zcp.setupwizard.sucessnote","مبروك!لقد انتهينا من إضافتك! <br> تستطيع الآن استخدام التطبيق.");
+			                 		mp.put("zcp.setupwizard.fileformat","صيغ الملفات المدعومة هي: CSV,TSV,XLS ويسمح باقصى حجم وقدره 5 ميجابايت");
+			                 		mp.put("zcp.setupwizard.back","العودة");
+			                 		// Integration
+			                 		mp.put("zcp.integration.books","Books");
+			                 		mp.put("zcp.integration.note","التكامل مع كتب zoho لمزامنة المنتجات والموردين وأوامر الشراء");
+			                 		mp.put("zcp.integration.adminnote","يُرجى الاتصال بالمشرف المتميز لإجراء عملية الدمج.");
+			                 		mp.put("zcp.integration.enable","تفعيل");
+			                 		mp.put("zcp.integration.disable","ابطال");
+			                 		// Project Logs
+			                 		mp.put("zcp.projectlogs.currentbudgetvalue","ميزانية المشروع الحالية");
+			                 		mp.put("zcp.projectlogs.action","فعل");
+			                 		mp.put("zcp.projectlogs.user","مستخدم");
+			                 		mp.put("zcp.projectlogs.datetime","التاريخ والوقت");
+			                 		mp.put("zcp.projectlogs.amount","كمية");
+			                 		mp.put("zcp.projectlogs.total","المجموع");
+			                 		mp.put("zcp.projectlogs.loghistory","تاريخ الميزانية");
+			                 		// Purchase History
+			                 		mp.put("zcp.purchasehistory.purchasehistroy","تاريخ شراء");
+			                 		mp.put("zcp.purchasehistory.yettopurchase","بعد للشراء");
+			                 		// View Quotes
+			                 		mp.put("zcp.viewquotes.requestquotations","طلب عروض الأسعار");
+			                 		// Accout Details
+			                 		mp.put("zcp.accountdetails.userdetailsbyip.note","تفاصيل المستخدم عن طريق IP:");
+			                 		mp.put("zcp.accountdetails.userdetailsbygeneralform","تفاصيل المستخدم حسب النموذج العام:");
+			                 		mp.put("zcp.accountdetails.userexceeded.note","لقد تجاوزت حد المستخدم الخاص بك.");
+			                 		mp.put("zcp.accountdetails.usercount.note","يمكنك إضافة فقط <span style='color:red'> {User Count} المستخدمون (الموظفون + البائعون)) </span> في هذا التطبيق");
+			                 		// Approval Setup
+			                 		mp.put("zcp.approvalsetup.title","تكوين مستوى الموافقة");
+			                 		// Finance Dashboard
+			                 		mp.put("zcp.financedashboard.procurementrequest","طلب الشراء");
+			                 		// Integrations
+			                 		mp.put("zcp.integrations.syncvendors","بائعو المزامنة");
+			                 		mp.put("zcp.integrations.syncproducts","منتجات المزامنة");
+			                 		// Quotation History
+			                 		mp.put("zcp.quotationhistory.title","تاريخ الاقتباس");
+			                 		mp.put("zcp.quotationhistory.revisedtime","الوقت المنقح");
+			                 		mp.put("zcp.quotationhistory.shippingcost","تكلفة الشحن");
+			                 		mp.put("zcp.quotationhistory.viewquote","عرض الاقتباس");
+			                 		// Quotations
+			                 		mp.put("zcp.quotations.cardtitle.qutsent","Qut أرسلت");
+			                 		mp.put("zcp.quotations.cardtitle.movedtoorders","تم النقل للأوامر");
+			                 		mp.put("zcp.quotations.cardtitle.totqut","توت كيوت");
+			                 		//Advance Payment
+			                 		mp.put("zcp.transactionhistory.title","تاريخ المعاملات");
+			                 		//Approval Setup
+			                 		mp.put("zcp.approvalsetuppage.title","إعداد الموافقة");
+			                 		mp.put("zcp.approvalsetup.employee-manager","الموظف/المدير");
+			                 		mp.put("zcp.approvalsetup.procurer","القوّاد");
+			                 		mp.put("zcp.approvalsetup.finance","تمويل");
+			                 		mp.put("zcp.approvalsetup.purchaserequest","طلب الشراء");
+			                 		mp.put("zcp.approvalsetup.purchaseorder","أمر شراء");
+			                 		mp.put("zcp.approvalsetup.payment","قسط");
+			                 		mp.put("zcp.project.projectmanagement.approval","موافقة");
+			                 		//Procurement summary
+			                 		mp.put("zcp.procurementsummary.title","ملخص المشتريات");
+			                 		mp.put("zcp.procurementsummary.createbidding","إنشاء العطاءات");
+			                 		mp.put("zcp.procurementsummary.endbidding","إنهاء المزايدة");
+			                 		mp.put("zcp.procurementsummary.startbidding","ابدأ المزايدة");
+			                 		mp.put("zcp.procurementsummary.th.product","منتج");
+			                 		mp.put("zcp.procurementsummary.th.quantity","كمية");
+			                 		mp.put("zcp.procurementsummary.th.baseprice","السعر الحالي");
+			                 		mp.put("zcp.procurementsummary.th.valuebasket","أفضل الأسعار");
+			                 		mp.put("zcp.procurementsummary.moreoptions.selectall","حدد الكل");
+			                 		mp.put("zcp.procurementsummary.moreoptions.deselect","قم بإلغاء التحديد");
+			                 		mp.put("zcp.procurementsummary.moreoptions.viewquote","عرض الاقتباس");
+			                 		mp.put("zcp.procurementsummary.moreoptions.revisequote","مراجعة الاقتباس");
+			                 		mp.put("zcp.procurementsummary.moreoptions.quotehistory","تاريخ الاقتباس");
+			                 		mp.put("zcp.procurementsummary.moreoptions.orderhistory","تاريخ الطلب");
+			                 		mp.put("zcp.procurementsummary.moreoptions.profile","حساب تعريفي");
+			                 		mp.put("zcp.procurementsummary.moreoptions.queries","الأسئلة والأجوبة");
+			                 		mp.put("zcp.procurementsummary.moreoptions.RFQ_Response","استجابة طلب عرض الأسعار");
+			                 		mp.put("zcp.procurementsummary.switchtonewui","التبديل إلى واجهة المستخدم الجديدة");
+			                 		mp.put("zcp.procurementsummary.switchtooldui","التبديل إلى واجهة المستخدم القديمة");
+			                 		//Quotations
+			                 		mp.put("zcp.quotations.timing","توقيت");
+			                 		mp.put("zcp.quotations.quotehistory","تاريخ الاقتباس");
+			                 		mp.put("zcp.quotations.biddingrank","مرتبة العطاء");
+			                 		mp.put("zcp.quotations.vendor","بائع");
+			                 		mp.put("zcp.quotations.nettotal","صافي المجموع");
+			                 		mp.put("zcp.quotations.savings","الادخار");
+			                 		mp.put("zcp.quotations.you","أنت");
+			                 		mp.put("zcp.quotations.quotationdetails","تفاصيل الاقتباس");
+			                 		mp.put("zcp.idsetuppage.biddingid","معرف العطاء");
+			                 		mp.put("zcp.quotations.biddingdetail","تفاصيل العطاءات");
+			                 		mp.put("zcp.quotations.rank","رتبة");
+			                 		mp.put("zcp.quotations.editquote","تحرير الاقتباس");
+			                 		// VMS RFP Process
+			                 		mp.put("zcp.rfpprocess.proposalsummary","ملخص الاقتراح");
+			                 		mp.put("zcp.rfpprocess.addproposal,anually","أضف الاقتراح يدويًا");
+			                 		mp.put("zcp.rfpprocess.rfpid","معرف طلب تقديم العروض");
+			                 		mp.put("zcp.rfpprocess.proposalid","معرف العرض");
+			                 		mp.put("zcp.rfpprocess.requesteddate","التاريخ المطلوب");
+			                 		mp.put("zcp.rfpprocess.duedate","تاريخ الاستحقاق");
+			                 		mp.put("zcp.rfpprocess.proceedforcontract","المضي قدما في العقد");
+			                 		// VMS Contracts
+			                 		mp.put("zcp.contracts.contractdetail","تفاصيل العقد");
+			                 		mp.put("zcp.contracts.contractstartdate","تاريخ بدء العقد");
+			                 		mp.put("zcp.contracts.contractenddate","تاريخ انتهاء العقد");
+			                 		mp.put("zcp.contracts.contractstatus","حالة التعاقد");
+			                 		mp.put("zcp.contracts.acceptedby","مقبول من قبل");
+			                 		mp.put("zcp.contracts.addedby","تمت الإضافة بواسطة");
+			                 		mp.put("zcp.contracts.lastrenewalsate","تاريخ التجديد الأخير");
+			                 		mp.put("zcp.contracts.newstandards","معايير جديدة");
+			                 		mp.put("zcp.contracts.allcontracts","جميع العقود");
+			                 		mp.put("zcp.contracts.contractid","معرف العقد");
+			                 		mp.put("zcp.contracts.address","عنوان");
+			                 		mp.put("zcp.contracts.phonenumber","رقم الهاتف");
+			                 		mp.put("zcp.contracts.contactperson","الشخص الذي يمكن الاتصال به");
+			                 		mp.put("zcp.contracts.contactnumber","رقم الاتصال");
+			                 		mp.put("zcp.contracts.project","مشروع");
+			                 		mp.put("zcp.contracts.description","وصف");
+			                 		mp.put("zcp.contracts.expectedenddate","تاريخ الانتهاء المتوقع");
+			                 		mp.put("zcp.contracts.budget","ميزانية");
+			                 		mp.put("zcp.contracts.contractinfo","معلومات العقد");
+			                 		mp.put("zcp.contracts.renewalid","تجديد الهوية");
+			                 		mp.put("zcp.contracts.initialagreement","الاتفاق المبدئي");
+			                 		mp.put("zcp.contracts.renewedagreement","اتفاقية مجددة");
+			                 		mp.put("zcp.contracts.agreement","اتفاق");
+			                 		mp.put("zcp.contracts.businessname","الاسم التجاري");
+			                 		// VMS Product Approval		
+			                 		mp.put("zcp.productapproval.requestedby","بتوصية من");
+			                 		mp.put("zcp.productapproval.approvalpendingby","الموافقة معلقة بواسطة");
+			                 		mp.put("zcp.productapproval.productapproval","الموافقة على المنتج");
+			                 		// My Catalogue		
+			                 		mp.put("zcp.mycatalogue.productcatalogue","كتالوج المنتج");
+			                 		// VMS Dashboard
+			                 		mp.put("zcp.vmsdashboard.registeredvendors","البائعين المسجلين");
+			                 		mp.put("zcp.vmsdashboard.rfis","طلبات المعلومات");
+			                 		mp.put("zcp.vmsdashboard.rfps","طلبات تقديم العروض");
+			                 		mp.put("zcp.vmsdashboard.rfp","طلب تقديم العروض");
+			                 		mp.put("zcp.vmsdashboard.completedorders","الطلبات المكتملة");
+			                 		mp.put("zcp.vmsdashboard.combinedshape","الشكل المدمج");
+			                 		mp.put("zcp.vmsdashboard.screenedvendors","البائعين الذين تم فحصهم");
+			                 		mp.put("zcp.vmsdashboard.vendorratings","تقييمات البائعين");
+			                 		mp.put("zcp.vmsdashboard.registered","المسجله");
+			                 		mp.put("zcp.vmsdashboard.rfirequested","طلب طلب تقديم المعلومات");
+			                 		mp.put("zcp.vmsdashboard.verified","التحقق");
+			                 		mp.put("zcp.vmsdashboard.onboarded","على متن الطائرة");
+			                 		mp.put("zcp.vmsdashboard.totalspend","إجمالي الإنفاق");
+			                 		mp.put("zcp.vmsdashboard.vendorstatistics","إحصائيات البائعين");
+			                 		mp.put("zcp.vmsdashboard.topvendors","كبار البائعين");
+			                 		mp.put("zcp.vmsdashboard.contractrenewal","تجديد العقود");
+			                 		// VMS RFI Admin
+			                 		mp.put("zcp.screening.rfi","طلب الحصول على معلومات");
+			                 		mp.put("zcp.rfiadmin.detailview.summary","ملخص");
+			                 		mp.put("zcp.rfiadmin.detailview.rating","تقييم الموقع");
+			                 		mp.put("zcp.rfiadmin.detailview.rfiid","معرف RFI");
+			                 		mp.put("zcp.rfiadmin.detailview.rfi","آر إف آي");
+			                 		mp.put("zcp.rfiadmin.detailview.establishmentdate","تاريخ التأسيس");
+			                 		mp.put("zcp.rfiadmin.detailview.businesstype","نوع العمل");
+			                 		mp.put("zcp.rfiadmin.detailview.marketpresence","التواجد في السوق");
+			                 		mp.put("zcp.rfiadmin.detailview.expecteddate","التاريخ المتوقع");
+			                 		mp.put("zcp.rfiadmin.detailview.productcategories","فئة (فئات) المنتج");
+			                 		mp.put("zcp.rfiadmin.detailview.name","اسم");
+			                 		mp.put("zcp.rfiadmin.detailview.description","وصف");
+			                 		mp.put("zcp.rfiadmin.detailview.vendortimeliene","الجدول الزمني للمورد");
+			                 		mp.put("zcp.rfiadmin.detailview.vendor","بائع");
+			                 		mp.put("zcp.rfiadmin.detailview.screening.viewscore","عرض النتيجة");
+			                 		// VMS Ratings
+			                 		mp.put("zcp.screening.ratings","تصنيفات");
+			                 		//VMS Registration Page
+			                 		mp.put("zcp.vmsregistration.detailview.logo","شعار");
+			                 		//VMS Ratings Page
+			                 		mp.put("zcp.vmsrating.detailview.onboard","متن");
+			                 		// VMS RFI Vendor Page
+			                 		mp.put("zcp.rfivendor.detailview.basicdetail","التفاصيل الأساسية");
+			                 		mp.put("zcp.rfivendor.detailview.edit","حرر");
+			                 		mp.put("zcp.rfivendor.detailview.rfidetail","تفاصيل RFI");
+			                 		mp.put("zcp.rfivendor.detailview.attachments","المرفقات");
+			                 		// VMS RFP Process Page
+			                 		mp.put("zcp.rfpadmin.detailview.summary","ملخص طلب تقديم العروض");
+			                 		mp.put("zcp.rfpadmin.detailview.vendordetail","تفاصيل البائع");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpdocuments","مستند (مستندات) طلب تقديم العروض");
+			                 		mp.put("zcp.rfpadmin.detailview.projectdetails","تفاصيل المشروع");
+			                 		mp.put("zcp.rfpadmin.detailview.proposal","اقتراح");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpdetails","تفاصيل طلب تقديم العروض");
+			                 		mp.put("zcp.rfpadmin.detailview.proposalduedate","تاريخ استحقاق الاقتراح");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpsendto","طلب تقديم العروض إرسال إلى");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpoverview","نظرة عامة على طلب تقديم العروض");
+			                 		mp.put("zcp.rfpadmin.detailview.contractperiod","مدة العقد");
+			                 		mp.put("zcp.rfpadmin.detailview.viewdetail.button","عرض التفاصيل");
+			                 		mp.put("zcp.rfpadmin.detailview.requesteddocuments","المستندات المطلوبة");
+			                 		mp.put("zcp.rfpadmin.detailview.viewdocument.button","عرض المستندات");
+			                 		mp.put("zcp.rfpadmin.detailview.purposeofrfp","الغرض من طلب تقديم العروض");
+			                 		mp.put("zcp.rfpadmin.detailview.proposaldocument","وثيقة الاقتراح");
+			                 		mp.put("zcp.rfpadmin.detailview.receivedproposals","المقترحات المستلمة");
+			                 		mp.put("zcp.rfpadmin.detailview.yettoreceive","لم يتلق بعد");
+			                 		//RFP Page
+			                 		mp.put("zcp.rfp.detailview.proposals","الاقتراح (المقترحات)");
+			                 		//VMS Vendors_VMS Page
+			                 		mp.put("zcp.vendor.vendor","البائعين");
+			                 		//VMS Preference
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate.default","افتراضي");
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate.setasdefault","تعيين كافتراضي");
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate","نموذج العقد");
+			                 		// VMS Products
+			                 		mp.put("zcp.products.product.title","منتجات");
+			                 		mp.put("zcp.products.pendingproducts.topbar","المنتجات المعلقة");
+			                 		mp.put("zcp.products.activeproducts.topbar","المنتجات النشطة");
+			                 		mp.put("zcp.products.inactiveproducts.topbar","المنتجات غير النشطة");
+			                 		mp.put("zcp.products.totalproducts.topbar","إجمالي المنتجات");
+			                 		mp.put("zcp.product.productmaster","سيد المنتج");
+			                 		// VMS Vendor Dashboard
+			                 		mp.put("zcp.vmsdash.vendorrisk","مخاطر البائع");
+			                 		// VMS Order Tracking
+			                 		mp.put("zcp.ordertracking.riskassessment","تقييم المخاطر");
+			                 		mp.put("zcp.ordertracking.riskparameters","معايير المخاطر");
+			                 		mp.put("zcp.ordertracking.risklevel","مستوى المخاطرة");
+			                 		mp.put("zcp.ordertracking.score","نقاط");
+			                 		// VMS ID Configuration
+			                 		mp.put("zcp.idconfig.registration","رقم التسجيل");
+			                 		mp.put("zcp.idconfig.rfi","معرف RFI");
+			                 		mp.put("zcp.idconfig.rfp","معرف طلب تقديم العروض");
+			                 		mp.put("zcp.idconfig.productid","معرف المنتج");
+			                 		mp.put("zcp.idconfig.contractnumber","رقم العقد");
+			                 		mp.put("zcp.idconfig.riskid","معرف المخاطر");
+			                 		mp.put("zcp.idconfig.performancemetrics","معرف مقاييس الأداء");
+			                 		mp.put("zcp.idconfig.proposalid","معرف العرض");
+			                 		mp.put("zcp.idconfig.contractrenewalid","معرف تجديد العقد");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.pendingsupliers","الموردون الذين لم يقدموا عروضًا");
+			                 	}
+			                 	else
+			                 	{
+			                 		//	Procurement Dashboard
+			                 		mp.put("zcp.procurementdashboard.totalno.ofprojects","Total Projects");
+			                 		mp.put("zcp.procurementdashboard.totalvendors","Total Vendors");
+			                 		mp.put("zcp.procurementdashboard.totalvendors.vendorchartinputs.contract","Contract");
+			                 		mp.put("zcp.procurementdashboard.totalproducts","Total Products");
+			                 		// 	Finance Dashboard
+			                 		mp.put("zcp.financedashboard.totalprojects","Total Projects");
+			                 		mp.put("zcp.financedashboard.poorderapprovals","PO Approvals");
+			                 		mp.put("zcp.financedashboard.paymentrequests","Payment Requests");
+			                 		mp.put("zcp.financedashboard.projects.spent","Spent");
+			                 		mp.put("zcp.financedashboard.projects.total","Total");
+			                 		// 	Vendor Dashboard
+			                 		mp.put("zcp.vendash.quotations.title","Quotations");
+			                 		mp.put("zcp.vendash.orders.inprogressorders","Ongoing Orders");
+			                 		mp.put("zcp.vendash.orders.completedorders","Completed Orders");
+			                 		mp.put("zcp.vendash.orders.recivedamount","Received Amount");
+			                 		mp.put("zcp.vendash.products.productimage","Product Image");
+			                 		mp.put("zcp.vendash.products.productname","Product Name");
+			                 		mp.put("zcp.vendash.recentorders.title","Recent Orders");
+			                 		mp.put("zcp.vendash.recentorders.expecteddeliverydate","Expected Delivery Date");
+			                 		mp.put("zcp.vendash.recentorders.status","Status");
+			                 		mp.put("zcp.vendash.monthlyrevenue.title","Monthly Revenue");
+			                 		mp.put("zcp.vendash.nodata","No Data");
+			                 		mp.put("zcp.vendash.viewmore.button","More Info");
+			                 		// Vendor Summary
+			                 		mp.put("zcp.vensummary.deliveredorders","Delivered Orders");
+			                 		mp.put("zcp.vensummary.pendingorders","Pending Orders");
+			                 		// 	PO Approval
+			                 		mp.put("zcp.purchaseorderapproval.poapproval.preview","Preview");
+			                 		mp.put("zcp.purchaseorderapproval.poapproval.company","Organization");
+			                 		mp.put("zcp.purchaseorderapproval.note","Comments, Terms and Conditions will appear here in the PO document.");
+			                 		mp.put("zcp.purchaseorderapproval.shippingcharge.note","Shipping charges might vary based on the ordered items. This will only appear if items from quote is partially selected");
+			                 		// PO Document
+			                 		mp.put("zcp.podocument.billto","Bill To");
+			                 		// Request
+			                 		mp.put("zcp.request.createrequest.button","New Request");
+			                 		mp.put("zcp.request.editrequest.button","Edit Request");
+			                 		mp.put("zcp.request.rejected","Rejected");
+			                 		mp.put("zcp.request.myrequests.title","My Requests");
+			                 		mp.put("zcp.request.approvals.title","Requests for Approval");
+			                 		// 	Procurement
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.title","Procurement Summary");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.sendforapproval.button","Send For Approval");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.addquotemanualy.button","Add Quote Manually");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.requestdate","Requested Date");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.pendingsupliers","Suppliers Not Quoted");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.expectedprdeliverydate","Expected Date");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.cancel.button","Cancel");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.selectedproducts","Selected Products");
+			                 		mp.put("zcp.procurement.detailview.procurementsummary.noproductsselected","No products has been selected");
+			                 		mp.put("zcp.procurement.createprocurement.button","New Procurement");
+			                 		mp.put("zcp.procurement.revisequotation","Revise Quote");
+			                 		// Quotation
+			                 		mp.put("zcp.quotations.newquotationrequests","New Quotation");
+			                 		mp.put("zcp.quotations.quotationssent","Quotations Sent");
+			                 		mp.put("zcp.quotations.movedtoorder","Confirmed Orders");
+			                 		mp.put("zcp.quotations.quotationdate","Quotation Date");
+			                 		mp.put("zcp.quotations.taxinamount","Tax Amount");
+			                 		mp.put("zcp.quotations.quotationdetails","Quotation Details");
+			                 		// 	Order Tracking
+			                 		mp.put("zcp.ordertracking.ordersapproved","Approved Orders");
+			                 		mp.put("zcp.ordertracking.orderspending","Pending Orders");
+			                 		mp.put("zcp.ordertracking.ordersinprocess","Ongoing Orders");
+			                 		// 	GRN Summary
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.grnnumber","GRN No:");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.ordernumber","Order No");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.receiveddate","Date Received");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.defectquantity","Defect Quantity");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note1","-Accounts and Finance Dept Copy");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note2","-Supplier Copy");
+			                 		mp.put("zcp.grnsummary.goodsreceivednote.note3","-Stores/Goods Inwards Copy");
+			                 		// 	Order Completion
+			                 		mp.put("zcp.3waymatch.title","Order Completion");
+			                 		mp.put("zcp.paymentapproval","Payment Approval");
+			                 		mp.put("zcp.paymentrejection","Payment Rejection");
+			                 		mp.put("zcp.3waymatch.podocument.tile","PO Document");
+			                 		mp.put("zcp.3waymatch.quotation.tile","Quotation");
+			                 		mp.put("zcp.3waymatch.grn.tile","Goods Received Note (GRN)");
+			                 		mp.put("zcp.3waymatch.po-document","PO-Document");
+			                 		// Vendor Orders
+			                 		mp.put("zcp.vendororders.vendororders.ordersinprogress","Orders In Progress");
+			                 		mp.put("zcp.vendororders.vendororders.ordersdispatched","Orders Dispatched");
+			                 		// Projects
+			                 		mp.put("zcp.project.addproject.title","New Project");
+			                 		mp.put("zcp.project.detailview.projectdetails.title","Project Info");
+			                 		mp.put("zcp.project.editproject.title","Edit Project");
+			                 		mp.put("zcp.project.detailview.delete.button","Delete");
+			                 		mp.put("zcp.project.detailview.projectdetails.associatewith","Associate With");
+			                 		mp.put("zcp.project.detailview.projectdetails.expdeliverydate","Expected End Date");
+			                 		mp.put("zcp.project.detailview.projectdetails.totalnoofprocurements","Total Procurements");
+			                 		mp.put("zcp.project.projectmanagement.title","All Projects");
+			                 		mp.put("zcp.project.projectmanagement.spendamount","Spent Amount");
+			                 		mp.put("zcp.project.projectmanagement.viewlog","Budget Logs");
+			                 		mp.put("zcp.project.projectmanagement.transfer","Transfer");
+			                 		mp.put("zcp.project.projectmanagement.costsavings","Cost Savings");
+			                 		// 	Vendors
+			                 		mp.put("zcp.vendors.addvendor.title","New Vendor");
+			                 		mp.put("zcp.vendors.editvendor.title","Edit Vendor");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.title","Vendor Info");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.documents","Documents");
+			                 		mp.put("zcp.vendors.detailview.vendordetails.purchaseorderhistory","PO History");
+			                 		// 	Products
+			                 		mp.put("zcp.products.addproduct.title","Add Product");
+			                 		mp.put("zcp.editproduct.title","Edit Product");
+			                 		mp.put("zcp.products.detailview.title","Product Info");
+			                 		mp.put("zcp.products.detailview.category","Category");
+			                 		mp.put("zcp.products.detailview.parentcategory","Parent Category");
+			                 		mp.put("zcp.products.detailview.model","Model");
+			                 		mp.put("zcp.products.detailview.measurementtype","Measurement Type");
+			                 		mp.put("zcp.products.detailview.vendorname","Vendor Name");
+			                 		mp.put("zcp.products.detailview.productprice","Product Price");
+			                 		mp.put("zcp.products.productname","Product Name");
+			                 		// Users
+			                 		mp.put("zcp.userdetailpage.title","User Details");
+			                 		mp.put("zcp.users.adduser","Add User");
+			                 		mp.put("zcp.users.edituser","Edit User");
+			                 		// Setup
+			                 		mp.put("zcp.setup.setup.title","Setup");
+			                 		mp.put("zcp.setup.setuppending","Setup your organisation's profile, preferences and other information.");
+			                 		mp.put("zcp.setup.taxrates","Tax Rates");
+			                 		// Company Details
+			                 		mp.put("zcp.companydetails.phone","Phone");
+			                 		mp.put("zcp.companydetails.companywebsite","Org. Url");
+			                 		mp.put("zcp.companydetails.fax","Fax");
+			                 		mp.put("zcp.companydetails.registernumber","Register Number");
+			                 		mp.put("zcp.companydetails.vendorportalurl","Vendor Portal URL");
+			                 		// Location Detail Page
+			                 		mp.put("zcp.locationdetailview.title","Overview");
+			                 		mp.put("zcp.locationdetailview.locationname","Location Name");
+			                 		mp.put("zcp.locationdetailview.numberofemployees","Total Employees");
+			                 		mp.put("zcp.locationdetailview.numberofprojects","Total Projects");
+			                 		// ID Setup
+			                 		mp.put("zcp.idsetuppage.idsetup.title","ID Setup");
+			                 		mp.put("zcp.idsetuppage.id’sconfiguration.grnid","GRN ID");
+			                 		// Employee Profile
+			                 		mp.put("zcp.empprofile.companyinformation.title","Org. Info");
+			                 		mp.put("zcp.empprofile.companyinformation.companyname","Org. Name");
+			                 		// Vendor Profile
+			                 		mp.put("zcp.vendorprofile.profiledetails.vendorstatus","Vendor Status");
+			                 		mp.put("zcp.vendorprofile.profiledetails.contactnumber","Phone");
+			                 		mp.put("zcp.vendorprofile.personalinformation.emailaddress","Email");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.title","Vendor Documents");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.adddocuments.button","Add Documents");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.servicepolicy","Service Policy");
+			                 		mp.put("zcp.vendorprofile.vendordocuments.terms&conditions","Terms & Conditions");
+			                 		// Setup Wizard
+			                 		mp.put("zcp.setupwizard.sucessnote","Congratulations! <br> We have successfully completed your onboarding process! <br> You can now start accessing the app.");
+			                 		mp.put("zcp.addlocation.note","This will be your Head Office Address. You may edit this later in settings.");
+			                 		mp.put("zcp.setupwizrd.importnote","You can add one {Tab Name} at a time or do a bulk import");
+			                 		mp.put("zcp.setupwizard.importnote1","Downlaod our sample (CSV) </a>import file for explanation of each field required during import.");
+			                 		mp.put("zcp.setupwizard.importnote2","Drop your files here, or <span> Browse </span>");
+			                 		mp.put("zcp.setupwizard.successfullycompleted","Successfully Completed!");
+			                 		mp.put("zcp.setupwizard.fileformat","Supported file format : CSV or TSV or XLS (Max. 5MB)");
+			                 		mp.put("zcp.setupwizard.back","Back");
+			                 		// Integration
+			                 		mp.put("zcp.integration.books","Books");
+			                 		mp.put("zcp.integration.note","Integrate with zoho books to sync Products, Vendors and POs");
+			                 		mp.put("zcp.integration.adminnote","Please contact your super admin to perform the integeration.");
+			                 		mp.put("zcp.integration.enable","Enable");
+			                 		mp.put("zcp.integration.disable","Disable");
+			                 		// Project Logs
+			                 		mp.put("zcp.projectlogs.currentbudgetvalue","Current Project Budget");
+			                 		mp.put("zcp.projectlogs.action","Action");
+			                 		mp.put("zcp.projectlogs.user","User");
+			                 		mp.put("zcp.projectlogs.datetime","Date & Time");
+			                 		mp.put("zcp.projectlogs.amount","Amount");
+			                 		mp.put("zcp.projectlogs.total","Total");
+			                 		mp.put("zcp.projectlogs.loghistory","Budget History");
+			                 		// Purchase History
+			                 		mp.put("zcp.purchasehistory.purchasehistroy","Purchase History");
+			                 		mp.put("zcp.purchasehistory.yettopurchase","Yet To Purchase");
+			                 		// View Quotes
+			                 		mp.put("zcp.viewquotes.requestquotations","Request Quotations");
+			                 		// Accout Details
+			                 		mp.put("zcp.accountdetails.userdetailsbyip.note","User Details By IP :");
+			                 		mp.put("zcp.accountdetails.userdetailsbygeneralform","User Details By General Form :");
+			                 		mp.put("zcp.accountdetails.userexceeded.note","You have exceeded your user limit.");
+			                 		mp.put("zcp.accountdetails.usercount.note","You can add only <span style='color:red'> {User Count} Users(employees + Vendors) </span> in this app");
+			                 		// Approval Setup
+			                 		mp.put("zcp.approvalsetup.title","Approval Level Configuration");
+			                 		// Finance Dashboard
+			                 		mp.put("zcp.financedashboard.procurementrequest","Procurement Request");
+			                 		// Integrations
+			                 		mp.put("zcp.integrations.syncvendors","Sync Vendors");
+			                 		mp.put("zcp.integrations.syncproducts","Sync Products");
+			                 		// Quotation History
+			                 		mp.put("zcp.quotationhistory.title","Quotation History");
+			                 		mp.put("zcp.quotationhistory.revisedtime","Revised Time");
+			                 		mp.put("zcp.quotationhistory.shippingcost","Shipping Cost");
+			                 		mp.put("zcp.quotationhistory.viewquote","View Quote");
+			                 		// Quotations
+			                 		mp.put("zcp.quotations.cardtitle.qutsent","Qut Sent");
+			                 		mp.put("zcp.quotations.cardtitle.movedtoorders","Moved to orders");
+			                 		mp.put("zcp.quotations.cardtitle.totqut","Tot Qut");
+			                 		//Advance Payment
+			                 		mp.put("zcp.transactionhistory.title","Transaction History");
+			                 		//Approval Setup
+			                 		mp.put("zcp.approvalsetuppage.title","Approval Setup");
+			                 		mp.put("zcp.approvalsetup.employee-manager","Employee/Manager");
+			                 		mp.put("zcp.approvalsetup.procurer","Procurer");
+			                 		mp.put("zcp.approvalsetup.finance","Finance");
+			                 		mp.put("zcp.approvalsetup.purchaserequest","Purchase Request");
+			                 		mp.put("zcp.approvalsetup.purchaseorder","Purchase Order");
+			                 		mp.put("zcp.approvalsetup.payment","Payment");
+			                 		mp.put("zcp.project.projectmanagement.approval","Approval");
+			                 		//Procurement summary
+			                 		mp.put("zcp.procurementsummary.title","Procurement Summary");
+			                 		mp.put("zcp.procurementsummary.createbidding","Create Bidding");
+			                 		mp.put("zcp.procurementsummary.endbidding","End Bidding");
+			                 		mp.put("zcp.procurementsummary.startbidding","Start Bidding");
+			                 		mp.put("zcp.procurementsummary.th.product","Product");
+			                 		mp.put("zcp.procurementsummary.th.quantity","Quantity");
+			                 		mp.put("zcp.procurementsummary.th.baseprice","Current Price");
+			                 		mp.put("zcp.procurementsummary.th.valuebasket","Best Price");
+			                 		mp.put("zcp.procurementsummary.moreoptions.selectall","Select All");
+			                 		mp.put("zcp.procurementsummary.moreoptions.deselect","Deselect");
+			                 		mp.put("zcp.procurementsummary.moreoptions.viewquote","View Quote");
+			                 		mp.put("zcp.procurementsummary.moreoptions.revisequote","Revise Quote");
+			                 		mp.put("zcp.procurementsummary.moreoptions.quotehistory","Quote History");
+			                 		mp.put("zcp.procurementsummary.moreoptions.orderhistory","Order History");
+			                 		mp.put("zcp.procurementsummary.moreoptions.profile","Profile");
+			                 		mp.put("zcp.procurementsummary.moreoptions.queries","Q&A");
+			                 		mp.put("zcp.procurementsummary.moreoptions.RFQ_Response","RFQ Response");
+			                 		mp.put("zcp.procurementsummary.switchtonewui","Switch to new UI");
+			                 		mp.put("zcp.procurementsummary.switchtooldui","Switch to old UI");
+			                 		mp.put("zcp.Decline_Reason","Decline Reason");
+			                 		//Quotations
+			                 		mp.put("zcp.quotations.timing","Timing");
+			                 		mp.put("zcp.quotations.quotehistory","Quote History");
+			                 		mp.put("zcp.quotations.biddingrank","Bidding Rank");
+			                 		mp.put("zcp.quotations.vendor","Vendor");
+			                 		mp.put("zcp.quotations.nettotal","Net Total");
+			                 		mp.put("zcp.quotations.savings","Savings");
+			                 		mp.put("zcp.quotations.you","You");
+			                 		mp.put("zcp.quotations.quotationdetails","Quotation Details");
+			                 		mp.put("zcp.quotations.biddingdetail","Bidding Detail");
+			                 		mp.put("zcp.idsetuppage.biddingid","Bidding ID");
+			                 		mp.put("zcp.quotations.rank","Rank");
+			                 		mp.put("zcp.quotations.editquote","Edit Quote");
+			                 		// VMS RFP Process
+			                 		mp.put("zcp.rfpprocess.proposalsummary","Proposal Summary");
+			                 		mp.put("zcp.rfpprocess.addproposalmanually","Add Proposal");
+			                 		mp.put("zcp.rfpprocess.rfpid","RFP ID");
+			                 		mp.put("zcp.rfpprocess.proposalid","Proposal ID");
+			                 		mp.put("zcp.rfpprocess.requesteddate","Requested Date");
+			                 		mp.put("zcp.rfpprocess.duedate","Due Date");
+			                 		mp.put("zcp.rfpprocess.proceedforcontract","Proceed For Contract");
+			                 		// VMS Contracts
+			                 		mp.put("zcp.contracts.contractdetail","Contract Detail");
+			                 		mp.put("zcp.contracts.contractstartdate","Contract Start Date");
+			                 		mp.put("zcp.contracts.contractenddate","Contract End Date");
+			                 		mp.put("zcp.contracts.contractstatus","Contract Status");
+			                 		mp.put("zcp.contracts.acceptedby","Accepted By");
+			                 		mp.put("zcp.contracts.addedby","Added By");
+			                 		mp.put("zcp.contracts.lastrenewalsate","Last Renewal Date");
+			                 		mp.put("zcp.contracts.newstandards","New Standards");
+			                 		mp.put("zcp.contracts.allcontracts","All Contracts");
+			                 		mp.put("zcp.contracts.contractid","Contract ID");
+			                 		mp.put("zcp.contracts.address","Address");
+			                 		mp.put("zcp.contracts.phonenumber","Phone Number");
+			                 		mp.put("zcp.contracts.contactperson","Contact Person");
+			                 		mp.put("zcp.contracts.contactnumber","Contact Number");
+			                 		mp.put("zcp.contracts.project","Project");
+			                 		mp.put("zcp.contracts.description","Description");
+			                 		mp.put("zcp.contracts.expectedenddate","Expected End Date");
+			                 		mp.put("zcp.contracts.budget","Budget");
+			                 		mp.put("zcp.contracts.contractinfo","Contract Info");
+			                 		mp.put("zcp.contracts.renewalid","Renewal ID");
+			                 		mp.put("zcp.contracts.initialagreement","Initial Agreement");
+			                 		mp.put("zcp.contracts.renewedagreement","Renewed Agreement");
+			                 		mp.put("zcp.contracts.agreement","Agreement");
+			                 		mp.put("zcp.contracts.businessname","Business Name");
+			                 		// VMS Product Approval		
+			                 		mp.put("zcp.productapproval.requestedby","Requested By");
+			                 		mp.put("zcp.productapproval.approvalpendingby","Approval Pending By");
+			                 		mp.put("zcp.productapproval.productapproval","Product Approval");
+			                 		// My Catalogue		
+			                 		mp.put("zcp.mycatalogue.productcatalogue","Product Catalogue");
+			                 		// VMS Dashboard
+			                 		mp.put("zcp.vmsdashboard.registeredvendors","Registered Vendors");
+			                 		mp.put("zcp.vmsdashboard.rfis","RFIs");
+			                 		mp.put("zcp.vmsdashboard.rfps","RFPs");
+			                 		mp.put("zcp.vmsdashboard.rfp","RFP");
+			                 		mp.put("zcp.vmsdashboard.completedorders","Completed Orders");
+			                 		mp.put("zcp.vmsdashboard.combinedshape","Combined Shape");
+			                 		mp.put("zcp.vmsdashboard.screenedvendors","Screened Vendors");
+			                 		mp.put("zcp.vmsdashboard.vendorratings","Vendor Ratings");
+			                 		mp.put("zcp.vmsdashboard.registered","Registered");
+			                 		mp.put("zcp.vmsdashboard.rfirequested","RFI Requested");
+			                 		mp.put("zcp.vmsdashboard.verified","Verified");
+			                 		mp.put("zcp.vmsdashboard.onboarded","Onboarded");
+			                 		mp.put("zcp.vmsdashboard.totalspend","Total Spend");
+			                 		mp.put("zcp.vmsdashboard.vendorstatistics","Vendor Statistics");
+			                 		mp.put("zcp.vmsdashboard.topvendors","Top Vendors");
+			                 		mp.put("zcp.vmsdashboard.contractrenewal","Contract Renewals");
+			                 		// VMS RFI Admin
+			                 		mp.put("zcp.screening.rfi","Request For Information");
+			                 		mp.put("zcp.rfiadmin.detailview.summary","Summary");
+			                 		mp.put("zcp.rfiadmin.detailview.rating","Rating");
+			                 		mp.put("zcp.rfiadmin.detailview.rfiid","RFI ID");
+			                 		mp.put("zcp.rfiadmin.detailview.rfi","RFI");
+			                 		mp.put("zcp.rfiadmin.detailview.establishmentdate","Establishment Date");
+			                 		mp.put("zcp.rfiadmin.detailview.businesstype","Business Type");
+			                 		mp.put("zcp.rfiadmin.detailview.marketpresence","Market Presence");
+			                 		mp.put("zcp.rfiadmin.detailview.expecteddate","Expected Date");
+			                 		mp.put("zcp.rfiadmin.detailview.productcategories","Product Category(s)");
+			                 		mp.put("zcp.rfiadmin.detailview.name","Name");
+			                 		mp.put("zcp.rfiadmin.detailview.description","Description");
+			                 		mp.put("zcp.rfiadmin.detailview.vendortimeliene","Vendor Timeline");
+			                 		mp.put("zcp.rfiadmin.detailview.vendor","Vendor");
+			                 		mp.put("zcp.rfiadmin.detailview.screening.viewscore","View Score");
+			                 		// VMS Ratings
+			                 		mp.put("zcp.screening.evaluation","Evaluation");
+			                 		// VMS Registration Page
+			                 		mp.put("zcp.vmsregistration.detailview.logo","Logo");
+			                 		// VMS Ratings Page
+			                 		mp.put("zcp.vmsrating.detailview.onboard","Onboard");
+			                 		// VMS RFI Vendor Page
+			                 		mp.put("zcp.rfivendor.detailview.basicdetail","Basic Detail");
+			                 		mp.put("zcp.rfivendor.detailview.edit","Edit");
+			                 		mp.put("zcp.rfivendor.detailview.rfidetail","RFI Detail");
+			                 		mp.put("zcp.rfivendor.detailview.attachments","Attachments");
+			                 		// VMS RFP Process Page
+			                 		mp.put("zcp.rfpadmin.detailview.summary","RFP Summary");
+			                 		mp.put("zcp.rfpadmin.detailview.vendordetail","Vendor Details");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpdocuments","RFP Document(s)");
+			                 		mp.put("zcp.rfpadmin.detailview.projectdetails","Project Details");
+			                 		mp.put("zcp.rfpadmin.detailview.proposal","Proposal");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpdetails","RFP Details");
+			                 		mp.put("zcp.rfpadmin.detailview.proposalduedate","Proposal Due Date");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpsendto","RFP Send To");
+			                 		mp.put("zcp.rfpadmin.detailview.rfpoverview","RFP Overview");
+			                 		mp.put("zcp.rfpadmin.detailview.contractperiod","Contract Period");
+			                 		mp.put("zcp.rfpadmin.detailview.viewdetail.button","View Detail");
+			                 		mp.put("zcp.rfpadmin.detailview.viewdocument.button","View Documents");
+			                 		mp.put("zcp.rfpadmin.detailview.requesteddocuments","Requested Documents");
+			                 		mp.put("zcp.rfpadmin.detailview.purposeofrfp","Purpose of RFP");
+			                 		mp.put("zcp.rfpadmin.detailview.proposaldocument","Proposal Document");
+			                 		mp.put("zcp.rfpadmin.detailview.receivedproposals","Received Proposals");
+			                 		mp.put("zcp.rfpadmin.detailview.yettoreceive","Yet To Receive");
+			                 		// VMS RFP Page
+			                 		mp.put("zcp.rfp.detailview.proposals","Proposal(s)");
+			                 		// VMS Vendors_VMS Page
+			                 		mp.put("zcp.vendor.vendor","Vendors");
+			                 		// VMS Preference
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate.default","Default");
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate.setasdefault","Set As Default");
+			                 		mp.put("zcp.setup.vendorpreferences.contracttemplate","Contract Template");
+			                 		// VMS Products
+			                 		mp.put("zcp.products.product.title","Products");
+			                 		mp.put("zcp.products.pendingproducts.topbar","Pending Products");
+			                 		mp.put("zcp.products.activeproducts.topbar","Active Products");
+			                 		mp.put("zcp.products.inactiveproducts.topbar","Inactive Products");
+			                 		mp.put("zcp.products.totalproducts.topbar","Total Products");
+			                 		mp.put("zcp.product.productmaster","Product Master");
+			                 		// 	VMS Vendor Dashboard
+			                 		mp.put("zcp.vmsdash.vendorrisk","Vendor Risk");
+			                 		// VMS Order Tracking
+			                 		mp.put("zcp.ordertracking.riskassessment","Risk Assessment");
+			                 		mp.put("zcp.ordertracking.riskparameters","Risk Parameters");
+			                 		mp.put("zcp.ordertracking.risklevel","Risk Level");
+			                 		mp.put("zcp.ordertracking.score","Score");
+			                 		// VMS ID Configuration
+			                 		mp.put("zcp.idconfig.registration","Registration Number");
+			                 		mp.put("zcp.idconfig.rfi","RFI ID");
+			                 		mp.put("zcp.idconfig.rfp","RFP ID");
+			                 		mp.put("zcp.idconfig.productid","Product ID");
+			                 		mp.put("zcp.idconfig.contractnumber","Contract Number");
+			                 		mp.put("zcp.idconfig.riskid","Risk ID");
+			                 		mp.put("zcp.idconfig.performancemetrics","Performance Metrics ID");
+			                 		mp.put("zcp.idconfig.proposalid","Proposal ID");
+			                 		mp.put("zcp.idconfig.contractrenewalid","Contract Renewal ID");
+			                 	}
+			                 	return mp;
+			                 
+			
+}

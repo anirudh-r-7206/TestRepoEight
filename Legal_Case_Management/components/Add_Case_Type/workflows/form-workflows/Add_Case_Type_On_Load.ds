@@ -1,0 +1,17 @@
+Add_Case_Type_On_Load as "Add Case Type On Load"
+{
+
+			    type = form
+			    form = Add_Case_Type
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Case_Type_ID;
+			            disable Case_Type_ID;
+			        }
+			    }
+			
+}

@@ -1,0 +1,46 @@
+Add_Deadline_On_Success as "Add Deadline On Success"
+{
+
+			    type = form
+			    form = Add_Deadline
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Related_Task == null && input.Deadline_Status != "Cancelled")
+			                {
+			                    taskId = insert into Add_Case_Task
+			                    [
+			                        Case = input.Case
+			                        Task_Title = "Deadline: " + input.Deadline_Type
+			                        Task_Type = "Court Preparation"
+			                        Assigned_To = input.Responsible_Attorney
+			                        Priority = input.Priority
+			                        Due_Date = input.Deadline_Date
+			                        Task_Status = "Open"
+			                        Description = input.Notes
+			                    ];
+			                    deadlineRec = Add_Deadline[ID == input.ID];
+			                    if(deadlineRec.count() > 0)
+			                    {
+			                        deadlineRec.Related_Task = taskId;
+			                    }
+			                }
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Deadline Updated"
+			                    Summary = "Deadline " + input.Deadline_Status + ": " + input.Deadline_Type + " due " + input.Deadline_Date
+			                    Changed_By = input.Responsible_Attorney
+			                    Source_Record_ID = input.ID
+			                ];
+			            )
+			        }
+			    }
+			
+}

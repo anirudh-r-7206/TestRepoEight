@@ -1,0 +1,13 @@
+int searchKeyCount(string content, string target, int count)
+{
+
+			
+			                 	if(content.contains(target))
+			                 	{
+			                 		content = content.getsuffix(target);
+			                 		return thisapp.searchKeyCount(content,target,count + 1);
+			                 	}
+			                 	return count;
+			                 
+			
+}

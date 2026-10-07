@@ -1,0 +1,26 @@
+On_Load_Scripts as "On-Load Scripts"
+{
+
+			
+							type =  form
+							form = Add_Preference
+			
+							record event = on add or edit
+			
+							on load
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														style = thisapp.decisionBoxStyle.getDecisionBoxToggleBtnStyle("All","","#6147e5","#dddddd");
+													style = style + "<style>.zc-footer-wrapper { display: none; }</style>";
+													input.plain = style;
+													input.Logo_Preview = thisapp.styles.LogoPreviewer();
+									)
+								}
+							}
+			
+						
+			
+}

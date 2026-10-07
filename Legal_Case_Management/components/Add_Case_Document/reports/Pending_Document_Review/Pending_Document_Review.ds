@@ -1,0 +1,32 @@
+list Pending_Document_Review
+{
+
+		    displayName = "Pending Document Review"
+		    show all rows from Add_Case_Document [Review_Required == true && Document_Status == "Under Review"]
+		    (
+		        Case
+		        Document_Type
+		        Document_Title
+		        Version_Number
+		        Document_Status
+		        Confidentiality_Level
+		        Review_Required
+		        Review_Due_Date
+		        Reviewed_By
+		        Visible_To_Client
+		        Document_Date
+		    )
+		    filters
+		    (
+		        Case
+		        Document_Type
+		        Document_Status
+		        Confidentiality_Level
+		        Visible_To_Client
+		    )
+		    sort by
+		    (
+		        Review_Due_Date ascending
+		    )
+		
+}

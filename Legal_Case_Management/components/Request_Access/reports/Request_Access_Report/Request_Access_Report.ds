@@ -1,0 +1,15 @@
+default list Request_Access_Report
+{
+
+		
+					displayName = "Request_Access Report"
+					show all rows from Request_Access    
+					(
+						Access_Type as " Access_Type "
+						Requester_Email
+						IsOnSuccessCodeExecuted
+						Action_Type
+					)
+				
+		
+}

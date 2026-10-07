@@ -1,0 +1,46 @@
+Add_Invoice_Action_Action_Type_On_User_Input as "Action Type On User Input"
+{
+
+			    type = form
+			    form = Add_Invoice_Action
+			    record event = on add or edit
+			
+			    on user input of Action_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Action_Type == "Submit for Review")
+			                {
+			                    input.To_Status = "Submitted for Review";
+			                }
+			                else if(input.Action_Type == "Approve Invoice")
+			                {
+			                    input.To_Status = "Approved";
+			                }
+			                else if(input.Action_Type == "Send Invoice")
+			                {
+			                    input.To_Status = "Sent";
+			                }
+			                else if(input.Action_Type == "Mark Partially Paid")
+			                {
+			                    input.To_Status = "Partially Paid";
+			                }
+			                else if(input.Action_Type == "Mark Paid")
+			                {
+			                    input.To_Status = "Paid";
+			                }
+			                else if(input.Action_Type == "Cancel Invoice")
+			                {
+			                    input.To_Status = "Cancelled";
+			                }
+			                else if(input.Action_Type == "Reopen Invoice")
+			                {
+			                    input.To_Status = "Draft";
+			                }
+			            )
+			        }
+			    }
+			
+}

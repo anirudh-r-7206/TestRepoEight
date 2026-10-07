@@ -1,0 +1,35 @@
+void SendActionEmail(string emailFor, int recID, string email, int role)
+{
+
+			
+			                 	fetchTemplate = Create_Template[Email_For == emailFor && Active == true];
+			                 	if(thisapp.isNotificationEnabled("Email") && fetchTemplate.count() != null && input.recID != null)
+			                 	{
+			                 		vendorID = null;
+			                 		invoiceID = null;
+			                 		invoiceID1 = null;
+			                 		emailList = "";
+			                 		if(emailFor in {"Transfer Request Initiation","Transfer Request Approval","Transfer Request Rejection"})
+			                 		{
+			                 			vendorID = Add_Preference[ID == input.recID].ID;
+			                 		}
+			                 		content = thisapp.modifyMemoContent(fetchTemplate.ID,vendorID,invoiceID,invoiceID1);
+			                 		if(email != "")
+			                 		{
+			                 			emailList = email;
+			                 		}
+			                 		else if(role != null)
+			                 		{
+			                 			emailList = Add_Employee[Role == input.role].Email.getAll().toString();
+			                 		}
+			                 		sendmail
+			                 		[
+			                 			from :zoho.adminuserid
+			                 			to :emailList
+			                 			subject :content.get("subj")
+			                 			message :content.get("content")
+			                 		]
+			                 	}
+			                 
+			
+}

@@ -1,0 +1,30 @@
+list Unapproved_Expenses
+{
+
+		    displayName = "Unapproved Expenses"
+		    show all rows from Add_Expense_Entry [Approval_Status == "Draft" || Approval_Status == "Submitted"]
+		    (
+		        Case
+		        Employee
+		        Expense_Date
+		        Expense_Category
+		        Vendor
+		        Amount
+		        Billable
+		        Approval_Status
+		        Invoice
+		    )
+		    filters
+		    (
+		        Case
+		        Employee
+		        Expense_Category
+		        Billable
+		        Approval_Status
+		    )
+		    sort by
+		    (
+		        Expense_Date descending
+		    )
+		
+}

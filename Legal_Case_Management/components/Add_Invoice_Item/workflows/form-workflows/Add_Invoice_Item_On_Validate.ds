@@ -1,0 +1,57 @@
+Add_Invoice_Item_On_Validate as "Add Invoice Item On Validate"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Source_Type == "Time Entry")
+			                {
+			                    if(input.Time_Entry == null)
+			                    {
+			                        alert "Time Entry is required for a time-entry invoice line.";
+			                        cancel submit;
+			                    }
+			                    else
+			                    {
+			                        te = Add_Time_Entry[ID == input.Time_Entry];
+			                        if(te.count() > 0 && te.Invoice != null && te.Invoice != input.Invoice)
+			                        {
+			                            alert "This time entry is already linked to another invoice.";
+			                            cancel submit;
+			                        }
+			                    }
+			                }
+			                if(input.Source_Type == "Expense Entry")
+			                {
+			                    if(input.Expense_Entry == null)
+			                    {
+			                        alert "Expense Entry is required for an expense invoice line.";
+			                        cancel submit;
+			                    }
+			                    else
+			                    {
+			                        exp = Add_Expense_Entry[ID == input.Expense_Entry];
+			                        if(exp.count() > 0 && exp.Invoice != null && exp.Invoice != input.Invoice)
+			                        {
+			                            alert "This expense entry is already linked to another invoice.";
+			                            cancel submit;
+			                        }
+			                    }
+			                }
+			                if(input.Source_Type != "Adjustment" && ifnull(input.Quantity,0) <= 0)
+			                {
+			                    alert "Quantity must be greater than zero.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

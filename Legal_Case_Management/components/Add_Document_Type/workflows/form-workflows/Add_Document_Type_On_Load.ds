@@ -1,0 +1,17 @@
+Add_Document_Type_On_Load as "Add Document Type On Load"
+{
+
+			    type = form
+			    form = Add_Document_Type
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Document_Type_ID;
+			            disable Document_Type_ID;
+			        }
+			    }
+			
+}

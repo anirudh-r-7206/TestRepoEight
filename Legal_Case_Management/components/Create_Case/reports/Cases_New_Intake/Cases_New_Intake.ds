@@ -1,0 +1,33 @@
+list Cases_New_Intake
+{
+
+		    displayName = "Cases New Intake"
+		    show all rows from Create_Case [Case_Status == "New Intake"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		        Limitation_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

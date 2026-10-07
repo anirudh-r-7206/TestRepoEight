@@ -1,0 +1,20 @@
+bool isNotificationEnabled(string type)
+{
+
+			
+			                 	fetchPreference = Add_Preference[ID != null];
+			                 	if(fetchPreference.count() != 0)
+			                 	{
+			                 		if(type == "Email")
+			                 		{
+			                 			return fetchPreference.Email_Notification;
+			                 		}
+			                 		else if(type == "App")
+			                 		{
+			                 			return fetchPreference.App_Notification;
+			                 		}
+			                 	}
+			                 	return false;
+			                 
+			
+}

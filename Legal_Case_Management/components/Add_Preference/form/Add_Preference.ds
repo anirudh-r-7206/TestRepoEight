@@ -1,0 +1,100 @@
+form Add_Preference
+{
+
+		
+					displayname = "Add Preference"
+					success message = "Preference Added Successfully"
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					Organization_Logo
+					(
+		    			type = image
+						displayname = "Organization Logo"
+						source  = file
+						aspect ratio = original
+						camera = primary
+						show gallery = true
+						switch camera = true
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Email_Notification
+					(
+		    			type = checkbox
+						displayname = "Email Notification"
+						initial value = false
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					App_Notification
+					(
+		    			type = checkbox
+						displayname = "App Notification"
+						initial value = false
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					plain
+					(
+		    			type = plaintext
+						value = "<div> <br /></div>"
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Logo_Preview
+					(
+		    			type = plaintext
+						value = "<div> <br /></div>"
+			 			row = 1
+			 			column = 2   
+						width = medium
+					)
+			
+					actions
+					{
+						on add
+						{
+							submit
+							(
+		   						type = submit
+		   						displayname = "Add"
+							)
+							reset
+							(
+		   						type = reset
+		   						displayname = "Reset"
+							)
+						}
+						on edit
+						{
+							update
+							(
+		   						type = submit
+		   						displayname = "Update"
+							)
+							cancel
+							(
+		   						type = cancel
+		   						displayname = "Cancel"
+							)
+						}
+					}
+				properties
+				{
+					total entries
+					{
+						allowed count = 7
+					}
+				}
+				
+		
+}

@@ -1,0 +1,35 @@
+Add_Filing_On_Success as "Add Filing On Success"
+{
+
+			    type = form
+			    form = Add_Filing
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Document != null && input.Filing_Status in {"Filed","Accepted","Served"})
+			                {
+			                    docRec = Add_Case_Document[ID == input.Document];
+			                    if(docRec.count() > 0)
+			                    {
+			                        docRec.Document_Status = "Filed";
+			                    }
+			                }
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Filing Added"
+			                    Summary = "Filing saved: " + input.Filing_Title + " (" + input.Filing_Status + ")"
+			                    Changed_By = input.Filed_By
+			                    Source_Record_ID = input.ID
+			                ];
+			            )
+			        }
+			    }
+			
+}

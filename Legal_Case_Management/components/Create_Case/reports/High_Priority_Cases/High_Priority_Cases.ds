@@ -1,0 +1,37 @@
+list High_Priority_Cases
+{
+
+		    displayName = "High Priority Cases"
+		    show all rows from Create_Case [(Priority == "High" || Priority == "Critical") && Case_Status != "Closed" && Case_Status != "Archived" && Case_Status != "Rejected"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Conflict_Status
+		        Engagement_Status
+		        Billing_Status
+		        Case_Status
+		        Limitation_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

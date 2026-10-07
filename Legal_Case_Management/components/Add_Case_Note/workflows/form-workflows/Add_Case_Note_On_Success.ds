@@ -1,0 +1,52 @@
+Add_Case_Note_On_Success as "Add Case Note On Success"
+{
+
+			    type = form
+			    form = Add_Case_Note
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Note Added"
+			                    Summary = input.Note_Type + ": " + input.Subject
+			                    Changed_By = input.Created_By
+			                    Source_Record_ID = input.ID
+			                    Visible_To_Client = input.Visible_To_Client
+			                ];
+			                if(input.Follow_Up_Required == true && input.Follow_Up_Date != null)
+			                {
+			                    ownerEmp = input.Created_By;
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(ownerEmp == null && caseRec.count() > 0)
+			                    {
+			                        ownerEmp = caseRec.Matter_Manager;
+			                    }
+			                    if(ownerEmp != null)
+			                    {
+			                        insert into Add_Case_Task
+			                        [
+			                            Case = input.Case
+			                            Task_Title = "Follow up: " + input.Subject
+			                            Task_Type = "Client Follow-up"
+			                            Assigned_To = ownerEmp
+			                            Priority = "Medium"
+			                            Due_Date = input.Follow_Up_Date
+			                            Task_Status = "Open"
+			                            Description = input.Note_Body
+			                            Client_Visible = input.Visible_To_Client
+			                        ];
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

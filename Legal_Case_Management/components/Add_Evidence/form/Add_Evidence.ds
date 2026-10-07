@@ -1,0 +1,172 @@
+form Add_Evidence
+{
+
+		    displayname = "Add Evidence"
+		    success message = "Evidence saved successfully"
+		
+		    Evidence_Details
+		    (
+		        type = section
+		        displayname = "Evidence Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Evidence_Title
+		    (
+		        type = text
+		        displayname = "Evidence Title"
+		        maxchar = 200
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Evidence_Type
+		    (
+		        type = picklist
+		        displayname = "Evidence Type"
+		        values = {"Document","Photo","Video","Audio","Physical","Digital","Witness Statement","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Source
+		    (
+		        type = text
+		        displayname = "Source"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Custodian
+		    (
+		        type = text
+		        displayname = "Custodian"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Collected_On
+		    (
+		        type = date
+		        displayname = "Collected On"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Chain_Of_Custody
+		    (
+		        type = textarea
+		        displayname = "Chain Of Custody"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Evidence_File
+		    (
+		        type = upload file
+		        displayname = "Evidence File"
+		        file count = 10
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Review_Status
+		    (
+		        type = section
+		        displayname = "Review Status"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Admissibility_Status
+		    (
+		        type = picklist
+		        displayname = "Admissibility Status"
+		        values = {"Collected","Under Review","Admitted","Rejected","Archived"}
+		        initial value = "Collected"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Confidentiality_Level
+		    (
+		        type = picklist
+		        displayname = "Confidentiality Level"
+		        values = {"Standard","Restricted","Highly Confidential"}
+		        initial value = "Restricted"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Evidence_ID
+		    (
+		        type = autonumber
+		        displayname = "Evidence ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Evidence"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Evidence"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

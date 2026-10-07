@@ -1,0 +1,29 @@
+default list All_Invoice_Items
+{
+
+		    displayName = "All Invoice Items"
+		    show all rows from Add_Invoice_Item
+		    (
+		        Invoice
+		        Case
+		        Source_Type
+		        Description
+		        Quantity
+		        Rate
+		        Amount
+		        Taxable
+		        Line_Status
+		    )
+		    filters
+		    (
+		        Invoice
+		        Case
+		        Source_Type
+		        Line_Status
+		    )
+		    sort by
+		    (
+		        Source_Type ascending
+		    )
+		
+}

@@ -1,0 +1,16 @@
+report Pending_Engagement_Letters
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Client Fee_Schedule Retainer_Required Letter_Status Sent_On ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Client Fee_Schedule Retainer_Required Retainer_Amount Letter_Status Sent_On Signed_On ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

@@ -1,0 +1,28 @@
+list Evidence_Under_Review
+{
+
+		    displayName = "Evidence Under Review"
+		    show all rows from Add_Evidence [Admissibility_Status == "Under Review"]
+		    (
+		        Case
+		        Evidence_Title
+		        Evidence_Type
+		        Source
+		        Custodian
+		        Collected_On
+		        Admissibility_Status
+		        Confidentiality_Level
+		    )
+		    filters
+		    (
+		        Case
+		        Evidence_Type
+		        Admissibility_Status
+		        Confidentiality_Level
+		    )
+		    sort by
+		    (
+		        Collected_On descending
+		    )
+		
+}

@@ -1,0 +1,30 @@
+list Unbilled_Expenses
+{
+
+		    displayName = "Unbilled Expenses"
+		    show all rows from Add_Expense_Entry [Billable == true && Approval_Status == "Approved" && Invoice is null]
+		    (
+		        Case
+		        Employee
+		        Expense_Date
+		        Expense_Category
+		        Vendor
+		        Amount
+		        Billable
+		        Approval_Status
+		        Invoice
+		    )
+		    filters
+		    (
+		        Case
+		        Employee
+		        Expense_Category
+		        Billable
+		        Approval_Status
+		    )
+		    sort by
+		    (
+		        Expense_Date descending
+		    )
+		
+}

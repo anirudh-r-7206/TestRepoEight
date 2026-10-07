@@ -1,0 +1,172 @@
+form Add_Client
+{
+
+		    displayname = "Add Client"
+		    success message = "Client added successfully"
+		
+		    Client_Details
+		    (
+		        type = section
+		        displayname = "Client Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Client_Type
+		    (
+		        type = picklist
+		        displayname = "Client Type"
+		        values = {"Individual","Company","Government","Non-Profit","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have unique Client_Name
+		    (
+		        type = text
+		        displayname = "Client Name"
+		        maxchar = 150
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Industry
+		    (
+		        type = text
+		        displayname = "Industry"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Client_Status
+		    (
+		        type = picklist
+		        displayname = "Client Status"
+		        values = {"Active","On Hold","Inactive","Blacklisted"}
+		        initial value = "Active"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    Contact_Billing
+		    (
+		        type = section
+		        displayname = "Contact Billing"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Primary_Email
+		    (
+		        type = email
+		        displayname = "Primary Email"
+		        personal data = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Primary_Phone
+		    (
+		        type = phonenumber
+		        displayname = "Primary Phone"
+		        personal data = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Billing_Address
+		    (
+		        type = textarea
+		        displayname = "Billing Address"
+		        height = 100px
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Tax_ID
+		    (
+		        type = text
+		        displayname = "Tax ID"
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Relationship_Manager
+		    (
+		        type = picklist
+		        displayname = "Relationship Manager"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        height = 120px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		
+		    System_Status
+		    (
+		        type = section
+		        displayname = "System Status"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Client_ID
+		    (
+		        type = autonumber
+		        displayname = "Client ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Conflict_Flag
+		    (
+		        type = checkbox
+		        displayname = "Conflict Flag"
+		        initial value = false
+		        row = 3
+		        column = 2
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Add"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

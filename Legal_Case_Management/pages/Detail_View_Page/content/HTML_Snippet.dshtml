@@ -1,0 +1,123 @@
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+		border: none;
+		box-sizing: border-box;
+	}
+	:root {
+		--theme-clr: #e6000e;
+		--bgclr: #ffffff;
+		--secondary-clr: #000000;
+		--stoke-clr:#ebebeb;
+	}
+	.zc-content-loader div {
+	 display: none !important;
+	}
+	div#zppagesLive,
+	div#elementsContainer,
+	.Layout.elemContainment,
+	div#row_1,
+	.zc-pb-formreport-placeholder {
+		height: 100% !important;
+	}
+	div::-webkit-scrollbar 
+	{
+		display: none;
+	}
+	div
+	{
+		-ms-overflow-style: none;  
+		scrollbar-width: none;  
+	}
+	.Layout.elemContainment {
+		padding: unset !important;
+	}
+	.zc-pb-page-content-wrapper .elemContainment {
+		 padding: unset !important; 
+	}
+	.column-container .zc-pb-tile-container {
+		 padding: unset !important; 
+	}
+	.zpcontent-wrapper div.zpelement-wrapper {
+		height: 100% !important;
+	}
+	.zpcontent-wrapper div.zpelement-wrapper {
+		height: 100% !important;
+	}
+	.zc_live_adminbar .zc-container-wrapper
+	{
+		height:100% !important;
+	}
+	.zc-pb-tile-card::-webkit-scrollbar {
+		display: none !important;
+	}
+	.popupbox {
+		width: 90%;
+		height: 80%;
+	}
+	.detailMainDiv {
+		width: 100%;
+		height: 100%;
+		display: flex;
+	}
+	.noDetailDiv {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+		font-weight: 600;
+		color: #626262;
+	}
+	.fa-question-circle:before {
+		display: none !important;
+	}
+	.confirmMsg {
+		padding: unset !important;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: center;
+	}
+	.confirmMsg i.fa-question-circle {
+		background: url("https://static.zohocdn.com/creator/app/images/modern-theme-sprite.28e891f10dc0555a20482177e1b8a9e7.svg") no-repeat;
+		background-position: -9px -1660px;
+		width: 100px;
+		height: 100px;
+		margin: 0 auto 8px;
+	}
+	.confirmMsg #zc-dialog-label {
+		margin: unset !important;
+		padding: unset;
+	}
+	.detailIframe {
+		width: 100%;
+		height: 100%;
+		border: 1px solid #e7e7ee !important;
+		border-radius: 16px;
+		overflow: hidden;
+	}
+</style>
+<div class="detailMainDiv">
+<%
+	if(input.reportName != "" && input.recID != null)
+	{
+		%>
+<iframe class="detailIframe" src='<%=zoho.appuri%>record-summary/<%=input.reportName%>/<%=input.recID%>/' ></iframe>
+<%
+	}
+	else
+	{
+		%>
+<div class="noDetailDiv">
+	<div class="confirmMsg">
+		<i class="fa fa-question-circle"></i>	
+		<p id="zc-dialog-label">No Details</p>
+	</div>
+</div>
+<%
+	}
+	%>
+</div>

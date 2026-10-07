@@ -1,0 +1,27 @@
+Add_Case_Note_On_Load as "Add Case Note On Load"
+{
+
+			    type = form
+			    form = Add_Case_Note
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Note_ID;
+			            disable Note_ID, Communication_DateTime;
+			        }
+			        actions (Follow_Up_Required == true)
+			        {
+			            show Follow_Up_Date;
+			            enable Follow_Up_Date;
+			        }
+			        actions (Follow_Up_Required == false)
+			        {
+			            hide Follow_Up_Date;
+			            disable Follow_Up_Date;
+			        }
+			    }
+			
+}

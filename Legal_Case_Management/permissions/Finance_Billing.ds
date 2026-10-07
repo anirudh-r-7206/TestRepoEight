@@ -1,0 +1,44 @@
+"Finance_Billing"
+{
+
+	    name = "Finance_Billing"
+	    type = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Billing operations access for time, expenses, invoices, payments, reconciliations, and billing approvals."
+	    ModulePermissions
+	    {
+	        Add_Employee { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Employees={"View"} } }
+	        Add_Role { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Roles={"View"} } }
+	        Add_Client { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Clients={"View"} Active_Clients={"View"} Client_Risk_List={"View"} } }
+	        Add_Client_Contact { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Client_Contacts={"View"} Active_Client_Contacts={"View"} } }
+	        Add_Court { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Courts={"View"} Active_Courts={"View"} } }
+	        Add_Practice_Area { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Practice_Areas={"View"} Active_Practice_Areas={"View"} } }
+	        Add_Case_Type { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Case_Types={"View"} Active_Case_Types={"View"} } }
+	        Add_Document_Type { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Document_Types={"View"} Active_Document_Types={"View"} } }
+	        Add_Fee_Schedule { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Fee_Schedules={"View"} } }
+	        Create_Case { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { all_cases={"View"} Active_Legal_Matters={"View"} Cases_Billing_Review={"View"} Cases_Closed={"View"} } }
+	        Add_Case_Action { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Case_Actions={"View"} } }
+	        Add_Case_History { enabled = Create,Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Case_History={"View"} Client_Visible_History={"View"} } }
+	        Add_Case_Party { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Case_Parties={"View"} Opposing_Parties={"View"} } }
+	        Add_Conflict_Check { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = false ReportPermissions { All_Conflict_Checks={"View"} } FieldPermissions { Conflict_Summary{visibility:false} Waiver_Document{visibility:false} Notes{visibility:false} Case{visibility:true,readonly:true} Client{visibility:true,readonly:true} Decision{visibility:true,readonly:true} Approval_Status{visibility:true,readonly:true} } }
+	        Add_Engagement_Letter { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Engagement_Letters={"View"} Pending_Engagement_Letters={"View"} Signed_Engagement_Letters={"View"} } }
+	        Add_Case_Document { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = false ReportPermissions { Client_Visible_Documents={"View"} } FieldPermissions { Case{visibility:true,readonly:true} Document_Title{visibility:true,readonly:true} Document_Status{visibility:true,readonly:true} Visible_To_Client{visibility:true,readonly:true} Confidentiality_Level{visibility:false} Document_File{visibility:false} Notes{visibility:false} } }
+	        Add_Filing { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Filings={"View"} Due_Filings={"View"} Filed_Filings={"View"} } }
+	        Add_Hearing { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Hearings={"View"} Upcoming_Hearings={"View"} Hearings_Today={"View"} Completed_Hearings={"View"} Case_Hearing_Calendar={"View"} } }
+	        Add_Case_Task { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Case_Tasks={"View"} Open_Case_Tasks={"View"} Overdue_Case_Tasks={"View"} Completed_Case_Tasks={"View"} } }
+	        Add_Deadline { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Deadlines={"View"} Upcoming_Deadlines={"View"} Missed_Deadlines={"View"} } }
+	        Add_Case_Note { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = false ReportPermissions { Follow_Up_Notes={"View"} } FieldPermissions { Case{visibility:true,readonly:true} Note_Type{visibility:true,readonly:true} Subject{visibility:true,readonly:true} Visible_To_Client{visibility:true,readonly:true} Note_Body{visibility:false} } }
+	        Add_Evidence { enabled = Viewall,Tab,View,Search,read_comm allFieldsVisible = false ReportPermissions { Evidence_Under_Review={"View"} } FieldPermissions { Case{visibility:true,readonly:true} Evidence_Title{visibility:true,readonly:true} Admissibility_Status{visibility:true,readonly:true} Confidentiality_Level{visibility:false} Chain_Of_Custody{visibility:false} Evidence_File{visibility:false} Notes{visibility:false} } }
+	        Add_Settlement_Offer { enabled = Viewall,Export,Tab,View,Search,read_comm allFieldsVisible = true ReportPermissions { All_Settlement_Offers={"View"} Pending_Settlement_Offers={"View"} Accepted_Settlements={"View"} } }
+	        Add_Time_Entry { enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { All_Time_Entries={"View","Edit"} Unapproved_Time_Entries={"View","Edit"} Approved_Time_Entries={"View","Edit"} Unbilled_Time_Entries={"View","Edit"} } }
+	        Add_Expense_Entry { enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { All_Expense_Entries={"View","Edit"} Unapproved_Expenses={"View","Edit"} Unbilled_Expenses={"View","Edit"} } }
+	        Create_Invoice { enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { all_invoices={"View","Edit"} Draft_Invoices={"View","Edit"} Invoices_For_Approval={"View","Edit"} Sent_Invoices={"View","Edit"} Overdue_Invoices={"View","Edit"} Paid_Invoices={"View","Edit"} } }
+	        Add_Invoice_Item { enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { All_Invoice_Items={"View","Edit","Delete"} } }
+	        Add_Payment { enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { All_Payments={"View","Edit"} Payments_By_Client={"View","Edit"} } }
+	        Add_Invoice_Action { enabled = Create,Viewall,Modifyall,Export,Tab,View,Edit,Search,read_comm,write_comm allFieldsVisible = true ReportPermissions { All_Invoice_Actions={"View","Edit"} } }
+	        Legal_Dashboard { enabled = tab }
+	        Billing_Workspace { enabled = tab }
+	        Billing_Detail { enabled = tab }
+	    }
+	
+}

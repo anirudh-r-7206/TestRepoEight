@@ -1,0 +1,16 @@
+report Unapproved_Expenses
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Employee Expense_Date Expense_Category Amount Approval_Status Invoice ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Employee Expense_Date Expense_Category Vendor Amount Billable Approval_Status Invoice ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

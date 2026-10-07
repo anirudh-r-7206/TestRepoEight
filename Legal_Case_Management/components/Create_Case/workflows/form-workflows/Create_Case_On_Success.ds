@@ -1,0 +1,59 @@
+Create_Case_On_Success as "Create Case On Success"
+{
+
+			    type = form
+			    form = Create_Case
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.Opened_On = zoho.currentdate;
+			                insert into Add_Case_History
+			                [
+			                    Case = input.ID
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Case Created"
+			                    Summary = "Matter created and captured in New Intake."
+			                ];
+			                managerEmail = "";
+			                attorneyEmail = "";
+			                if(input.Matter_Manager != null)
+			                {
+			                    managerRec = Add_Employee[ID == input.Matter_Manager];
+			                    if(managerRec.count() > 0)
+			                    {
+			                        managerEmail = ifnull(managerRec.Email,"");
+			                    }
+			                }
+			                if(input.Lead_Attorney != null)
+			                {
+			                    attorneyRec = Add_Employee[ID == input.Lead_Attorney];
+			                    if(attorneyRec.count() > 0)
+			                    {
+			                        attorneyEmail = ifnull(attorneyRec.Email,"");
+			                    }
+			                }
+			                notifyTo = managerEmail;
+			                if(attorneyEmail != "" && attorneyEmail != managerEmail)
+			                {
+			                    notifyTo = notifyTo + "," + attorneyEmail;
+			                }
+			                if(notifyTo != "")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : notifyTo
+			                        subject : "New legal matter created"
+			                        message : "A new matter has been created: " + input.Case_Title
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

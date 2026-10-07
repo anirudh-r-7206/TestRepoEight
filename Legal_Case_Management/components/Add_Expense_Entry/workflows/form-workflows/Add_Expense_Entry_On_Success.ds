@@ -1,0 +1,37 @@
+Add_Expense_Entry_On_Success as "Add Expense Entry On Success"
+{
+
+			    type = form
+			    form = Add_Expense_Entry
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Expense Entry"
+			                    Summary = "Expense " + input.Approval_Status + ": " + input.Expense_Category + " " + input.Amount
+			                    Changed_By = input.Employee
+			                    Source_Record_ID = input.ID
+			                ];
+			                if(input.Approval_Status == "Submitted")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : zoho.adminuserid
+			                        subject : "Expense submitted"
+			                        message : "An expense entry has been submitted for billing review."
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

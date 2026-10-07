@@ -1,0 +1,20 @@
+<page linkname = "Billing_Detail" parameters = "int Invoice_ID" displayname = "Billing Detail"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Billing_Detail_Main' elementName='Billing_Detail_Main'>
+          <![CDATA[htmlpage Billing_Detail_Main()
+						content
+			<%{%>
+            <file name:Billing_Detail_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

@@ -1,0 +1,36 @@
+On_success3 as "On success"
+{
+
+			
+							type =  form
+							form = Add_Approval_Setup
+			
+							record event = on add
+			
+							on success
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														for each  flow in Add_Approval_Setup[ID != input.ID && Approval_Setup_For == input.Approval_Setup_For && Sequence_Order >= input.Sequence_Order]
+													{
+														flow.Sequence_Order=ifnull(flow.Sequence_Order,0) + 1;
+														flow.Previous_Sequence_Number=ifnull(flow.Previous_Sequence_Number,0) + 1;
+													}
+													if(input.Previous_Sequence_Number == null)
+													{
+														input.Previous_Sequence_Number = 0;
+													}
+													if(input.Sequence_Order == null)
+													{
+														input.Sequence_Order = 0;
+													}
+													// openUrl("#Script:page.parent.refresh","parent window");
+									)
+								}
+							}
+			
+						
+			
+}

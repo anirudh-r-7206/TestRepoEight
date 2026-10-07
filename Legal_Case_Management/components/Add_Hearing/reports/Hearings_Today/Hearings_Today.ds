@@ -1,0 +1,29 @@
+list Hearings_Today
+{
+
+		    displayName = "Hearings Today"
+		    show all rows from Add_Hearing [Hearing_DateTime is today]
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_DateTime
+		        Venue
+		        Preparation_Owner
+		        Hearing_Status
+		        Next_Hearing_DateTime
+		    )
+		    filters
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_Status
+		        Preparation_Owner
+		    )
+		    sort by
+		    (
+		        Hearing_DateTime ascending
+		    )
+		
+}

@@ -1,0 +1,33 @@
+Create_Invoice_On_Validate as "Create Invoice On Validate"
+{
+
+			    type = form
+			    form = Create_Invoice
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Invoice_Date != null && input.Due_Date != null && input.Due_Date < input.Invoice_Date)
+			                {
+			                    alert "Due Date cannot be before Invoice Date.";
+			                    cancel submit;
+			                }
+			                if(input.Billing_Period_Start != null && input.Billing_Period_End != null && input.Billing_Period_End < input.Billing_Period_Start)
+			                {
+			                    alert "Billing Period End cannot be before Billing Period Start.";
+			                    cancel submit;
+			                }
+			                if(ifnull(input.Subtotal,0) < 0 || ifnull(input.Tax_Amount,0) < 0 || ifnull(input.Discount_Amount,0) < 0 || ifnull(input.Amount_Paid,0) < 0)
+			                {
+			                    alert "Invoice amounts cannot be negative.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

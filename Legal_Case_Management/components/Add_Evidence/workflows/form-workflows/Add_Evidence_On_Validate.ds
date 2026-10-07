@@ -1,0 +1,28 @@
+Add_Evidence_On_Validate as "Add Evidence On Validate"
+{
+
+			    type = form
+			    form = Add_Evidence
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Admissibility_Status == "Admitted" && input.Evidence_File == null && ifnull(input.Chain_Of_Custody,"") == "")
+			                {
+			                    alert "Evidence File or Chain Of Custody is required before evidence can be admitted.";
+			                    cancel submit;
+			                }
+			                if(input.Admissibility_Status == "Rejected" && ifnull(input.Notes,"") == "")
+			                {
+			                    alert "Notes are required when evidence is rejected.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

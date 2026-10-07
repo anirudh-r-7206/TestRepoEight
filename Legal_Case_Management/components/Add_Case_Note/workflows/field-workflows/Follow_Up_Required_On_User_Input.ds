@@ -1,0 +1,32 @@
+Follow_Up_Required_On_User_Input as "Follow Up Required On User Input"
+{
+
+			    type = form
+			    form = Add_Case_Note
+			    record event = on add or edit
+			
+			    on user input of Follow_Up_Required
+			    {
+			        actions (Follow_Up_Required == true)
+			        {
+			            show Follow_Up_Date;
+			            enable Follow_Up_Date;
+			        }
+			        actions (Follow_Up_Required == false)
+			        {
+			            hide Follow_Up_Date;
+			            disable Follow_Up_Date;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Follow_Up_Required == false)
+			                {
+			                    input.Follow_Up_Date = null;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,31 @@
+Add_Deadline_On_Load as "Add Deadline On Load"
+{
+
+			    type = form
+			    form = Add_Deadline
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Deadline_ID;
+			            disable Deadline_ID;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null && input.Responsible_Attorney == null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Responsible_Attorney = caseRec.Lead_Attorney;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

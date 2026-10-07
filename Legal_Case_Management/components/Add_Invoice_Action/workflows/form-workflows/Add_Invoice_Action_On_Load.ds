@@ -1,0 +1,35 @@
+Add_Invoice_Action_On_Load as "Add Invoice Action On Load"
+{
+
+			    type = form
+			    form = Add_Invoice_Action
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Invoice_Action_ID, From_Status, To_Status, Action_Date;
+			            disable Invoice_Action_ID, From_Status, To_Status, Action_Date;
+			        }
+			        actions (Invoice != null)
+			        {
+			            disable Invoice;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Invoice != null)
+			                {
+			                    inv = Create_Invoice[ID == input.Invoice];
+			                    if(inv.count() > 0)
+			                    {
+			                        input.From_Status = inv.Invoice_Status;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

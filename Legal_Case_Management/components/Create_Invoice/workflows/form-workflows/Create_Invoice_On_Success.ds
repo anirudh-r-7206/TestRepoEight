@@ -1,0 +1,28 @@
+Create_Invoice_On_Success as "Create Invoice On Success"
+{
+
+			    type = form
+			    form = Create_Invoice
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Invoice Updated"
+			                    New_Status = input.Invoice_Status
+			                    Summary = "Invoice " + input.Invoice_Status + " with balance " + input.Balance_Due
+			                    Changed_By = input.Prepared_By
+			                    Source_Record_ID = input.ID
+			                ];
+			            )
+			        }
+			    }
+			
+}

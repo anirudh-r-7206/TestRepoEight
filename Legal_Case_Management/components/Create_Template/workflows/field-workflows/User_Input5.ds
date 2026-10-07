@@ -1,0 +1,30 @@
+User_Input5 as "User-Input"
+{
+
+			
+							type =  form
+							form = Create_Template
+			
+							record event = on add or edit
+			
+							on user input of Select_Template
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														if(input.Select_Template != null)
+													{
+														input.Template = input.Select_Template.Template;
+													}
+													else
+													{
+														input.Template = null;
+													}
+									)
+								}
+							}
+			
+						
+			
+}

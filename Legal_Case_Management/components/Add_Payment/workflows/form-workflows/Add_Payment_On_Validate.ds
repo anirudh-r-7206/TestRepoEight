@@ -1,0 +1,37 @@
+Add_Payment_On_Validate as "Add Payment On Validate"
+{
+
+			    type = form
+			    form = Add_Payment
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(ifnull(input.Amount,0) <= 0)
+			                {
+			                    alert "Payment amount must be greater than zero.";
+			                    cancel submit;
+			                }
+			                if(input.Payment_Mode != "Cash" && input.Reference_Number in {"", " ", "null"})
+			                {
+			                    alert "Reference Number is required for non-cash payments.";
+			                    cancel submit;
+			                }
+			                if(input.Payment_Status != "Refunded" && input.Invoice != null)
+			                {
+			                    inv = Create_Invoice[ID == input.Invoice];
+			                    if(inv.count() > 0 && ifnull(input.Amount,0) > ifnull(inv.Balance_Due,0))
+			                    {
+			                        alert "Payment amount cannot exceed invoice balance due.";
+			                        cancel submit;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

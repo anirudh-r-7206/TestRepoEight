@@ -1,0 +1,31 @@
+default list All_Case_Tasks
+{
+
+		    displayName = "All Case Tasks"
+		    show all rows from Add_Case_Task
+		    (
+		        Case
+		        Task_Title
+		        Task_Type
+		        Assigned_To
+		        Reviewer
+		        Priority
+		        Due_Date
+		        Task_Status
+		        Client_Visible
+		    )
+		    filters
+		    (
+		        Case
+		        Assigned_To
+		        Priority
+		        Task_Status
+		        Task_Type
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Due_Date ascending
+		    )
+		
+}

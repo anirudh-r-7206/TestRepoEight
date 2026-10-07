@@ -1,0 +1,337 @@
+"Legal_Administrator"
+{
+
+	    name = "Legal_Administrator"
+	    type = Users_Permissions
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "Full administrative legal operations access for configuration, matters, documents, billing, dashboards, and audit oversight."
+	    ModulePermissions
+	    {
+	        Add_Employee
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Employees={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Role
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Roles={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Client
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Clients={"View","Edit","Delete"}
+	                Active_Clients={"View","Edit","Delete"}
+	                Client_Risk_List={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Client_Contact
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Client_Contacts={"View","Edit","Delete"}
+	                Active_Client_Contacts={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Court
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Courts={"View","Edit","Delete"}
+	                Active_Courts={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Practice_Area
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Practice_Areas={"View","Edit","Delete"}
+	                Active_Practice_Areas={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Type
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Types={"View","Edit","Delete"}
+	                Active_Case_Types={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Document_Type
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Document_Types={"View","Edit","Delete"}
+	                Active_Document_Types={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Fee_Schedule
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Fee_Schedules={"View","Edit","Delete"}
+	            }
+	        }
+	        Create_Case
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                all_cases={"View","Edit","Delete"}
+	                Cases_New_Intake={"View","Edit","Delete"}
+	                Cases_Conflict_Check={"View","Edit","Delete"}
+	                Cases_Engagement_Pending={"View","Edit","Delete"}
+	                Cases_Open_Matter={"View","Edit","Delete"}
+	                Cases_Strategy_and_Pleadings={"View","Edit","Delete"}
+	                Cases_Discovery_and_Diligence={"View","Edit","Delete"}
+	                Cases_Negotiation_and_Mediation={"View","Edit","Delete"}
+	                Cases_Hearing_and_Trial={"View","Edit","Delete"}
+	                Cases_Awaiting_Order_or_Execution={"View","Edit","Delete"}
+	                Cases_Billing_Review={"View","Edit","Delete"}
+	                Cases_Closed={"View","Edit","Delete"}
+	                Cases_Archived={"View","Edit","Delete"}
+	                Cases_Rejected={"View","Edit","Delete"}
+	                High_Priority_Cases={"View","Edit","Delete"}
+	                Active_Legal_Matters={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Action
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Actions={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_History
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_History={"View","Edit","Delete"}
+	                Client_Visible_History={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Party
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Parties={"View","Edit","Delete"}
+	                Opposing_Parties={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Conflict_Check
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Conflict_Checks={"View","Edit","Delete"}
+	                Pending_Conflict_Checks={"View","Edit","Delete"}
+	                Cleared_Conflict_Checks={"View","Edit","Delete"}
+	                Conflict_Found_Checks={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Engagement_Letter
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Engagement_Letters={"View","Edit","Delete"}
+	                Pending_Engagement_Letters={"View","Edit","Delete"}
+	                Signed_Engagement_Letters={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Document
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Documents={"View","Edit","Delete"}
+	                Pending_Document_Review={"View","Edit","Delete"}
+	                Client_Visible_Documents={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Filing
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Filings={"View","Edit","Delete"}
+	                Due_Filings={"View","Edit","Delete"}
+	                Filed_Filings={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Hearing
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Hearings={"View","Edit","Delete"}
+	                Upcoming_Hearings={"View","Edit","Delete"}
+	                Hearings_Today={"View","Edit","Delete"}
+	                Completed_Hearings={"View","Edit","Delete"}
+	                Case_Hearing_Calendar={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Task
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Tasks={"View","Edit","Delete"}
+	                Open_Case_Tasks={"View","Edit","Delete"}
+	                Overdue_Case_Tasks={"View","Edit","Delete"}
+	                Completed_Case_Tasks={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Deadline
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Deadlines={"View","Edit","Delete"}
+	                Upcoming_Deadlines={"View","Edit","Delete"}
+	                Missed_Deadlines={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Case_Note
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Case_Notes={"View","Edit","Delete"}
+	                Follow_Up_Notes={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Evidence
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Evidence={"View","Edit","Delete"}
+	                Evidence_Under_Review={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Settlement_Offer
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Settlement_Offers={"View","Edit","Delete"}
+	                Pending_Settlement_Offers={"View","Edit","Delete"}
+	                Accepted_Settlements={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Time_Entry
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Time_Entries={"View","Edit","Delete"}
+	                Unapproved_Time_Entries={"View","Edit","Delete"}
+	                Approved_Time_Entries={"View","Edit","Delete"}
+	                Unbilled_Time_Entries={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Expense_Entry
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Expense_Entries={"View","Edit","Delete"}
+	                Unapproved_Expenses={"View","Edit","Delete"}
+	                Unbilled_Expenses={"View","Edit","Delete"}
+	            }
+	        }
+	        Create_Invoice
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                all_invoices={"View","Edit","Delete"}
+	                Draft_Invoices={"View","Edit","Delete"}
+	                Invoices_For_Approval={"View","Edit","Delete"}
+	                Sent_Invoices={"View","Edit","Delete"}
+	                Overdue_Invoices={"View","Edit","Delete"}
+	                Paid_Invoices={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Invoice_Item
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Invoice_Items={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Payment
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Payments={"View","Edit","Delete"}
+	                Payments_By_Client={"View","Edit","Delete"}
+	            }
+	        }
+	        Add_Invoice_Action
+	        {
+	            enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search,read_comm,write_comm,create_new_report
+	            allFieldsVisible = true
+	            ReportPermissions
+	            {
+	                All_Invoice_Actions={"View","Edit","Delete"}
+	            }
+	        }
+	        Legal_Dashboard { enabled = tab }
+	        Case_Workspace { enabled = tab }
+	        Case_Detail { enabled = tab }
+	        Billing_Workspace { enabled = tab }
+	        Billing_Detail { enabled = tab }
+	        Client_Portal { enabled = tab }
+	        Compliance_Audit_Dashboard { enabled = tab }
+	    }
+	
+}

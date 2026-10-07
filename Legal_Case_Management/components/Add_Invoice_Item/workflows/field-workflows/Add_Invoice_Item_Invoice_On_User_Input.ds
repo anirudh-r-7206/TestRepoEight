@@ -1,0 +1,26 @@
+Add_Invoice_Item_Invoice_On_User_Input as "Invoice On User Input"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on add or edit
+			
+			    on user input of Invoice
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Invoice != null)
+			                {
+			                    invRec = Create_Invoice[ID == input.Invoice];
+			                    if(invRec.count() > 0)
+			                    {
+			                        input.Case = invRec.Case;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

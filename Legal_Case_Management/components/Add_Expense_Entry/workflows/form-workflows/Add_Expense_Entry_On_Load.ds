@@ -1,0 +1,21 @@
+Add_Expense_Entry_On_Load as "Add Expense Entry On Load"
+{
+
+			    type = form
+			    form = Add_Expense_Entry
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Expense_ID;
+			            disable Expense_ID;
+			        }
+			        actions (Approval_Status == "Invoiced")
+			        {
+			            disable Case, Employee, Expense_Date, Expense_Category, Vendor, Amount, Billable, Receipt, Invoice, Approval_Status, Description;
+			        }
+			    }
+			
+}

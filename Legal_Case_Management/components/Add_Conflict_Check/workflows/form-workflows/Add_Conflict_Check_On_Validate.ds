@@ -1,0 +1,31 @@
+Add_Conflict_Check_On_Validate as "Add Conflict Check On Validate"
+{
+
+			    type = form
+			    form = Add_Conflict_Check
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Potential_Conflict == true || input.Decision in {"Waiver Required","Conflict Found"})
+			                {
+			                    if(input.Conflict_Summary in {"",null})
+			                    {
+			                        alert "Conflict Summary is required for potential conflicts, waivers, or conflict-found decisions.";
+			                        cancel submit;
+			                    }
+			                }
+			                if(input.Decision == "Waiver Required" && input.Approval_Status == "Approved" && input.Waiver_Document == null)
+			                {
+			                    alert "Waiver Document is required when a waiver is approved.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

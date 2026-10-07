@@ -1,0 +1,57 @@
+string getNotesContent(string emailFor)
+{
+
+			
+			                 	returnString = "";
+			                 	if(emailFor != "")
+			                 	{
+			                 		fieldMap = Map();
+			                 		if(emailFor in {"Transfer Request Initiation","Transfer Request Approval","Transfer Request Rejection"})
+			                 		{
+			                 			fieldMap.put("Request_ID","Request ID");
+			                 			fieldMap.put("Employee_Name","Employee Name");
+			                 			fieldMap.put("Current_Location","Current Location");
+			                 			fieldMap.put("Country","Country");
+			                 			fieldMap.put("New_Location","New Location");
+			                 			fieldMap.put("Reason_For_Transfer","Reason For Transfer");
+			                 			fieldMap.put("Effective_Date","Effective Date");
+			                 			fieldMap.put("Status","Status");
+			                 			fieldMap.put("Comments","Comments");
+			                 		}
+			                 		else if(emailFor in {"Free Issue Reminder","Free Issue Booking"})
+			                 		{
+			                 			fieldMap.put("Employee_Name","Employee Name");
+			                 			fieldMap.put("Date_field","Date");
+			                 			fieldMap.put("Collection_Location","Collection Location");
+			                 			fieldMap.put("Product_Preference","Products & Quanity");
+			                 		}
+			                 		else if(emailFor in {"Free Issue Allocation","Free Issue Collection"})
+			                 		{
+			                 			fieldMap.put("Employee_Name","Employee Name");
+			                 			fieldMap.put("Collection_Location","Collection Location");
+			                 			fieldMap.put("Collection_Code","Collection Code");
+			                 			fieldMap.put("Selected_Products","Products & Quanity");
+			                 		}
+			                 		else if(emailFor in {"Invoice Approval","Invoice Rejection"})
+			                 		{
+			                 			fieldMap.put("Invoice_ID","Invoice ID");
+			                 			fieldMap.put("Vendor","Vendor");
+			                 			fieldMap.put("Broker","Broker");
+			                 			fieldMap.put("Invoice_Date","Invoice Date");
+			                 			fieldMap.put("Invoice_Amount","Invoice Amount");
+			                 			fieldMap.put("Remaining_Amount","Remaining Amount");
+			                 			fieldMap.put("Notes","Notes");
+			                 			fieldMap.put("Status","Status");
+			                 		}
+			                 		fieldKeys = fieldMap.keys();
+			                 		styleStr = "<div style=\"font-family: Arial, sans-serif; font-size: 14px; color: rgb(51, 51, 51); line-height: 1.6\"><h2 style=\"color: rgb(41, 66, 134); border-bottom: 2px solid rgb(212, 221, 245); padding-bottom: 4px\">Note:<br></h2><p>Use the following placeholders to dynamically insert values into the Template content. These tags will be replaced with actual data from the form<br></p><ul style=\"background-color: rgb(233, 238, 251); padding: 14px 18px; border-radius: 10px; list-style-type: none; margin: 16px 0\">";
+			                 		for each  fieldKey in fieldKeys
+			                 		{
+			                 			styleStr = styleStr + "<li><b>&#36;&#123;" + fieldKey + "&#125;</b> → <i>" + fieldMap.get(fieldKey) + "</i><br></li>";
+			                 		}
+			                 		returnString = styleStr + "</ul><p style=\"color: rgb(102, 102, 102)\">You can place these tags anywhere in the template. They will be replaced with their corresponding values from the form data.<br></p></div>";
+			                 	}
+			                 	return returnString;
+			                 
+			
+}

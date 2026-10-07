@@ -1,0 +1,12 @@
+string styles.Custom_Layout()
+{
+
+			
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	style_txt = ".zc-pb-page-content-wrapper .record-container.record-container-fix, .zc-pb-page-content-wrapper .zc-cardcontainerwrapper { padding: 0px; } .zc-pb-page-content-wrapper .zc-card-report .zc-cardcontainerwrapper { width: 100% !important; margin: 0px !important; } .zc-pb-page-content-wrapper .view-outer-wrapper.summary-type-report .zcpage-elemContainer { height: auto; overflow: auto; padding: 0px 15px; } .zc-pb-page-content-wrapper .zc-cardcontainerwrapper .column-container { height: auto; } .zc-pb-page-content-wrapper .custom-report.zc-card-report .column-container { padding: 0px 15px 30px; }";
+			                 	to_be_removed = ".zc-pb-page-content-wrapper .view-outer-wrapper .view-header+.reportfullwidth.custom-report { background-color: transparent; padding-top: 30px; border-top-width: 0px; } .zc-pb-page-content-wrapper .zc-cardcontainerwrapper, .zc-pb-page-content-wrapper div[elname='recordcontainerwrapper'] { border-bottom-width: 0px; } .zc-pb-page-content-wrapper .zc-qv-custom-layout-more { font-size: 14px; } .zpelement-wrapper .zc-qv-custom-layout .zc-pb-tile-cnt-wrapper { border: 1px solid #EBECF0; } /* More Option Style */ .zc-popover-container.zc-recordmenu-popover .vieweditdrpdwn { border: 1px solid #E3E6E9; -webkit-box-shadow: 0 2px 10px 0 rgba(204, 208, 215, 0.5); -moz-box-shadow: 0 2px 10px 0 rgba(204, 208, 215, 0.5); box-shadow: 0 2px 10px 0 rgba(204, 208, 215, 0.5); border-radius: 8px; padding: 8px !important; } .zc-popover-container.zc-recordmenu-popover .vieweditdrpdwn li { border-radius: 4px; } .zc-popover-container.zc-recordmenu-popover .vieweditdrpdwn li a { border-bottom-width: 0; border-radius: 4px; padding: 8px; font-size: 14px; font-weight: 400; line-height: 20px; color: #131635; } .zc-popover-container.zc-recordmenu-popover .vieweditdrpdwn li a:hover { background-color: var(--section_menu_active_bg_color); } .zc-pb-tile-card:hover .zc-qv-custom-layout-more { opacity: 0; }";
+			                 	style_txt = style_txt + to_be_removed;
+			                 	return style_txt;
+			                 
+			
+}

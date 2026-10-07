@@ -1,0 +1,34 @@
+Add_Case_Party_On_Success as "Add Case Party On Success"
+{
+
+			    type = form
+			    form = Add_Case_Party
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                historyType = "System";
+			                clientVisible = false;
+			                if(input.Party_Type == "Client")
+			                {
+			                    historyType = "Client Update";
+			                    clientVisible = true;
+			                }
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = historyType
+			                    Summary = "Case party added: " + input.Party_Name + " (" + input.Party_Type + ")"
+			                    Source_Record_ID = input.ID
+			                    Visible_To_Client = clientVisible
+			                ];
+			            )
+			        }
+			    }
+			
+}

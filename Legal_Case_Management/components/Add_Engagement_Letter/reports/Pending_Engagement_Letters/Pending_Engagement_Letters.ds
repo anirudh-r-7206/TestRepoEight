@@ -1,0 +1,26 @@
+list Pending_Engagement_Letters
+{
+
+		    displayName = "Pending Engagement Letters"
+		    show all rows from Add_Engagement_Letter [Letter_Status == "Draft" || Letter_Status == "Sent"]
+		    (
+		        Case
+		        Client
+		        Fee_Schedule
+		        Retainer_Required
+		        Retainer_Amount
+		        Letter_Status
+		        Sent_On
+		        Signed_On
+		    )
+		    filters
+		    (
+		        Letter_Status
+		        Client
+		    )
+		    sort by
+		    (
+		        Sent_On descending
+		    )
+		
+}

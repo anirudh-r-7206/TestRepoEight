@@ -1,0 +1,352 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+* {
+		padding: 0;
+		margin: 0;
+		border: none;
+		box-sizing: border-box;
+		 }
+	 div::-webkit-scrollbar, table::-webkit-scrollbar, tr::-webkit-scrollbar, th::-webkit-scrollbar, td::-webkit-scrollbar, ul::-webkit-scrollbar, li::-webkit-scrollbar, a::-webkit-scrollbar, form::-webkit-scrollbar, input::-webkit-scrollbar {
+		 display: none;
+	}
+	div, table, tr, th, td, ul, li, a, form, input {
+		-ms-overflow-style: none;
+		scrollbar-width: none; 
+	}
+	.zc-pb-embed-placeholder-content {
+		overflow: hidden;
+	}
+	.zc-header .header_top_bar {
+		height: 66px !important;
+	}
+	div#zppagesLive, div#elementsContainer, .Layout.elemContainment, div#row_1, .zc-pb-formreport-placeholder{
+		height: 100% !important;
+		border: unset !important;
+	}
+	.zc_live_adminbar .zc-container-wrapper {
+		height:100% !important;
+	}
+	.Layout.elemContainment {
+		padding: unset !important;
+	}
+.zc_live_adminbar .zc-container-wrapper {
+		height: 100% !important;
+	}
+:root {
+	--primary-color: #467eee;
+}
+
+/* ===== LAYOUT ===== */
+.innerMainDiv {
+	width: 100%;
+	height: 100%;
+}
+.boxContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	/*border: 1px solid #ededed;*/
+	background: #fff;
+	overflow: hidden;
+}
+.boxHeader {
+	background: #ffffff;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 20px;
+	font-weight: 600;
+	color: #000;
+	border-bottom: 1px solid #ededed;
+}
+.boxHeader .ass {
+	text-decoration: none;
+	background: var(--primary-color);
+	color: #fff;
+	padding: 8px 16px;
+	border-radius: 8px;
+	font-weight: 500;
+	font-size: 14px;
+	transition: all 0.3s ease;
+}
+.boxHeader .ass:hover {
+	background: var(--menu_selected_hover_bg_color);
+}
+.boxContent {
+	flex: 1;
+	padding: 20px;
+	overflow: auto;
+	display: flex;
+	gap: 20px;
+	width: 100%;
+	height: 100%;
+	flex-wrap: wrap;
+	
+	align-content: flex-start;
+}
+
+/* ===== MAIL TEMPLATE CARDS ===== */
+
+.mail-card {
+	background: #f8f8f8;
+		border: 1px solid #ededed;
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+	max-width: 50%;
+		width: 515px;
+		height: 400px;
+		vertical-align: top;
+		transition: all 0.3s ease;
+	overflow: hidden;
+}
+.mail-card:hover {
+	background: #eeebfa;
+}
+
+/* Dashed separator after each card */
+.mail-card:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	top: 10px;
+	right: -10px;
+	width: 1px;
+	height: 95%;
+	/*border-right: 2px dashed #ccc;*/
+}
+
+/* Header Section */
+.card-header {
+	padding: 15px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	border-bottom: 1px solid #ececee;
+}
+.card-header .subject {
+	font-size: 17px;
+	font-weight: 700;
+	color: #1a202c;
+	word-break: break-word;
+}
+.card-header .options-container {
+	position: relative;
+}
+.options-toggle {
+	background: none;
+	border: none;
+	font-size: 18px;
+	color: #a0aec0;
+	cursor: pointer;
+}
+.options-menu {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+	width: 180px;
+	display: none;
+	border: 1px solid #e2e8f0;
+	z-index: 5;
+}
+.options-menu a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 15px;
+	text-decoration: none;
+	color: #4a5568;
+	font-size: 14px;
+	transition: 0.2s;
+}
+.options-menu a:hover {
+	background: #f7fafc;
+	color: var(--primary-color);
+}
+.options-toggle:focus + .options-menu,
+.options-menu:hover {
+	display: block;
+}
+
+/* Body Section */
+.mail-card:hover .card-body{
+		background: #eeebfa;
+}
+.card-body {
+	padding: 15px 20px;
+	overflow: hidden;
+	display: flex;
+	height: calc(100% - 53px);
+	flex-direction: column;
+	justify-content: space-between;
+	background: #ffffff;
+}
+.mail-preview {
+	font-size: 14px;
+		color: #4a5568;
+		line-height: 1.6;
+		word-wrap: break-word;
+		height: calc(100% - 39px);
+		overflow: auto;
+}
+.mail-meta {
+	margin-top: 12px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 6px;
+}
+.mail-to {
+	font-size: 13px;
+	color: #718096;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.mail-to i {
+	color: var(--primary-color);
+}
+.status-badge {
+	padding: 6px 12px;
+	border-radius: 20px;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.status-active {
+	background: #d1fae5;
+	color: #065f46;
+}
+.status-inactive {
+	background: #fee2e2;
+	color: #991b1b;
+}
+
+/* Empty State */
+.noDetailDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: #626262;
+	font-weight: 500;
+}
+@media (max-width:768px){
+	.mail-card {
+		width: 90%;
+		min-width: 90%;
+	}
+}
+.boxHeader span {
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 22px;
+		color: #666D79;
+		margin: 0px 4px 0px 0px;
+}
+.boxHeader:hover span {
+		color: #131635;
+}
+.boxHeader h5 {
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 22px;
+		letter-spacing: 0.1px;
+		color: #131635;
+}
+.fa-angle-left:before {
+		font-family: "FontAwesome" !important; 
+		content: "\\f104";
+}
+</style>
+
+<div class="innerMainDiv">
+	<div class="boxContainer">
+		<div class="boxHeader">
+		 <div class="zc-pra-flt-left zc-pra-clearfix zc-pra-header-title" style="display: flex; align-items: center;">
+				<a href="#Page:All_Mail_Templates1?zc_LoadIn=embed-embedDiv" class="zc-pra-flt-left zc-pra-back-icon">
+					<span class="fa fa-angle-left"></span>
+				</a>
+				<h5 class="">Back</h5>
+			</div>
+	 
+			<a class="ass" href="#Form:Create_Template?zc_LoadIn=embed-embedDiv&zc_Header=false&zc_NextUrl=#Script:page.refresh&Email_For=<%=input.recID%>">+ Add Template</a>
+
+		</div>
+		<div class="boxContent">
+<%
+	fetchSalesOrder = Create_Template[Email_For == input.recID];
+	if(fetchSalesOrder.count() != 0)
+	{
+		for each  rec in fetchSalesOrder
+		{
+			%>
+<div class="mail-card">
+			<div class="card-header">
+				<div class="subject"><%=rec.Title%></div>
+				<div class="options-container">
+					<button class="options-toggle"><i class="fas fa-ellipsis-v"></i></button>
+					<div class="options-menu">
+						 <a href="#Form:Create_Template?zc_LoadIn=dialog&zc_Header=false&zc_NextUrl=#Script:page.refresh&recLinkID=<%=rec.ID%>&viewLinkName=Create_Template_Report">
+																<i class="fas fa-edit"></i> Edit
+														</a>
+													 <a href="#Page:Detail_View_Page?zc_LoadIn=dialog&reportName=Create_Template_Report&recID=<%=rec.ID%>">
+																<i class="fas fa-eye"></i> View Details
+														</a>
+						<a href="#"><i class="fas fa-trash"></i>Delete</a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="mail-preview"><%=rec.Template%></div>
+				<div class="mail-meta">
+					<div class="mail-to"><i class="fas fa-envelope"></i> Mail For: <%=rec.Email_For%></div>
+					<div class='status-badge <%=if(!rec.Active,"status-inactive ","status-active")%>'>
+						<%=if(!rec.Active,"Inactive ","Active")%>
+					</div>
+				</div>
+			</div>
+		</div>
+<%
+		}
+	}
+	else
+	{
+		%>
+<style>
+/*.zc-content-loader div {
+ display: none !important;
+}*/
+	.main_container_img {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 15px;
+		}
+	.img_c {
+				animation: fadeInZoom 0.2s ease-in-out forwards;
+				object-fit: contain;
+				width: 10%;
+		}
+		</style>
+<div class="main_container_img">
+<div style="display: flex ; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-content: center; align-items: center;">
+		<img class="img_c" src="https://files-accl.zohoexternal.com/public/workdrive-external/download/c4yc5f4e45a3a037f4ceeb726dfdca8d7e886?x-cli-msg=%7B%22linkId%22%3A%226OxchGZlnBc-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D">
+	<div style="color: #2f305d; font-weight:600;"> No Data Available</div></div>
+</div>
+<%
+	}
+	%>
+</div>
+	</div>
+</div>

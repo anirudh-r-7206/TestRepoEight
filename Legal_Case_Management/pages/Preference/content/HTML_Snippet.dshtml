@@ -1,0 +1,223 @@
+<%
+	page_link_name = "Preference";
+	language = thisapp.Localization.Pages();
+	common = thisapp.Localization.Common();
+	tab_map = thisapp.Page.Get_Tabs(page_link_name);
+	tab_keys = tab_map.keys();
+	input.tab = if(input.tab == "" || input.tab == null,tab_keys.get(0),input.tab);
+	input.tab = if(!tab_keys.contains(input.tab),tab_keys.get(0),input.tab);
+	if(input.tab != "" && input.tab != "null" && input.tab != null)
+	{
+		%>
+<style>
+/*temp*/
+.zcform_Delete_form .form-action.formbutton {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+}
+.zcform_Create_Template .label-left .second-column, .zcform_Create_Template .label-right .second-column {
+		width: calc(100% - 670px) !important;
+}
+.zcform_Create_Template .second-column .notes-field {
+		width: 100% !important;
+}
+form[name="Delete_form"].label-left {
+		width: 370px !important;
+	}
+.zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li a:hover {
+		background: var(--component_hover_color);
+}
+.zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li a{
+	border-radius: 99px !important;
+}
+.zc-pra-setup .zc-pra-page-container-inner{
+	    padding: 0px 10px 0 10px !important;
+}
+.zc-container-wrapper .zc-main-content-wrapper .zc-main-content .inner .page_content_wrapper.zc-page-content-wrapper .elemContainment {
+		padding: unset !important;
+}
+.zc_live_adminbar .zc-container-wrapper {
+		height: 100% !important; 
+	}
+	.zc_live_adminbar .zc-container-wrapper {
+		height: 100% !important;
+	}
+div#zppagesLive,
+div#elementsContainer,
+.Layout.elemContainment,
+div#row_1,
+.zc-pb-formreport-placeholder {
+	height: 100% !important;
+}
+.zc-container-wrapper .zc-main-content-wrapper .zc-main-content .inner .page_content_wrapper .view-outer-wrapper .view-header .zc-new-report-header{
+	  height: unset !important; 
+	 padding: unset !important; 
+}
+ .zc-pra-page-container .view-header .zc-new-report-header {
+	 height: unset !important; 
+}
+.zc-pra-setup .zc-reporttype-list .list-view-inner {
+border: unset !important; 
+border-radius: unset !important; 
+}
+ .zc-container-wrapper .zc-main-content-wrapper .zc-main-content .inner .page_content_wrapper .view-outer-wrapper .view-header.zc-show-new-menu .view-options.zc-report-newheader {
+		top: -0.625rem !important;
+}
+.zc-container-wrapper .zc-main-content-wrapper .zc-main-content .inner .page_content_wrapper .view-outer-wrapper .view-header {
+	border: unset !important;}
+/*temp*/
+<%=thisapp.styles.CommonStyles()%>
+<%=thisapp.PageStyles.Setup(input.tab)%>
+/* Active state */
+.zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li a.<%=if(input.tab.isEmpty() == false && input.subtab.isEmpty() == false,input.subtab,input.tab)%> {
+	  background-color: var(--theme_brand_color) !important;
+		color: white !important;
+		font-weight: 600;
+	 
+}
+.zc-content-loader, .zc-content-loader div {
+	 	display: none !important;
+}
+</style>
+
+<div class='zc-pra-page-container zc-pra-setup'>
+	<div class='zc-pra-page-container-inner zc-pra-fwh'>
+		<div class='zc-pra-card zc-pra-fwh'>
+			<div class='zc-pra-page-header'>
+				<h5> <%=language.get("zcp.setup.setup.title")%> </h5>
+				<p> <%=language.get("zcp.setup.setuppending")%> </p>
+			</div>
+			<div class='zc-pra-page-content zc-pra-vertical-tabpanel zc-pra-clearfix zc-pra-fwh'>
+			<ul class='zc-pra-vertical-tabhead zc-pra-flt-left'>
+<%
+		id_index = 1;
+		for each  tab_id in tab_map
+		{
+			tab_key = tab_map.toCollection().getKey(tab_id);
+			%>
+<li <%=if(tab_id.get("sub_menu") != null,"class=zc-pra-vertical-tab-comp",null)%>>
+		<input name="zc-pra-tab" type="checkbox"  id='tab<%=id_index%>' <%=if(input.tab == tab_key,"checked",null)%>> 
+		<label for="tab<%=id_index%>">
+<%
+			if(tab_id.get("sub_menu") == null)
+			{
+				%>
+<a href='#Page:<%=page_link_name%>?tab=<%=tab_key%>' class='<%=tab_key%>'> <%=tab_id.get("Display")%> </a>
+<%
+			}
+			else
+			{
+				%>
+<a  class='<%=tab_key%>'> <%=tab_id.get("Display")%></a>
+<%
+			}
+			%>
+</label>
+<%
+			if(tab_id.get("sub_menu") != null)
+			{
+				%>
+<ul class='zc-pra-vertical-tabsubmenu'>
+<%
+				sub_id_index = 1;
+				sub_menu = tab_id.get("sub_menu");
+				for each  sub_item in sub_menu
+				{
+					sub_menu_key = sub_menu.toCollection().getKey(sub_item);
+					%>
+<li>
+										<input type='checkbox' name='zc-pra-subtab' id='subtab<%=id_index + "" + sub_id_index%>' <%=if(input.subtab == sub_menu_key,"checked",null)%>>
+										<label for='subtab<%=id_index + "" + sub_id_index%>'> <a class='<%=sub_menu_key%>' href="#Page:<%=page_link_name%>?tab=<%=tab_key%>&subtab=<%=sub_menu_key%>"> <%=sub_item.get("Display")%> </a> </label>
+								</li>
+<%
+					sub_id_index = sub_id_index + 1;
+				}
+				%>
+</ul>
+<%
+			}
+			%>
+</li>
+<%
+			id_index = id_index + 1;
+		}
+		%>
+</ul>
+
+				<div class='zc-pra-vertical-tabbody zc-pra-flt-left <%=input.tab%>'>
+<%
+		if(tab_keys.contains(input.tab))
+		{
+			param = "";
+			if(tab_map.get(input.tab).get("Comp") == "Form")
+			{
+				if(tab_map.get(input.tab).get("Link") == "Add_Preference")
+				{
+					fetchPreference = Add_Preference[ID != null];
+					if(fetchPreference.count() != 0)
+					{
+						preferenceID = fetchPreference.ID;
+						if(fetchPreference.Organization_Logo == "" || fetchPreference.Organization_Logo == null)
+						{
+							res = invokeurl
+							[
+								url :"https://files-accl.zohoexternal.com/public/workdrive-external/download/h814669ae0987327a4404804a6236ce5e7438?x-cli-msg=%7B%22linkId%22%3A%226OxchGOzv8B-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D"
+								type :GET
+							];
+							res.setParamName("file");
+							res.setFileName("Creator_Logo" + ".png");
+							response = invokeurl
+							[
+								url :"https://www.zohoapis.com/creator/v2.1/data" + zoho.appuri + "report/All_Preferences/" + fetchPreference.ID + "/Organization_Logo/upload"
+								type :POST
+								files:res
+								connection:"creator"
+							];
+						}
+						%>
+<div elName='zc-component' name='embedDiv' formLinkName='Add_Preference' params='viewLinkName=All_Preferences&recLinkID=<%=fetchPreference.ID%>'></div>
+<%
+					}
+					else
+					{
+						insert into Add_Preference
+						[
+							Added_User=zoho.loginuser
+							Email_Notification=true
+						]
+						openUrl("#Script:page.refresh","same window");
+					}
+				}
+				else
+				{
+					%>
+<div elName='zc-component' name='embedDiv' formLinkName='<%=tab_map.get(input.tab).get("Link")%>' params='<%=param%>zc_NextUrl=#Script:page.reload'></div>
+<%
+				}
+			}
+			else
+			{
+				if(input.tab in {"categories","brands","departments"})
+				{
+					%>
+<style>
+<%=thisapp.PageStyles.Preferences_Report_Filter()%>
+</style>
+<div class='zc-pra-filter' elName='zc-component' formLinkName='Preferences_Filter' params='zc_Header=false&Report=<%=tab_map.get(input.tab).get("Link")%>&Page=Preferences&zc_Focus=false'></div>
+<%
+				}
+				%>
+<div elName='zc-component' name='embedDiv' viewLinkName='<%=tab_map.get(input.tab).get("Link")%>' params='zc_Footer=false&zc_Search=false&zc_MoreAction=false&zc_ColMenu=false&zc_RecSelect=false'></div>
+<%
+			}
+		}
+		%>
+</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%
+
+%>

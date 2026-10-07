@@ -1,0 +1,42 @@
+Add_Case_Document_On_Success as "Add Case Document On Success"
+{
+
+			    type = form
+			    form = Add_Case_Document
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Document Added"
+			                    Summary = "Document saved: " + input.Document_Title + " (" + input.Document_Status + ")"
+			                    Changed_By = input.Uploaded_By
+			                    Source_Record_ID = input.ID
+			                    Visible_To_Client = input.Visible_To_Client
+			                ];
+			                if(input.Review_Required == true && input.Reviewed_By != null)
+			                {
+			                    reviewerRec = Add_Employee[ID == input.Reviewed_By];
+			                    if(reviewerRec.count() > 0 && ifnull(reviewerRec.Email,"") != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : reviewerRec.Email
+			                            subject : "Document review required"
+			                            message : "Please review document: " + input.Document_Title
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

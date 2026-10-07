@@ -1,0 +1,81 @@
+map Localization.Tab_Names()
+{
+
+			
+			                 	mp = Map();
+			                 	app_language = thisapp.localization.language();
+			                 	if(app_language == "Arabic")
+			                 	{
+			                 		// Procurements
+			                 		mp.put("zcp.procurements.vendornegotiation","مفاوضات البائع");
+			                 		mp.put("zcp.procurements.allprocurements","جميع المشتريات");
+			                 		// Order_Tracking
+			                 		mp.put("zcp.ordertracking.ordersinprocess","الطلبات المرسلة");
+			                 		mp.put("zcp.ordertracking.deficientdorders","الطلبات المستلمة");
+			                 		mp.put("zcp.ordertracking.issues","الطلبات المعاد ارسالها");
+			                 		// Setup
+			                 		mp.put("zcp.setup.locations","المواقع");
+			                 		mp.put("zcp.setup.departments","الاقسام");
+			                 		mp.put("zcp.setup.users","المستخدمين");
+			                 		mp.put("zcp.setup.idsetup","اعداد بيانات التعريف");
+			                 		mp.put("zcp.setup.emailtemplates","قوالب البريد الالكتروني");
+			                 		mp.put("zcp.setup.approvalsetup","اعداد الموافقات");
+			                 		mp.put("zcp.setup.general","عام");
+			                 		mp.put("zcp.setup.purchaserequest","طلب الشراء");
+			                 		mp.put("zcp.setup.purchaseorder","أمر شراء");
+			                 		mp.put("zcp.setup.payment","قسط");
+			                 		mp.put("zcp.setup.taxes","الضرائب");
+			                 		mp.put("zcp.setup.categories","الفئات");
+			                 		mp.put("zcp.setup.parentcategory","الفئات الرئيسية");
+			                 		mp.put("zcp.setupwizard.skip&next.button","تخطي والانتقال للتالي");
+			                 		// Finance Tean
+			                 		mp.put("zcp.finance.paymentprocess","قسط");
+			                 		// Request 
+			                 		mp.put("zcp.requests.myrequest","طلباتي");
+			                 		mp.put("zcp.requests.approvals","الموافقات");
+			                 		//Approval Setup
+			                 		mp.put("zcp.approvalsetup.system","نظام");
+			                 		mp.put("zcp.approvalsetup.custom","مخصص");
+			                 		mp.put("zcp.procurements.vendornegotiation1","قيد التقييم الفني");
+			                 	}
+			                 	else
+			                 	{
+			                 		// Procurements
+			                 		mp.put("zcp.procurements.vendornegotiation1","Pending Technical Evaluation");
+			                 		mp.put("zcp.procurements.vendornegotiation","Vendor Negotiation");
+			                 		mp.put("zcp.procurements.allprocurements","All Procurements");
+			                 		// Order_Tracking
+			                 		mp.put("zcp.ordertracking.ordersinprocess","Dispatched Orders");
+			                 		mp.put("zcp.ordertracking.deficientdorders","Received Orders");
+			                 		mp.put("zcp.ordertracking.issues","Redispatched Orders");
+			                 		// Setup
+			                 		mp.put("zcp.setup.locations","Locations");
+			                 		mp.put("zcp.setup.departments","Departments");
+			                 		mp.put("zcp.setup.users","Users");
+			                 		mp.put("zcp.setup.idsetup","ID Setup");
+			                 		mp.put("zcp.setup.emailtemplates","Email Templates");
+			                 		mp.put("zcp.setup.approvalsetup","Approval Setup");
+			                 		mp.put("zcp.setup.purchaserequest","Purchase Request");
+			                 		mp.put("zcp.setup.purchaseorder","Purchase Order");
+			                 		mp.put("zcp.setup.payment","Payment");
+			                 		mp.put("zcp.setup.general","General");
+			                 		mp.put("zcp.setup.taxes","Taxes");
+			                 		mp.put("zcp.setup.categories","Categories");
+			                 		mp.put("zcp.setup.parentcategory","Parent Categories");
+			                 		mp.put("zcp.setupwizard.skip&next.button","Skip & Next");
+			                 		// Finance Team
+			                 		mp.put("zcp.finance.paymentprocess","Payment");
+			                 		// Request 
+			                 		mp.put("zcp.requests.myrequest","My Requests");
+			                 		mp.put("zcp.requests.approvals","Approvals");
+			                 		//Approval Setup
+			                 		mp.put("zcp.approvalsetup.system","System");
+			                 		mp.put("zcp.approvalsetup.custom","Custom");
+			                 		mp.put("zcp.advancepayments","Advance Payments");
+			                 		mp.put("zcp.invoicepayments","Invoice Payments");
+			                 		mp.put("zcp.completedpayments","Completed Payments");
+			                 	}
+			                 	return mp;
+			                 
+			
+}

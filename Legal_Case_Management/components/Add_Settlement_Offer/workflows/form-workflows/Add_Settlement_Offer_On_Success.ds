@@ -1,0 +1,69 @@
+Add_Settlement_Offer_On_Success as "Add Settlement Offer On Success"
+{
+
+			    type = form
+			    form = Add_Settlement_Offer
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                caseRec = Create_Case[ID == input.Case];
+			                notifyTo = "";
+			                if(caseRec.count() > 0)
+			                {
+			                    if(caseRec.Case_Status in {"New Intake","Conflict Check","Engagement Pending","Open Matter","Strategy and Pleadings","Discovery and Diligence"})
+			                    {
+			                        caseRec.Case_Status = "Negotiation and Mediation";
+			                    }
+			                    if(caseRec.Lead_Attorney != null)
+			                    {
+			                        leadRec = Add_Employee[ID == caseRec.Lead_Attorney];
+			                        if(leadRec.count() > 0)
+			                        {
+			                            notifyTo = ifnull(leadRec.Email,"");
+			                        }
+			                    }
+			                    if(caseRec.Matter_Manager != null)
+			                    {
+			                        mgrRec = Add_Employee[ID == caseRec.Matter_Manager];
+			                        if(mgrRec.count() > 0 && ifnull(mgrRec.Email,"") != "")
+			                        {
+			                            if(notifyTo == "")
+			                            {
+			                                notifyTo = mgrRec.Email;
+			                            }
+			                            else
+			                            {
+			                                notifyTo = notifyTo + "," + mgrRec.Email;
+			                            }
+			                        }
+			                    }
+			                }
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Settlement Updated"
+			                    Summary = "Settlement offer " + input.Offer_Status + " from " + input.Offered_By
+			                    Changed_By = input.Reviewed_By
+			                    Source_Record_ID = input.ID
+			                ];
+			                if(notifyTo != "")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : notifyTo
+			                        subject : "Settlement offer updated"
+			                        message : "Settlement offer status: " + input.Offer_Status
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

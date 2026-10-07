@@ -1,0 +1,7 @@
+<%=thisapp.styles.getReportNavigationTemplate(1,"","","#818181","","")%>
+<div class="MainDiv">
+	<div class="shiftChart">
+						<div elName='zc-component' formLinkName='Navigation' class="dashboard-nav navigation underline-model" params='zc_Header=false&zc_Focus=false&Page_Name=Other_Config'></div>
+						<div elName='zc-component' class="show-div" name="showFrame"></div>
+				 </div>
+		 </div>

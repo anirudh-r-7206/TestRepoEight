@@ -1,0 +1,26 @@
+On_Load_Scripts5 as "On-Load Scripts"
+{
+
+			
+							type =  form
+							form = Add_Approval_Setup
+			
+							record event = on add or edit
+			
+							on load
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														if(input.Approval_Setup_For != null)
+													{
+														disable Approval_Setup_For;
+													}
+									)
+								}
+							}
+			
+						
+			
+}

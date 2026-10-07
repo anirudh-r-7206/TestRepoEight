@@ -1,0 +1,16 @@
+report Paid_Invoices
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Invoice_Number Client Case Invoice_Date Due_Date Invoice_Status Total_Amount Balance_Due ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Invoice_Number Case Client Invoice_Date Due_Date Invoice_Status Subtotal Tax_Amount Discount_Amount Total_Amount Amount_Paid Balance_Due Prepared_By Approved_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

@@ -1,0 +1,17 @@
+Add_Settlement_Offer_On_Load as "Add Settlement Offer On Load"
+{
+
+			    type = form
+			    form = Add_Settlement_Offer
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Offer_ID;
+			            disable Offer_ID;
+			        }
+			    }
+			
+}

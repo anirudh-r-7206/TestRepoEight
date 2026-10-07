@@ -1,0 +1,31 @@
+list Completed_Case_Tasks
+{
+
+		    displayName = "Completed Case Tasks"
+		    show all rows from Add_Case_Task [Task_Status == "Completed"]
+		    (
+		        Case
+		        Task_Title
+		        Task_Type
+		        Assigned_To
+		        Reviewer
+		        Priority
+		        Due_Date
+		        Completion_Date
+		        Task_Status
+		        Client_Visible
+		    )
+		    filters
+		    (
+		        Case
+		        Assigned_To
+		        Priority
+		        Task_Status
+		        Task_Type
+		    )
+		    sort by
+		    (
+		        Completion_Date descending
+		    )
+		
+}

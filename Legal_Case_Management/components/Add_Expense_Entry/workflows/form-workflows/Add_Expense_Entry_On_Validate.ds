@@ -1,0 +1,28 @@
+Add_Expense_Entry_On_Validate as "Add Expense Entry On Validate"
+{
+
+			    type = form
+			    form = Add_Expense_Entry
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(ifnull(input.Amount,0) <= 0)
+			                {
+			                    alert "Amount must be greater than zero.";
+			                    cancel submit;
+			                }
+			                if(input.Expense_Category in {"Travel","Court Fee","Filing Fee","Expert Fee"} && input.Receipt == null)
+			                {
+			                    alert "Receipt is required for travel, court fee, filing fee, and expert fee expenses.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

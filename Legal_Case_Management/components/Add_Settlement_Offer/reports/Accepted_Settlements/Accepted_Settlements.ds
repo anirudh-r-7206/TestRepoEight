@@ -1,0 +1,27 @@
+list Accepted_Settlements
+{
+
+		    displayName = "Accepted Settlements"
+		    show all rows from Add_Settlement_Offer [Offer_Status == "Accepted"]
+		    (
+		        Case
+		        Offer_Date
+		        Offered_By
+		        Offer_Amount
+		        Response_Due_Date
+		        Offer_Status
+		        Reviewed_By
+		    )
+		    filters
+		    (
+		        Case
+		        Offered_By
+		        Offer_Status
+		        Reviewed_By
+		    )
+		    sort by
+		    (
+		        Offer_Date descending
+		    )
+		
+}

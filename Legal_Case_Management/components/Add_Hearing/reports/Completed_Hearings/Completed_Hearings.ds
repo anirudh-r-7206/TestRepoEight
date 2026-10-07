@@ -1,0 +1,29 @@
+list Completed_Hearings
+{
+
+		    displayName = "Completed Hearings"
+		    show all rows from Add_Hearing [Hearing_Status == "Completed"]
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_DateTime
+		        Venue
+		        Preparation_Owner
+		        Hearing_Status
+		        Next_Hearing_DateTime
+		    )
+		    filters
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_Status
+		        Preparation_Owner
+		    )
+		    sort by
+		    (
+		        Hearing_DateTime descending
+		    )
+		
+}

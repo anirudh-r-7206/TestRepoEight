@@ -1,0 +1,82 @@
+Add_Engagement_Letter_On_Success as "Add Engagement Letter On Success"
+{
+
+			    type = form
+			    form = Add_Engagement_Letter
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() > 0)
+			                {
+			                    previousEngagement = caseRec.Engagement_Status;
+			                    if(input.Letter_Status == "Sent")
+			                    {
+			                        caseRec.Engagement_Status = "Sent";
+			                    }
+			                    else if(input.Letter_Status == "Client Signed")
+			                    {
+			                        caseRec.Engagement_Status = "Signed";
+			                        if(caseRec.Conflict_Status == "Cleared" || caseRec.Conflict_Status == "Waiver Required")
+			                        {
+			                            caseRec.Case_Status = "Open Matter";
+			                            caseRec.Opened_On = zoho.currentdate;
+			                        }
+			                    }
+			                    else if(input.Letter_Status == "Declined")
+			                    {
+			                        caseRec.Engagement_Status = "Declined";
+			                    }
+			                    if(input.Fee_Schedule != null)
+			                    {
+			                        caseRec.Fee_Schedule = input.Fee_Schedule;
+			                    }
+			                    caseRec.Retainer_Amount = input.Retainer_Amount;
+			                    insert into Add_Case_History
+			                    [
+			                        Case = input.Case
+			                        Event_Date = zoho.currenttime
+			                        Event_Type = "Engagement Updated"
+			                        Previous_Status = previousEngagement
+			                        New_Status = caseRec.Engagement_Status
+			                        Summary = "Engagement letter status: " + input.Letter_Status
+			                        Source_Record_ID = input.ID
+			                    ];
+			                    notifyTo = "";
+			                    if(caseRec.Matter_Manager != null)
+			                    {
+			                        mgrRec = Add_Employee[ID == caseRec.Matter_Manager];
+			                        if(mgrRec.count() > 0)
+			                        {
+			                            notifyTo = ifnull(mgrRec.Email,"");
+			                        }
+			                    }
+			                    if(caseRec.Billing_Attorney != null)
+			                    {
+			                        billRec = Add_Employee[ID == caseRec.Billing_Attorney];
+			                        if(billRec.count() > 0 && ifnull(billRec.Email,"") != "")
+			                        {
+			                            notifyTo = notifyTo + "," + billRec.Email;
+			                        }
+			                    }
+			                    if(notifyTo != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : notifyTo
+			                            subject : "Engagement letter updated"
+			                            message : "Engagement status for " + caseRec.Case_Title + " is now " + caseRec.Engagement_Status
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

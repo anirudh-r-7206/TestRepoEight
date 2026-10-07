@@ -1,0 +1,27 @@
+default list All_Client_Contacts
+{
+
+		    displayName = "All Client Contacts"
+		    show all rows from Add_Client_Contact
+		    (
+		        Client
+		        Contact_Name
+		        Contact_Type
+		        Email
+		        Phone
+		        Is_Primary
+		        Status
+		    )
+		    filters
+		    (
+		        Client
+		        Contact_Type
+		        Status
+		    )
+		    sort by
+		    (
+		        Client ascending
+		        Contact_Name ascending
+		    )
+		
+}

@@ -1,0 +1,31 @@
+list Approved_Time_Entries
+{
+
+		    displayName = "Approved Time Entries"
+		    show all rows from Add_Time_Entry [Approval_Status == "Approved"]
+		    (
+		        Case
+		        Employee
+		        Entry_Date
+		        Activity_Type
+		        Hours
+		        Billable
+		        Billing_Rate
+		        Amount
+		        Approval_Status
+		        Invoice
+		    )
+		    filters
+		    (
+		        Case
+		        Employee
+		        Activity_Type
+		        Billable
+		        Approval_Status
+		    )
+		    sort by
+		    (
+		        Entry_Date descending
+		    )
+		
+}

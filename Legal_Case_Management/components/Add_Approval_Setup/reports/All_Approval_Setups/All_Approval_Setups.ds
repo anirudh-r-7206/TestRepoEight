@@ -1,0 +1,17 @@
+default list All_Approval_Setups
+{
+
+		
+					displayName = "All Approval Setups"
+					show all rows from Add_Approval_Setup    
+					(
+						Level_Name as "Level Name"
+						Approver_Type as "Approver Type"
+						Sequence_Order as "Sequence Order"
+						Previous_Sequence_Number as "Previous Sequence Number"
+						Status
+						Approval_Setup_For as "Approval Setup For"
+					)
+				
+		
+}

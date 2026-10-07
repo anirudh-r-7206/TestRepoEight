@@ -1,0 +1,59 @@
+Create_Case_On_Validate as "Create Case On Validate"
+{
+
+			    type = form
+			    form = Create_Case
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Client != null)
+			                {
+			                    clientRec = Add_Client[ID == input.Client];
+			                    if(clientRec.count() > 0 && clientRec.Client_Status == "Blacklisted")
+			                    {
+			                        alert "Cannot create or update a matter for a blacklisted client.";
+			                        cancel submit;
+			                    }
+			                }
+			                if(input.Case_Status != "New Intake" && (input.Lead_Attorney == null || input.Matter_Manager == null))
+			                {
+			                    alert "Lead Attorney and Matter Manager are required before moving beyond New Intake.";
+			                    cancel submit;
+			                }
+			                if(input.Case_Type != null)
+			                {
+			                    caseTypeRec = Add_Case_Type[ID == input.Case_Type];
+			                    if(caseTypeRec.count() > 0)
+			                    {
+			                        if(caseTypeRec.Process_Template in {"Litigation","Arbitration"} && (input.Court == null || input.Filing_Date == null || input.Limitation_Date == null))
+			                        {
+			                            alert "Court, Filing Date, and Limitation Date are required for litigation and arbitration matters.";
+			                            cancel submit;
+			                        }
+			                        if(caseTypeRec.Process_Template == "Compliance" && (input.Regulator in {"",null} || input.Compliance_Due_Date == null))
+			                        {
+			                            alert "Regulator and Compliance Due Date are required for compliance matters.";
+			                            cancel submit;
+			                        }
+			                        if(caseTypeRec.Process_Template == "Corporate Advisory" && (input.Execution_Target_Date == null || ifnull(input.Transaction_Value,0) <= 0))
+			                        {
+			                            alert "Execution Target Date and Transaction Value are required for corporate advisory matters.";
+			                            cancel submit;
+			                        }
+			                    }
+			                }
+			                if(input.Filing_Date != null && input.Limitation_Date != null && input.Limitation_Date < input.Filing_Date)
+			                {
+			                    alert "Limitation Date cannot be before Filing Date.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

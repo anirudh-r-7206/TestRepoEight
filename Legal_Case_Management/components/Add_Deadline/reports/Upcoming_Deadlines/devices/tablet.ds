@@ -1,0 +1,16 @@
+report Upcoming_Deadlines
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Deadline_Type Deadline_Date Responsible_Attorney Priority Deadline_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on tap ( View Record ) on long press ( Edit Delete Duplicate View Record ) on left swipe ( Delete ) on right swipe ( Edit ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Deadline_Type Deadline_Date Reminder_Date Responsible_Attorney Priority Deadline_Status Related_Task ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

@@ -1,0 +1,17 @@
+Add_Case_History_On_Load as "Add Case History On Load"
+{
+
+			    type = form
+			    form = Add_Case_History
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, History_ID, Source_Record_ID;
+			            disable History_ID, Event_Date, Previous_Status, New_Status, Source_Record_ID;
+			        }
+			    }
+			
+}

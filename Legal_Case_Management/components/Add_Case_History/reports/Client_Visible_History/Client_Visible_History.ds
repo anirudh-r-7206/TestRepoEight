@@ -1,0 +1,27 @@
+list Client_Visible_History
+{
+
+		    displayName = "Client Visible History"
+		    show all rows from Add_Case_History [Visible_To_Client == true]
+		    (
+		        Case
+		        Event_Date
+		        Event_Type
+		        Previous_Status
+		        New_Status
+		        Summary
+		        Changed_By
+		        Visible_To_Client
+		    )
+		    filters
+		    (
+		        Case
+		        Event_Type
+		        Visible_To_Client
+		    )
+		    sort by
+		    (
+		        Event_Date descending
+		    )
+		
+}

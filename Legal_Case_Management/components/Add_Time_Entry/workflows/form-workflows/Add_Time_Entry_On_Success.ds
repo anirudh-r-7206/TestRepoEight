@@ -1,0 +1,40 @@
+Add_Time_Entry_On_Success as "Add Time Entry On Success"
+{
+
+			    type = form
+			    form = Add_Time_Entry
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Approval_Status == "Approved" || input.Approval_Status == "Invoiced")
+			                {
+			                    insert into Add_Case_History
+			                    [
+			                        Case = input.Case
+			                        Event_Date = zoho.currenttime
+			                        Event_Type = "Time Entry"
+			                        Summary = "Time entry " + input.Approval_Status + ": " + input.Hours + " hours"
+			                        Changed_By = input.Employee
+			                        Source_Record_ID = input.ID
+			                    ];
+			                }
+			                if(input.Approval_Status == "Submitted")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : zoho.adminuserid
+			                        subject : "Time entry submitted"
+			                        message : "A time entry has been submitted for billing review."
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

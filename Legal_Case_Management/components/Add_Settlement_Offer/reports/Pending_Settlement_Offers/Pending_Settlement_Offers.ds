@@ -1,0 +1,27 @@
+list Pending_Settlement_Offers
+{
+
+		    displayName = "Pending Settlement Offers"
+		    show all rows from Add_Settlement_Offer [Offer_Status == "Received" || Offer_Status == "Under Review" || Offer_Status == "Sent"]
+		    (
+		        Case
+		        Offer_Date
+		        Offered_By
+		        Offer_Amount
+		        Response_Due_Date
+		        Offer_Status
+		        Reviewed_By
+		    )
+		    filters
+		    (
+		        Case
+		        Offered_By
+		        Offer_Status
+		        Reviewed_By
+		    )
+		    sort by
+		    (
+		        Response_Due_Date ascending
+		    )
+		
+}

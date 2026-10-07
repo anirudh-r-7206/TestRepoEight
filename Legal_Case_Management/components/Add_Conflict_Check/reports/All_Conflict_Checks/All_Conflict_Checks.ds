@@ -1,0 +1,28 @@
+default list All_Conflict_Checks
+{
+
+		    displayName = "All Conflict Checks"
+		    show all rows from Add_Conflict_Check
+		    (
+		        Case
+		        Client
+		        Opposing_Party_Name
+		        Potential_Conflict
+		        Conflict_Severity
+		        Decision
+		        Approval_Status
+		        Checked_By
+		        Checked_On
+		    )
+		    filters
+		    (
+		        Decision
+		        Approval_Status
+		        Conflict_Severity
+		    )
+		    sort by
+		    (
+		        Checked_On descending
+		    )
+		
+}

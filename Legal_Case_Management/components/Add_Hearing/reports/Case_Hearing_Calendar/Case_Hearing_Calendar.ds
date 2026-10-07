@@ -1,0 +1,37 @@
+calendar Case_Hearing_Calendar
+{
+
+		    displayName = "Case Hearing Calendar"
+		    show all rows from Add_Hearing
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_DateTime
+		        Venue
+		        Hearing_Status
+		        Preparation_Owner
+		    )
+		    filters
+		    (
+		        Case
+		        Court
+		        Hearing_Type
+		        Hearing_Status
+		        Preparation_Owner
+		    )
+		    options
+		    (
+		        display type = month
+		        week start day = monday
+		        display field = Case
+		        start date = Hearing_DateTime
+		        default date
+		        (
+		            day = Today
+		            month = Currentmonth
+		            year = Currentyear
+		        )
+		    )
+		
+}

@@ -1,0 +1,20 @@
+report All_Clients
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Client_Name Client_Type Primary_Email Primary_Phone Client_Status ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on tap ( View Record ) on long press ( Edit Delete Duplicate View Record ) on left swipe ( Delete ) on right swipe ( Edit ) )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1 ( layout type = -2 title = "Client" fields ( Client_Name Client_Type Primary_Email Primary_Phone Billing_Address Tax_ID Relationship_Manager Client_Status Conflict_Flag ) )
+		        )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

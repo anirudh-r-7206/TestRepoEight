@@ -1,0 +1,49 @@
+form Approval_Setup_For
+{
+
+		
+					displayname = "Approval Setup For"
+					success message = "Data Added Successfully!"
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					Approval_Setup_For
+					(
+		    			type = text
+						displayname = "Approval Setup For"
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+			
+					actions
+					{
+						on add
+						{
+							submit
+							(
+		   						type = submit
+		   						displayname = "Submit"
+							)
+						}
+						on edit
+						{
+							update
+							(
+		   						type = submit
+		   						displayname = "Update"
+							)
+							cancel
+							(
+		   						type = cancel
+		   						displayname = "Cancel"
+							)
+						}
+					}
+				
+		
+}

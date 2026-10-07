@@ -1,0 +1,30 @@
+Run_Script as "Run Script"
+{
+
+			
+							type =  form
+							form = Navigation
+			
+							record event = on add
+			
+							on load
+							{
+								actions 
+								{
+									custom deluge script
+									(
+													navOptionMap = Map();
+													navOptionMap.put("Other_Config",{"Preference"});
+													navOptionMap.put("Free_Cash",{"Pending Free Issue","Employee Preference","All Free Issue"});
+													liss = navOptionMap.get(input.Page_Name);
+													if(liss != null)
+													{
+														input.Nav_Options:ui.add(liss);
+													}
+									)
+								}
+							}
+			
+						
+			
+}

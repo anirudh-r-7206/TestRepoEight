@@ -1,0 +1,22 @@
+list Active_Practice_Areas
+{
+
+		    displayName = "Active Practice Areas"
+		    show all rows from Add_Practice_Area [Status == "Active"]
+		    (
+		        Practice_Area_Name
+		        Category
+		        Responsible_Practice_Head
+		        Default_Billing_Rate
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		    )
+		    sort by
+		    (
+		        Practice_Area_Name ascending
+		    )
+		
+}

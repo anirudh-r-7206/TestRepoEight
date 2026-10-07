@@ -1,0 +1,16 @@
+report Pending_Document_Review
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Document_Title Document_Type Document_Status Review_Due_Date ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Document_Type Document_Title Version_Number Document_Status Confidentiality_Level Review_Required Review_Due_Date Visible_To_Client Document_Date ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

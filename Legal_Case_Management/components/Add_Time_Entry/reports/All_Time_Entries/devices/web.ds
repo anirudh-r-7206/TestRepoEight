@@ -1,0 +1,16 @@
+report All_Time_Entries
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case Employee Entry_Date Activity_Type Hours Amount Approval_Status Invoice ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case Employee Entry_Date Activity_Type Hours Billable Billing_Rate Amount Approval_Status Invoice ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

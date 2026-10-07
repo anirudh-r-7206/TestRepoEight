@@ -1,0 +1,29 @@
+default list All_Filings
+{
+
+		    displayName = "All Filings"
+		    show all rows from Add_Filing
+		    (
+		        Case
+		        Court
+		        Filing_Type
+		        Filing_Title
+		        Due_Date
+		        Filing_Date
+		        Filing_Status
+		        Filed_By
+		        Efiling_Reference
+		    )
+		    filters
+		    (
+		        Case
+		        Court
+		        Filing_Type
+		        Filing_Status
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		
+}

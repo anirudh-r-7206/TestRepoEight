@@ -1,0 +1,23 @@
+User_Input4 as "User-Input"
+{
+
+			
+							type =  form
+							form = Create_Template
+			
+							record event = on add or edit
+			
+							on user input of Email_For
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														input.plain = thisapp.getNotesContent(input.Email_For);
+									)
+								}
+							}
+			
+						
+			
+}

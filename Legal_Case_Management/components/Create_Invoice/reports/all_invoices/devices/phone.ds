@@ -1,0 +1,20 @@
+report all_invoices
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Invoice_Number Client Case Invoice_Date Due_Date Invoice_Status Total_Amount Balance_Due ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on tap ( View Record ) on long press ( Edit Delete Duplicate View Record ) on left swipe ( Delete ) on right swipe ( Edit ) )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1 ( layout type = -2 title = "Invoice" fields ( Invoice_Number Case Client Invoice_Date Due_Date Billing_Period_Start Billing_Period_End Prepared_By Approved_By Invoice_Status Sent_On Payment_Terms Subtotal Tax_Amount Discount_Amount Total_Amount Amount_Paid Balance_Due ) )
+		        )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

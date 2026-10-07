@@ -1,0 +1,55 @@
+Add_Hearing_On_Success as "Add Hearing On Success"
+{
+
+			    type = form
+			    form = Add_Hearing
+			    record event = on add or edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                insert into Add_Case_History
+			                [
+			                    Case = input.Case
+			                    Event_Date = zoho.currenttime
+			                    Event_Type = "Hearing Updated"
+			                    Summary = "Hearing " + input.Hearing_Status + ": " + input.Hearing_Type
+			                    Changed_By = input.Preparation_Owner
+			                    Source_Record_ID = input.ID
+			                ];
+			                notifyTo = "";
+			                if(input.Preparation_Owner != null)
+			                {
+			                    prepRec = Add_Employee[ID == input.Preparation_Owner];
+			                    if(prepRec.count() > 0)
+			                    {
+			                        notifyTo = ifnull(prepRec.Email,"");
+			                    }
+			                }
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() > 0 && caseRec.Lead_Attorney != null)
+			                {
+			                    leadRec = Add_Employee[ID == caseRec.Lead_Attorney];
+			                    if(leadRec.count() > 0 && ifnull(leadRec.Email,"") != "")
+			                    {
+			                        notifyTo = notifyTo + "," + leadRec.Email;
+			                    }
+			                }
+			                if(notifyTo != "")
+			                {
+			                    sendmail
+			                    (
+			                        from : zoho.adminuserid
+			                        to : notifyTo
+			                        subject : "Hearing updated"
+			                        message : "Hearing updated for case: " + input.Case
+			                    )
+			                }
+			            )
+			        }
+			    }
+			
+}

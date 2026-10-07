@@ -1,0 +1,149 @@
+forms
+{
+
+	    form Add_Approval_Setup
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Action
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Document
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_History
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Note
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Party
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Task
+	    {
+	        label placement = left
+	    }
+	    form Add_Case_Type
+	    {
+	        label placement = left
+	    }
+	    form Add_Client
+	    {
+	        label placement = left
+	    }
+	    form Add_Client_Contact
+	    {
+	        label placement = left
+	    }
+	    form Add_Conflict_Check
+	    {
+	        label placement = left
+	    }
+	    form Add_Court
+	    {
+	        label placement = left
+	    }
+	    form Add_Deadline
+	    {
+	        label placement = left
+	    }
+	    form Add_Document_Type
+	    {
+	        label placement = left
+	    }
+	    form Add_Employee
+	    {
+	        label placement = left
+	    }
+	    form Add_Engagement_Letter
+	    {
+	        label placement = left
+	    }
+	    form Add_Evidence
+	    {
+	        label placement = left
+	    }
+	    form Add_Expense_Entry
+	    {
+	        label placement = left
+	    }
+	    form Add_Fee_Schedule
+	    {
+	        label placement = left
+	    }
+	    form Add_Filing
+	    {
+	        label placement = left
+	    }
+	    form Add_Hearing
+	    {
+	        label placement = left
+	    }
+	    form Add_Invoice_Action
+	    {
+	        label placement = left
+	    }
+	    form Add_Invoice_Item
+	    {
+	        label placement = left
+	    }
+	    form Add_Payment
+	    {
+	        label placement = left
+	    }
+	    form Add_Practice_Area
+	    {
+	        label placement = left
+	    }
+	    form Add_Preference
+	    {
+	        label placement = left
+	    }
+	    form Add_Role
+	    {
+	        label placement = left
+	    }
+	    form Add_Settlement_Offer
+	    {
+	        label placement = left
+	    }
+	    form Add_Time_Entry
+	    {
+	        label placement = left
+	    }
+	    form Alert
+	    {
+	        label placement = left
+	    }
+	    form Approval_Setup_For
+	    {
+	        label placement = left
+	    }
+	    form Create_Case
+	    {
+	        label placement = left
+	    }
+	    form Create_Invoice
+	    {
+	        label placement = left
+	    }
+	    form Create_Template
+	    {
+	        label placement = left
+	    }
+	    form Navigation
+	    {
+	        label placement = left
+	    }
+	    form Request_Access
+	    {
+	        label placement = left
+	    }
+	
+}

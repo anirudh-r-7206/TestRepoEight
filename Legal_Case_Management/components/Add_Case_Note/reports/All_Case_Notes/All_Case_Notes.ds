@@ -1,0 +1,30 @@
+default list All_Case_Notes
+{
+
+		    displayName = "All Case Notes"
+		    show all rows from Add_Case_Note
+		    (
+		        Case
+		        Note_Type
+		        Communication_DateTime
+		        Direction
+		        Subject
+		        Follow_Up_Required
+		        Follow_Up_Date
+		        Created_By
+		        Visible_To_Client
+		    )
+		    filters
+		    (
+		        Case
+		        Note_Type
+		        Direction
+		        Follow_Up_Required
+		        Visible_To_Client
+		    )
+		    sort by
+		    (
+		        Communication_DateTime descending
+		    )
+		
+}

@@ -1,0 +1,28 @@
+Add_Case_Note_On_Validate as "Add Case Note On Validate"
+{
+
+			    type = form
+			    form = Add_Case_Note
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Follow_Up_Required == true && input.Follow_Up_Date == null)
+			                {
+			                    alert "Follow Up Date is required when follow-up is required.";
+			                    cancel submit;
+			                }
+			                if(input.Note_Type == "Internal Note" && input.Visible_To_Client == true)
+			                {
+			                    alert "Internal notes cannot be marked visible to client.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,30 @@
+Expense_Entry_On_User_Input as "Expense Entry On User Input"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on add or edit
+			
+			    on user input of Expense_Entry
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Expense_Entry != null)
+			                {
+			                    exp = Add_Expense_Entry[ID == input.Expense_Entry];
+			                    if(exp.count() > 0)
+			                    {
+			                        input.Source_Type = "Expense Entry";
+			                        input.Case = exp.Case;
+			                        input.Description = exp.Expense_Category + ": " + ifnull(exp.Description,"");
+			                        input.Quantity = 1;
+			                        input.Rate = exp.Amount;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

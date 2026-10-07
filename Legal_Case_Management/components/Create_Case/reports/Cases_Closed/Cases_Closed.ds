@@ -1,0 +1,32 @@
+list Cases_Closed
+{
+
+		    displayName = "Cases Closed"
+		    show all rows from Create_Case [Case_Status == "Closed"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		        Closed_On
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		    )
+		    sort by
+		    (
+		        Closed_On descending
+		    )
+		
+}

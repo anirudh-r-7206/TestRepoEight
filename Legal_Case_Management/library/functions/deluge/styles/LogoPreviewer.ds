@@ -1,0 +1,22 @@
+string styles.LogoPreviewer()
+{
+
+			
+			                 	item = Add_Preference[ID != 0];
+			                 	if(item.count() != 0)
+			                 	{
+			                 		style = "<style>.leftInnerDiv{width: 250px;border-radius: 10px;border: 1px solid #cbcbdc;box-sizing: border-box;overflow: hidden;}.innerHeader{font-size: 16px;border-bottom: 1px solid #cbcbdc;padding: 7.5px 10px;box-sizing: border-box;width: 100%;background: #f8f8f8;}.productImage{width: 100%;height: 100%;padding: 10px;box-sizing: border-box;}.productImgTag{width: 100%;height: 100%;object-fit: contain;box-sizing: border-box;}.itemsDiv{width: 100%;height: 140px;display: flex;flex-direction: column;}</style><div class='leftInnerDiv'><div class='innerHeader'>Logo Preview</div><div class='itemsDiv'>";
+			                 		if(item.Organization_Logo != "")
+			                 		{
+			                 			url = "/file" + zoho.appuri + "All_Preferences/" + item.ID + "/Organization_Logo/image-download?filepath=/" + item.Organization_Logo.getSuffix("fieldName/image/").getPrefix("\" lowqual");
+			                 		}
+			                 		else
+			                 		{
+			                 			url = "https://files-accl.zohoexternal.com/public/workdrive-external/download/h814669ae0987327a4404804a6236ce5e7438?x-cli-msg=%7B%22linkId%22%3A%226OxchGOzv8B-J8HFH%22%2C%22isFileOwner%22%3Afalse%2C%22version%22%3A%221.0%22%2C%22isWDSupport%22%3Afalse%7D";
+			                 		}
+			                 		return style + "<div class='productImage'><img alt='Logo Preview'class='productImgTag' src='" + url + "'></div></div></div>";
+			                 	}
+			                 	return "";
+			                 
+			
+}

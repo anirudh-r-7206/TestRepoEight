@@ -1,0 +1,31 @@
+Add_Filing_On_Load as "Add Filing On Load"
+{
+
+			    type = form
+			    form = Add_Filing
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Filing_ID;
+			            disable Filing_ID;
+			        }
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Court = caseRec.Court;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

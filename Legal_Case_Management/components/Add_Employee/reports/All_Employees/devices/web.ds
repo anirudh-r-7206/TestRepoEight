@@ -1,0 +1,16 @@
+report All_Employees
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Employee_Name Employee_ID Email Phone Role ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Profile_Image Employee_Name Employee_ID Email Phone Gender Role Reporting_Manager Date_of_Birth ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

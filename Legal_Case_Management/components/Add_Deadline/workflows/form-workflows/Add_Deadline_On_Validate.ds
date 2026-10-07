@@ -1,0 +1,23 @@
+Add_Deadline_On_Validate as "Add Deadline On Validate"
+{
+
+			    type = form
+			    form = Add_Deadline
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Reminder_Date != null && input.Deadline_Date != null && input.Reminder_Date > input.Deadline_Date)
+			                {
+			                    alert "Reminder Date cannot be after Deadline Date.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,43 @@
+Validation as "Validation"
+{
+
+			
+							type =  form
+							form = Add_Approval_Setup
+			
+							record event = on add or edit
+			
+							on validate
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														// today = zoho.currentdate;
+													// currMonth = today.getMonth();
+													// currYear = today.getYear();
+													// currentDay = today.getDay();
+													// startDate = today.toStartOfMonth();
+													// endDate = startDate.addDay(9);
+													// if(currentDay < 1 || currentDay > 10)
+													// {
+													// 	alert "Preference submission is currently closed. Please contact HR for assistance.";
+													// 	cancel submit;
+													// }
+													if(input.Approver_Type == "Role" && input.Approver_Role == null)
+													{
+														alert "Please Select Approver Role to Proceed.";
+														cancel submit;
+													}
+													if(input.Approver_Type == "User" && input.users == null)
+													{
+														alert "Please Select User to Proceed.";
+														cancel submit;
+													}
+									)
+								}
+							}
+			
+						
+			
+}

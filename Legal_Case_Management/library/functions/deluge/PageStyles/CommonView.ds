@@ -1,0 +1,17 @@
+string PageStyles.CommonView()
+{
+
+			
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	filter_style = thisapp.styles.Filter();
+			                 	panel_style = thisapp.styles.Panel();
+			                 	common = thisapp.Localization.Common();
+			                 	layout_style = ".zc-pra-common-view .zc-pra-page-container-inner { padding: 24px 30px; } .zc-pra-common-view .zc-pra-page-container-inner>*:not(:last-child) { margin-bottom: 20px; } .zc-pra-page-header h5 { padding: 7px 0px; } .zc-pra-page-header .zc-form-fullheight, .zc-pra-page-header .zc-form-fullheight .form-outer-wrapper { background-color: transparent; } .zc-pra-page-header .zc-pra-filter { height: 36px !important; } .zc-pra-page-header.zc-pra-page-header-without-btn .zc-pra-filter .zc-form-fullheight .form-outer-wrapper .formContainer { padding: 0px; } .zc-pra-page-header .zc-pra-filter .zc-form-fullheight .form-outer-wrapper .formContainer { padding: 0px 20px; } .zc-pra-page-header .zc-pra-filter .form-group.zc-Project-group .form-field .select2-container:not(.select2-allowclear) .select2-chosen:before { content: '" + common.get("zcp.allprojects") + "'; } .zc-pra-page-header .zc-pra-filter .select2-container .select2-choice { border-color: #B4BFD5; border-radius: 6px; } .zc-pra-page-header .zc-pra-filter .select2-container:hover .select2-choice, .zc-pra-page-header .zc-pra-filter .select2-container:focus .select2-choice, .zc-pra-page-header .zc-pra-filter .select2-container.select2-container-active .select2-choice { border-color: var(--theme_brand_color); } .zc-pra-page-header .zc-pra-filter .select2-container .select2-choice { padding-left: 12px; } .zc-pra-page-header .zc-live-primary-btn { margin-right: 0px; } .zc-pra-card { width: 100%; height: calc(100% - 179px); } .zc-pra-card-header h6 { padding: 16px 20px; border-bottom: 1px solid " + color_codes.get("zc-pra-border-color") + "; } .zc-pra-card.zc-pra-with-header .zc-pra-card-content { height: calc(100% - 53px); } .zc-pra-card .zc-pra-card-content .zc-pra-report { height: calc(100% - 0px) !important; padding-top: 20px; } .zc-pra-card .zc-pra-card-content .zc-pra-filter+.zc-pra-report { height: calc(100% - 68px) !important; padding-top: 0px; } .zc-pra-card .view-outer-wrapper, .zc-pra-card .zc-reporttype-list, .zc-pra-card .list-view-inner { border-radius: 0px 0px 12px 12px; } .zc-pra-page-header-with-options .zc-live-primary-btn { margin: 0px 51px; } .zc-pra-page-header-with-options ~ .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabbody { overflow: initial; } .zc-pra-filter .form-group.zc-addnote-fld.zc-Option_Notes-group { position: absolute; padding: 0px; margin: 0px; right: -21px; z-index: 2; top: -247px; }";
+			                 	isFinace_style = ".zc-pra-isFinace .zc-pra-horizontal-tabbody.zc-pra-card-content { height: 100%; } .zc-pra-isFinace .zc-pra-filter .zc-form-fullheight, .zc-pra-filter .zc-form-fullheight .form-outer-wrapper { border-radius: 12px 12px 0px 0px; }";
+			                 	rtl_style = ".zc-rtl-wrapper .zc-pra-page-header .zc-live-primary-btn { margin-left: 0px; }";
+			                 	to_be_removed = '.zc-pra-page-header {padding: 0px;}';
+			                 	style_txt = layout_style + panel_style + filter_style + isFinace_style + rtl_style + to_be_removed;
+			                 	return style_txt;
+			                 
+			
+}

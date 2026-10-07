@@ -1,0 +1,70 @@
+form Navigation
+{
+
+		
+					store data in zc = false
+					success message = ""
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					Nav_Options
+					(
+						type = radiobuttons
+						displayname = "Nav Options"
+						maxchar = 100
+						values = {""}
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Hidden
+					(
+						type = section
+						visibility = true
+			 			row = 2
+			 			column = 0   
+						width = medium
+					)
+					Page_Name
+					(
+		    			type = text
+						displayname = "Page Name"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					ids
+					(
+		    			type = text
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Tab
+					(
+						type = number
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+			
+					actions
+					{
+						Submit
+						(
+		   					type = submit
+		   					displayname = "Submit"
+						)
+						Reset
+						(
+		   					type = reset
+		   					displayname = "Reset"
+						)
+					}
+				
+		
+}

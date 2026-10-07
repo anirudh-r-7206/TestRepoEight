@@ -1,0 +1,28 @@
+Add_Hearing_On_Validate as "Add Hearing On Validate"
+{
+
+			    type = form
+			    form = Add_Hearing
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Hearing_Status == "Completed" && input.Outcome in {"",null})
+			                {
+			                    alert "Outcome is required when the hearing is completed.";
+			                    cancel submit;
+			                }
+			                if(input.Hearing_Status == "Adjourned" && input.Next_Hearing_DateTime == null)
+			                {
+			                    alert "Next Hearing DateTime is required when the hearing is adjourned.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

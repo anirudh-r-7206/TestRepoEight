@@ -1,0 +1,12 @@
+string styles.Vertical_Tab()
+{
+
+			
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	layout_style = ".zc-pra-vertical-tabpanel { } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead, .zc-pra-vertical-tabpanel .zc-pra-vertical-tabbody { height: 100%; overflow: auto; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead { width: 250px; padding: 20px; border-right: 1px solid " + color_codes.get("zc-pra-border-color") + "; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabbody { width: calc(100% - 250px); } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li { list-style-type: none; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li input { display: none; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li a { width: 100%; display: block; border-radius: 4px; padding: 10px 12px; margin: 2px 0px; font-size: 14px; font-weight: 400; line-height: 21px; color: " + color_codes.get("zc-pra-primary-text-color") + "; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li a:hover { color: var(--theme_brand_color); } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li ul.zc-pra-vertical-tabsubmenu { background-color: var(--left_pane_section); border-radius: 4px; display: none; animation-duration: .25s; animation-name: animation-fade-up; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li ul.zc-pra-vertical-tabsubmenu li a { padding-left: 20px; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead .zc-pra-vertical-tab-comp>label>a:after { content: '\f105'; font: normal normal normal 14px/21px FontAwesome; float: right; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li input:checked~ul.zc-pra-vertical-tabsubmenu { display: block; } .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead .zc-pra-vertical-tab-comp>input:checked~label>a:after { content: '\f107'; transform: rotate(0deg); }";
+			                 	rtl_style = ".zc-rtl-wrapper .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead { border-right: 0px; border-left: 1px solid " + color_codes.get("zc-pra-border-color") + "; } .zc-rtl-wrapper .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead li ul.zc-pra-vertical-tabsubmenu li a { padding-left: 12px; padding-right: 20px; } .zc-rtl-wrapper .zc-pra-vertical-tabpanel .zc-pra-vertical-tabhead .zc-pra-vertical-tab-comp>label>a:after { float: left; transform: rotate(180deg); }";
+			                 	style_txt = layout_style + rtl_style;
+			                 	return style_txt;
+			                 
+			
+}

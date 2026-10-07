@@ -1,0 +1,28 @@
+Add_Settlement_Offer_On_Validate as "Add Settlement Offer On Validate"
+{
+
+			    type = form
+			    form = Add_Settlement_Offer
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Offer_Status in {"Accepted","Rejected","Withdrawn"} && ifnull(input.Decision_Notes,"") == "")
+			                {
+			                    alert "Decision Notes are required for accepted, rejected, or withdrawn offers.";
+			                    cancel submit;
+			                }
+			                if(input.Response_Due_Date != null && input.Offer_Date != null && input.Response_Due_Date < input.Offer_Date)
+			                {
+			                    alert "Response Due Date cannot be before Offer Date.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

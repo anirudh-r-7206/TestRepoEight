@@ -1,0 +1,67 @@
+void generateTestData()
+{
+
+			
+			                 	formList = {};
+			                 	noOfRecords = 3;
+			                 	if(formList.size() == 0)
+			                 	{
+			                 		response = invokeurl
+			                 		[
+			                 			url :"https://www.zohoapis.com/creator/v2.1/meta" + zoho.appuri + "forms"
+			                 			type :GET
+			                 			connection:"creator"
+			                 		];
+			                 		for each  rec1 in response.get("forms")
+			                 		{
+			                 			if(rec1.get("type") == 1)
+			                 			{
+			                 				formList.add(rec1.get("link_name"));
+			                 			}
+			                 		}
+			                 	}
+			                 	if(formList.size() != 0)
+			                 	{
+			                 		for each  formLinkName in formList
+			                 		{
+			                 			fieldResponse = invokeurl
+			                 			[
+			                 				url :"https://www.zohoapis.com/creator/v2.1/meta" + zoho.appuri + "form/" + formLinkName + "/fields"
+			                 				type :GET
+			                 				connection:"creator"
+			                 			];
+			                 			promptText = "Generate " + noOfRecords.toString() + " realistic JSON records for these fields with types and constraints: " + fieldResponse.toString() + ". Each record must strictly follow field types and constraints (numbers for number fields, booleans for checkbox fields, valid picklist choices only, max_char limits respected, mandatory fields filled, valid dates for date fields, valid emails for email fields).For fields representing Month and Year, only use values from the last 12 months relative to the current date. For example, Month should be equal to current or before this month and Year should current year only.Return ONLY a valid JSON array of objects like [{\"field1\":\"value1\",\"field2\":value2}, ...] with no surrounding markdown, ```json``` tags, explanations, comments, or any extra text.Do not include any text before or after the JSON array. The output must be a pure JSON array;";
+			                 			result = zia
+			                 			[
+			                 				message:promptText
+			                 			];
+			                 			// info "Zia response: " + result;
+			                 			resultResp = result + "";
+			                 			liss = resultResp.toList();
+			                 			for each  aec in liss
+			                 			{
+			                 				payload = Map();
+			                 				dataList = List();
+			                 				dataList.add(aec);
+			                 				payload.put("data",dataList);
+			                 				try 
+			                 				{
+			                 					insertResponse = invokeurl
+			                 					[
+			                 						url :"https://www.zohoapis.com/creator/v2.1/data" + zoho.appuri + "form/" + formLinkName
+			                 						type :POST
+			                 						parameters:payload.toString()
+			                 						connection:"creator"
+			                 					];
+			                 					info "Inserted test record into " + formLinkName + ": " + insertResponse;
+			                 				}
+			                 				catch (e)
+			                 				{
+			                 					info "Error inserting record for " + formLinkName + ": " + e.toString();
+			                 				}
+			                 			}
+			                 		}
+			                 	}
+			                 
+			
+}

@@ -1,0 +1,20 @@
+<page linkname = "Client_Portal" displayname = "Client Portal"/>
+<content>
+<zml>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Client_Portal_Main' elementName='Client_Portal_Main'>
+          <![CDATA[htmlpage Client_Portal_Main()
+						content
+			<%{%>
+            <file name:Client_Portal_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

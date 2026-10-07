@@ -1,0 +1,27 @@
+customize
+{
+
+	    layout
+	    {
+	        theme = "theme_2"
+	        variant = "variant_2"
+	    }
+	    font = "lato"
+	    color options
+	    {
+	        name = "Legal Primary"
+	        brand color = "#6147E5"
+	        type = "custom"
+	        dark mode color = "#8B78FF"
+	    }
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	    custom css
+	    {
+	        content = ".zc-container,.zc-main-content{max-width:none;width:100%;}.zc-page-content{padding:16px 24px;}"
+	    }
+	
+}

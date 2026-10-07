@@ -1,0 +1,33 @@
+list Cases_Hearing_and_Trial
+{
+
+		    displayName = "Cases Hearing and Trial"
+		    show all rows from Create_Case [Case_Status == "Hearing and Trial"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		        Limitation_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

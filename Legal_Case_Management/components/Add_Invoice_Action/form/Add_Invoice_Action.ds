@@ -1,0 +1,128 @@
+form Add_Invoice_Action
+{
+
+		    displayname = "Add Invoice Action"
+		    success message = "Invoice action completed successfully"
+		
+		    Action_Details
+		    (
+		        type = section
+		        displayname = "Action Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Invoice
+		    (
+		        type = picklist
+		        displayname = "Invoice"
+		        values = Create_Invoice.ID
+		        displayformat = [Invoice_Number]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Action_Type
+		    (
+		        type = picklist
+		        displayname = "Action Type"
+		        values = {"Submit for Review","Approve Invoice","Send Invoice","Mark Partially Paid","Mark Paid","Cancel Invoice","Reopen Invoice"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Action_By
+		    (
+		        type = picklist
+		        displayname = "Action By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Action_Notes
+		    (
+		        type = textarea
+		        displayname = "Action Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Invoice_Action_ID
+		    (
+		        type = autonumber
+		        displayname = "Invoice Action ID"
+		        start index = 1000
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    From_Status
+		    (
+		        type = text
+		        displayname = "From Status"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    To_Status
+		    (
+		        type = text
+		        displayname = "To Status"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Action_Date
+		    (
+		        type = datetime
+		        displayname = "Action Date"
+		        initial value = "${zoho.currenttime}"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Run Action"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Action"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

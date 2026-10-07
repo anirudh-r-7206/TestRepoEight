@@ -1,0 +1,27 @@
+Add_Case_Task_On_Load as "Add Case Task On Load"
+{
+
+			    type = form
+			    form = Add_Case_Task
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Task_ID;
+			            disable Task_ID;
+			        }
+			        actions (Task_Status == "Completed")
+			        {
+			            show Completion_Date;
+			            enable Completion_Date;
+			        }
+			        actions (Task_Status != "Completed")
+			        {
+			            hide Completion_Date;
+			            disable Completion_Date;
+			        }
+			    }
+			
+}

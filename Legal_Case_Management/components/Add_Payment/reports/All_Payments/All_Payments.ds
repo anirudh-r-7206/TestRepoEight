@@ -1,0 +1,28 @@
+default list All_Payments
+{
+
+		    displayName = "All Payments"
+		    show all rows from Add_Payment
+		    (
+		        Invoice
+		        Case
+		        Client
+		        Payment_Date
+		        Payment_Mode
+		        Reference_Number
+		        Amount
+		        Payment_Status
+		    )
+		    filters
+		    (
+		        Client
+		        Case
+		        Payment_Mode
+		        Payment_Status
+		    )
+		    sort by
+		    (
+		        Payment_Date descending
+		    )
+		
+}

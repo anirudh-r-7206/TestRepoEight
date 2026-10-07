@@ -1,0 +1,35 @@
+Add_Case_Task_Schedule as "Add Case Task Schedule"
+{
+
+			    type = schedule
+			    start = "2026-01-01 08:00:00"
+			    frequency = daily
+			    time zone = "Asia/Kolkata"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                openTasks = Add_Case_Task[Due_Date < zoho.currentdate && Task_Status != "Completed" && Task_Status != "Cancelled"] range from 1 to 200;
+			                for each taskRec in openTasks
+			                {
+			                    taskRec.Task_Status = "Overdue";
+			                    empRec = Add_Employee[ID == taskRec.Assigned_To];
+			                    if(empRec.count() > 0 && ifnull(empRec.Email,"") != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : empRec.Email
+			                            subject : "Overdue legal task"
+			                            message : "Task is overdue: " + taskRec.Task_Title
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

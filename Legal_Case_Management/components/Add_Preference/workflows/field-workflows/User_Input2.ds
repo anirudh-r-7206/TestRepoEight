@@ -1,0 +1,28 @@
+User_Input2 as "User-Input"
+{
+
+			
+							type =  form
+							form = Add_Preference
+			
+							record event = on edit
+			
+							on user input of Organization_Logo
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														fetchPreference = Add_Preference[ID == input.ID];
+													if(fetchPreference.count() != 0)
+													{
+														fetchPreference.Organization_Logo=input.Organization_Logo;
+														input.Logo_Preview = thisapp.styles.LogoPreviewer();
+													}
+									)
+								}
+							}
+			
+						
+			
+}

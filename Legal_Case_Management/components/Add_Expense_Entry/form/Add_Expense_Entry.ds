@@ -1,0 +1,178 @@
+form Add_Expense_Entry
+{
+
+		    displayname = "Add Expense Entry"
+		    success message = "Expense entry saved successfully"
+		
+		    Expense_Details
+		    (
+		        type = section
+		        displayname = "Expense Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Employee
+		    (
+		        type = picklist
+		        displayname = "Employee"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Expense_Date
+		    (
+		        type = date
+		        displayname = "Expense Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Expense_Category
+		    (
+		        type = picklist
+		        displayname = "Expense Category"
+		        values = {"Court Fee","Travel","Courier","Research","Filing Fee","Expert Fee","Government Fee","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Vendor
+		    (
+		        type = text
+		        displayname = "Vendor"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Amount
+		    (
+		        type = USD
+		        displayname = "Amount"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billable
+		    (
+		        type = checkbox
+		        displayname = "Billable"
+		        initial value = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Receipt
+		    (
+		        type = upload file
+		        displayname = "Receipt"
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Details
+		    (
+		        type = section
+		        displayname = "Billing Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Invoice
+		    (
+		        type = picklist
+		        displayname = "Invoice"
+		        values = Create_Invoice.ID
+		        displayformat = [Invoice_Number]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Approval_Status
+		    (
+		        type = picklist
+		        displayname = "Approval Status"
+		        values = {"Draft","Submitted","Approved","Rejected","Invoiced"}
+		        initial value = "Draft"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Description
+		    (
+		        type = textarea
+		        displayname = "Description"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Expense_ID
+		    (
+		        type = autonumber
+		        displayname = "Expense ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Expense"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Expense"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

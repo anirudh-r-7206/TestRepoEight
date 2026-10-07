@@ -1,0 +1,38 @@
+string ImportantFunctions.getLogo()
+{
+
+			
+			                 	fetchPref = Add_Preference[ID != null];
+			                 	if(fetchPref.count() != 0)
+			                 	{
+			                 		if(fetchPref.Organization_Logo == "")
+			                 		{
+			                 			respImage = invokeurl
+			                 			[
+			                 				url :"https://www.zohowebstatic.com/sites/zweb/images/productlogos/creator.svg"
+			                 				type :GET
+			                 			];
+			                 			respImage.setParamName("file");
+			                 			respImage.setFileName("Creator_Logo.svg");
+			                 			resp = invokeurl
+			                 			[
+			                 				url :"https://www.zohoapis.com/creator/v2.1/data/zc_poc/company-name-app-category-poc-id/report/All_Preferences/" + fetchPref.ID + "/Organization_Logo/upload"
+			                 				type :POST
+			                 				files:respImage
+			                 				connection:"creator"
+			                 			];
+			                 		}
+			                 		returnImage = thisapp.ImportantFunctions.getImageURL(fetchPref.Organization_Logo,"Organization_Logo","All_Preferences",fetchPref.ID);
+			                 	}
+			                 	else
+			                 	{
+			                 		insert into Add_Preference
+			                 		[
+			                 			Added_User=zoho.loginuser
+			                 		]
+			                 		returnImage = "https://www.zohowebstatic.com/sites/zweb/images/productlogos/creator.svg";
+			                 	}
+			                 	return returnImage;
+			                 
+			
+}

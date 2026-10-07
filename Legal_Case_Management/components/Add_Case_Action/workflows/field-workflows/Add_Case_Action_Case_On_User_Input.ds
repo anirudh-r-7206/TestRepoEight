@@ -1,0 +1,27 @@
+Add_Case_Action_Case_On_User_Input as "Case On User Input"
+{
+
+			    type = form
+			    form = Add_Case_Action
+			    record event = on add or edit
+			
+			    on user input of Case
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                input.From_Status = "";
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.From_Status = caseRec.Case_Status;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

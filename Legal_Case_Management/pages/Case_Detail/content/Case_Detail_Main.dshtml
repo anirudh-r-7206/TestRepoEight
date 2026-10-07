@@ -1,0 +1,993 @@
+<%
+	caseRows = Create_Case[ID == input.Case_ID];
+%>
+<style>
+/* ===== zcs-global.css: utility subset included once for this page ===== */
+:root {
+	--zcs-theme-brand-color: var(--zcs_brand_color, #6147E5);
+	--zcs_brand_color: #6147E5;
+	--zcs_brand_foreground_color: #FFFFFF;
+	--zcs_brand_dark_color: #4E38C8;
+	--zcs_brand_light_color: #F1EEFF;
+	--zcs_primary_text_color: #17142F;
+	--zcs_secondary_text_color: #4F5873;
+	--zcs_tertiary_text_color: #7A8094;
+	--zcs_tertiary_border_color: #E7E8F0;
+	--zcs_primary_border_color: #E0E2EA;
+	--zcs_component_hover_color: #F4F1FF;
+	--zcs_light_grey_color: #F7F8FC;
+	--zcs-white-color: #FFFFFF;
+	--zcs-page-bg-color: #F6F7FB;
+	--cd-primary: #6147E5;
+	--cd-primary-dark: #4E38C8;
+	--cd-bg: #F6F7FB;
+	--cd-surface: #FFFFFF;
+	--cd-border: #E7E8F0;
+	--cd-text: #17142F;
+	--cd-muted: #6B7280;
+	--cd-soft: #F1EEFF;
+	--cd-success: #179E6C;
+	--cd-warning: #B8770D;
+	--cd-danger: #D92D20;
+	--cd-info: #2A6FFC;
+	--cd-gap: 15px;
+	--cd-radius: 12px;
+	font-size: 16px;
+	line-height: 1.5;
+}
+.zcs-flex{display:flex}.zcs-inline-flex{display:inline-flex}.zcs-row{display:flex;flex-wrap:wrap}.zcs-direction-column{flex-direction:column}.zcs-align-items-center{align-items:center}.zcs-align-items-start{align-items:flex-start}.zcs-justify-center{justify-content:center}.zcs-justify-space-between{justify-content:space-between}.zcs-col-common{flex:1 1 0%;min-width:0}.zcs-no-shrink{flex-shrink:0}.zcs-gap-4{gap:4px}.zcs-gap-6{gap:6px}.zcs-gap-8{gap:8px}.zcs-gap-10{gap:10px}.zcs-gap-12{gap:12px}.zcs-gap-15{gap:15px}.zcs-gap-16{gap:16px}.zcs-p-0{padding:0}.zcs-p-8{padding:8px}.zcs-p-12{padding:12px}.zcs-p-15{padding:15px}.zcs-p-16{padding:16px}.zcs-p-20{padding:20px}.zcs-px-10{padding-left:10px;padding-right:10px}.zcs-px-12{padding-left:12px;padding-right:12px}.zcs-px-16{padding-left:16px;padding-right:16px}.zcs-py-2{padding-top:2px;padding-bottom:2px}.zcs-py-6{padding-top:6px;padding-bottom:6px}.zcs-py-8{padding-top:8px;padding-bottom:8px}.zcs-m-0{margin:0}.zcs-mt-10{margin-top:10px}.zcs-mx-0{margin-left:0;margin-right:0}.zcs-mb-0{margin-bottom:0}.zcs-w-full{width:100%}.zcs-wh-full{width:100%;height:100%}.zcs-font-12{font-size:12px}.zcs-font-13{font-size:13px}.zcs-font-14{font-size:14px}.zcs-font-15{font-size:15px}.zcs-font-16{font-size:16px}.zcs-font-18{font-size:18px}.zcs-font-20{font-size:20px}.zcs-font-24{font-size:24px}.zcs-font-normal{font-weight:400}.zcs-font-medium{font-weight:500}.zcs-font-semibold{font-weight:600}.zcs-font-bold{font-weight:700}.zcs-lh-body{line-height:1.5}.zcs-lh-heading{line-height:1.25}.zcs-uppercase{text-transform:uppercase}.zcs-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.zcs-break-words{overflow-wrap:break-word}.zcs-rounded-sm{border-radius:4px}.zcs-rounded-md{border-radius:6px}.zcs-rounded-lg{border-radius:8px}.zcs-rounded-xl{border-radius:12px}.zcs-text-left{text-align:left}.zcs-text-right{text-align:right}.zcs-text-center{text-align:center}.zcs-box-border{box-sizing:border-box}.zcs-color-primary{color:var(--zcs_primary_text_color)}.zcs-color-secondary{color:var(--zcs_secondary_text_color)}.zcs-color-tertiary{color:var(--zcs_tertiary_text_color)}.zcs-overflow-auto{overflow:auto}.zcs-card{background:var(--zcs-white-color);border:1px solid var(--zcs_tertiary_border_color);border-radius:12px}a{text-decoration:none}
+/* ===== ZCS component CSS: button-primary-button ===== */
+.zcs-button{width:auto;min-width:5rem;min-height:36px}.zcs-primary-button{background-color:var(--zcs_brand_color);color:var(--zcs_brand_foreground_color)}.zcs-primary-outline-button{border:1px solid var(--zcs_brand_color);background-color:var(--zcs-white-color);color:var(--zcs_brand_color)}.zcs-secondary-button{border:1px solid var(--zcs_primary_border_color);background-color:var(--zcs_light_grey_color);color:var(--zcs_primary_text_color)}.zcs-primary-button.zcs-button:hover{background-color:var(--zcs_brand_dark_color)}.zcs-primary-outline-button:hover{background-color:var(--zcs_component_hover_color);border-color:var(--zcs_brand_color);color:var(--zcs_brand_color)}.zcs-secondary-button:hover{background-color:#ECEEF7}.zcs-button-icon{width:16px;max-height:16px}.zcs-button-text{white-space:nowrap}
+/* ===== ZCS component CSS: badge-filled-badge ===== */
+.zcs-badge{width:auto}.zcs-badge-filled{border:1px solid transparent}.zcs-badge-filled.zcs-badge-theme{background-color:var(--zcs_brand_color);border-color:var(--zcs_brand_color);color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-green{background-color:#179E6C;border-color:#179E6C;color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-red{background-color:#FE455D;border-color:#FE455D;color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-grey{background-color:#242424;border-color:#242424;color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-yellow{background-color:#FAAE13;border-color:#FAAE13;color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-blue{background-color:#2A6FFC;border-color:#2A6FFC;color:var(--zcs-white-color)}.zcs-badge-filled.zcs-badge-orange{background-color:#F4660C;border-color:#F4660C;color:var(--zcs-white-color)}
+/* ===== ZCS component CSS: table-simple-table ===== */
+:root{--zcs-thead-color:#F9FAFE;--zcs-tr-h-color:#F9FAFE}.zcs-table-wrapper{border:1px solid var(--zcs_tertiary_border_color);background-color:var(--zcs-white-color);overflow:auto}.zcs-table-wrapper table{line-height:normal;border-collapse:collapse}.zcs-table-wrapper table thead{top:0;position:sticky;z-index:1}.zcs-table-wrapper table thead tr th{background-color:var(--zcs-thead-color);box-shadow:0 -1px 0 0 var(--zcs_tertiary_border_color) inset;white-space:nowrap}.zcs-table-wrapper table tbody tr td{border-top:1px solid var(--zcs_tertiary_border_color);vertical-align:top}.zcs-table-wrapper table tbody tr:first-child td{border-color:transparent}.zcs-table-wrapper table tbody tr:hover td{background-color:var(--zcs-tr-h-color)}.zcs-table-wrapper table tbody tr td.zcs-green,.zcs-green{color:#179E6C}.zcs-table-wrapper table tbody tr td.zcs-red,.zcs-red{color:#FE455D}.zcs-table-wrapper table tbody tr td.zcs-yellow,.zcs-yellow{color:#B8770D}.zcs-table-wrapper table tbody tr td.zcs-blue,.zcs-blue{color:#2A6FFC}.zcs-table-wrapper table tbody tr td.zcs-l_blue,.zcs-l_blue{color:#1094C5}
+/* ===== Case Detail approved CSS block ===== */
+*{box-sizing:border-box}html,body{font-size:14px}div#zppagesLive,div#elementsContainer,.Layout.elemContainment,.zc-pb-formreport-placeholder,.zc-pb-tile-card{height:100%!important}.Layout.elemContainment,.zc-pb-tile-container{padding:0!important}.zc-pb-tile-card{border-radius:0!important;box-shadow:none!important}.case-detail{width:100%;min-height:100%;background:var(--cd-bg);color:var(--cd-text);font-family:Lato,Arial,sans-serif;font-size:14px;line-height:1.45;padding:var(--cd-gap);overflow:auto}.cd-shell{display:flex;flex-direction:column;gap:var(--cd-gap);max-width:1680px;margin:0 auto}.cd-header{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--cd-gap);padding:15px;border:1px solid var(--cd-border);border-radius:var(--cd-radius);background:linear-gradient(135deg,#FFFFFF 0%,#F4F1FF 100%)}.cd-title-block{min-width:0;flex:1}.cd-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cd-primary);margin:0 0 4px}.cd-title{font-size:24px;line-height:1.2;font-weight:700;color:var(--cd-text);margin:0}.cd-subtitle{margin:6px 0 0;color:var(--cd-muted)}.cd-action-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;max-width:720px}.cd-action-row .zcs-button,.cd-section-actions .zcs-button{border-radius:8px}.cd-badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.cd-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--cd-gap);align-items:start}.cd-card{grid-column:span 4;background:var(--cd-surface);border:1px solid var(--cd-border);border-radius:var(--cd-radius);overflow:hidden;min-height:100%;display:flex;flex-direction:column}.cd-card.cd-wide{grid-column:span 8}.cd-card.cd-full{grid-column:span 12}.cd-card-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px;border-bottom:1px solid var(--cd-border);background:#fff}.cd-card-title{display:flex;flex-direction:column;gap:2px;min-width:0}.cd-card-title h2{font-size:16px;line-height:1.25;font-weight:700;color:var(--cd-text);margin:0}.cd-card-title p{font-size:12px;color:var(--cd-muted);margin:0}.cd-card-body{padding:15px}.cd-section-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.cd-kv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cd-kv-grid.single{grid-template-columns:1fr}.cd-kv{border:1px solid var(--cd-border);border-radius:10px;padding:12px;background:#FCFCFF;min-width:0}.cd-kv label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.02em;font-weight:700;color:var(--cd-muted);margin-bottom:5px}.cd-kv strong,.cd-kv span{display:block;color:var(--cd-text);word-break:break-word}.cd-kv small{display:block;color:var(--cd-muted);font-size:12px;margin-top:4px;word-break:break-word}.cd-narrative{white-space:pre-wrap;color:var(--cd-text);margin:0}.cd-muted{color:var(--cd-muted)}.cd-process-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--cd-gap)}.cd-finance-grid{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:var(--cd-gap)}.cd-finance-card{border:1px solid var(--cd-border);border-radius:var(--cd-radius);padding:15px;background:#fff}.cd-finance-card label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.02em;font-weight:700;color:var(--cd-muted);margin-bottom:6px}.cd-finance-card strong{display:block;font-size:20px;line-height:1.2;color:var(--cd-text);word-break:break-word}.cd-related-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--cd-gap)}.cd-related{grid-column:span 6;background:var(--cd-surface);border:1px solid var(--cd-border);border-radius:var(--cd-radius);overflow:hidden;display:flex;flex-direction:column;min-height:330px}.cd-related.cd-related-full{grid-column:span 12}.cd-scroll{height:245px;overflow:auto;padding:15px}.cd-history-scroll{height:360px;overflow:auto;padding:15px}.cd-table{min-width:640px}.cd-table.compact{min-width:520px}.cd-table .cd-main{font-weight:600;color:var(--cd-text)}.cd-table .cd-sub{font-size:12px;color:var(--cd-muted);margin-top:2px}.cd-status-pill{font-size:12px;font-weight:600;line-height:1.25;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;max-width:200px}.cd-status-primary{background:#F1EEFF;color:var(--cd-primary)}.cd-status-success{background:#E4FCF3;color:var(--cd-success)}.cd-status-warning{background:#FCF4E6;color:var(--cd-warning)}.cd-status-danger{background:#FDE3E6;color:var(--cd-danger)}.cd-status-info{background:#E8EFFF;color:var(--cd-info)}.zcs-nodata-wrapper{min-height:150px;border:1px dashed var(--cd-border);border-radius:var(--cd-radius);background:#FCFCFF}.zcs-nodata-header{font-size:15px}.cd-empty-text{color:var(--cd-muted);margin:6px 0 0}.cd-alert{display:flex;gap:10px;align-items:flex-start;border:1px solid #F7C7CB;background:#FFF5F6;color:#9E1C2B;border-radius:var(--cd-radius);padding:15px}.cd-alert i{font-size:18px;line-height:1.2}.cd-mobile-list{display:none}.cd-mobile-card{border:1px solid var(--cd-border);border-radius:var(--cd-radius);padding:12px;background:#fff;margin-bottom:10px}.cd-mobile-card:last-child{margin-bottom:0}.cd-mobile-card-title{font-weight:700;margin:0 0 4px;color:var(--cd-text)}.cd-mobile-card-line{font-size:12px;color:var(--cd-muted);margin:2px 0}.cd-mobile-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}@media (max-width:1280px){.cd-card,.cd-card.cd-wide{grid-column:span 6}.cd-process-grid{grid-template-columns:1fr}.cd-finance-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.cd-related{grid-column:span 12}}@media (max-width:860px){.case-detail{padding:15px}.cd-header{flex-direction:column}.cd-action-row,.cd-section-actions{justify-content:flex-start;max-width:none}.cd-card,.cd-card.cd-wide,.cd-card.cd-full{grid-column:span 12}.cd-kv-grid,.cd-finance-grid{grid-template-columns:1fr}.cd-scroll{height:300px}.cd-table-wrapper-mobile{display:none}.cd-mobile-list{display:block}}@media (max-width:520px){.cd-title{font-size:20px}.cd-card-header{align-items:flex-start;flex-direction:column}}
+</style>
+
+<div class="case-detail">
+	<div class="cd-shell">
+<%
+	if(caseRows.count() == 0)
+	{
+%>
+		<div class="cd-alert">
+			<i class="zc-li-outline ui-1-circle-remove"></i>
+			<div>
+				<strong>Case not found</strong>
+				<div>The requested matter could not be found or you do not have access to it.</div>
+			</div>
+		</div>
+<%
+	}
+	else
+	{
+		caseRec = caseRows;
+		clientName = "Not set";
+		clientEmail = "";
+		clientPhone = "";
+		clientStatus = "";
+		if(caseRec.Client != null)
+		{
+			clientRec = Add_Client[ID == caseRec.Client];
+			if(clientRec.count() > 0)
+			{
+				clientName = ifnull(clientRec.Client_Name,"Not set");
+				clientEmail = ifnull(clientRec.Primary_Email,"");
+				clientPhone = ifnull(clientRec.Primary_Phone,"");
+				clientStatus = ifnull(clientRec.Client_Status,"");
+			}
+		}
+		contactName = "Not set";
+		contactEmail = "";
+		contactPhone = "";
+		contactRole = "";
+		if(caseRec.Client_Contact != null)
+		{
+			contactRec = Add_Client_Contact[ID == caseRec.Client_Contact];
+			if(contactRec.count() > 0)
+			{
+				contactName = ifnull(contactRec.Contact_Name,"Not set");
+				contactEmail = ifnull(contactRec.Email,"");
+				contactPhone = ifnull(contactRec.Phone,"");
+				contactRole = ifnull(contactRec.Role_Title,"");
+			}
+		}
+		practiceName = "Not set";
+		if(caseRec.Practice_Area != null)
+		{
+			practiceRec = Add_Practice_Area[ID == caseRec.Practice_Area];
+			if(practiceRec.count() > 0)
+			{
+				practiceName = ifnull(practiceRec.Practice_Area_Name,"Not set");
+			}
+		}
+		caseTypeName = "Not set";
+		processTemplate = "";
+		if(caseRec.Case_Type != null)
+		{
+			typeRec = Add_Case_Type[ID == caseRec.Case_Type];
+			if(typeRec.count() > 0)
+			{
+				caseTypeName = ifnull(typeRec.Case_Type_Name,"Not set");
+				processTemplate = ifnull(typeRec.Process_Template,"");
+			}
+		}
+		feeScheduleName = "Not set";
+		if(caseRec.Fee_Schedule != null)
+		{
+			feeRec = Add_Fee_Schedule[ID == caseRec.Fee_Schedule];
+			if(feeRec.count() > 0)
+			{
+				feeScheduleName = ifnull(feeRec.Schedule_Name,"Not set");
+			}
+		}
+		courtName = "Not set";
+		if(caseRec.Court != null)
+		{
+			courtRec = Add_Court[ID == caseRec.Court];
+			if(courtRec.count() > 0)
+			{
+				courtName = ifnull(courtRec.Court_Name,"Not set");
+			}
+		}
+		managerName = "Not assigned";
+		leadName = "Not assigned";
+		paralegalName = "Not assigned";
+		billingName = "Not assigned";
+		if(caseRec.Matter_Manager != null)
+		{
+			mgr = Add_Employee[ID == caseRec.Matter_Manager];
+			if(mgr.count() > 0)
+			{
+				managerName = ifnull(mgr.Employee_Name.first_name,"") + " " + ifnull(mgr.Employee_Name.last_name,"");
+			}
+		}
+		if(caseRec.Lead_Attorney != null)
+		{
+			lead = Add_Employee[ID == caseRec.Lead_Attorney];
+			if(lead.count() > 0)
+			{
+				leadName = ifnull(lead.Employee_Name.first_name,"") + " " + ifnull(lead.Employee_Name.last_name,"");
+			}
+		}
+		if(caseRec.Paralegal != null)
+		{
+			para = Add_Employee[ID == caseRec.Paralegal];
+			if(para.count() > 0)
+			{
+				paralegalName = ifnull(para.Employee_Name.first_name,"") + " " + ifnull(para.Employee_Name.last_name,"");
+			}
+		}
+		if(caseRec.Billing_Attorney != null)
+		{
+			bill = Add_Employee[ID == caseRec.Billing_Attorney];
+			if(bill.count() > 0)
+			{
+				billingName = ifnull(bill.Employee_Name.first_name,"") + " " + ifnull(bill.Employee_Name.last_name,"");
+			}
+		}
+		caseStatus = ifnull(caseRec.Case_Status,"New Intake");
+		conflictStatus = ifnull(caseRec.Conflict_Status,"Not Started");
+		engagementStatus = ifnull(caseRec.Engagement_Status,"Not Sent");
+		billingStatus = ifnull(caseRec.Billing_Status,"Not Ready");
+		priority = ifnull(caseRec.Priority,"Medium");
+		confLevel = ifnull(caseRec.Confidentiality_Level,"Standard");
+		caseStatusClass = "zcs-badge-blue";
+		if(caseStatus == "Closed" || caseStatus == "Archived")
+		{
+			caseStatusClass = "zcs-badge-grey";
+		}
+		else if(caseStatus == "Rejected")
+		{
+			caseStatusClass = "zcs-badge-red";
+		}
+		else if(caseStatus == "Billing Review")
+		{
+			caseStatusClass = "zcs-badge-orange";
+		}
+		else if(caseStatus == "New Intake" || caseStatus == "Conflict Check" || caseStatus == "Engagement Pending")
+		{
+			caseStatusClass = "zcs-badge-yellow";
+		}
+		confClass = "zcs-badge-yellow";
+		if(conflictStatus == "Cleared")
+		{
+			confClass = "zcs-badge-green";
+		}
+		else if(conflictStatus == "Conflict Found")
+		{
+			confClass = "zcs-badge-red";
+		}
+		else if(conflictStatus == "Waiver Required")
+		{
+			confClass = "zcs-badge-orange";
+		}
+		engClass = "zcs-badge-yellow";
+		if(engagementStatus == "Signed")
+		{
+			engClass = "zcs-badge-green";
+		}
+		else if(engagementStatus == "Declined")
+		{
+			engClass = "zcs-badge-red";
+		}
+		billClass = "zcs-badge-grey";
+		if(billingStatus == "Ready for Review" || billingStatus == "Invoicing")
+		{
+			billClass = "zcs-badge-orange";
+		}
+		else if(billingStatus == "Closed")
+		{
+			billClass = "zcs-badge-green";
+		}
+		confBadgeClass = "zcs-badge-green";
+		if(confLevel == "Restricted")
+		{
+			confBadgeClass = "zcs-badge-orange";
+		}
+		else if(confLevel == "Highly Confidential")
+		{
+			confBadgeClass = "zcs-badge-red";
+		}
+		timeTotal = Add_Time_Entry[Case == caseRec.ID && Billable == true].sum(Amount);
+		if(timeTotal == null){timeTotal = 0;}
+		totalHours = Add_Time_Entry[Case == caseRec.ID].sum(Hours);
+		if(totalHours == null){totalHours = 0;}
+		expenseTotal = Add_Expense_Entry[Case == caseRec.ID && Billable == true].sum(Amount);
+		if(expenseTotal == null){expenseTotal = 0;}
+		invoiceTotal = Create_Invoice[Case == caseRec.ID].sum(Total_Amount);
+		if(invoiceTotal == null){invoiceTotal = 0;}
+		paidTotal = Add_Payment[Case == caseRec.ID && (Payment_Status == "Received" || Payment_Status == "Reconciled")].sum(Amount);
+		if(paidTotal == null){paidTotal = 0;}
+		balanceTotal = Create_Invoice[Case == caseRec.ID].sum(Balance_Due);
+		if(balanceTotal == null){balanceTotal = 0;}
+		showLitigation = false;
+		showCorporate = false;
+		showCompliance = false;
+		if(processTemplate == "Litigation" || processTemplate == "Arbitration" || caseRec.Court != null || ifnull(caseRec.Court_Case_Number,"") != "")
+		{
+			showLitigation = true;
+		}
+		if(processTemplate == "Corporate Advisory" || ifnull(caseRec.Transaction_Counterparty,"") != "" || caseRec.Transaction_Value != null || caseRec.Execution_Target_Date != null)
+		{
+			showCorporate = true;
+		}
+		if(processTemplate == "Compliance" || ifnull(caseRec.Regulator,"") != "" || caseRec.Compliance_Due_Date != null)
+		{
+			showCompliance = true;
+		}
+		canReopen = true;
+%>
+		<div class="cd-header">
+			<div class="cd-title-block">
+				<p class="cd-kicker">Matter Detail</p>
+				<h1 class="cd-title"><%=ifnull(caseRec.Case_Title,"Untitled Matter")%></h1>
+				<p class="cd-subtitle">Case <%=ifnull(caseRec.Case_Number,caseRec.ID)%> · <%=practiceName%> · <%=caseTypeName%></p>
+				<div class="cd-badge-row">
+					<div class="zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=caseStatusClass%>"><span class="zcs-badge-text zcs-font-14 zcs-font-normal zcs-lh-body"><%=caseStatus%></span></div>
+					<div class="zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=confClass%>"><span class="zcs-badge-text zcs-font-14 zcs-font-normal zcs-lh-body">Conflict: <%=conflictStatus%></span></div>
+					<div class="zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=engClass%>"><span class="zcs-badge-text zcs-font-14 zcs-font-normal zcs-lh-body">Engagement: <%=engagementStatus%></span></div>
+					<div class="zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=billClass%>"><span class="zcs-badge-text zcs-font-14 zcs-font-normal zcs-lh-body">Billing: <%=billingStatus%></span></div>
+					<div class="zcs-badge zcs-badge-filled zcs-inline-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-rounded-sm zcs-px-10 zcs-py-2 zcs-box-border <%=confBadgeClass%>"><span class="zcs-badge-text zcs-font-14 zcs-font-normal zcs-lh-body"><i class="zc-li-outline ui-1-lock"></i> <%=confLevel%></span></div>
+				</div>
+			</div>
+			<div class="cd-action-row">
+<%
+		if(caseStatus == "New Intake")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Submit%20Conflict%20Check&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-check-circle-08"></i><span class="zcs-button-text">Submit Conflict Check</span></a>
+<%
+		}
+		if(caseStatus == "Conflict Check")
+		{
+			if(conflictStatus == "Cleared")
+			{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Clear%20Conflict&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-check-circle-08"></i><span class="zcs-button-text">Clear Conflict</span></a>
+<%
+			}
+%>
+				<a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Flag%20Conflict&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-2-alert-circle"></i><span class="zcs-button-text">Flag Conflict</span></a>
+<%
+		}
+		if(caseStatus == "Engagement Pending" && (conflictStatus == "Cleared" || conflictStatus == "Waiver Required"))
+		{
+			if(engagementStatus == "Not Sent")
+			{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Send%20Engagement&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-share-66"></i><span class="zcs-button-text">Send Engagement</span></a>
+<%
+			}
+			if(engagementStatus == "Sent")
+			{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Mark%20Engagement%20Signed&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-check-circle-08"></i><span class="zcs-button-text">Mark Engagement Signed</span></a>
+<%
+			}
+			if(engagementStatus == "Signed")
+			{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Open%20Matter&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Open Matter</span></a>
+<%
+			}
+		}
+		if(caseStatus == "Open Matter")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Move%20To%20Strategy%20and%20Pleadings&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Move To Strategy</span></a>
+<%
+		}
+		else if(caseStatus == "Strategy and Pleadings")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Move%20To%20Discovery%20and%20Diligence&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Move To Discovery</span></a>
+<%
+		}
+		else if(caseStatus == "Discovery and Diligence")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Move%20To%20Negotiation%20and%20Mediation&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Move To Negotiation</span></a>
+<%
+		}
+		else if(caseStatus == "Negotiation and Mediation")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Move%20To%20Hearing%20and%20Trial&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Move To Hearing</span></a>
+<%
+		}
+		else if(caseStatus == "Hearing and Trial")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Mark%20Awaiting%20Order%20or%20Execution&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-tail-right"></i><span class="zcs-button-text">Await Order</span></a>
+<%
+		}
+		if(caseStatus == "Awaiting Order or Execution")
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Send%20To%20Billing%20Review&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline business-money-time"></i><span class="zcs-button-text">Send To Billing Review</span></a>
+<%
+		}
+		if(caseStatus == "Billing Review" && (billingStatus == "Ready for Review" || billingStatus == "Invoicing" || billingStatus == "Closed"))
+		{
+%>
+				<a class="zcs-button zcs-primary-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Close%20Case&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-check-circle-08"></i><span class="zcs-button-text">Close Case</span></a>
+<%
+		}
+		if(caseStatus == "Closed")
+		{
+%>
+				<a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Archive%20Case&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline files-archive-3d-content"></i><span class="zcs-button-text">Archive</span></a>
+<%
+		}
+		if((caseStatus == "Closed" || caseStatus == "Archived") && canReopen == true)
+		{
+%>
+				<a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Action?Case=<%=caseRec.ID%>&amp;Action_Type=Reopen%20Case&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline arrows-1-refresh-69"></i><span class="zcs-button-text">Reopen</span></a>
+<%
+		}
+%>
+			</div>
+		</div>
+
+		<div class="cd-grid">
+			<div class="cd-card cd-wide">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Matter Summary</h2><p>Core narrative and desired outcome</p></div></div>
+				<div class="cd-card-body">
+					<div class="cd-kv-grid">
+						<div class="cd-kv"><label>Practice Area</label><strong><%=practiceName%></strong><small><%=caseTypeName%> · <%=ifnull(processTemplate,"General")%></small></div>
+						<div class="cd-kv"><label>Priority</label><strong><%=priority%></strong><small>Opened: <%=ifnull(caseRec.Opened_On,"Not opened")%></small></div>
+					</div>
+					<div class="cd-kv-grid single" style="margin-top:12px;">
+						<div class="cd-kv"><label>Summary</label><p class="cd-narrative"><%=ifnull(caseRec.Summary,"No matter summary has been recorded.")%></p></div>
+						<div class="cd-kv"><label>Desired Outcome</label><p class="cd-narrative"><%=ifnull(caseRec.Desired_Outcome,"No desired outcome has been recorded.")%></p></div>
+					</div>
+				</div>
+			</div>
+			<div class="cd-card">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Client and Contact</h2><p>Authorized client details</p></div></div>
+				<div class="cd-card-body cd-kv-grid single">
+					<div class="cd-kv"><label>Client</label><strong><%=clientName%></strong><small><%=clientStatus%></small><small><%=clientEmail%> <%=clientPhone%></small></div>
+					<div class="cd-kv"><label>Primary Contact</label><strong><%=contactName%></strong><small><%=contactRole%></small><small><%=contactEmail%> <%=contactPhone%></small></div>
+				</div>
+			</div>
+			<div class="cd-card">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Assignments</h2><p>Matter team and billing ownership</p></div></div>
+				<div class="cd-card-body cd-kv-grid single">
+					<div class="cd-kv"><label>Matter Manager</label><strong><%=managerName%></strong></div>
+					<div class="cd-kv"><label>Lead Attorney</label><strong><%=leadName%></strong></div>
+					<div class="cd-kv"><label>Paralegal</label><strong><%=paralegalName%></strong></div>
+					<div class="cd-kv"><label>Billing Attorney</label><strong><%=billingName%></strong><small><%=feeScheduleName%></small></div>
+				</div>
+			</div>
+			<div class="cd-card cd-wide">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Type-Specific Details</h2><p>Litigation, corporate, and compliance information shown when applicable</p></div></div>
+				<div class="cd-card-body">
+<%
+		if(showLitigation == false && showCorporate == false && showCompliance == false)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No type-specific details recorded</h5><p class="cd-empty-text">Add details on the case form when this matter requires litigation, corporate, or compliance tracking.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="cd-process-grid">
+<%
+			if(showLitigation == true)
+			{
+%>
+						<div class="cd-kv-grid single"><div class="cd-kv"><label>Litigation / Court</label><strong><%=courtName%></strong><small>Case number: <%=ifnull(caseRec.Court_Case_Number,"Not recorded")%></small><small>Filed: <%=ifnull(caseRec.Filing_Date,"Not recorded")%></small><small>Limitation: <%=ifnull(caseRec.Limitation_Date,"Not recorded")%></small></div></div>
+<%
+			}
+			if(showCorporate == true)
+			{
+%>
+						<div class="cd-kv-grid single"><div class="cd-kv"><label>Corporate / Transaction</label><strong><%=ifnull(caseRec.Transaction_Counterparty,"Counterparty not recorded")%></strong><small>Value: $<%=ifnull(caseRec.Transaction_Value,0)%></small><small>Execution target: <%=ifnull(caseRec.Execution_Target_Date,"Not recorded")%></small></div></div>
+<%
+			}
+			if(showCompliance == true)
+			{
+%>
+						<div class="cd-kv-grid single"><div class="cd-kv"><label>Compliance / Regulatory</label><strong><%=ifnull(caseRec.Regulator,"Regulator not recorded")%></strong><small>Due date: <%=ifnull(caseRec.Compliance_Due_Date,"Not recorded")%></small></div></div>
+<%
+			}
+%>
+					</div>
+<%
+		}
+%>
+				</div>
+			</div>
+			<div class="cd-card cd-full">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Financial Summary</h2><p>Estimated value, retainers, billable work, invoices, and payments</p></div></div>
+				<div class="cd-card-body cd-finance-grid">
+					<div class="cd-finance-card"><label>Estimated Value</label><strong>$<%=ifnull(caseRec.Estimated_Value,0)%></strong></div>
+					<div class="cd-finance-card"><label>Retainer</label><strong>$<%=ifnull(caseRec.Retainer_Amount,0)%></strong></div>
+					<div class="cd-finance-card"><label>Billable Time</label><strong>$<%=timeTotal%></strong><span class="cd-muted"><%=totalHours%> hours</span></div>
+					<div class="cd-finance-card"><label>Billable Expenses</label><strong>$<%=expenseTotal%></strong></div>
+					<div class="cd-finance-card"><label>Invoiced</label><strong>$<%=invoiceTotal%></strong><span class="cd-muted">Balance $<%=balanceTotal%></span></div>
+					<div class="cd-finance-card"><label>Payments</label><strong>$<%=paidTotal%></strong></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="cd-related-grid">
+<%
+		partyRows = Add_Case_Party[Case == caseRec.ID] sort by Party_Name asc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Parties</h2><p><%=Add_Case_Party[Case == caseRec.ID].count()%> related party records</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Party?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Party</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(partyRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No parties added</h5><p class="cd-empty-text">Add clients, opposing parties, witnesses, or other matter participants.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative cd-table-wrapper-mobile"><table class="zcs-w-full cd-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Type</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Party</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Counsel</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each p in partyRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(p.Party_Type,"-")%></td><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(p.Party_Name,"-")%></div><div class="cd-sub"><%=ifnull(p.Organization,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(p.Counsel_Name,"-")%><div class="cd-sub"><%=ifnull(p.Counsel_Email,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(p.Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div><div class="cd-mobile-list">
+<%
+			for each p in partyRows
+			{
+%>
+					<div class="cd-mobile-card"><p class="cd-mobile-card-title"><%=ifnull(p.Party_Name,"-")%></p><p class="cd-mobile-card-line"><%=ifnull(p.Party_Type,"-")%> · <%=ifnull(p.Organization,"")%></p><p class="cd-mobile-card-line">Counsel: <%=ifnull(p.Counsel_Name,"-")%></p></div>
+<%
+			}
+%>
+					</div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		conflictRows = Add_Conflict_Check[Case == caseRec.ID] sort by Checked_On desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Conflict Checks</h2><p><%=Add_Conflict_Check[Case == caseRec.ID].count()%> checks recorded</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Conflict_Check?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Check</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(conflictRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No conflict checks</h5><p class="cd-empty-text">Submit a conflict check before engagement actions are available.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Opposing Party</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Decision</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Severity</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Checked On</th></tr></thead><tbody>
+<%
+			for each cc in conflictRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(cc.Opposing_Party_Name,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(cc.Decision,"Pending")%><div class="cd-sub"><%=ifnull(cc.Approval_Status,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(cc.Conflict_Severity,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(cc.Checked_On,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		engRows = Add_Engagement_Letter[Case == caseRec.ID] sort by Sent_On desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Engagement Letters</h2><p><%=Add_Engagement_Letter[Case == caseRec.ID].count()%> engagement records</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Engagement_Letter?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Engagement</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(engRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No engagement letters</h5><p class="cd-empty-text">Create an engagement letter after conflicts permit engagement.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table compact"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Sent</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Signed</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Retainer</th></tr></thead><tbody>
+<%
+			for each e in engRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(e.Letter_Status,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(e.Sent_On,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(e.Signed_On,"-")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(e.Retainer_Amount,0)%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		docRows = Add_Case_Document[Case == caseRec.ID] sort by Document_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Documents</h2><p><%=Add_Case_Document[Case == caseRec.ID].count()%> matter documents</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Document?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Document</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(docRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No documents uploaded</h5><p class="cd-empty-text">Upload pleadings, correspondence, contracts, evidence, or client-visible documents.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Document</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Confidentiality</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Client Visible</th></tr></thead><tbody>
+<%
+			for each d in docRows
+			{
+				docTypeName = "";
+				if(d.Document_Type != null)
+				{
+					dt = Add_Document_Type[ID == d.Document_Type];
+					if(dt.count() > 0){docTypeName = ifnull(dt.Document_Type_Name,"");}
+				}
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(d.Document_Title,"-")%></div><div class="cd-sub"><%=docTypeName%> · <%=ifnull(d.Document_Date,"-")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(d.Document_Status,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(d.Confidentiality_Level,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=if(d.Visible_To_Client == true,"Yes","No")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		filingRows = Add_Filing[Case == caseRec.ID] sort by Due_Date asc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Filings</h2><p><%=Add_Filing[Case == caseRec.ID].count()%> filings tracked</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Filing?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Filing</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(filingRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No filings</h5><p class="cd-empty-text">Track pleadings, motions, evidence filings, responses, and appeals.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Filing</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Due</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Filed</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each f in filingRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(f.Filing_Title,"-")%></div><div class="cd-sub"><%=ifnull(f.Filing_Type,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(f.Due_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(f.Filing_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(f.Filing_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		hearingRows = Add_Hearing[Case == caseRec.ID] sort by Hearing_DateTime asc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Hearings</h2><p><%=Add_Hearing[Case == caseRec.ID].count()%> hearings and appearances</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Hearing?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Hearing</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(hearingRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No hearings scheduled</h5><p class="cd-empty-text">Add hearings, mediations, conferences, or trial dates as they are scheduled.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Type</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date / Time</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Venue</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each h in hearingRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(h.Hearing_Type,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(h.Hearing_DateTime,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(h.Venue,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(h.Hearing_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		taskRows = Add_Case_Task[Case == caseRec.ID] sort by Due_Date asc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Tasks</h2><p><%=Add_Case_Task[Case == caseRec.ID].count()%> legal and operational tasks</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Task?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Task</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(taskRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No tasks</h5><p class="cd-empty-text">Create tasks for research, drafting, filing, review, or client follow-up.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Task</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Assigned</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Due</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each t in taskRows
+			{
+				assignedName = "Not assigned";
+				if(t.Assigned_To != null)
+				{
+					assignee = Add_Employee[ID == t.Assigned_To];
+					if(assignee.count() > 0){assignedName = ifnull(assignee.Employee_Name.first_name,"") + " " + ifnull(assignee.Employee_Name.last_name,"");}
+				}
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(t.Task_Title,"-")%></div><div class="cd-sub"><%=ifnull(t.Task_Type,"")%> · <%=ifnull(t.Priority,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=assignedName%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(t.Due_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(t.Task_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		deadlineRows = Add_Deadline[Case == caseRec.ID] sort by Deadline_Date asc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Deadlines</h2><p><%=Add_Deadline[Case == caseRec.ID].count()%> statutory, court, and internal dates</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Deadline?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Deadline</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(deadlineRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No deadlines</h5><p class="cd-empty-text">Track limitation, filing, appeal, contractual, payment, and review deadlines.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Deadline</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Responsible</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each dl in deadlineRows
+			{
+				respName = "Not assigned";
+				if(dl.Responsible_Attorney != null)
+				{
+					resp = Add_Employee[ID == dl.Responsible_Attorney];
+					if(resp.count() > 0){respName = ifnull(resp.Employee_Name.first_name,"") + " " + ifnull(resp.Employee_Name.last_name,"");}
+				}
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(dl.Deadline_Type,"-")%></div><div class="cd-sub"><%=ifnull(dl.Priority,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(dl.Deadline_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=respName%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(dl.Deadline_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		noteRows = Add_Case_Note[Case == caseRec.ID] sort by Communication_DateTime desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Notes</h2><p><%=Add_Case_Note[Case == caseRec.ID].count()%> communications and notes</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Case_Note?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Note</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(noteRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No notes</h5><p class="cd-empty-text">Record internal notes, client communications, court communications, or meeting summaries.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Subject</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Type</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Client Visible</th></tr></thead><tbody>
+<%
+			for each n in noteRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(n.Subject,"-")%></div><div class="cd-sub"><%=ifnull(n.Contact_Person,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(n.Note_Type,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(n.Communication_DateTime,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=if(n.Visible_To_Client == true,"Yes","No")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		evidenceRows = Add_Evidence[Case == caseRec.ID] sort by Collected_On desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Evidence</h2><p><%=Add_Evidence[Case == caseRec.ID].count()%> evidence records</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Evidence?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Evidence</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(evidenceRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No evidence</h5><p class="cd-empty-text">Add evidence with source, custodian, files, and chain-of-custody notes.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Evidence</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Type</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Confidentiality</th></tr></thead><tbody>
+<%
+			for each ev in evidenceRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(ev.Evidence_Title,"-")%></div><div class="cd-sub"><%=ifnull(ev.Source,"")%></div></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(ev.Evidence_Type,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(ev.Admissibility_Status,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(ev.Confidentiality_Level,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		settleRows = Add_Settlement_Offer[Case == caseRec.ID] sort by Offer_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Settlement Offers</h2><p><%=Add_Settlement_Offer[Case == caseRec.ID].count()%> offers and responses</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Settlement_Offer?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Offer</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(settleRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No settlement offers</h5><p class="cd-empty-text">Track offers, counteroffers, terms, review notes, and accepted settlements.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">By</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Amount</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each so in settleRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(so.Offer_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(so.Offered_By,"-")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(so.Offer_Amount,0)%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(so.Offer_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		timeRows = Add_Time_Entry[Case == caseRec.ID] sort by Entry_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Time Entries</h2><p><%=Add_Time_Entry[Case == caseRec.ID].count()%> time records</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Time_Entry?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Time</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(timeRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No time entries</h5><p class="cd-empty-text">Record legal work, review, court appearances, negotiations, and client calls.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Activity</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Hours</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Amount</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each te in timeRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(te.Entry_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(te.Activity_Type,"-")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right"><%=ifnull(te.Hours,0)%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(te.Amount,0)%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(te.Approval_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		expenseRows = Add_Expense_Entry[Case == caseRec.ID] sort by Expense_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Expense Entries</h2><p><%=Add_Expense_Entry[Case == caseRec.ID].count()%> expense records</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Expense_Entry?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Expense</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(expenseRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No expenses</h5><p class="cd-empty-text">Add court fees, travel, filing costs, expert fees, or other reimbursable expenses.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Category</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Amount</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each ex in expenseRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(ex.Expense_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><div class="cd-main"><%=ifnull(ex.Expense_Category,"-")%></div><div class="cd-sub"><%=ifnull(ex.Vendor,"")%></div></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(ex.Amount,0)%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(ex.Approval_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		invoiceRows = Create_Invoice[Case == caseRec.ID] sort by Invoice_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Invoices</h2><p><%=Create_Invoice[Case == caseRec.ID].count()%> invoices</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Create_Invoice?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Create Invoice</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(invoiceRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No invoices</h5><p class="cd-empty-text">Create invoices after time and expenses are approved for billing.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Invoice</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Total</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Balance</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each inv in invoiceRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><a class="cd-main" href="#Page:Billing_Detail?Invoice_ID=<%=inv.ID%>"><%=ifnull(inv.Invoice_Number,inv.ID)%></a></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(inv.Invoice_Date,"-")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(inv.Total_Amount,0)%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(inv.Balance_Due,0)%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(inv.Invoice_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		paymentRows = Add_Payment[Case == caseRec.ID] sort by Payment_Date desc range from 1 to 20;
+%>
+			<div class="cd-related">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Payments</h2><p><%=Add_Payment[Case == caseRec.ID].count()%> payments</p></div><div class="cd-section-actions"><a class="zcs-button zcs-primary-outline-button zcs-flex zcs-align-items-center zcs-justify-center zcs-gap-8 zcs-px-16 zcs-py-8 zcs-rounded-md zcs-box-border zcs-font-14 zcs-font-normal zcs-lh-body" href="#Form:Add_Payment?Case=<%=caseRec.ID%>&amp;zc_LoadIn=dialog"><i class="zcs-button-icon zc-li-outline ui-1-simple-add"></i><span class="zcs-button-text">Add Payment</span></a></div></div>
+				<div class="cd-scroll">
+<%
+		if(paymentRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No payments</h5><p class="cd-empty-text">Record payment receipts, reconciliations, refunds, or bounced payments.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Invoice</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-right zcs-font-14 zcs-font-medium zcs-color-primary">Amount</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status</th></tr></thead><tbody>
+<%
+			for each pay in paymentRows
+			{
+				payInvoice = "-";
+				if(pay.Invoice != null)
+				{
+					pi = Create_Invoice[ID == pay.Invoice];
+					if(pi.count() > 0){payInvoice = ifnull(pi.Invoice_Number,pi.ID);}
+				}
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=payInvoice%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(pay.Payment_Date,"-")%></td><td class="zcs-px-16 zcs-py-8 zcs-text-right">$<%=ifnull(pay.Amount,0)%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(pay.Payment_Status,"-")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+<%
+		historyRows = Add_Case_History[Case == caseRec.ID] sort by Event_Date desc range from 1 to 50;
+%>
+			<div class="cd-related cd-related-full">
+				<div class="cd-card-header"><div class="cd-card-title"><h2>Case History</h2><p><%=Add_Case_History[Case == caseRec.ID].count()%> audit events</p></div></div>
+				<div class="cd-history-scroll">
+<%
+		if(historyRows.count() == 0)
+		{
+%>
+					<div class="zcs-nodata-wrapper zcs-wh-full zcs-flex zcs-align-items-center zcs-justify-center zcs-text-center"><div class="zcs-nodata-content zcs-p-20 zcs-box-border"><h5 class="zcs-nodata-header zcs-font-18 zcs-font-medium zcs-lh-heading zcs-color-primary zcs-mt-10 zcs-mx-0 zcs-mb-0">No history yet</h5><p class="cd-empty-text">Lifecycle changes and related-record events will appear here after workflows run.</p></div></div>
+<%
+		}
+		else
+		{
+%>
+					<div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative"><table class="zcs-w-full cd-table"><thead><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Event</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Date</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Status Change</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Summary</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Client Visible</th></tr></thead><tbody>
+<%
+			for each hist in historyRows
+			{
+%>
+					<tr><td class="zcs-px-16 zcs-py-8"><%=ifnull(hist.Event_Type,"System")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(hist.Event_Date,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(hist.Previous_Status,"-")%> → <%=ifnull(hist.New_Status,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=ifnull(hist.Summary,"-")%></td><td class="zcs-px-16 zcs-py-8"><%=if(hist.Visible_To_Client == true,"Yes","No")%></td></tr>
+<%
+			}
+%>
+					</tbody></table></div>
+<%
+		}
+%>
+				</div>
+			</div>
+		</div>
+<%
+	}
+%>
+	</div>
+</div>

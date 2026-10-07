@@ -1,0 +1,77 @@
+form Request_Access
+{
+
+		
+					success message = "Data Added Successfully!"
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					Action_Type
+					(
+		    			type = text
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Access_Type
+					(
+		    			type = text
+						displayname = " Access_Type "
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Requester_Email
+					(
+		    			type = email
+						maxchar = 80
+			 			row = 1
+			 			column = 1   
+						width = medium
+						personal data = true
+					)
+					IsOnSuccessCodeExecuted
+					(
+		    			type = checkbox
+						initial value = false
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+			
+					actions
+					{
+						on add
+						{
+							submit
+							(
+		   						type = submit
+		   						displayname = "Submit"
+							)
+							reset
+							(
+		   						type = reset
+		   						displayname = "Reset"
+							)
+						}
+						on edit
+						{
+							update
+							(
+		   						type = submit
+		   						displayname = "Update"
+							)
+							cancel
+							(
+		   						type = cancel
+		   						displayname = "Cancel"
+							)
+						}
+					}
+				
+		
+}

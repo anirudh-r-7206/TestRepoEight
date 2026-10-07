@@ -1,0 +1,24 @@
+list Active_Clients
+{
+
+		    displayName = "Active Clients"
+		    show all rows from Add_Client [Client_Status == "Active"]
+		    (
+		        Client_Name
+		        Client_Type
+		        Primary_Email
+		        Primary_Phone
+		        Relationship_Manager
+		        Client_Status
+		    )
+		    filters
+		    (
+		        Client_Type
+		        Relationship_Manager
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		
+}

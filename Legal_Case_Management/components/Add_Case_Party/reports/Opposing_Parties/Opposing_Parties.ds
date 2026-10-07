@@ -1,0 +1,28 @@
+list Opposing_Parties
+{
+
+		    displayName = "Opposing Parties"
+		    show all rows from Add_Case_Party [Party_Type == "Opposing Party"]
+		    (
+		        Case
+		        Party_Type
+		        Party_Name
+		        Organization
+		        Counsel_Name
+		        Counsel_Email
+		        Email
+		        Phone
+		        Status
+		    )
+		    filters
+		    (
+		        Case
+		        Party_Type
+		        Status
+		    )
+		    sort by
+		    (
+		        Party_Name ascending
+		    )
+		
+}

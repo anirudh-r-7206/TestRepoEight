@@ -1,0 +1,27 @@
+User_Input1 as "User-Input"
+{
+
+			
+							type =  form
+							form = Add_Preference
+			
+							record event = on edit
+			
+							on user input of Email_Notification
+							{
+								actions 
+								{
+									custom deluge script
+									(
+														fetchPreference = Add_Preference[ID != null];
+													if(fetchPreference.count() != 0)
+													{
+														fetchPreference.Email_Notification=input.Email_Notification;
+													}
+									)
+								}
+							}
+			
+						
+			
+}

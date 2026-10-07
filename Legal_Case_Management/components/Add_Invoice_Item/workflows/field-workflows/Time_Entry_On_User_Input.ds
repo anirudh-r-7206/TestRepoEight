@@ -1,0 +1,30 @@
+Time_Entry_On_User_Input as "Time Entry On User Input"
+{
+
+			    type = form
+			    form = Add_Invoice_Item
+			    record event = on add or edit
+			
+			    on user input of Time_Entry
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Time_Entry != null)
+			                {
+			                    te = Add_Time_Entry[ID == input.Time_Entry];
+			                    if(te.count() > 0)
+			                    {
+			                        input.Source_Type = "Time Entry";
+			                        input.Case = te.Case;
+			                        input.Description = te.Activity_Type + ": " + te.Description;
+			                        input.Quantity = te.Hours;
+			                        input.Rate = te.Billing_Rate;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

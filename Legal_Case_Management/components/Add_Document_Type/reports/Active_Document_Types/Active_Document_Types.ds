@@ -1,0 +1,22 @@
+list Active_Document_Types
+{
+
+		    displayName = "Active Document Types"
+		    show all rows from Add_Document_Type [Status == "Active"]
+		    (
+		        Document_Type_Name
+		        Category
+		        Requires_Review
+		        Retention_Years
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		    )
+		    sort by
+		    (
+		        Document_Type_Name ascending
+		    )
+		
+}

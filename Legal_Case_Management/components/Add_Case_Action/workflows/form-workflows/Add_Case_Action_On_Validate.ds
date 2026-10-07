@@ -1,0 +1,111 @@
+Add_Case_Action_On_Validate as "Add Case Action On Validate"
+{
+
+			    type = form
+			    form = Add_Case_Action
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case == null)
+			                {
+			                    alert "Select a case before running an action.";
+			                    cancel submit;
+			                }
+			                caseRec = Create_Case[ID == input.Case];
+			                if(caseRec.count() == 0)
+			                {
+			                    alert "Selected case could not be found.";
+			                    cancel submit;
+			                }
+			                validAction = false;
+			                if(input.Action_Type == "Submit Conflict Check" && caseRec.Case_Status == "New Intake")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Conflict Check";
+			                }
+			                else if(input.Action_Type == "Clear Conflict" && caseRec.Case_Status == "Conflict Check" && caseRec.Conflict_Status == "Cleared")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Engagement Pending";
+			                }
+			                else if(input.Action_Type == "Flag Conflict" && caseRec.Case_Status == "Conflict Check")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Rejected";
+			                }
+			                else if(input.Action_Type == "Reject Case" && (caseRec.Case_Status == "New Intake" || caseRec.Case_Status == "Conflict Check" || caseRec.Case_Status == "Engagement Pending"))
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Rejected";
+			                }
+			                else if(input.Action_Type == "Send Engagement" && caseRec.Case_Status == "Engagement Pending")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Engagement Pending";
+			                }
+			                else if((input.Action_Type == "Mark Engagement Signed" || input.Action_Type == "Open Matter") && caseRec.Case_Status == "Engagement Pending")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Open Matter";
+			                }
+			                else if(input.Action_Type == "Move To Strategy and Pleadings" && caseRec.Case_Status == "Open Matter")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Strategy and Pleadings";
+			                }
+			                else if(input.Action_Type == "Move To Discovery and Diligence" && caseRec.Case_Status == "Strategy and Pleadings")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Discovery and Diligence";
+			                }
+			                else if(input.Action_Type == "Move To Negotiation and Mediation" && caseRec.Case_Status == "Discovery and Diligence")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Negotiation and Mediation";
+			                }
+			                else if(input.Action_Type == "Move To Hearing and Trial" && caseRec.Case_Status == "Negotiation and Mediation")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Hearing and Trial";
+			                }
+			                else if(input.Action_Type == "Mark Awaiting Order or Execution" && caseRec.Case_Status == "Hearing and Trial")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Awaiting Order or Execution";
+			                }
+			                else if(input.Action_Type == "Send To Billing Review" && caseRec.Case_Status == "Awaiting Order or Execution")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Billing Review";
+			                }
+			                else if(input.Action_Type == "Close Case" && caseRec.Case_Status == "Billing Review" && caseRec.Billing_Status == "Closed")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Closed";
+			                }
+			                else if(input.Action_Type == "Archive Case" && caseRec.Case_Status == "Closed")
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Archived";
+			                }
+			                else if(input.Action_Type == "Reopen Case" && (caseRec.Case_Status == "Closed" || caseRec.Case_Status == "Archived"))
+			                {
+			                    validAction = true;
+			                    input.To_Status = "Open Matter";
+			                }
+			                if(validAction == false)
+			                {
+			                    alert "This action is not available for the current case status.";
+			                    cancel submit;
+			                }
+			                input.From_Status = caseRec.Case_Status;
+			            )
+			        }
+			    }
+			
+}

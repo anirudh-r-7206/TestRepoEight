@@ -1,0 +1,24 @@
+Hide_Data as "Hide Data"
+{
+
+			
+							type =  form
+							form = Add_Approval_Setup
+			
+							record event = on add or edit
+			
+							field rules
+							{
+								actions  (Approver_Type == "Role" || Approver_Type is null)
+								{
+									hide users;
+								}
+								actions  (Approver_Type == "User" || Approver_Type is null)
+								{
+									hide Approver_Role;
+								}
+							}
+			
+						
+			
+}

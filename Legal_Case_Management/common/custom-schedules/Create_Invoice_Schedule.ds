@@ -1,0 +1,39 @@
+Create_Invoice_Schedule as "Create Invoice Schedule"
+{
+
+			    type = schedule
+			    start = "2026-01-01 08:30:00"
+			    frequency = daily
+			    time zone = "Asia/Kolkata"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                overdueInvoices = Create_Invoice[Due_Date < zoho.currentdate && Balance_Due > 0 && Invoice_Status != "Paid" && Invoice_Status != "Cancelled" && Invoice_Status != "Overdue"];
+			                for each inv in overdueInvoices
+			                {
+			                    inv.Invoice_Status = "Overdue";
+			                    caseRec = Create_Case[ID == inv.Case];
+			                    if(caseRec.count() > 0 && caseRec.Billing_Attorney != null)
+			                    {
+			                        billEmp = Add_Employee[ID == caseRec.Billing_Attorney];
+			                        if(billEmp.count() > 0 && ifnull(billEmp.Email,"") != "")
+			                        {
+			                            sendmail
+			                            (
+			                                from : zoho.adminuserid
+			                                to : billEmp.Email
+			                                subject : "Invoice overdue"
+			                                message : "Invoice for " + caseRec.Case_Title + " is overdue."
+			                            )
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

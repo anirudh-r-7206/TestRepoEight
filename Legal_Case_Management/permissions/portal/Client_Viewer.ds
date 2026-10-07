@@ -1,0 +1,232 @@
+"Client_Viewer"
+{
+
+	    name = "Client_Viewer"
+	    type = customer_portal
+	    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+	    description = "External client viewer access for client-visible case status, documents, hearings, invoices, payments, and updates."
+	    ModulePermissions
+	    {
+	        Add_Client
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Clients={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Client_Name{visibility:true,readonly:true}
+	                Client_Type{visibility:true,readonly:true}
+	                Primary_Email{visibility:true,readonly:true}
+	                Primary_Phone{visibility:true,readonly:true}
+	                Billing_Address{visibility:true,readonly:true}
+	                Tax_ID{visibility:false}
+	                Notes{visibility:false}
+	                Conflict_Flag{visibility:false}
+	                Client_ID{visibility:false}
+	            }
+	        }
+	        Add_Client_Contact
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Client_Contacts={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Client{visibility:true,readonly:true}
+	                Contact_Name{visibility:true,readonly:true}
+	                Role_Title{visibility:true,readonly:true}
+	                Contact_Type{visibility:true,readonly:true}
+	                Email{visibility:true,readonly:true}
+	                Phone{visibility:true,readonly:true}
+	                Is_Primary{visibility:true,readonly:true}
+	                Status{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	                Contact_ID{visibility:false}
+	            }
+	        }
+	        Create_Case
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Active_Legal_Matters={"View"}
+	                Cases_Closed={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Case_Number{visibility:true,readonly:true}
+	                Case_Title{visibility:true,readonly:true}
+	                Client{visibility:true,readonly:true}
+	                Practice_Area{visibility:true,readonly:true}
+	                Case_Type{visibility:true,readonly:true}
+	                Case_Status{visibility:true,readonly:true}
+	                Priority{visibility:true,readonly:true}
+	                Lead_Attorney{visibility:true,readonly:true}
+	                Matter_Manager{visibility:true,readonly:true}
+	                Opened_On{visibility:true,readonly:true}
+	                Closed_On{visibility:true,readonly:true}
+	                Summary{visibility:true,readonly:true}
+	                Conflict_Status{visibility:false}
+	                Engagement_Status{visibility:false}
+	                Billing_Status{visibility:false}
+	                Retainer_Amount{visibility:false}
+	            }
+	        }
+	        Add_Case_Document
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Client_Visible_Documents={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Case{visibility:true,readonly:true}
+	                Document_Type{visibility:true,readonly:true}
+	                Document_Title{visibility:true,readonly:true}
+	                Document_Date{visibility:true,readonly:true}
+	                Document_File{visibility:true,readonly:true}
+	                Visible_To_Client{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	                Confidentiality_Level{visibility:false}
+	                Review_Required{visibility:false}
+	                Reviewed_By{visibility:false}
+	                Document_ID{visibility:false}
+	            }
+	        }
+	        Add_Case_History
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Client_Visible_History={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Case{visibility:true,readonly:true}
+	                Event_Date{visibility:true,readonly:true}
+	                Event_Type{visibility:true,readonly:true}
+	                Summary{visibility:true,readonly:true}
+	                Visible_To_Client{visibility:true,readonly:true}
+	                Previous_Status{visibility:false}
+	                New_Status{visibility:false}
+	                Changed_By{visibility:false}
+	                Source_Record_ID{visibility:false}
+	                History_ID{visibility:false}
+	            }
+	        }
+	        Add_Hearing
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Upcoming_Hearings={"View"}
+	                Completed_Hearings={"View"}
+	                Case_Hearing_Calendar={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Case{visibility:true,readonly:true}
+	                Hearing_Type{visibility:true,readonly:true}
+	                Hearing_DateTime{visibility:true,readonly:true}
+	                Venue{visibility:true,readonly:true}
+	                Court{visibility:true,readonly:true}
+	                Hearing_Status{visibility:true,readonly:true}
+	                Outcome{visibility:true,readonly:true}
+	                Next_Hearing_DateTime{visibility:true,readonly:true}
+	                Notes{visibility:false}
+	                Hearing_ID{visibility:false}
+	            }
+	        }
+	        Create_Invoice
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Sent_Invoices={"View"}
+	                Paid_Invoices={"View"}
+	                Overdue_Invoices={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Invoice_Number{visibility:true,readonly:true}
+	                Case{visibility:true,readonly:true}
+	                Client{visibility:true,readonly:true}
+	                Invoice_Date{visibility:true,readonly:true}
+	                Due_Date{visibility:true,readonly:true}
+	                Invoice_Status{visibility:true,readonly:true}
+	                Total_Amount{visibility:true,readonly:true}
+	                Amount_Paid{visibility:true,readonly:true}
+	                Balance_Due{visibility:true,readonly:true}
+	                Payment_Terms{visibility:true,readonly:true}
+	                Notes{visibility:true,readonly:true}
+	                Subtotal{visibility:false}
+	                Tax_Amount{visibility:false}
+	                Discount_Amount{visibility:false}
+	                Prepared_By{visibility:false}
+	                Approved_By{visibility:false}
+	            }
+	        }
+	        Add_Payment
+	        {
+	            enabled = Viewall,View,Search,read_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                Payments_By_Client={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Invoice{visibility:true,readonly:true}
+	                Case{visibility:true,readonly:true}
+	                Client{visibility:true,readonly:true}
+	                Payment_Date{visibility:true,readonly:true}
+	                Payment_Mode{visibility:true,readonly:true}
+	                Amount{visibility:true,readonly:true}
+	                Payment_Status{visibility:true,readonly:true}
+	                Receipt{visibility:true,readonly:true}
+	                Reference_Number{visibility:false}
+	                Notes{visibility:false}
+	                Payment_ID{visibility:false}
+	            }
+	        }
+	        Add_Case_Note
+	        {
+	            enabled = Create,Viewall,View,Search,read_comm,write_comm
+	            allFieldsVisible = false
+	            ReportPermissions
+	            {
+	                All_Case_Notes={"View"}
+	            }
+	            FieldPermissions
+	            {
+	                Case{visibility:true,readonly:false}
+	                Note_Type{visibility:true,readonly:false}
+	                Communication_DateTime{visibility:true,readonly:false}
+	                Direction{visibility:true,readonly:false}
+	                Contact_Person{visibility:true,readonly:false}
+	                Contact_Email{visibility:true,readonly:false}
+	                Subject{visibility:true,readonly:false}
+	                Note_Body{visibility:true,readonly:false}
+	                Visible_To_Client{visibility:true,readonly:false}
+	                Created_By{visibility:false}
+	                Note_ID{visibility:false}
+	            }
+	        }
+	        Client_Portal { enabled = tab }
+	        Case_Detail { enabled = tab }
+	        Billing_Detail { enabled = tab }
+	    }
+	
+}

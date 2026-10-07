@@ -1,0 +1,29 @@
+list Missed_Deadlines
+{
+
+		    displayName = "Missed Deadlines"
+		    show all rows from Add_Deadline [Deadline_Status == "Missed" || (Deadline_Date < zoho.currentdate && Deadline_Status != "Met" && Deadline_Status != "Cancelled")]
+		    (
+		        Case
+		        Deadline_Type
+		        Deadline_Date
+		        Reminder_Date
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		        Related_Task
+		    )
+		    filters
+		    (
+		        Case
+		        Deadline_Type
+		        Responsible_Attorney
+		        Priority
+		        Deadline_Status
+		    )
+		    sort by
+		    (
+		        Deadline_Date ascending
+		    )
+		
+}

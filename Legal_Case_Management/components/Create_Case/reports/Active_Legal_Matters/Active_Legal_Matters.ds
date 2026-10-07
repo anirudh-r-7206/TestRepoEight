@@ -1,0 +1,37 @@
+list Active_Legal_Matters
+{
+
+		    displayName = "Active Legal Matters"
+		    show all rows from Create_Case [Case_Status != "Closed" && Case_Status != "Archived" && Case_Status != "Rejected"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Conflict_Status
+		        Engagement_Status
+		        Billing_Status
+		        Case_Status
+		        Limitation_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

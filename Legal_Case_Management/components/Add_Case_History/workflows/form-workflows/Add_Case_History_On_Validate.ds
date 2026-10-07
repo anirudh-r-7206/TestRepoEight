@@ -1,0 +1,31 @@
+Add_Case_History_On_Validate as "Add Case History On Validate"
+{
+
+			    type = form
+			    form = Add_Case_History
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case == null)
+			                {
+			                    alert "Case is required for history records.";
+			                    cancel submit;
+			                }
+			                if(input.Event_Date == null)
+			                {
+			                    input.Event_Date = zoho.currenttime;
+			                }
+			                if(input.Summary in {"",null})
+			                {
+			                    input.Summary = input.Event_Type;
+			                }
+			            )
+			        }
+			    }
+			
+}

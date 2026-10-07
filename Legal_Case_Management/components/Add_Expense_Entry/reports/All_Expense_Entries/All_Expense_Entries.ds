@@ -1,0 +1,30 @@
+default list All_Expense_Entries
+{
+
+		    displayName = "All Expense Entries"
+		    show all rows from Add_Expense_Entry
+		    (
+		        Case
+		        Employee
+		        Expense_Date
+		        Expense_Category
+		        Vendor
+		        Amount
+		        Billable
+		        Approval_Status
+		        Invoice
+		    )
+		    filters
+		    (
+		        Case
+		        Employee
+		        Expense_Category
+		        Billable
+		        Approval_Status
+		    )
+		    sort by
+		    (
+		        Expense_Date descending
+		    )
+		
+}

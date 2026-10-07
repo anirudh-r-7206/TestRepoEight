@@ -1,0 +1,21 @@
+Add_Time_Entry_On_Load as "Add Time Entry On Load"
+{
+
+			    type = form
+			    form = Add_Time_Entry
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Time_Entry_ID;
+			            disable Time_Entry_ID, Amount;
+			        }
+			        actions (Approval_Status == "Invoiced")
+			        {
+			            disable Case, Employee, Entry_Date, Activity_Type, Hours, Billable, Billing_Rate, Invoice, Approval_Status, Description;
+			        }
+			    }
+			
+}

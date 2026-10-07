@@ -1,0 +1,16 @@
+report Cases_Awaiting_Order_or_Execution
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Case_Number Case_Title Client Practice_Area Priority Case_Status Limitation_Date ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Case_Number Case_Title Client Practice_Area Case_Type Priority Matter_Manager Lead_Attorney Case_Status Limitation_Date ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

@@ -1,0 +1,20 @@
+<page linkname = "Case_Detail" parameters = "int Case_ID" displayname = "Case Detail"/>
+<content>
+<zml webDeviceConfig='{\"layout\":{\"displayType\":\"plain\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;\"}}'>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Case_Detail_Main' elementName='Case_Detail_Main' bgColor=\"#FFFFFF\">
+          <![CDATA[htmlpage Case_Detail_Main()
+content
+			<%{%>
+            <file name:Case_Detail_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

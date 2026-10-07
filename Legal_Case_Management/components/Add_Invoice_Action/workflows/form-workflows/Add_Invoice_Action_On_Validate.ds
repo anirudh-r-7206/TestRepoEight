@@ -1,0 +1,67 @@
+Add_Invoice_Action_On_Validate as "Add Invoice Action On Validate"
+{
+
+			    type = form
+			    form = Add_Invoice_Action
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                inv = Create_Invoice[ID == input.Invoice];
+			                if(inv.count() == 0)
+			                {
+			                    alert "Select a valid invoice.";
+			                    cancel submit;
+			                }
+			                currentStatus = inv.Invoice_Status;
+			                input.From_Status = currentStatus;
+			                isValid = false;
+			                if(input.Action_Type == "Submit for Review" && currentStatus == "Draft")
+			                {
+			                    input.To_Status = "Submitted for Review";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Approve Invoice" && currentStatus == "Submitted for Review")
+			                {
+			                    input.To_Status = "Approved";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Send Invoice" && currentStatus == "Approved")
+			                {
+			                    input.To_Status = "Sent";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Mark Partially Paid" && currentStatus == "Sent" && ifnull(inv.Amount_Paid,0) > 0 && ifnull(inv.Balance_Due,0) > 0)
+			                {
+			                    input.To_Status = "Partially Paid";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Mark Paid" && currentStatus in {"Sent","Partially Paid","Overdue"} && ifnull(inv.Balance_Due,0) <= 0)
+			                {
+			                    input.To_Status = "Paid";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Cancel Invoice" && currentStatus in {"Draft","Submitted for Review","Approved","Sent"})
+			                {
+			                    input.To_Status = "Cancelled";
+			                    isValid = true;
+			                }
+			                else if(input.Action_Type == "Reopen Invoice" && currentStatus == "Cancelled")
+			                {
+			                    input.To_Status = "Draft";
+			                    isValid = true;
+			                }
+			                if(isValid == false)
+			                {
+			                    alert "This invoice action is not available for the current invoice status or balance.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,21 @@
+Add_Payment_On_Load as "Add Payment On Load"
+{
+
+			    type = form
+			    form = Add_Payment
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Payment_ID;
+			            disable Payment_ID;
+			        }
+			        actions (Invoice != null)
+			        {
+			            disable Case, Client;
+			        }
+			    }
+			
+}

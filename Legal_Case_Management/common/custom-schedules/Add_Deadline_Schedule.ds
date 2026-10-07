@@ -1,0 +1,71 @@
+Add_Deadline_Schedule as "Add Deadline Schedule"
+{
+
+			    type = schedule
+			    start = "2026-01-01 08:15:00"
+			    frequency = daily
+			    time zone = "Asia/Kolkata"
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on load
+			            (
+			                reminderRows = Add_Deadline[Reminder_Date == zoho.currentdate && Deadline_Status != "Met" && Deadline_Status != "Cancelled"] range from 1 to 200;
+			                for each dRec in reminderRows
+			                {
+			                    resp = Add_Employee[ID == dRec.Responsible_Attorney];
+			                    if(resp.count() > 0 && ifnull(resp.Email,"") != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : resp.Email
+			                            subject : "Legal deadline reminder"
+			                            message : "Reminder: " + dRec.Deadline_Type + " deadline is due on " + dRec.Deadline_Date
+			                        )
+			                    }
+			                }
+			                missedRows = Add_Deadline[Deadline_Date < zoho.currentdate && Deadline_Status != "Met" && Deadline_Status != "Cancelled" && Deadline_Status != "Missed"] range from 1 to 200;
+			                for each mRec in missedRows
+			                {
+			                    mRec.Deadline_Status = "Missed";
+			                    empRec = Add_Employee[ID == mRec.Responsible_Attorney];
+			                    notifyTo = "";
+			                    if(empRec.count() > 0)
+			                    {
+			                        notifyTo = ifnull(empRec.Email,"");
+			                    }
+			                    caseRec = Create_Case[ID == mRec.Case];
+			                    if(caseRec.count() > 0 && caseRec.Matter_Manager != null)
+			                    {
+			                        managerRec = Add_Employee[ID == caseRec.Matter_Manager];
+			                        if(managerRec.count() > 0 && ifnull(managerRec.Email,"") != "")
+			                        {
+			                            if(notifyTo == "")
+			                            {
+			                                notifyTo = managerRec.Email;
+			                            }
+			                            else
+			                            {
+			                                notifyTo = notifyTo + "," + managerRec.Email;
+			                            }
+			                        }
+			                    }
+			                    if(notifyTo != "")
+			                    {
+			                        sendmail
+			                        (
+			                            from : zoho.adminuserid
+			                            to : notifyTo
+			                            subject : "Missed legal deadline"
+			                            message : "Deadline missed: " + mRec.Deadline_Type + " for case " + mRec.Case
+			                        )
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

@@ -1,0 +1,130 @@
+form Add_Practice_Area
+{
+
+		    displayname = "Add Practice Area"
+		    success message = "Practice area added successfully"
+		
+		    Practice_Area_Details
+		    (
+		        type = section
+		        displayname = "Practice Area Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique Practice_Area_Name
+		    (
+		        type = text
+		        displayname = "Practice Area Name"
+		        maxchar = 120
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Category
+		    (
+		        type = picklist
+		        displayname = "Category"
+		        values = {"Litigation","Corporate","Compliance","Intellectual Property","Employment","Tax","Real Estate","General"}
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    Responsible_Practice_Head
+		    (
+		        type = picklist
+		        displayname = "Responsible Practice Head"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Default_Billing_Rate
+		    (
+		        type = USD
+		        displayname = "Default Billing Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    Status_Notes
+		    (
+		        type = section
+		        displayname = "Status Notes"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Active","Inactive"}
+		        initial value = "Active"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        height = 120px
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		    )
+		    Practice_Area_ID
+		    (
+		        type = autonumber
+		        displayname = "Practice Area ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Add"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

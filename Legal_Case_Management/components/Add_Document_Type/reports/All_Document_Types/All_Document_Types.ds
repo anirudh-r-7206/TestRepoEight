@@ -1,0 +1,23 @@
+default list All_Document_Types
+{
+
+		    displayName = "All Document Types"
+		    show all rows from Add_Document_Type
+		    (
+		        Document_Type_Name
+		        Category
+		        Requires_Review
+		        Retention_Years
+		        Status
+		    )
+		    filters
+		    (
+		        Category
+		        Status
+		    )
+		    sort by
+		    (
+		        Document_Type_Name ascending
+		    )
+		
+}

@@ -1,0 +1,46 @@
+Add_Time_Entry_Case_On_User_Input as "Case On User Input"
+{
+
+			    type = form
+			    form = Add_Time_Entry
+			    record event = on add or edit
+			
+			    on user input of Case
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0 && caseRec.Fee_Schedule != null)
+			                    {
+			                        feeRec = Add_Fee_Schedule[ID == caseRec.Fee_Schedule];
+			                        if(feeRec.count() > 0)
+			                        {
+			                            input.Billing_Rate = feeRec.Attorney_Rate;
+			                            if(input.Employee != null)
+			                            {
+			                                empRec = Add_Employee[ID == input.Employee];
+			                                if(empRec.count() > 0 && empRec.Role != null)
+			                                {
+			                                    roleRec = Add_Role[ID == empRec.Role];
+			                                    if(roleRec.count() > 0 && ifnull(roleRec.Role,"").contains("Partner"))
+			                                    {
+			                                        input.Billing_Rate = feeRec.Partner_Rate;
+			                                    }
+			                                    else if(roleRec.count() > 0 && ifnull(roleRec.Role,"").contains("Paralegal"))
+			                                    {
+			                                        input.Billing_Rate = feeRec.Paralegal_Rate;
+			                                    }
+			                                }
+			                            }
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

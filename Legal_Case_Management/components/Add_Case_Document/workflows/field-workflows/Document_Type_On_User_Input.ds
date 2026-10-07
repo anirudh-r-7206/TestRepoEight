@@ -1,0 +1,30 @@
+Document_Type_On_User_Input as "Document Type On User Input"
+{
+
+			    type = form
+			    form = Add_Case_Document
+			    record event = on add or edit
+			
+			    on user input of Document_Type
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Document_Type != null)
+			                {
+			                    typeRec = Add_Document_Type[ID == input.Document_Type];
+			                    if(typeRec.count() > 0)
+			                    {
+			                        input.Review_Required = typeRec.Requires_Review;
+			                        if(typeRec.Requires_Review == true && input.Document_Status == "Draft")
+			                        {
+			                            input.Document_Status = "Under Review";
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

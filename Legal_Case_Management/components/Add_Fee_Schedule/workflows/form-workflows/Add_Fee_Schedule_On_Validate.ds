@@ -1,0 +1,23 @@
+Add_Fee_Schedule_On_Validate as "Add Fee Schedule On Validate"
+{
+
+			    type = form
+			    form = Add_Fee_Schedule
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(ifnull(input.Attorney_Rate,0) < 0 || ifnull(input.Partner_Rate,0) < 0 || ifnull(input.Paralegal_Rate,0) < 0 || ifnull(input.Expense_Markup_Percent,0) < 0 || ifnull(input.Default_Retainer,0) < 0)
+			                {
+			                    alert "Rates, markup, and retainer values cannot be negative.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

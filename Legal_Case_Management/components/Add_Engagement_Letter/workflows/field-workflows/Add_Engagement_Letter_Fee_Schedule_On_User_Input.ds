@@ -1,0 +1,30 @@
+Add_Engagement_Letter_Fee_Schedule_On_User_Input as "Fee Schedule On User Input"
+{
+
+			    type = form
+			    form = Add_Engagement_Letter
+			    record event = on add or edit
+			
+			    on user input of Fee_Schedule
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Fee_Schedule != null)
+			                {
+			                    feeRec = Add_Fee_Schedule[ID == input.Fee_Schedule];
+			                    if(feeRec.count() > 0)
+			                    {
+			                        input.Retainer_Required = feeRec.Retainer_Required;
+			                        if(feeRec.Retainer_Required == true)
+			                        {
+			                            input.Retainer_Amount = feeRec.Default_Retainer;
+			                        }
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

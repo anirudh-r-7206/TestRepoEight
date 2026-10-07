@@ -1,0 +1,11 @@
+string PopupStyles.Info_Msg_Creator(String form)
+{
+
+			
+			                 	common = thisapp.Localization.Common();
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	style_txt = ".popupboxOuter.info-popup .popupConentContainer .infoMsg { padding: 20px; } .zcpopup .popupbox-wrapper .infoMsg i { padding: 0px; margin: 20px; } .zcpopup .popupbox-wrapper .infoMsg i:before { content: '\ed95'; font: normal normal normal 40px / 1 'ZC Live Outline'; color: " + color_codes.get("zc-pra-red") + "; } .zcpopup .popupbox-wrapper .infoMsg span, .zcpopup .popupbox-wrapper .infoMsg span.msgtoshow:before { font-size: 0px !important; } .zcpopup .popupbox-wrapper .infoMsg span:before { content: '" + form + " " + common.get("zcp.deletionfailed") + "'; font-size: 18px !important; font-weight: 500 !important; line-height: 1.3; letter-spacing: 0.1px; color: " + color_codes.get("zc-pra-primary-text-color") + "; padding: 0; } .zcpopup .popupbox-wrapper .infoMsg span.msgtoshow { font-size: 14px !important; font-weight: 400 !important; line-height: 1.5; letter-spacing: 0.1px; color: " + color_codes.get("zc-pra-secondary-text-color") + "; margin-top: 12px; } .zcpopup .popupbox-wrapper .infoMsg .zc-errdetailsdiv.handsontable { display: none; }";
+			                 	return style_txt;
+			                 
+			
+}

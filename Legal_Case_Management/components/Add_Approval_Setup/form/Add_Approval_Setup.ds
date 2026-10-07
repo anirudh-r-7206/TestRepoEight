@@ -1,0 +1,154 @@
+form Add_Approval_Setup
+{
+
+		
+					displayname = "Add Approval Setup"
+					success message = "Approval Setup Added Successfully"
+					Section
+					(
+						type = section
+			 			row = 1
+			 			column = 0   
+						width = medium
+					)
+					Approval_Setup_For
+					(
+						type = picklist	
+						displayname = "Approval Setup For"
+						values  = Approval_Setup_For.ID
+		    			displayformat = [Approval_Setup_For]
+						allow new entries
+						[
+							displayname = "Add New"
+						]
+						sortorder = ascending
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					must have Level_Name
+					(
+		    			type = text
+						displayname = "Level Name"
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Approver_Type
+					(
+						type = picklist
+						displayname = "Approver Type"
+						maxchar = 100
+						values = {"Role","User"}
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					Approver_Role
+					(
+						type = picklist	
+						displayname = "Approver Role"
+						values  = Add_Role.ID
+		    			displayformat = [Role]
+						sortorder = ascending
+			 			row = 1
+			 			column = 1   
+						width = medium
+					)
+					users
+					(
+		    			type = picklist
+						displayname = "Users"
+						module = users
+						displayformat = [username]
+			 			row = 1
+			 			column = 1   
+						width = medium
+						personal data = true
+					)
+					Hidden
+					(
+						type = section
+			 			row = 2
+			 			column = 0   
+						width = medium
+					)
+					Type_field
+					(
+						type = number
+						displayname = "Type"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Sequence_Order
+					(
+						type = number
+						displayname = "Sequence Order"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Previous_Sequence_Number
+					(
+						type = number
+						displayname = "Previous Sequence Number"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Is_Last_Step
+					(
+		    			type = checkbox
+						displayname = "Is Last Step"
+						initial value = false
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Status
+					(
+						type = picklist
+						maxchar = 100
+						values = {"Active","Inactive","Deleted"}
+						initial value = "Active"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+					Notes
+					(
+		    			type = plaintext
+						value = "<div> <br /></div>"
+			 			row = 2
+			 			column = 1   
+						width = medium
+					)
+			
+					actions
+					{
+						on add
+						{
+							submit
+							(
+		   						type = submit
+		   						displayname = "Add"
+							)
+						}
+						on edit
+						{
+							update
+							(
+		   						type = submit
+		   						displayname = "Update"
+							)
+							cancel
+							(
+		   						type = cancel
+		   						displayname = "Cancel"
+							)
+						}
+					}
+				
+		
+}

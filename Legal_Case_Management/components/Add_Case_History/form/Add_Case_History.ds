@@ -1,0 +1,145 @@
+form Add_Case_History
+{
+
+		    displayname = "Add Case History"
+		    success message = "Case history saved successfully"
+		
+		    History_Details
+		    (
+		        type = section
+		        displayname = "History Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Event_Date
+		    (
+		        type = datetime
+		        displayname = "Event Date"
+		        initial value = "${zoho.currenttime}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Event_Type
+		    (
+		        type = picklist
+		        displayname = "Event Type"
+		        values = {"Case Created","Status Changed","Conflict Updated","Engagement Updated","Document Added","Filing Added","Hearing Updated","Task Updated","Deadline Updated","Note Added","Evidence Added","Settlement Updated","Time Entry","Expense Entry","Invoice Updated","Payment Received","Client Update","System"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Previous_Status
+		    (
+		        type = text
+		        displayname = "Previous Status"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    New_Status
+		    (
+		        type = text
+		        displayname = "New Status"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Summary
+		    (
+		        type = textarea
+		        displayname = "Summary"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Changed_By
+		    (
+		        type = picklist
+		        displayname = "Changed By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Visible_To_Client
+		    (
+		        type = checkbox
+		        displayname = "Visible To Client"
+		        initial value = false
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    History_ID
+		    (
+		        type = autonumber
+		        displayname = "History ID"
+		        start index = 1000
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Source_Record_ID
+		    (
+		        type = text
+		        displayname = "Source Record ID"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save History"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update History"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

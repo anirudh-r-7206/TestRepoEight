@@ -1,0 +1,33 @@
+list Cases_Discovery_and_Diligence
+{
+
+		    displayName = "Cases Discovery and Diligence"
+		    show all rows from Create_Case [Case_Status == "Discovery and Diligence"]
+		    (
+		        Case_Number
+		        Case_Title
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		        Case_Status
+		        Limitation_Date
+		    )
+		    filters
+		    (
+		        Client
+		        Practice_Area
+		        Case_Type
+		        Priority
+		        Matter_Manager
+		        Lead_Attorney
+		    )
+		    sort by
+		    (
+		        Priority descending
+		        Limitation_Date ascending
+		    )
+		
+}

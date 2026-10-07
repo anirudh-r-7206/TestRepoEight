@@ -1,0 +1,36 @@
+Add_Engagement_Letter_On_Validate as "Add Engagement Letter On Validate"
+{
+
+			    type = form
+			    form = Add_Engagement_Letter
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Letter_Status == "Sent" && input.Engagement_Document == null)
+			                {
+			                    alert "Engagement Document is required before marking the letter as Sent.";
+			                    cancel submit;
+			                }
+			                if(input.Letter_Status == "Client Signed")
+			                {
+			                    if(input.Signed_Copy == null || input.Signed_On == null)
+			                    {
+			                        alert "Signed Copy and Signed On date are required before marking the letter as Client Signed.";
+			                        cancel submit;
+			                    }
+			                }
+			                if(input.Retainer_Required == true && ifnull(input.Retainer_Amount,0) <= 0)
+			                {
+			                    alert "Retainer Amount must be greater than zero when retainer is required.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

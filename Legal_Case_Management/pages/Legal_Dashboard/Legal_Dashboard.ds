@@ -1,0 +1,20 @@
+<page linkname = "Legal_Dashboard" displayname = "Legal Dashboard"/>
+<content>
+<zml webDeviceConfig='{\"layout\":{\"displayType\":\"plain\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;\"}}'>
+	<layout>
+		<row>
+			<column width='100%'>
+				<dsp id='Legal_Dashboard_Main' elementName='Legal_Dashboard_Main' bgColor=\"#FFFFFF\">
+          <![CDATA[htmlpage Legal_Dashboard_Main()
+content
+			<%{%>
+            <file name:Legal_Dashboard_Main.dshtml/>
+			<%}%>
+      
+      ]]>
+        </dsp>
+			</column>
+		</row>
+	</layout>
+</zml>
+</content>

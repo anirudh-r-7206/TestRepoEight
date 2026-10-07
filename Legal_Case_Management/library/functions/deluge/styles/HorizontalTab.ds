@@ -1,0 +1,12 @@
+string styles.HorizontalTab()
+{
+
+			
+			                 	color_codes = thisapp.styles.ColorCodes();
+			                 	style_txt = ".zc-pra-horizontal-tabpanel { width: 100%; height: 100%; } .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabhead { height: 51px; border-bottom: 1px solid " + color_codes.get("zc-pra-border-color") + "; } .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabbody { height: calc(100% - 51px); overflow: auto; } .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabhead li { list-style-type: none; display: inline-block; vertical-align: top; } .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabhead li a { font-size: 15px; font-weight: 500; line-height: 18px; color: " + color_codes.get("zc-pra-secondary-text-color") + "; margin: 0px 16px -1px 16px; padding: 16px 0px; border-bottom: 1px solid transparent; display: inline-block; vertical-align: top; } .zc-pra-horizontal-tabpanel .zc-pra-horizontal-tabhead li a:hover { color: var(--theme_brand_color); }";
+			                 	override_style = ".zc-pra-horizontal-tabhead .zc-form-fullheight, .zc-pra-horizontal-tabhead .form-outer-wrapper { border-radius: 12px 12px 0px 0px; } .zc-pra-horizontal-tabbody .view-outer-wrapper, .zc-pra-horizontal-tabbody .zc-reporttype-list, .zc-pra-horizontal-tabbody .list-view-inner { border-radius: 0px 0px 12px 12px; }";
+			                 	style_txt = style_txt + override_style;
+			                 	return style_txt;
+			                 
+			
+}

@@ -1,0 +1,16 @@
+report All_Invoice_Actions
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Invoice Action_Type Action_Date Action_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Invoice Action_Type From_Status To_Status Action_Date Action_By ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

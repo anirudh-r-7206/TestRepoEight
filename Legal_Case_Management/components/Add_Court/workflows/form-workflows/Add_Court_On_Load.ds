@@ -1,0 +1,17 @@
+Add_Court_On_Load as "Add Court On Load"
+{
+
+			    type = form
+			    form = Add_Court
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Court_ID;
+			            disable Court_ID;
+			        }
+			    }
+			
+}

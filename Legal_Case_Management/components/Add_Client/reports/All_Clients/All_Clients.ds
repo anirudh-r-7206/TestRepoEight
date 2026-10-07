@@ -1,0 +1,28 @@
+default list All_Clients
+{
+
+		    displayName = "All Clients"
+		    show all rows from Add_Client
+		    (
+		        Client_Name
+		        Client_Type
+		        Primary_Email
+		        Primary_Phone
+		        Billing_Address
+		        Tax_ID
+		        Relationship_Manager
+		        Client_Status
+		        Conflict_Flag
+		    )
+		    filters
+		    (
+		        Client_Type
+		        Client_Status
+		        Relationship_Manager
+		    )
+		    sort by
+		    (
+		        Client_Name ascending
+		    )
+		
+}

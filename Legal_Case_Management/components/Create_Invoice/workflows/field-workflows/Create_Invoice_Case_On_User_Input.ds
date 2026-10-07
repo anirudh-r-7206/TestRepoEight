@@ -1,0 +1,31 @@
+Create_Invoice_Case_On_User_Input as "Case On User Input"
+{
+
+			    type = form
+			    form = Create_Invoice
+			    record event = on add or edit
+			
+			    on user input of Case
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Case != null)
+			                {
+			                    caseRec = Create_Case[ID == input.Case];
+			                    if(caseRec.count() > 0)
+			                    {
+			                        input.Client = caseRec.Client;
+			                        if(input.Due_Date == null && input.Invoice_Date != null)
+			                        {
+			                            input.Due_Date = input.Invoice_Date.addDay(30);
+			                        }
+			                        input.Payment_Terms = "Net 30";
+			                    }
+			                }
+			            )
+			        }
+			    }
+			
+}

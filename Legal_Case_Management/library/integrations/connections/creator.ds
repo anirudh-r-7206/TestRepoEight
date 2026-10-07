@@ -1,0 +1,9 @@
+creator
+(
+
+				displayname = "Creator"
+				auth per env = true
+				connector = zoho_oauth
+				permissions = {"ZohoCreator.bulk.CREATE","ZohoCreator.bulk.READ","ZohoCreator.dashboard.READ","ZohoCreator.form.CREATE","ZohoCreator.meta.application.READ","ZohoCreator.meta.form.READ","ZohoCreator.report.CREATE","ZohoCreator.report.DELETE","ZohoCreator.report.READ","ZohoCreator.report.UPDATE"}
+			
+)

@@ -1,0 +1,16 @@
+string decisionBoxStyle.getRefreshBtnStyle(string type, string fieldLinkName, string refreshImgUrl)
+{
+
+			
+			                 	if(type == "All")
+			                 	{
+			                 		return "<style> label.zc_decision_box_label { cursor: pointer; border:none; background-color: #ffffff; transition: 0.4s; width: 30px; height: 30px; outline: none; box-shadow: none !important; display: flex; align-items: center; padding: 5px; background-image:url('" + refreshImgUrl + "'); background-size:100% 100%; } .customCheckbox:checked + label.zc_decision_box_label { transform: rotate(360deg);} .customCheckbox:not(:checked) + label.zc_decision_box_label { transition:0s; transform: rotate(0deg);} label.form-label.decision-box-label {margin-left: 60px !important; display: none; align-items: center; height: 25px;  } #zc-" + fieldLinkName + "-helpText{margin-left:35px !important; margin-top:-2px; font-size:15px;} .customCheckbox:checked+label:after{display:none !important; } </style>";
+			                 	}
+			                 	else if(type == "Individual")
+			                 	{
+			                 		return "<style>.zc-" + fieldLinkName + "-group label.zc_decision_box_label { cursor: pointer; border:none; background-color: #ffffff; transition: 0.4s; width: 30px; height: 30px; outline: none; box-shadow: none !important; display: flex; align-items: center; padding: 5px; background-image:url('" + refreshImgUrl + "'); background-size:100% 100%; } .zc-" + fieldLinkName + "-group .customCheckbox:checked + label.zc_decision_box_label { transform: rotate(360deg);} .zc-" + fieldLinkName + "-group .customCheckbox:not(:checked) + label.zc_decision_box_label { transition:0s; transform: rotate(0deg);} .zc-" + fieldLinkName + "-group label.form-label.decision-box-label {margin-left: 60px !important; display: none; align-items: center; height: 25px;  } #zc-" + fieldLinkName + "-helpText{margin-left:35px !important; margin-top:-2px; font-size:15px;} .zc-" + fieldLinkName + "-group .customCheckbox:checked+label:after{display:none !important; } </style>";
+			                 	}
+			                 	return "";
+			                 
+			
+}

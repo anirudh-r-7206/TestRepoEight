@@ -1,0 +1,163 @@
+form Add_Case_Party
+{
+
+		    displayname = "Add Case Party"
+		    success message = "Case party saved successfully"
+		
+		    Party_Details
+		    (
+		        type = section
+		        displayname = "Party Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Party_Type
+		    (
+		        type = picklist
+		        displayname = "Party Type"
+		        values = {"Client","Opposing Party","Witness","Expert","Judge","Mediator","Arbitrator","Government Authority","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Party_Name
+		    (
+		        type = text
+		        displayname = "Party Name"
+		        maxchar = 150
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Organization
+		    (
+		        type = text
+		        displayname = "Organization"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Email
+		    (
+		        type = email
+		        displayname = "Email"
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Phone
+		    (
+		        type = phonenumber
+		        displayname = "Phone"
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Address
+		    (
+		        type = textarea
+		        displayname = "Address"
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Counsel_Name
+		    (
+		        type = text
+		        displayname = "Counsel Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Counsel_Email
+		    (
+		        type = email
+		        displayname = "Counsel Email"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Confidential_Notes
+		    (
+		        type = textarea
+		        displayname = "Confidential Notes"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Status
+		    (
+		        type = picklist
+		        displayname = "Status"
+		        values = {"Active","Inactive"}
+		        initial value = "Active"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Party_ID
+		    (
+		        type = autonumber
+		        displayname = "Party ID"
+		        start index = 1000
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Party"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Party"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

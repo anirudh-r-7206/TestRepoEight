@@ -1,0 +1,28 @@
+Add_Time_Entry_On_Validate as "Add Time Entry On Validate"
+{
+
+			    type = form
+			    form = Add_Time_Entry
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(ifnull(input.Hours,0) <= 0)
+			                {
+			                    alert "Hours must be greater than zero.";
+			                    cancel submit;
+			                }
+			                if(ifnull(input.Billing_Rate,0) < 0)
+			                {
+			                    alert "Billing Rate cannot be negative.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			
+}

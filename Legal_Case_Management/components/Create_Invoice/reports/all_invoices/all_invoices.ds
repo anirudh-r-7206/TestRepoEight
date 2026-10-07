@@ -1,0 +1,39 @@
+default list all_invoices
+{
+
+		    displayName = "Legal All Invoices"
+		    show all rows from Create_Invoice
+		    (
+		        Invoice_Number
+		        Case
+		        Client
+		        Invoice_Date
+		        Due_Date
+		        Billing_Period_Start
+		        Billing_Period_End
+		        Prepared_By
+		        Approved_By
+		        Invoice_Status
+		        Sent_On
+		        Payment_Terms
+		        Subtotal
+		        Tax_Amount
+		        Discount_Amount
+		        Total_Amount
+		        Amount_Paid
+		        Balance_Due
+		    )
+		    filters
+		    (
+		        Client
+		        Case
+		        Invoice_Status
+		        Prepared_By
+		        Approved_By
+		    )
+		    sort by
+		    (
+		        Invoice_Date descending
+		    )
+		
+}

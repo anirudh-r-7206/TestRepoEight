@@ -1,0 +1,26 @@
+default list All_Case_History
+{
+
+		    displayName = "All Case History"
+		    show all rows from Add_Case_History
+		    (
+		        Case
+		        Event_Date
+		        Event_Type
+		        Previous_Status
+		        New_Status
+		        Changed_By
+		        Visible_To_Client
+		    )
+		    filters
+		    (
+		        Case
+		        Event_Type
+		        Visible_To_Client
+		    )
+		    sort by
+		    (
+		        Event_Date descending
+		    )
+		
+}

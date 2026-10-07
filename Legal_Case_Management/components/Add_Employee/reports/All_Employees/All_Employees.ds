@@ -1,0 +1,38 @@
+default list All_Employees
+{
+
+		
+					displayName = "All Employees"
+					show all rows from Add_Employee    
+					(
+						Role
+						(
+							width = 224px
+						)
+						Reporting_Manager as "Reporting Manager"
+						Employee_Name  as "Employee Name"
+			 			(
+							width = 282px
+			 			)
+						Employee_ID as "Employee ID"
+						(
+							width = 233px
+						)
+						Gender
+						(
+							width = 202px
+						)
+						Profile_Image as "Profile Image"
+						(
+							width = 137px
+						)
+						Email
+						Phone as "Mobile Number"
+						(
+							displayformat = plainnumber 
+						)
+						Date_of_Birth as "Date of Birth"
+					)
+				
+		
+}

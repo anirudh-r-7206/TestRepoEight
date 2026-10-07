@@ -1,0 +1,223 @@
+form Add_Case_Document
+{
+
+		    displayname = "Add Case Document"
+		    success message = "Case document saved successfully"
+		
+		    Document_Details
+		    (
+		        type = section
+		        displayname = "Document Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Document_Type
+		    (
+		        type = picklist
+		        displayname = "Document Type"
+		        values = Add_Document_Type.ID
+		        displayformat = [Document_Type_Name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Document_Title
+		    (
+		        type = text
+		        displayname = "Document Title"
+		        maxchar = 200
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Document_Date
+		    (
+		        type = date
+		        displayname = "Document Date"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Received_From
+		    (
+		        type = text
+		        displayname = "Received From"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Document_File
+		    (
+		        type = upload file
+		        displayname = "Document File"
+		        file count = 5
+		        browse = local_drive, google_docs, zoho_docs
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Review_Details
+		    (
+		        type = section
+		        displayname = "Review Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Version_Number
+		    (
+		        type = number
+		        displayname = "Version Number"
+		        initial value = 1
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Document_Status
+		    (
+		        type = picklist
+		        displayname = "Document Status"
+		        values = {"Draft","Under Review","Approved","Filed","Served","Archived"}
+		        initial value = "Draft"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Confidentiality_Level
+		    (
+		        type = picklist
+		        displayname = "Confidentiality Level"
+		        values = {"Standard","Restricted","Highly Confidential"}
+		        initial value = "Standard"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Uploaded_By
+		    (
+		        type = picklist
+		        displayname = "Uploaded By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Review_Required
+		    (
+		        type = checkbox
+		        displayname = "Review Required"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Review_Due_Date
+		    (
+		        type = date
+		        displayname = "Review Due Date"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Reviewed_By
+		    (
+		        type = picklist
+		        displayname = "Reviewed By"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Reviewed_On
+		    (
+		        type = date
+		        displayname = "Reviewed On"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Visible_To_Client
+		    (
+		        type = checkbox
+		        displayname = "Visible To Client"
+		        initial value = false
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        displayname = "Notes"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Document_ID
+		    (
+		        type = autonumber
+		        displayname = "Document ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Document"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Document"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

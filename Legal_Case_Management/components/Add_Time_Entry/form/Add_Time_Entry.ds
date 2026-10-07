@@ -1,0 +1,180 @@
+form Add_Time_Entry
+{
+
+		    displayname = "Add Time Entry"
+		    success message = "Time entry saved successfully"
+		
+		    Time_Details
+		    (
+		        type = section
+		        displayname = "Time Details"
+		        row = 1
+		        column = 0
+		        width = medium
+		    )
+		    must have Case
+		    (
+		        type = picklist
+		        displayname = "Case"
+		        values = Create_Case.ID
+		        displayformat = [Case_Title]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Employee
+		    (
+		        type = picklist
+		        displayname = "Employee"
+		        values = Add_Employee.ID
+		        displayformat = [Employee_Name.first_name]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Entry_Date
+		    (
+		        type = date
+		        displayname = "Entry Date"
+		        initial value = "${zoho.currentdate}"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Activity_Type
+		    (
+		        type = picklist
+		        displayname = "Activity Type"
+		        values = {"Research","Drafting","Review","Court Appearance","Client Call","Negotiation","Travel","Administration","Other"}
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Hours
+		    (
+		        type = decimal
+		        displayname = "Hours"
+		        decimalplace = 2
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billable
+		    (
+		        type = checkbox
+		        displayname = "Billable"
+		        initial value = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Rate
+		    (
+		        type = USD
+		        displayname = "Billing Rate"
+		        decimalplace = 2
+		        maxchar = 12
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Amount
+		    (
+		        type = formula
+		        displayname = "Amount"
+		        value = Hours * Billing_Rate
+		        visibility = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Billing_Status
+		    (
+		        type = section
+		        displayname = "Billing Status"
+		        visibility = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Invoice
+		    (
+		        type = picklist
+		        displayname = "Invoice"
+		        values = Create_Invoice.ID
+		        displayformat = [Invoice_Number]
+		        searchable = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Approval_Status
+		    (
+		        type = picklist
+		        displayname = "Approval Status"
+		        values = {"Draft","Submitted","Approved","Rejected","Invoiced"}
+		        initial value = "Draft"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    must have Description
+		    (
+		        type = textarea
+		        displayname = "Description"
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    System_Info
+		    (
+		        type = section
+		        displayname = "System Info"
+		        visibility = true
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		    Time_Entry_ID
+		    (
+		        type = autonumber
+		        displayname = "Time Entry ID"
+		        start index = 1000
+		        row = 3
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Save Time Entry"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update Time Entry"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+}

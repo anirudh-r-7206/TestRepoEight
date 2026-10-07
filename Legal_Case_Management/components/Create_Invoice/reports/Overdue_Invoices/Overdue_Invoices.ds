@@ -1,0 +1,35 @@
+list Overdue_Invoices
+{
+
+		    displayName = "Overdue Invoices"
+		    show all rows from Create_Invoice [Invoice_Status == "Overdue" || (Due_Date < zoho.currentdate && Balance_Due > 0 && Invoice_Status != "Paid" && Invoice_Status != "Cancelled")]
+		    (
+		        Invoice_Number
+		        Case
+		        Client
+		        Invoice_Date
+		        Due_Date
+		        Invoice_Status
+		        Subtotal
+		        Tax_Amount
+		        Discount_Amount
+		        Total_Amount
+		        Amount_Paid
+		        Balance_Due
+		        Prepared_By
+		        Approved_By
+		    )
+		    filters
+		    (
+		        Client
+		        Case
+		        Invoice_Status
+		        Prepared_By
+		        Approved_By
+		    )
+		    sort by
+		    (
+		        Due_Date ascending
+		    )
+		
+}

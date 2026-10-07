@@ -1,0 +1,16 @@
+report All_Approval_Setups
+{
+
+		    quickview
+		    (
+		        layout ( type = -1 datablock1 ( layout type = -1 fields ( Level_Name Approver_Type Sequence_Order Previous_Sequence_Number Status Approval_Setup_For ) ) )
+		        menu ( header ( Edit Duplicate Delete ) record ( Edit Duplicate Delete ) )
+		        action ( on click ( View Record ) on right click ( Edit Delete Duplicate View Record ) )
+		    )
+		    detailview
+		    (
+		        layout ( type = 1 datablock1 ( layout type = -2 fields ( Level_Name Approver_Type Sequence_Order Previous_Sequence_Number Status Approval_Setup_For ) ) )
+		        menu ( header ( Edit Duplicate Delete ) )
+		    )
+		
+}

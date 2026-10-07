@@ -1,0 +1,8 @@
+string styles.getStarStyleWithFormRadio(string selectedClr, string unselectedClr)
+{
+
+			
+			                 	return "<style>.choice-table-row .choice-table-cell span .customRadio+label::before { content: '★'; font-size: 18px; color: " + if(unselectedClr != "",unselectedClr,"lightgray") + "; } .form-field .tempContDiv .choice-table-cell { padding: 0 20px 0 0 !important; } .choice-table-row .choice-table-cell span .customRadio+label, .choice-table-row .choice-table-cell span .customCheckbox+label { top: 0; border: unset !important; display: flex; align-items: center; outline: unset !important; } .choice-table-cell:has(~ .choice-table-cell .customRadio:checked) span .customRadio+label::before, .choice-table-cell span .customRadio:checked +label::before{ color: " + if(unselectedClr != "",selectedClr,"gold") + "; } .customRadio+label+.choice-label-text, .customRadio:checked+label:after { display: none; }</style>";
+			                 
+			
+}

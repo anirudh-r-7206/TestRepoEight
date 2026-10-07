@@ -1,0 +1,17 @@
+Add_Client_Contact_On_Load as "Add Client Contact On Load"
+{
+
+			    type = form
+			    form = Add_Client_Contact
+			    record event = on add or edit
+			
+			    on load
+			    {
+			        actions
+			        {
+			            hide System_Info, Contact_ID;
+			            disable Contact_ID;
+			        }
+			    }
+			
+}
