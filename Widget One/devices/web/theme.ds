@@ -1,0 +1,20 @@
+customize
+{
+    layout
+    {
+        theme = "theme_11"
+    }
+
+    font = "poppins"
+
+    color options
+    {
+        color = "1"
+    }
+
+    logo
+    {
+        preference = "app_icon"
+        placement = "left"
+    }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prime Numbers from 1 to 100</title>
+    <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+    <main class="prime-card" aria-labelledby="prime-title">
+        <div class="heading-row">
+            <div>
+                <p class="eyebrow">NUMBER EXPLORER</p>
+                <h1 id="prime-title">Prime Numbers</h1>
+                <p class="subtitle">All prime numbers between 1 and 100</p>
+            </div>
+            <div class="count" aria-label="Prime number count">
+                <strong id="prime-count">0</strong>
+                <span>primes</span>
+            </div>
+        </div>
+        <div id="prime-grid" class="prime-grid" aria-live="polite"></div>
+        <p class="note">A prime number is greater than 1 and divisible only by 1 and itself.</p>
+    </main>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script>
+        function isPrime(number) {
+            if (number < 2) return false;
+            for (let divisor = 2; divisor <= Math.sqrt(number); divisor += 1) {
+                if (number % divisor === 0) return false;
+            }
+            return true;
+        }
+
+        function renderPrimes() {
+            const primes = [];
+            for (let number = 1; number <= 100; number += 1) {
+                if (isPrime(number)) primes.push(number);
+            }
+
+            document.getElementById("prime-count").textContent = primes.length;
+            document.getElementById("prime-grid").innerHTML = primes
+                .map(function(number) {
+                    return '<span class="prime-number" aria-label="Prime number ' + number + '">' + number + '</span>';
+                })
+                .join("");
+        }
+
+        ZOHO.CREATOR.init().then(renderPrimes).catch(renderPrimes);
+    </script>
+</body>
+</html>

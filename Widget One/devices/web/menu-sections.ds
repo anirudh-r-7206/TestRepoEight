@@ -1,0 +1,50 @@
+menu
+{
+    space Education_Space
+    {
+        displayname = "Education"
+        icon = "education-school"
+
+        section Learning_Tools
+        {
+            displayname = "Learning Tools"
+            icon = "education-flask"
+
+            page Prime_Numbers
+            {
+                icon = "education-atom"
+            }
+        }
+
+        section Students_Section
+        {
+            displayname = "Students"
+            icon = "users-multiple-11"
+
+            form Students
+            {
+                icon = "users-add-27"
+            }
+            report All_Students
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}
