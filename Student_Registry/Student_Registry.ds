@@ -1,0 +1,264 @@
+application "Student-Registry"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    success message = "Student saved successfully."
+		
+		    Student_Details
+		    (
+		        type = section
+		        displayname = "Student Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        personal data = true
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		    )
+		    filters
+		    (
+		        Student_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Student_Overview
+		{
+					displayname = "Student Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Student_Overview_Snippet' elementName='Student_Overview_Snippet'>\n\t\t\t\t\t<![CDATA[htmlpage Student_Overview_Snippet()\n\t\t\t\t\t\tcontent\n\t\t\t\t\t\t&lt;%{%&gt;\n\t\t\t\t\t\t\t&lt;%\n\tstudentRecords = Students[ID != 0];\n\ttotalStudents = studentRecords.count();\n\taverageAge = 0;\n\tyoungestAge = 0;\n\toldestAge = 0;\n\tunder10Count = 0;\n\tage10To13Count = 0;\n\tage14To17Count = 0;\n\tage18PlusCount = 0;\n\tunder10Percent = 0;\n\tage10To13Percent = 0;\n\tage14To17Percent = 0;\n\tage18PlusPercent = 0;\n\tif(totalStudents &gt; 0)\n\t{\n\t\taverageAge = studentRecords.avg(Age).round(1);\n\t\tyoungestAge = studentRecords.minimum(Age);\n\t\toldestAge = studentRecords.maximum(Age);\n\t\tunder10Count = Students[Age &lt; 10].count();\n\t\tage10To13Count = Students[Age &gt;= 10 &amp;&amp; Age &lt;= 13].count();\n\t\tage14To17Count = Students[Age &gt;= 14 &amp;&amp; Age &lt;= 17].count();\n\t\tage18PlusCount = Students[Age &gt;= 18].count();\n\t\tunder10Percent = ((under10Count * 100.0) / totalStudents).round(1);\n\t\tage10To13Percent = ((age10To13Count * 100.0) / totalStudents).round(1);\n\t\tage14To17Percent = ((age14To17Count * 100.0) / totalStudents).round(1);\n\t\tage18PlusPercent = ((age18PlusCount * 100.0) / totalStudents).round(1);\n\t}\n%&gt;\n&lt;style&gt;\n/* Shared ZCS global theme aliases used by this page. */\n:root {\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-light-bg-color: var(--zcs_brand_light_color);\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-border-color: var(--zcs_tertiary_border_color);\n}\n.student-overview {\n\t--zcs-surface: #fff;\n\t--zcs-text-1: var(--zcs-primary-text-color);\n\t--zcs-text-2: var(--zcs-secondary-text-color);\n\t--zcs-text-3: var(--zcs-teritiary-text-color);\n\t--zcs-border: var(--zcs-border-color);\n\t--zcs-radius: 12px;\n\t--zcs-shadow: 0 1px 3px rgba(20, 20, 40, .08);\n\tbox-sizing: border-box;\n\twidth: 100%;\n\tpadding: 24px;\n\tbackground: var(--zcs-light-bg-color);\n\tcolor: var(--zcs-text-1);\n\tfont-family: inherit;\n}\n.student-overview *, .student-overview *::before, .student-overview *::after { box-sizing: border-box; }\n.zcs-page-header { margin-bottom: 24px; }\n.zcs-page-header__title { font-size: 22px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 4px; }\n.zcs-page-header__sub { font-size: 14px; color: var(--zcs-text-2); margin: 0; }\n.zcs-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 24px; }\n.zcs-kpi-card { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 24px; }\n.zcs-kpi-card__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--zcs-text-2); }\n.zcs-kpi-card__value { color: var(--zcs-theme-brand-color); font-size: 32px; font-weight: 700; margin: 6px 0 4px; line-height: 1; }\n.zcs-kpi-card__sub { font-size: 12px; color: var(--zcs-text-3); }\n.zcs-section { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 24px; margin-bottom: 16px; }\n.zcs-section__heading { font-size: 15px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 14px; }\n.zcs-stat-row { display: grid; grid-template-columns: minmax(74px, .8fr) minmax(120px, 3fr) minmax(72px, auto); gap: 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--zcs-border); font-size: 14px; color: var(--zcs-text-1); }\n.zcs-stat-row:last-child { border-bottom: none; }\n.age-band__track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--zcs-light-bg-color); }\n.age-band__fill { display: block; height: 100%; min-width: 0; border-radius: inherit; background: var(--zcs-theme-brand-color); }\n.age-band__value { text-align: right; color: var(--zcs-text-2); white-space: nowrap; }\n.zcs-empty-state { text-align: center; padding: 40px 24px; }\n.zcs-empty-state__icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: 12px; border-radius: 50%; color: var(--zcs-theme-brand-color); background: var(--zcs-light-bg-color); font-size: 22px; }\n.zcs-empty-state__title { font-size: 16px; font-weight: 600; color: var(--zcs-text-2); margin: 0 0 6px; }\n.zcs-empty-state__body { font-size: 14px; color: var(--zcs-text-3); }\n@media (max-width: 600px) {\n\t.student-overview { padding: 16px; }\n\t.zcs-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }\n\t.zcs-kpi-card { padding: 16px; }\n\t.zcs-kpi-card__value { font-size: 26px; }\n\t.zcs-stat-row { grid-template-columns: 72px 1fr; gap: 8px 12px; }\n\t.age-band__value { grid-column: 2; text-align: left; font-size: 12px; }\n}\n@media (max-width: 380px) { .zcs-kpi-grid { grid-template-columns: 1fr; } }\n&lt;/style&gt;\n&lt;div class=&quot;student-overview&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Student Overview&lt;/h1&gt;\n\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A current snapshot of student ages and distribution.&lt;/p&gt;\n\t&lt;/div&gt;\n\t&lt;% if(totalStudents == 0) { %&gt;\n\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-single-02&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No students found&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Student metrics will appear after the first student record is added.&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;% } else { %&gt;\n\t\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total students&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=totalStudents%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Registered records&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Average age&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=averageAge%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Years&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Youngest age&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=youngestAge%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Years&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Oldest age&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%=oldestAge%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Years&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Age-band distribution&lt;/h2&gt;\n\t\t\t&lt;div class=&quot;zcs-stat-row&quot;&gt;&lt;span&gt;Under 10&lt;/span&gt;&lt;span class=&quot;age-band__track&quot;&gt;&lt;span class=&quot;age-band__fill&quot; style=&quot;width:&lt;%=under10Percent%&gt;%;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;age-band__value&quot;&gt;&lt;%=under10Count%&gt; (&lt;%=under10Percent%&gt;%)&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-stat-row&quot;&gt;&lt;span&gt;10-13&lt;/span&gt;&lt;span class=&quot;age-band__track&quot;&gt;&lt;span class=&quot;age-band__fill&quot; style=&quot;width:&lt;%=age10To13Percent%&gt;%;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;age-band__value&quot;&gt;&lt;%=age10To13Count%&gt; (&lt;%=age10To13Percent%&gt;%)&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-stat-row&quot;&gt;&lt;span&gt;14-17&lt;/span&gt;&lt;span class=&quot;age-band__track&quot;&gt;&lt;span class=&quot;age-band__fill&quot; style=&quot;width:&lt;%=age14To17Percent%&gt;%;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;age-band__value&quot;&gt;&lt;%=age14To17Count%&gt; (&lt;%=age14To17Percent%&gt;%)&lt;/span&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-stat-row&quot;&gt;&lt;span&gt;18+&lt;/span&gt;&lt;span class=&quot;age-band__track&quot;&gt;&lt;span class=&quot;age-band__fill&quot; style=&quot;width:&lt;%=age18PlusPercent%&gt;%;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;age-band__value&quot;&gt;&lt;%=age18PlusCount%&gt; (&lt;%=age18PlusPercent%&gt;%)&lt;/span&gt;&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;% } %&gt;\n&lt;/div&gt;\n\t\t\t\t\t\t&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#16A263"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Main_Space
+	    {
+	        displayname = "Student Registry"
+	        icon = "education-school"
+	
+	        section Students_Section
+	        {
+	            displayname = "Students"
+	            icon = "users-multiple-11"
+	
+	            page Student_Overview
+	            {
+	                icon = "education-board-51"
+	            }
+	            form Students
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "opensans"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

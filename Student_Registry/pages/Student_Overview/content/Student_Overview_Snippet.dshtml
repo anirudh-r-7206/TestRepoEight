@@ -1,0 +1,113 @@
+<%
+  studentRecords = Students[ID != 0];
+  totalStudents = studentRecords.count();
+  averageAge = 0;
+  youngestAge = 0;
+  oldestAge = 0;
+  under10Count = 0;
+  age10To13Count = 0;
+  age14To17Count = 0;
+  age18PlusCount = 0;
+  under10Percent = 0;
+  age10To13Percent = 0;
+  age14To17Percent = 0;
+  age18PlusPercent = 0;
+  if(totalStudents > 0)
+  {
+    averageAge = studentRecords.avg(Age).round(1);
+    youngestAge = studentRecords.minimum(Age);
+    oldestAge = studentRecords.maximum(Age);
+    under10Count = Students[Age < 10].count();
+    age10To13Count = Students[Age >= 10 && Age <= 13].count();
+    age14To17Count = Students[Age >= 14 && Age <= 17].count();
+    age18PlusCount = Students[Age >= 18].count();
+    under10Percent = ((under10Count * 100.0) / totalStudents).round(1);
+    age10To13Percent = ((age10To13Count * 100.0) / totalStudents).round(1);
+    age14To17Percent = ((age14To17Count * 100.0) / totalStudents).round(1);
+    age18PlusPercent = ((age18PlusCount * 100.0) / totalStudents).round(1);
+  }
+%>
+<style>
+/* Shared ZCS global theme aliases used by this page. */
+:root {
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-light-bg-color: var(--zcs_brand_light_color);
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-border-color: var(--zcs_tertiary_border_color);
+}
+.student-overview {
+  --zcs-surface: #fff;
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-border: var(--zcs-border-color);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 1px 3px rgba(20, 20, 40, .08);
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px;
+  background: var(--zcs-light-bg-color);
+  color: var(--zcs-text-1);
+  font-family: inherit;
+}
+.student-overview *, .student-overview *::before, .student-overview *::after { box-sizing: border-box; }
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title { font-size: 22px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 4px; }
+.zcs-page-header__sub { font-size: 14px; color: var(--zcs-text-2); margin: 0; }
+.zcs-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.zcs-kpi-card { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 24px; }
+.zcs-kpi-card__label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--zcs-text-2); }
+.zcs-kpi-card__value { color: var(--zcs-theme-brand-color); font-size: 32px; font-weight: 700; margin: 6px 0 4px; line-height: 1; }
+.zcs-kpi-card__sub { font-size: 12px; color: var(--zcs-text-3); }
+.zcs-section { background: var(--zcs-surface); border: 1px solid var(--zcs-border); border-radius: var(--zcs-radius); box-shadow: var(--zcs-shadow); padding: 20px 24px; margin-bottom: 16px; }
+.zcs-section__heading { font-size: 15px; font-weight: 600; color: var(--zcs-text-1); margin: 0 0 14px; }
+.zcs-stat-row { display: grid; grid-template-columns: minmax(74px, .8fr) minmax(120px, 3fr) minmax(72px, auto); gap: 14px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--zcs-border); font-size: 14px; color: var(--zcs-text-1); }
+.zcs-stat-row:last-child { border-bottom: none; }
+.age-band__track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--zcs-light-bg-color); }
+.age-band__fill { display: block; height: 100%; min-width: 0; border-radius: inherit; background: var(--zcs-theme-brand-color); }
+.age-band__value { text-align: right; color: var(--zcs-text-2); white-space: nowrap; }
+.zcs-empty-state { text-align: center; padding: 40px 24px; }
+.zcs-empty-state__icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: 12px; border-radius: 50%; color: var(--zcs-theme-brand-color); background: var(--zcs-light-bg-color); font-size: 22px; }
+.zcs-empty-state__title { font-size: 16px; font-weight: 600; color: var(--zcs-text-2); margin: 0 0 6px; }
+.zcs-empty-state__body { font-size: 14px; color: var(--zcs-text-3); }
+@media (max-width: 600px) {
+  .student-overview { padding: 16px; }
+  .zcs-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .zcs-kpi-card { padding: 16px; }
+  .zcs-kpi-card__value { font-size: 26px; }
+  .zcs-stat-row { grid-template-columns: 72px 1fr; gap: 8px 12px; }
+  .age-band__value { grid-column: 2; text-align: left; font-size: 12px; }
+}
+@media (max-width: 380px) { .zcs-kpi-grid { grid-template-columns: 1fr; } }
+</style>
+<div class="student-overview">
+  <div class="zcs-page-header">
+    <h1 class="zcs-page-header__title">Student Overview</h1>
+    <p class="zcs-page-header__sub">A current snapshot of student ages and distribution.</p>
+  </div>
+  <% if(totalStudents == 0) { %>
+    <div class="zcs-section">
+      <div class="zcs-empty-state">
+        <div class="zcs-empty-state__icon"><i class="zc-li-outline users-single-02"></i></div>
+        <div class="zcs-empty-state__title">No students found</div>
+        <div class="zcs-empty-state__body">Student metrics will appear after the first student record is added.</div>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="zcs-kpi-grid">
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Total students</div><div class="zcs-kpi-card__value"><%=totalStudents%></div><div class="zcs-kpi-card__sub">Registered records</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Average age</div><div class="zcs-kpi-card__value"><%=averageAge%></div><div class="zcs-kpi-card__sub">Years</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Youngest age</div><div class="zcs-kpi-card__value"><%=youngestAge%></div><div class="zcs-kpi-card__sub">Years</div></div>
+      <div class="zcs-kpi-card"><div class="zcs-kpi-card__label">Oldest age</div><div class="zcs-kpi-card__value"><%=oldestAge%></div><div class="zcs-kpi-card__sub">Years</div></div>
+    </div>
+    <div class="zcs-section">
+      <h2 class="zcs-section__heading">Age-band distribution</h2>
+      <div class="zcs-stat-row"><span>Under 10</span><span class="age-band__track"><span class="age-band__fill" style="width:<%=under10Percent%>%;"></span></span><span class="age-band__value"><%=under10Count%> (<%=under10Percent%>%)</span></div>
+      <div class="zcs-stat-row"><span>10-13</span><span class="age-band__track"><span class="age-band__fill" style="width:<%=age10To13Percent%>%;"></span></span><span class="age-band__value"><%=age10To13Count%> (<%=age10To13Percent%>%)</span></div>
+      <div class="zcs-stat-row"><span>14-17</span><span class="age-band__track"><span class="age-band__fill" style="width:<%=age14To17Percent%>%;"></span></span><span class="age-band__value"><%=age14To17Count%> (<%=age14To17Percent%>%)</span></div>
+      <div class="zcs-stat-row"><span>18+</span><span class="age-band__track"><span class="age-band__fill" style="width:<%=age18PlusPercent%>%;"></span></span><span class="age-band__value"><%=age18PlusCount%> (<%=age18PlusPercent%>%)</span></div>
+    </div>
+  <% } %>
+</div>
