@@ -1,0 +1,111 @@
+:root {
+  color-scheme: light;
+  --page-bg: #f4f7fb;
+  --surface: #ffffff;
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+  --text: #172033;
+  --muted: #64748b;
+  --border: #dbe4f0;
+  --shadow: 0 14px 36px rgba(15, 23, 42, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 24px;
+}
+
+.widget-shell {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.widget-header {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(26px, 4vw, 40px);
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(54px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+}
+
+.number-cell {
+  display: grid;
+  place-items: center;
+  min-width: 54px;
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.number-cell:hover {
+  background: var(--surface);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.14);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 12px;
+  }
+
+  .widget-shell {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .number-grid {
+    grid-template-columns: repeat(5, minmax(48px, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .number-grid {
+    grid-template-columns: repeat(4, minmax(46px, 1fr));
+  }
+}

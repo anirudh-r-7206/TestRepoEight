@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Numbers 1 to 100</title>
+    <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+    <main class="widget-shell" aria-labelledby="grid-title">
+        <header class="widget-header">
+            <p class="eyebrow">NUMBER GRID</p>
+            <h1 id="grid-title">Numbers 1 to 100</h1>
+            <p class="subtitle">A complete sequence arranged in a 10 × 10 grid.</p>
+        </header>
+        <section id="number-grid" class="number-grid" aria-label="Numbers from 1 to 100"></section>
+    </main>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script>
+        function renderNumberGrid() {
+            var grid = document.getElementById("number-grid");
+            var fragment = document.createDocumentFragment();
+
+            for (var number = 1; number <= 100; number += 1) {
+                var cell = document.createElement("div");
+                cell.className = "number-cell";
+                cell.textContent = number;
+                cell.setAttribute("aria-label", "Number " + number);
+                fragment.appendChild(cell);
+            }
+
+            grid.appendChild(fragment);
+        }
+
+        renderNumberGrid();
+
+        if (window.ZOHO && ZOHO.CREATOR) {
+            ZOHO.CREATOR.init().catch(function() {
+                // The number grid remains usable if the SDK is unavailable in preview mode.
+            });
+        }
+    </script>
+</body>
+</html>
