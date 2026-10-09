@@ -1,0 +1,9 @@
+customize
+{
+    icon
+    {
+        icon = "zc-ab-education-1"
+        background color = "#FC5A40"
+        foreground color = "#ffffff"
+    }
+}

@@ -1,0 +1,43 @@
+menu
+{
+    space Learning_Space
+    {
+        displayname = "Learning"
+        icon = "education-school"
+
+        section Education_Section
+        {
+            displayname = "Education"
+            icon = "education-book-open"
+
+            form Students
+            {
+                icon = "users-single-body"
+            }
+            report All_Students
+            {
+                icon = "users-multiple-11"
+            }
+            page Alphabet_Learning
+            {
+                icon = "education-abc"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "education-books-46"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

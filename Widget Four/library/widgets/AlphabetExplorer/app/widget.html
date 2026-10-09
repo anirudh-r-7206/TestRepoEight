@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alphabet Explorer</title>
+    <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+    <main class="alphabet-app" aria-labelledby="page-title">
+        <header class="hero">
+            <p class="eyebrow">Learn and play</p>
+            <h1 id="page-title">Alphabet Explorer</h1>
+            <p>Choose a letter to discover a word that begins with it.</p>
+        </header>
+
+        <section id="reveal-card" class="reveal-card" aria-live="polite" aria-atomic="true">
+            <span id="result-letter" class="result-letter">A</span>
+            <span id="result-emoji" class="result-emoji" role="img" aria-label="Apple">🍎</span>
+            <h2 id="result-phrase">A for Apple</h2>
+        </section>
+
+        <section aria-label="Alphabet letters">
+            <div id="letter-grid" class="letter-grid"></div>
+        </section>
+    </main>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script>
+        const examples = [
+            ["A", "Apple", "🍎"], ["B", "Ball", "⚽"], ["C", "Cat", "🐱"],
+            ["D", "Dog", "🐶"], ["E", "Elephant", "🐘"], ["F", "Fish", "🐟"],
+            ["G", "Grapes", "🍇"], ["H", "House", "🏠"], ["I", "Ice Cream", "🍦"],
+            ["J", "Juice", "🧃"], ["K", "Kite", "🪁"], ["L", "Lion", "🦁"],
+            ["M", "Moon", "🌙"], ["N", "Nest", "🪺"], ["O", "Orange", "🍊"],
+            ["P", "Parrot", "🦜"], ["Q", "Queen", "👸"], ["R", "Rabbit", "🐰"],
+            ["S", "Sun", "☀️"], ["T", "Tree", "🌳"], ["U", "Umbrella", "☂️"],
+            ["V", "Violin", "🎻"], ["W", "Whale", "🐋"], ["X", "Xylophone", "🎶"],
+            ["Y", "Yo-yo", "🪀"], ["Z", "Zebra", "🦓"]
+        ];
+
+        const grid = document.getElementById("letter-grid");
+        const resultLetter = document.getElementById("result-letter");
+        const resultEmoji = document.getElementById("result-emoji");
+        const resultPhrase = document.getElementById("result-phrase");
+
+        function selectLetter(index) {
+            const [letter, word, emoji] = examples[index];
+            resultLetter.textContent = letter;
+            resultEmoji.textContent = emoji;
+            resultEmoji.setAttribute("aria-label", word);
+            resultPhrase.textContent = letter + " for " + word;
+            document.querySelectorAll(".letter-button").forEach((button, buttonIndex) => {
+                const selected = buttonIndex === index;
+                button.classList.toggle("selected", selected);
+                button.setAttribute("aria-pressed", selected.toString());
+            });
+        }
+
+        examples.forEach(([letter, word], index) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "letter-button";
+            button.textContent = letter;
+            button.setAttribute("aria-label", letter + " for " + word);
+            button.setAttribute("aria-pressed", index === 0 ? "true" : "false");
+            if (index === 0) button.classList.add("selected");
+            button.addEventListener("click", () => selectLetter(index));
+            grid.appendChild(button);
+        });
+
+        if (window.ZOHO && ZOHO.CREATOR) {
+            ZOHO.CREATOR.init().catch(function () {
+                /* The learning activity remains available if SDK initialization is unavailable in preview. */
+            });
+        }
+    </script>
+</body>
+</html>

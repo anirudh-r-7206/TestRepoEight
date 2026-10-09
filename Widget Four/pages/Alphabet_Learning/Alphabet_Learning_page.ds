@@ -1,0 +1,12 @@
+<page linkname = "Alphabet_Learning" displayname = "Alphabet Learning"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <widgets elementName='Alphabet Explorer' importedTemplate='false' heightType='custom' heightValue='760px' linkName='AlphabetExplorer' bgColor='#FFF9E8'/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>
