@@ -1,0 +1,9 @@
+{
+  "service": "CREATOR",
+  "name": "Claude",
+  "internal": true,
+  "type": "applications",
+  "cspDomains": {
+    "connect-src": []
+  }
+}
