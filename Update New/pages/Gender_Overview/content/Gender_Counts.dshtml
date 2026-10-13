@@ -1,0 +1,230 @@
+<%
+  totalStudents = Students.count();
+  maleCount = Students[Gender == "Male"].count();
+  femaleCount = Students[Gender == "Female"].count();
+  nonBinaryCount = Students[Gender == "Non-binary"].count();
+  preferNotCount = Students[Gender == "Prefer not to say"].count();
+
+  malePercent = 0.0;
+  femalePercent = 0.0;
+  nonBinaryPercent = 0.0;
+  preferNotPercent = 0.0;
+  if(totalStudents > 0)
+  {
+    malePercent = ((maleCount * 100.0) / totalStudents).round(1);
+    femalePercent = ((femaleCount * 100.0) / totalStudents).round(1);
+    nonBinaryPercent = ((nonBinaryCount * 100.0) / totalStudents).round(1);
+    preferNotPercent = ((preferNotCount * 100.0) / totalStudents).round(1);
+  }
+%>
+<style>
+/* zcs-global: shared ZCS theme tokens and utility classes, included once on this page */
+:root {
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-light-bg-color: var(--zcs_brand_light_color);
+  --zcs-page-bg-color: #f3f3f4;
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-border-color: var(--zcs_tertiary_border_color);
+  --zcs-white-color: #ffffff;
+  --zcs-green-bg: #e8f7f1;
+  --zcs-green: #137a57;
+  --zcs-red-bg: #fff0f2;
+  --zcs-red: #b4233b;
+  --zcs-orange-bg: #fff5e7;
+  --zcs-orange: #9b5b00;
+  --zcs-blue-bg: #eaf4ff;
+  --zcs-blue: #09598e;
+  --zcs-bg: var(--zcs-page-bg-color);
+  --zcs-surface: var(--zcs-white-color);
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-border: var(--zcs-border-color);
+  --zcs-radius: 14px;
+  --zcs-shadow: 0 6px 22px rgba(28, 28, 64, 0.07);
+  --zcs-font: inherit;
+}
+.zcs-flex { display: flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: .375rem; }
+.zcs-gap-8 { gap: .5rem; }
+.zcs-font-12 { font-size: .75rem; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-m-0 { margin: 0; }
+.zcs-rounded-sm { border-radius: .25rem; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-blue { color: #09598e; }
+.zcs-color-green { color: #179e6c; }
+.zcs-color-yellow { color: #9b6508; }
+.zcs-color-d_blue { color: #4b45b2; }
+* { box-sizing: border-box; }
+.zcs-page {
+  font-family: var(--zcs-font);
+  background: var(--zcs-bg);
+  min-height: 100vh;
+  padding: 24px;
+}
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--zcs-text-1);
+  margin: 0 0 4px;
+}
+.zcs-page-header__sub { font-size: 14px; color: var(--zcs-text-2); margin: 0; }
+.zcs-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.zcs-kpi-card {
+  background: var(--zcs-surface);
+  border: 1px solid var(--zcs-border);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.zcs-kpi-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--zcs-text-2);
+}
+.zcs-kpi-card__value { font-size: 32px; font-weight: 700; margin: 6px 0 4px; line-height: 1; }
+.zcs-kpi-card__sub { font-size: 12px; color: var(--zcs-text-3); }
+.zcs-section {
+  background: var(--zcs-surface);
+  border: 1px solid var(--zcs-border);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.zcs-section__heading { font-size: 15px; font-weight: 600; color: var(--zcs-text-1); margin: 0; }
+.zcs-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--zcs-border);
+  font-size: 14px;
+  color: var(--zcs-text-1);
+}
+.zcs-stat-row:last-child { border-bottom: none; }
+.zcs-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; line-height: 1.4; }
+.zcs-badge--info { background: var(--zcs-blue-bg); color: var(--zcs-blue); }
+.zcs-progress-bar { height: 8px; background-color: var(--zcs-light-bg-color); }
+.zcs-progress-bar-indicator { height: inherit; border-radius: inherit; background-color: var(--zcs_brand_color); }
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, var(--zcs_brand_color), #315f91);
+  color: #fff;
+  box-shadow: var(--zcs-shadow);
+  margin-bottom: 20px;
+}
+.dashboard-header__icon, .kpi-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+}
+.dashboard-header__icon { width: 48px; height: 48px; background: rgba(255,255,255,.17); font-size: 25px; }
+.dashboard-header .zcs-page-header { margin: 0; }
+.dashboard-header .zcs-page-header__title, .dashboard-header .zcs-page-header__sub { color: #fff; }
+.total-card { grid-column: span 2; background: linear-gradient(135deg, var(--zcs-surface), var(--zcs-light-bg-color)); }
+.kpi-icon { position: absolute; right: 18px; top: 18px; width: 38px; height: 38px; background: var(--zcs-light-bg-color); color: var(--zcs_brand_color); font-size: 19px; }
+.section-heading-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.distribution-list { display: grid; gap: 18px; }
+.distribution-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 7px; color: var(--zcs-text-1); font-size: 14px; }
+.distribution-name { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.distribution-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--zcs_brand_color); }
+.distribution-count { color: var(--zcs-text-2); font-size: 12px; }
+@media (max-width: 700px) {
+  .zcs-page { padding: 14px; }
+  .dashboard-header { align-items: flex-start; padding: 18px; }
+  .total-card { grid-column: span 1; }
+  .zcs-kpi-card, .zcs-section { padding: 18px; }
+}
+</style>
+
+<div class="zcs-page">
+  <div class="dashboard-header">
+    <div class="dashboard-header__icon"><i class="zc-li-outline education-hat"></i></div>
+    <div class="zcs-page-header">
+      <h1 class="zcs-page-header__title">Gender Overview</h1>
+      <p class="zcs-page-header__sub">A current view of student enrollment by gender</p>
+    </div>
+  </div>
+
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card total-card">
+      <span class="kpi-icon"><i class="zc-li-outline users-multiple-19"></i></span>
+      <div class="zcs-kpi-card__label">Total students</div>
+      <div class="zcs-kpi-card__value zcs-color-blue"><%=totalStudents%></div>
+      <div class="zcs-kpi-card__sub">All enrolled student records</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <span class="kpi-icon"><i class="zc-li-outline users-single-02"></i></span>
+      <div class="zcs-kpi-card__label">Male</div>
+      <div class="zcs-kpi-card__value zcs-color-blue"><%=maleCount%></div>
+      <div class="zcs-kpi-card__sub"><%=malePercent%>% of students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <span class="kpi-icon"><i class="zc-li-outline users-single-02"></i></span>
+      <div class="zcs-kpi-card__label">Female</div>
+      <div class="zcs-kpi-card__value zcs-color-green"><%=femaleCount%></div>
+      <div class="zcs-kpi-card__sub"><%=femalePercent%>% of students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <span class="kpi-icon"><i class="zc-li-outline users-multiple-19"></i></span>
+      <div class="zcs-kpi-card__label">Non-binary</div>
+      <div class="zcs-kpi-card__value zcs-color-d_blue"><%=nonBinaryCount%></div>
+      <div class="zcs-kpi-card__sub"><%=nonBinaryPercent%>% of students</div>
+    </div>
+    <div class="zcs-kpi-card">
+      <span class="kpi-icon"><i class="zc-li-outline ui-1-lock"></i></span>
+      <div class="zcs-kpi-card__label">Prefer not to say</div>
+      <div class="zcs-kpi-card__value zcs-color-yellow"><%=preferNotCount%></div>
+      <div class="zcs-kpi-card__sub"><%=preferNotPercent%>% of students</div>
+    </div>
+  </div>
+
+  <div class="zcs-section">
+    <div class="section-heading-row">
+      <h2 class="zcs-section__heading">Gender distribution</h2>
+      <span class="zcs-badge zcs-badge--info"><%=totalStudents%> students</span>
+    </div>
+    <div class="distribution-list">
+      <div class="zcs-progress-bar-wrapper">
+        <div class="distribution-label"><span class="distribution-name"><span class="distribution-dot"></span>Male</span><span class="distribution-count"><%=maleCount%> students · <%=malePercent%>%</span></div>
+        <div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator" style="width:<%=malePercent%>%;"></div></div>
+      </div>
+      <div class="zcs-progress-bar-wrapper">
+        <div class="distribution-label"><span class="distribution-name"><span class="distribution-dot"></span>Female</span><span class="distribution-count"><%=femaleCount%> students · <%=femalePercent%>%</span></div>
+        <div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator" style="width:<%=femalePercent%>%;"></div></div>
+      </div>
+      <div class="zcs-progress-bar-wrapper">
+        <div class="distribution-label"><span class="distribution-name"><span class="distribution-dot"></span>Non-binary</span><span class="distribution-count"><%=nonBinaryCount%> students · <%=nonBinaryPercent%>%</span></div>
+        <div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator" style="width:<%=nonBinaryPercent%>%;"></div></div>
+      </div>
+      <div class="zcs-progress-bar-wrapper">
+        <div class="distribution-label"><span class="distribution-name"><span class="distribution-dot"></span>Prefer not to say</span><span class="distribution-count"><%=preferNotCount%> students · <%=preferNotPercent%>%</span></div>
+        <div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator" style="width:<%=preferNotPercent%>%;"></div></div>
+      </div>
+    </div>
+  </div>
+</div>

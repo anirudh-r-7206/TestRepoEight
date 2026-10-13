@@ -27,6 +27,17 @@ form Students
         column = 1
         width = medium
     )
+    must have Gender
+    (
+        type = radiobuttons
+        displayname = "Gender"
+        values = {"Male", "Female", "Non-binary", "Prefer not to say"}
+        layout = 2
+        row = 1
+        column = 2
+        width = medium
+    )
+
 
     actions
     {

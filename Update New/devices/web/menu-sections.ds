@@ -5,6 +5,17 @@ menu
         displayname = "Students"
         icon = "education-school"
 
+        section Dashboard_Section
+        {
+            displayname = "Dashboard"
+            icon = "business-chart-bar-33"
+
+            page Gender_Overview
+            {
+                icon = "business-chart-pie-36"
+            }
+        }
+
         section Students_Section
         {
             displayname = "Students"

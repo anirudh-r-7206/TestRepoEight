@@ -5,11 +5,13 @@ default list All_Students
     (
         Student_Name
         Age
+        Gender
     )
     filters
     (
         Student_Name
         Age
+        Gender
     )
     sort by
     (
