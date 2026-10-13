@@ -1,0 +1,39 @@
+menu
+{
+    space Students_Space
+    {
+        displayname = "Students"
+        icon = "education-school"
+
+        section Students_Section
+        {
+            displayname = "Students"
+            icon = "education-hat"
+
+            form Students
+            {
+                icon = "users-add-27"
+            }
+            report All_Students
+            {
+                icon = "users-multiple-19"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}
