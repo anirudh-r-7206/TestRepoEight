@@ -1,34 +1,33 @@
-A lightweight Student Ages app for recording each student's name and age, then browsing the saved records in a simple list.
+Extend the existing Student Ages app with inclusive gender capture and a gender-count dashboard.
 
 ## User Profiles
 
-Use Zoho Creator’s standard built-in access profiles for this small internal app; no custom roles or profiles are required.
+Keep the existing built-in access model unchanged.
 
-Do not create custom profile files. Rely on Zoho Creator's automatically available default profiles. Do not create roles or data-sharing rules.
-
-**Implementation notes:** This is intentionally a no-file shell segment because the user did not request custom access levels.
+Do not create or modify profile, role, portal, or sharing-rule files. Continue using Zoho Creator's built-in profiles.
 
 ## Students
 
-Store each student’s name and age and provide a straightforward list for viewing and managing all saved students.
+Add gender to each student record and make it available in the student list.
 
-Create stateful form Students in components/Students/form/Students.ds. Fields in order: Student_Details (section, displayname "Student Details", row 1, column 0); Student_Name (text, displayname "Student Name", must have, maxchar 100, row 1, column 1, width medium); Age (number, displayname "Age", must have, maxchar 3, row 1, column 1, width medium). Include standard stateful actions: on add Submit and Reset; on edit Update and Cancel. Add success message "Student saved successfully."
-Create default list report All_Students in components/Students/reports/All_Students/All_Students.ds, sourced from Students, with columns Student_Name and Age, filters for Student_Name and Age, sorted by Student_Name ascending. No workflows, blueprints, schedules, templates, or custom actions.
+Edit components/Students/form/Students.ds to add a mandatory Gender field after Age. Gender is a radiobuttons field with displayname "Gender", values {"Male", "Female", "Non-binary", "Prefer not to say"}, layout 2, row 1, column 2, and width medium. Edit components/Students/reports/All_Students/All_Students.ds to include Gender as a visible column and filter while preserving existing fields and Student_Name ascending sorting. Edit components/Students/reports/All_Students/devices/web.ds so Gender appears in both quickview and detailview layouts.
 
-**Implementation notes:** Use declarative mandatory modifiers; no validation workflow is needed for the requested scope.
+## Gender_Overview
+
+Create a polished dashboard that shows the total number of students and a separate count for each gender option.
+
+Create page Gender_Overview with main file pages/Gender_Overview/Gender_Overview_page.ds and HTML snippet pages/Gender_Overview/content/Gender_Counts.dshtml. The main page must use the XML-style page structure and reference only the snippet file inside a dsp stub and layout wrappers. The snippet must query Students and calculate total count plus counts where Gender equals "Male", "Female", "Non-binary", and "Prefer not to say". Render a responsive, education-themed dashboard with a heading, one total-students KPI card, four gender KPI cards, and a horizontal distribution/progress visualization for each gender. Show zero when a category has no records and handle a zero total without division errors. Use ZCS components/styles and include zcs-global CSS once; use Nucleo icons and no emojis or JavaScript.
+
+**Implementation notes:** Use ListComponents/GetComponent before implementation. Prefer ZCS page wrapper, page header, KPI grid/card, section, stat rows, progress bars, and badges where appropriate.
 
 ## Permissions
 
-Keep access governed by Creator’s built-in profiles without adding custom permission definitions.
+Keep permissions unchanged while relying on the current built-in access profiles.
 
-Do not write custom profile, role, portal, or sharing-rule files. The app uses Creator's default profiles and their standard behavior. Confirm no custom profiles were created by earlier segments.
-
-**Implementation notes:** No files are expected unless an existing custom profile unexpectedly requires convergence.
+Do not create custom permission files. The new Gender field and Gender_Overview page follow the existing built-in profile access model.
 
 ## UI Configuration
 
-Configure a clean web interface with student-focused navigation, a readable record layout, and an education-themed app icon.
+Add the gender dashboard to the web navigation so it is easy to open.
 
-Create devices/web/forms.ds mapping Students with left label placement. Create components/Students/reports/All_Students/devices/web.ds with quickview and detailview fields Student_Name and Age. Create devices/web/menu-sections.ds with one main space containing a Students section that links the Students form and All_Students report, plus mandatory SharedAnalytics_Section. Use valid education/user icons from the documented icon catalog. Create devices/web/theme.ds with a documented web theme, readable font, matching color option, and customize logo preference = "app_icon" with placement = "left". Create customization/customization.ds containing an education-domain zc-ab-* icon, background color exactly matching the chosen theme preset's primary hex, and white foreground. Do not create phone or tablet configuration because the request does not require those devices.
-
-**Implementation notes:** Read device menu, report layout, theme, customize, and icon detail docs before implementation. Every report must have web.ds.
+Edit devices/web/menu-sections.ds. Add a page-first Dashboard_Section before Students_Section, with displayname "Dashboard", icon "business-chart-bar-33", containing page Gender_Overview with icon "business-chart-pie-36". Preserve the Students form/report mappings, mandatory SharedAnalytics_Section, existing space, and preference block. Ensure every component remains mapped exactly once.

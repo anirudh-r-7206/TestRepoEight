@@ -1,12 +1,12 @@
 ## Application Overview
 
-Student Ages is a lightweight Zoho Creator app for storing student names and ages. Users can add, edit, and browse student records through a simple web interface.
+Student Ages stores student names, ages, and gender selections. Users can manage student records and view a dashboard summarizing enrollment by gender.
 
 ## Forms
 
 | Form Name | Purpose | Key Lookups |
 |---|---|---|
-| Students | Stores each student's name and age | None |
+| Students | Stores each student's name, age, and gender | None |
 
 ## Reports
 
@@ -18,11 +18,11 @@ Student Ages is a lightweight Zoho Creator app for storing student names and age
 
 | Page Name | Purpose | Key Components |
 |---|---|---|
-| None | The app uses the standard form and report interface | — |
+| Gender Overview | Shows student totals by gender | KPI cards, percentages, distribution bars |
 
 ## Design Decisions
 
-- Student Name and Age are mandatory.
-- Records are sorted alphabetically by student name.
+- Student Name, Age, and Gender are mandatory.
+- Gender uses inclusive predefined options for consistent reporting.
+- Dashboard percentages safely handle an empty dataset.
 - Creator's built-in profiles govern access.
-- The web UI uses an education-themed icon and navigation.

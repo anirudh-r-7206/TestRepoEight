@@ -37,6 +37,17 @@ application "Update-New"
 		        column = 1
 		        width = medium
 		    )
+		    must have Gender
+		    (
+		        type = radiobuttons
+		        displayname = "Gender"
+		        values = {"Male", "Female", "Non-binary", "Prefer not to say"}
+		        layout = 2
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
 		
 		    actions
 		    {
@@ -79,16 +90,27 @@ application "Update-New"
 		    (
 		        Student_Name
 		        Age
+		        Gender
 		    )
 		    filters
 		    (
 		        Student_Name
 		        Age
+		        Gender
 		    )
 		    sort by
 		    (
 		        Student_Name ascending
 		    )
+		}
+	}
+
+	pages
+	{
+		page Gender_Overview
+		{
+					displayname = "Gender Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Gender_Counts' elementName='Gender_Counts'>\n\t\t\t\t\t<![CDATA[htmlpage Gender_Counts()\ncontent\n&lt;%{%&gt;\n\t\t&lt;%\n\ttotalStudents = Students.count();\n\tmaleCount = Students[Gender == &quot;Male&quot;].count();\n\tfemaleCount = Students[Gender == &quot;Female&quot;].count();\n\tnonBinaryCount = Students[Gender == &quot;Non-binary&quot;].count();\n\tpreferNotCount = Students[Gender == &quot;Prefer not to say&quot;].count();\n\n\tmalePercent = 0.0;\n\tfemalePercent = 0.0;\n\tnonBinaryPercent = 0.0;\n\tpreferNotPercent = 0.0;\n\tif(totalStudents &gt; 0)\n\t{\n\t\tmalePercent = ((maleCount * 100.0) / totalStudents).round(1);\n\t\tfemalePercent = ((femaleCount * 100.0) / totalStudents).round(1);\n\t\tnonBinaryPercent = ((nonBinaryCount * 100.0) / totalStudents).round(1);\n\t\tpreferNotPercent = ((preferNotCount * 100.0) / totalStudents).round(1);\n\t}\n%&gt;\n&lt;style&gt;\n/* zcs-global: shared ZCS theme tokens and utility classes, included once on this page */\n:root {\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-light-bg-color: var(--zcs_brand_light_color);\n\t--zcs-page-bg-color: #f3f3f4;\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-border-color: var(--zcs_tertiary_border_color);\n\t--zcs-white-color: #ffffff;\n\t--zcs-green-bg: #e8f7f1;\n\t--zcs-green: #137a57;\n\t--zcs-red-bg: #fff0f2;\n\t--zcs-red: #b4233b;\n\t--zcs-orange-bg: #fff5e7;\n\t--zcs-orange: #9b5b00;\n\t--zcs-blue-bg: #eaf4ff;\n\t--zcs-blue: #09598e;\n\t--zcs-bg: var(--zcs-page-bg-color);\n\t--zcs-surface: var(--zcs-white-color);\n\t--zcs-text-1: var(--zcs-primary-text-color);\n\t--zcs-text-2: var(--zcs-secondary-text-color);\n\t--zcs-text-3: var(--zcs-teritiary-text-color);\n\t--zcs-border: var(--zcs-border-color);\n\t--zcs-radius: 14px;\n\t--zcs-shadow: 0 6px 22px rgba(28, 28, 64, 0.07);\n\t--zcs-font: inherit;\n}\n.zcs-flex { display: flex; }\n.zcs-direction-column { flex-direction: column; }\n.zcs-align-items-center { align-items: center; }\n.zcs-justify-space-between { justify-content: space-between; }\n.zcs-gap-6 { gap: .375rem; }\n.zcs-gap-8 { gap: .5rem; }\n.zcs-font-12 { font-size: .75rem; }\n.zcs-font-medium { font-weight: 500; }\n.zcs-lh-body { line-height: 1.5; }\n.zcs-m-0 { margin: 0; }\n.zcs-rounded-sm { border-radius: .25rem; }\n.zcs-color-primary { color: var(--zcs-primary-text-color); }\n.zcs-color-blue { color: #09598e; }\n.zcs-color-green { color: #179e6c; }\n.zcs-color-yellow { color: #9b6508; }\n.zcs-color-d_blue { color: #4b45b2; }\n* { box-sizing: border-box; }\n.zcs-page {\n\tfont-family: var(--zcs-font);\n\tbackground: var(--zcs-bg);\n\tmin-height: 100vh;\n\tpadding: 24px;\n}\n.zcs-page-header { margin-bottom: 24px; }\n.zcs-page-header__title {\n\tfont-size: 22px;\n\tfont-weight: 600;\n\tcolor: var(--zcs-text-1);\n\tmargin: 0 0 4px;\n}\n.zcs-page-header__sub { font-size: 14px; color: var(--zcs-text-2); margin: 0; }\n.zcs-kpi-grid {\n\tdisplay: grid;\n\tgrid-template-columns: repeat(auto-fit, minmax(190px, 1fr));\n\tgap: 16px;\n\tmargin-bottom: 24px;\n}\n.zcs-kpi-card {\n\tbackground: var(--zcs-surface);\n\tborder: 1px solid var(--zcs-border);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n\tposition: relative;\n\toverflow: hidden;\n}\n.zcs-kpi-card__label {\n\tfont-size: 11px;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: .6px;\n\tcolor: var(--zcs-text-2);\n}\n.zcs-kpi-card__value { font-size: 32px; font-weight: 700; margin: 6px 0 4px; line-height: 1; }\n.zcs-kpi-card__sub { font-size: 12px; color: var(--zcs-text-3); }\n.zcs-section {\n\tbackground: var(--zcs-surface);\n\tborder: 1px solid var(--zcs-border);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n\tmargin-bottom: 16px;\n}\n.zcs-section__heading { font-size: 15px; font-weight: 600; color: var(--zcs-text-1); margin: 0; }\n.zcs-stat-row {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tpadding: 9px 0;\n\tborder-bottom: 1px solid var(--zcs-border);\n\tfont-size: 14px;\n\tcolor: var(--zcs-text-1);\n}\n.zcs-stat-row:last-child { border-bottom: none; }\n.zcs-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; line-height: 1.4; }\n.zcs-badge--info { background: var(--zcs-blue-bg); color: var(--zcs-blue); }\n.zcs-progress-bar { height: 8px; background-color: var(--zcs-light-bg-color); }\n.zcs-progress-bar-indicator { height: inherit; border-radius: inherit; background-color: var(--zcs_brand_color); }\n.dashboard-header {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: 16px;\n\tpadding: 22px 24px;\n\tborder-radius: 18px;\n\tbackground: linear-gradient(120deg, var(--zcs_brand_color), #315f91);\n\tcolor: #fff;\n\tbox-shadow: var(--zcs-shadow);\n\tmargin-bottom: 20px;\n}\n.dashboard-header__icon, .kpi-icon {\n\tdisplay: inline-flex;\n\talign-items: center;\n\tjustify-content: center;\n\tflex: 0 0 auto;\n\tborder-radius: 12px;\n}\n.dashboard-header__icon { width: 48px; height: 48px; background: rgba(255,255,255,.17); font-size: 25px; }\n.dashboard-header .zcs-page-header { margin: 0; }\n.dashboard-header .zcs-page-header__title, .dashboard-header .zcs-page-header__sub { color: #fff; }\n.total-card { grid-column: span 2; background: linear-gradient(135deg, var(--zcs-surface), var(--zcs-light-bg-color)); }\n.kpi-icon { position: absolute; right: 18px; top: 18px; width: 38px; height: 38px; background: var(--zcs-light-bg-color); color: var(--zcs_brand_color); font-size: 19px; }\n.section-heading-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }\n.distribution-list { display: grid; gap: 18px; }\n.distribution-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 7px; color: var(--zcs-text-1); font-size: 14px; }\n.distribution-name { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }\n.distribution-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--zcs_brand_color); }\n.distribution-count { color: var(--zcs-text-2); font-size: 12px; }\n@media (max-width: 700px) {\n\t.zcs-page { padding: 14px; }\n\t.dashboard-header { align-items: flex-start; padding: 18px; }\n\t.total-card { grid-column: span 1; }\n\t.zcs-kpi-card, .zcs-section { padding: 18px; }\n}\n&lt;/style&gt;\n\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;dashboard-header&quot;&gt;\n\t\t&lt;div class=&quot;dashboard-header__icon&quot;&gt;&lt;i class=&quot;zc-li-outline education-hat&quot;&gt;&lt;/i&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Gender Overview&lt;/h1&gt;\n\t\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A current view of student enrollment by gender&lt;/p&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card total-card&quot;&gt;\n\t\t\t&lt;span class=&quot;kpi-icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-multiple-19&quot;&gt;&lt;/i&gt;&lt;/span&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total students&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-blue&quot;&gt;&lt;%=totalStudents%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;All enrolled student records&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;span class=&quot;kpi-icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-single-02&quot;&gt;&lt;/i&gt;&lt;/span&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Male&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-blue&quot;&gt;&lt;%=maleCount%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=malePercent%&gt;% of students&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;span class=&quot;kpi-icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-single-02&quot;&gt;&lt;/i&gt;&lt;/span&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Female&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-green&quot;&gt;&lt;%=femaleCount%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=femalePercent%&gt;% of students&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;span class=&quot;kpi-icon&quot;&gt;&lt;i class=&quot;zc-li-outline users-multiple-19&quot;&gt;&lt;/i&gt;&lt;/span&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Non-binary&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-d_blue&quot;&gt;&lt;%=nonBinaryCount%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=nonBinaryPercent%&gt;% of students&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;span class=&quot;kpi-icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-lock&quot;&gt;&lt;/i&gt;&lt;/span&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Prefer not to say&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value zcs-color-yellow&quot;&gt;&lt;%=preferNotCount%&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;&lt;%=preferNotPercent%&gt;% of students&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t&lt;div class=&quot;section-heading-row&quot;&gt;\n\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Gender distribution&lt;/h2&gt;\n\t\t\t&lt;span class=&quot;zcs-badge zcs-badge--info&quot;&gt;&lt;%=totalStudents%&gt; students&lt;/span&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;distribution-list&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper&quot;&gt;\n\t\t\t\t&lt;div class=&quot;distribution-label&quot;&gt;&lt;span class=&quot;distribution-name&quot;&gt;&lt;span class=&quot;distribution-dot&quot;&gt;&lt;/span&gt;Male&lt;/span&gt;&lt;span class=&quot;distribution-count&quot;&gt;&lt;%=maleCount%&gt; students · &lt;%=malePercent%&gt;%&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=malePercent%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper&quot;&gt;\n\t\t\t\t&lt;div class=&quot;distribution-label&quot;&gt;&lt;span class=&quot;distribution-name&quot;&gt;&lt;span class=&quot;distribution-dot&quot;&gt;&lt;/span&gt;Female&lt;/span&gt;&lt;span class=&quot;distribution-count&quot;&gt;&lt;%=femaleCount%&gt; students · &lt;%=femalePercent%&gt;%&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=femalePercent%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper&quot;&gt;\n\t\t\t\t&lt;div class=&quot;distribution-label&quot;&gt;&lt;span class=&quot;distribution-name&quot;&gt;&lt;span class=&quot;distribution-dot&quot;&gt;&lt;/span&gt;Non-binary&lt;/span&gt;&lt;span class=&quot;distribution-count&quot;&gt;&lt;%=nonBinaryCount%&gt; students · &lt;%=nonBinaryPercent%&gt;%&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=nonBinaryPercent%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper&quot;&gt;\n\t\t\t\t&lt;div class=&quot;distribution-label&quot;&gt;&lt;span class=&quot;distribution-name&quot;&gt;&lt;span class=&quot;distribution-dot&quot;&gt;&lt;/span&gt;Prefer not to say&lt;/span&gt;&lt;span class=&quot;distribution-count&quot;&gt;&lt;%=preferNotCount%&gt; students · &lt;%=preferNotPercent%&gt;%&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator&quot; style=&quot;width:&lt;%=preferNotPercent%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
 		}
 	}
 
@@ -129,6 +151,7 @@ application "Update-New"
 		                (
 		                    Student_Name
 		                    Age
+		                    Gender
 		                )
 		            )
 		        )
@@ -174,6 +197,7 @@ application "Update-New"
 		                (
 		                    Student_Name
 		                    Age
+		                    Gender
 		                )
 		            )
 		        )
@@ -195,6 +219,17 @@ application "Update-New"
 	    {
 	        displayname = "Students"
 	        icon = "education-school"
+	
+	        section Dashboard_Section
+	        {
+	            displayname = "Dashboard"
+	            icon = "business-chart-bar-33"
+	
+	            page Gender_Overview
+	            {
+	                icon = "business-chart-pie-36"
+	            }
+	        }
 	
 	        section Students_Section
 	        {
