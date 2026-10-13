@@ -1,0 +1,53 @@
+default list All_Tables
+{
+	displayName = "All Tables"
+	show all rows from Dining_Table
+	(
+		Table_Number
+		Dining_Area
+		Seats
+		(
+			display = total
+		)
+		Status
+		Notes
+	)
+	filters
+	(
+		Dining_Area
+		Status
+	)
+	group by
+	(
+		properties
+		(
+			display record count = true
+		)
+		Dining_Area ascending
+	)
+	sort by
+	(
+		Table_Number ascending
+	)
+	conditional formatting
+	(
+		"Highlight Occupied"
+		{
+			condition = (Status == "Occupied")
+			fields = [Status]
+			format = "background-color:#FDE2E0;"
+		}
+		"Highlight Reserved"
+		{
+			condition = (Status == "Reserved")
+			fields = [Status]
+			format = "background-color:#FFF1D6;"
+		}
+		"Highlight Available"
+		{
+			condition = (Status == "Available")
+			fields = [Status]
+			format = "background-color:#DDF4E7;"
+		}
+	)
+}

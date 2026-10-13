@@ -1,0 +1,25 @@
+Reserved_Table_On_User_Input as "Reserved Table On User Input"
+{
+	type = form
+	form = Table_Reservation
+	record event = on add or edit
+
+	on user input of Reserved_Table
+	{
+		actions
+		{
+			custom deluge script
+			(
+				if(input.Reserved_Table != null)
+				{
+					tbl = Dining_Table[ID == input.Reserved_Table];
+					input.Table_Seats = tbl.Seats;
+				}
+				else
+				{
+					input.Table_Seats = null;
+				}
+			)
+		}
+	}
+}

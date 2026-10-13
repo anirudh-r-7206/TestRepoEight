@@ -1,0 +1,22 @@
+Menu_On_User_Input as "Menu On User Input"
+{
+	type = form
+	form = Table_Order
+	record event = on add or edit
+
+	on user input of Order_Items.Menu
+	{
+		actions
+		{
+			custom deluge script
+			(
+				if(row.Menu != null)
+				{
+					item = Menu_Item[ID == row.Menu];
+					row.Unit_Price = item.Price;
+					row.Line_Amount = item.Price * ifnull(row.Quantity, 1);
+				}
+			)
+		}
+	}
+}

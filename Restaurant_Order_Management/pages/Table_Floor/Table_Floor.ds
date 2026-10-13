@@ -1,0 +1,19 @@
+<page linkname = "Table_Floor" parameters = "string StatusFilter" displayname = "Table Floor"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Floor_Tables' elementName='Floor_Tables'>
+          <![CDATA[htmlpage Floor_Tables()
+             content
+             <%{%>
+                 <file name:Floor_Tables.dshtml/>
+             <%}%>
+         ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

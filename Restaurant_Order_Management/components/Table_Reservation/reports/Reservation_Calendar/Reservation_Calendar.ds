@@ -1,0 +1,24 @@
+calendar Reservation_Calendar
+{
+	displayName = "Reservation Calendar"
+	show all rows from Table_Reservation [Reservation_Status != "Cancelled"]
+	(
+		Guest_Name
+		Reserved_Table
+		Time_Slot
+		Reservation_Date
+		Reservation_Status
+	)
+	filters
+	(
+		Reserved_Table
+		Time_Slot
+	)
+	options
+	(
+		display type = month
+		week start day = monday
+		display field = Guest_Name
+		start date = Reservation_Date
+	)
+}

@@ -1,0 +1,29 @@
+default list All_Menu_Items
+{
+	displayName = "All Menu Items"
+	show all rows from Menu_Item
+	(
+		Item_Name
+		Category
+		Price
+		Is_Available
+		Description
+	)
+	filters
+	(
+		Category
+		Is_Available
+	)
+	group by
+	(
+		properties
+		(
+			display record count = true
+		)
+		Category ascending
+	)
+	sort by
+	(
+		Item_Name ascending
+	)
+}

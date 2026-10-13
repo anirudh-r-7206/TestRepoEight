@@ -1,0 +1,42 @@
+default list All_Reservations
+{
+	displayName = "All Reservations"
+	show all rows from Table_Reservation
+	(
+		Reserved_Table
+		Guest_Name
+		Phone
+		Party_Size
+		Reservation_Date
+		(
+			displayformat = fulldate
+		)
+		Time_Slot
+		Reservation_Status
+	)
+	filters
+	(
+		Reserved_Table
+		Time_Slot
+		Reservation_Status
+	)
+	sort by
+	(
+		Reservation_Date descending
+	)
+	conditional formatting
+	(
+		"Highlight Cancelled"
+		{
+			condition = (Reservation_Status == "Cancelled")
+			fields = [Reservation_Status]
+			format = "background-color:#FDE2E0;"
+		}
+		"Highlight Seated"
+		{
+			condition = (Reservation_Status == "Seated")
+			fields = [Reservation_Status]
+			format = "background-color:#DDF4E7;"
+		}
+	)
+}

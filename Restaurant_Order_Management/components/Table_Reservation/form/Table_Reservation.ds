@@ -1,0 +1,124 @@
+form Table_Reservation
+{
+	displayname = "Table Reservation"
+	success message = "Reservation saved."
+
+	Reservation_Details
+	(
+		type = section
+		displayname = "Reservation Details"
+		row = 1
+		column = 0
+	)
+	must have Reserved_Table
+	(
+		type = picklist
+		displayname = "Table"
+		values = Dining_Table.ID
+		displayformat = [Table_Number]
+		searchable = true
+		row = 1
+		column = 1
+		width = medium
+	)
+	Table_Seats
+	(
+		type = number
+		displayname = "Seats at Table"
+		row = 1
+		column = 2
+		width = medium
+	)
+	must have Guest_Name
+	(
+		type = text
+		displayname = "Guest Name"
+		row = 1
+		column = 1
+		width = medium
+	)
+	must have Phone
+	(
+		type = phonenumber
+		displayname = "Phone"
+		row = 1
+		column = 2
+		width = medium
+	)
+	must have Party_Size
+	(
+		type = number
+		displayname = "Party Size"
+		initial value = 2
+		row = 1
+		column = 1
+		width = medium
+	)
+	must have Reservation_Date
+	(
+		type = date
+		displayname = "Reservation Date"
+		initial value = "${zoho.currentdate}"
+		row = 1
+		column = 2
+		width = medium
+	)
+	must have Time_Slot
+	(
+		type = picklist
+		displayname = "Time Slot"
+		values = {"Breakfast", "Lunch", "Evening", "Dinner"}
+		initial value = "Dinner"
+		row = 1
+		column = 1
+		width = medium
+	)
+	must have Reservation_Status
+	(
+		type = picklist
+		displayname = "Status"
+		values = {"Reserved", "Seated", "Completed", "Cancelled"}
+		initial value = "Reserved"
+		row = 1
+		column = 2
+		width = medium
+	)
+	Special_Requests
+	(
+		type = textarea
+		displayname = "Special Requests"
+		row = 1
+		column = 1
+		width = medium
+	)
+
+	actions
+	{
+		on add
+		{
+			Submit
+			(
+				type = submit
+				displayname = "Submit"
+			)
+			Reset
+			(
+				type = reset
+				displayname = "Reset"
+			)
+		}
+		on edit
+		{
+			Update
+			(
+				type = submit
+				displayname = "Update"
+			)
+			Cancel
+			(
+				type = cancel
+				displayname = "Cancel"
+			)
+		}
+	}
+}

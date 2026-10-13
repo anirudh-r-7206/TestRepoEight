@@ -1,0 +1,23 @@
+list Open_Orders
+{
+	displayName = "Open Orders"
+	show all rows from Table_Order [Order_Status == "Open" || Order_Status == "Served"]
+	(
+		Order_No
+		Order_Table
+		Order_Status
+		Order_Total
+		(
+			display = total
+		)
+	)
+	filters
+	(
+		Order_Table
+		Order_Status
+	)
+	sort by
+	(
+		Order_No descending
+	)
+}

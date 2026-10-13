@@ -1,0 +1,12 @@
+customize
+{
+	font = "Poppins"
+	color options
+	{
+		color = "5"
+	}
+	logo
+	{
+		preference = "none"
+	}
+}

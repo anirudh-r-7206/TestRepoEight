@@ -1,0 +1,38 @@
+Table_Order_On_Validate as "Table Order On Validate"
+{
+	type = form
+	form = Table_Order
+	record event = on add or edit
+
+	on validate
+	{
+		actions
+		{
+			custom deluge script
+			(
+				total = 0.0;
+				lines = 0;
+				for each row in input.Order_Items
+				{
+					if(row.Menu != null)
+					{
+						item = Menu_Item[ID == row.Menu];
+						if(ifnull(row.Quantity, 0) < 1)
+						{
+							alert "Quantity for " + item.Item_Name + " must be at least 1.";
+							cancel submit;
+						}
+						total = total + (item.Price * row.Quantity);
+						lines = lines + 1;
+					}
+				}
+				if(lines == 0)
+				{
+					alert "Add at least one menu item to the order.";
+					cancel submit;
+				}
+				input.Order_Total = total;
+			)
+		}
+	}
+}

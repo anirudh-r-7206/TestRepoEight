@@ -1,0 +1,22 @@
+Table_Reservation_On_Load as "Table Reservation On Load"
+{
+	type = form
+	form = Table_Reservation
+	record event = on add or edit
+
+	on load
+	{
+		actions
+		{
+			custom deluge script
+			(
+				disable Table_Seats;
+				if(input.Reserved_Table != null)
+				{
+					tbl = Dining_Table[ID == input.Reserved_Table];
+					input.Table_Seats = tbl.Seats;
+				}
+			)
+		}
+	}
+}

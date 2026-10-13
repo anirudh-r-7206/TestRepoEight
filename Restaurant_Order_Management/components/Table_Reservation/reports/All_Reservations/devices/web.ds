@@ -1,0 +1,83 @@
+report All_Reservations
+{
+	quickview
+	(
+		layout
+		(
+			type = -1
+			datablock1
+			(
+				layout type = -1
+				fields
+				(
+					Reserved_Table
+					Guest_Name
+					Phone
+					Party_Size
+					Reservation_Date
+					Time_Slot
+					Reservation_Status
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+			record
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+		action
+		(
+			on click
+			(
+				View Record
+			)
+			on right click
+			(
+				Edit
+				Delete
+				Duplicate
+				View Record
+			)
+		)
+	)
+	detailview
+	(
+		layout
+		(
+			type = 1
+			datablock1
+			(
+				layout type = -2
+				fields
+				(
+					Reserved_Table
+					Guest_Name
+					Phone
+					Party_Size
+					Reservation_Date
+					Time_Slot
+					Reservation_Status
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+	)
+}

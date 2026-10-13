@@ -1,0 +1,124 @@
+<%
+filt = ifnull(input.StatusFilter, "");
+totalTables = Dining_Table[ID != 0].count();
+availTables = Dining_Table[Status == "Available"].count();
+reservedTables = Dining_Table[Status == "Reserved"].count();
+occupiedTables = Dining_Table[Status == "Occupied"].count();
+freeSeats = ifnull(Dining_Table[Status == "Available"].sum(Seats), 0);
+totalSeats = ifnull(Dining_Table[ID != 0].sum(Seats), 0);
+areas = {"Indoor", "Outdoor", "Rooftop", "Private"};
+seatNums = {1, 2, 3, 4, 5, 6, 7, 8};
+onAll = "";
+onAvail = "";
+onRes = "";
+onOcc = "";
+if(filt == "")
+{
+	onAll = "on";
+}
+if(filt == "Available")
+{
+	onAvail = "on";
+}
+if(filt == "Reserved")
+{
+	onRes = "on";
+}
+if(filt == "Occupied")
+{
+	onOcc = "on";
+}
+%>
+<style>
+.tf-wrap { padding: 20px; font-family: inherit; }
+.tf-head h2 { font-size: 22px; margin: 0 0 4px 0; }
+.tf-head p { margin: 0 0 16px 0; opacity: .7; }
+.tf-kpis { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.tf-kpi { flex: 1 1 140px; border: 1px solid #dde3ea; border-radius: 10px; padding: 14px 16px; background: #fff; }
+.tf-kpi .n { font-size: 26px; font-weight: 700; }
+.tf-kpi .l { font-size: 12px; opacity: .7; text-transform: uppercase; letter-spacing: .04em; }
+.tf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.tf-chips a { padding: 6px 14px; border-radius: 16px; border: 1px solid #c3ccd8; color: #333; text-decoration: none; font-size: 13px; background: #fff; }
+.tf-chips a.on { background: #1c64f2; border-color: #1c64f2; color: #fff; }
+.tf-area { font-size: 15px; font-weight: 700; margin: 18px 0 10px 0; }
+.tf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.tf-card { border: 1px solid #dde3ea; border-top-width: 5px; border-radius: 10px; padding: 14px; background: #fff; }
+.tf-card.Available { border-top-color: #16ad78; }
+.tf-card.Reserved { border-top-color: #f5a623; }
+.tf-card.Occupied { border-top-color: #e5484d; }
+.tf-top { display: flex; justify-content: space-between; align-items: center; }
+.tf-no { font-size: 20px; font-weight: 700; }
+.tf-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }
+.tf-badge.Available { background: #ddf4e7; color: #0b7a54; }
+.tf-badge.Reserved { background: #fff1d6; color: #9a6200; }
+.tf-badge.Occupied { background: #fde2e0; color: #b4232a; }
+.tf-seats { margin: 10px 0 6px 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 12px; }
+.tf-seat { width: 12px; height: 12px; border-radius: 3px; background: #c3ccd8; display: inline-block; }
+.tf-card.Available .tf-seat { background: #16ad78; }
+.tf-card.Reserved .tf-seat { background: #f5a623; }
+.tf-card.Occupied .tf-seat { background: #e5484d; }
+.tf-info { font-size: 12px; opacity: .8; min-height: 32px; margin-bottom: 10px; }
+.tf-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid #1c64f2; color: #1c64f2; background: #fff; }
+.tf-btn.primary { background: #1c64f2; color: #fff; }
+</style>
+<div class="tf-wrap">
+  <div class="tf-head">
+    <h2>Table Floor</h2>
+    <p>Pick an available table to reserve it, or open an order for a table in service.</p>
+  </div>
+  <div class="tf-kpis">
+    <div class="tf-kpi"><div class="n"><%= totalTables %></div><div class="l">Tables</div></div>
+    <div class="tf-kpi"><div class="n"><%= availTables %></div><div class="l">Available</div></div>
+    <div class="tf-kpi"><div class="n"><%= reservedTables %></div><div class="l">Reserved</div></div>
+    <div class="tf-kpi"><div class="n"><%= occupiedTables %></div><div class="l">Occupied</div></div>
+    <div class="tf-kpi"><div class="n"><%= freeSeats %> / <%= totalSeats %></div><div class="l">Free seats</div></div>
+  </div>
+  <div class="tf-chips">
+    <a class="<%= onAll %>" href="#Page:Table_Floor">All</a>
+    <a class="<%= onAvail %>" href="#Page:Table_Floor?StatusFilter=Available">Available</a>
+    <a class="<%= onRes %>" href="#Page:Table_Floor?StatusFilter=Reserved">Reserved</a>
+    <a class="<%= onOcc %>" href="#Page:Table_Floor?StatusFilter=Occupied">Occupied</a>
+  </div>
+<% for each area in areas { %>
+<% tables = Dining_Table[Dining_Area == area] sort by Table_Number; %>
+<% if(tables.count() > 0) { %>
+  <div class="tf-area"><i class="zc-li-outline business-building"></i> <%= area %></div>
+  <div class="tf-grid">
+<% for each t in tables { %>
+<% if(filt == "" || t.Status == filt) { %>
+    <div class="tf-card <%= t.Status %>">
+      <div class="tf-top">
+        <span class="tf-no">Table <%= t.Table_Number %></span>
+        <span class="tf-badge <%= t.Status %>"><%= t.Status %></span>
+      </div>
+      <div class="tf-seats">
+<% for each n in seatNums { %>
+<% if(n <= t.Seats) { %><span class="tf-seat"></span><% } %>
+<% } %>
+        <span><%= t.Seats %> seats</span>
+      </div>
+      <div class="tf-info">
+<% if(t.Status == "Reserved") { %>
+<% res = Table_Reservation[Reserved_Table == t.ID && Reservation_Status == "Reserved"] sort by Reservation_Date; %>
+<% if(res.count() > 0) { %>Held for <%= res.Guest_Name %>, party of <%= res.Party_Size %> (<%= res.Time_Slot %>)<% } %>
+<% } else if(t.Status == "Occupied") { %>
+<% ord = Table_Order[Order_Table == t.ID && (Order_Status == "Open" || Order_Status == "Served")] sort by Order_No desc; %>
+<% if(ord.count() > 0) { %>Order #<%= ord.Order_No %> in progress, total <%= ifnull(ord.Order_Total, 0) %><% } %>
+<% } else { %>Free to seat <%= t.Seats %> guests<% } %>
+      </div>
+<% if(t.Status == "Available") { %>
+      <a class="tf-btn primary" href="#Form:Table_Reservation?Reserved_Table=<%= t.ID %>"><i class="zc-li-outline ui-1-check-circle-08"></i>Reserve</a>
+      <a class="tf-btn" href="#Form:Table_Order?Order_Table=<%= t.ID %>">Seat and order</a>
+<% } else if(t.Status == "Reserved") { %>
+      <a class="tf-btn" href="#Report:All_Reservations">View reservation</a>
+      <a class="tf-btn" href="#Form:Table_Order?Order_Table=<%= t.ID %>">Seat and order</a>
+<% } else { %>
+      <a class="tf-btn primary" href="#Report:Open_Orders">View orders</a>
+<% } %>
+    </div>
+<% } %>
+<% } %>
+  </div>
+<% } %>
+<% } %>
+</div>

@@ -1,0 +1,77 @@
+report Open_Orders
+{
+	quickview
+	(
+		layout
+		(
+			type = -1
+			datablock1
+			(
+				layout type = -1
+				fields
+				(
+					Order_No
+					Order_Table
+					Order_Status
+					Order_Total
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+			record
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+		action
+		(
+			on click
+			(
+				View Record
+			)
+			on right click
+			(
+				Edit
+				Delete
+				Duplicate
+				View Record
+			)
+		)
+	)
+	detailview
+	(
+		layout
+		(
+			type = 1
+			datablock1
+			(
+				layout type = -2
+				fields
+				(
+					Order_No
+					Order_Table
+					Order_Status
+					Order_Total
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+	)
+}

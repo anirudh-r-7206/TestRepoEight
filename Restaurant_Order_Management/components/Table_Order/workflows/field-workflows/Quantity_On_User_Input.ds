@@ -1,0 +1,17 @@
+Quantity_On_User_Input as "Quantity On User Input"
+{
+	type = form
+	form = Table_Order
+	record event = on add or edit
+
+	on user input of Order_Items.Quantity
+	{
+		actions
+		{
+			custom deluge script
+			(
+				row.Line_Amount = ifnull(row.Unit_Price, 0.0) * ifnull(row.Quantity, 0);
+			)
+		}
+	}
+}

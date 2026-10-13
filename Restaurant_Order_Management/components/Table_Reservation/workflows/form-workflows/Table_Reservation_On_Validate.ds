@@ -1,0 +1,39 @@
+Table_Reservation_On_Validate as "Table Reservation On Validate"
+{
+	type = form
+	form = Table_Reservation
+	record event = on add or edit
+
+	on validate
+	{
+		actions
+		{
+			custom deluge script
+			(
+				tbl = Dining_Table[ID == input.Reserved_Table];
+				if(input.Party_Size > tbl.Seats)
+				{
+					alert "Table " + tbl.Table_Number + " seats only " + tbl.Seats + ". Please pick a larger table.";
+					cancel submit;
+				}
+				if(input.Reservation_Date < zoho.currentdate)
+				{
+					alert "Reservation date cannot be in the past.";
+					cancel submit;
+				}
+				if(input.Reservation_Status == "Reserved" || input.Reservation_Status == "Seated")
+				{
+					clashes = Table_Reservation[Reserved_Table == input.Reserved_Table && Reservation_Date == input.Reservation_Date && Time_Slot == input.Time_Slot && (Reservation_Status == "Reserved" || Reservation_Status == "Seated")];
+					for each clash in clashes
+					{
+						if(input.ID == null || clash.ID != input.ID)
+						{
+							alert "Table " + tbl.Table_Number + " is already reserved for this date and time slot.";
+							cancel submit;
+						}
+					}
+				}
+			)
+		}
+	}
+}

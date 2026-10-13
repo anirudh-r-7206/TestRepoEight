@@ -1,0 +1,24 @@
+kanban Tables_By_Status
+{
+	displayName = "Tables By Status"
+	show all rows from Dining_Table
+	(
+		Table_Number
+		Dining_Area
+		Seats
+		Status
+	)
+	filters
+	(
+		Dining_Area
+	)
+	sort by
+	(
+		Table_Number ascending
+	)
+	options
+	(
+		display field = Status
+		record count = enable
+	)
+}

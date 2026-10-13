@@ -1,0 +1,87 @@
+form Menu_Item
+{
+	displayname = "Menu Item"
+	success message = "Menu item saved."
+
+	Item_Details
+	(
+		type = section
+		displayname = "Item Details"
+		row = 1
+		column = 0
+	)
+	must have unique Item_Name
+	(
+		type = text
+		displayname = "Item Name"
+		row = 1
+		column = 1
+		width = medium
+	)
+	must have Category
+	(
+		type = picklist
+		displayname = "Category"
+		values = {"Starters", "Mains", "Desserts", "Beverages", "Sides"}
+		initial value = "Mains"
+		row = 1
+		column = 2
+		width = medium
+	)
+	must have Price
+	(
+		type = decimal
+		displayname = "Price"
+		decimalplace = 2
+		row = 1
+		column = 1
+		width = medium
+	)
+	Is_Available
+	(
+		type = checkbox
+		displayname = "Available"
+		initial value = true
+		row = 1
+		column = 2
+		width = medium
+	)
+	Description
+	(
+		type = textarea
+		displayname = "Description"
+		row = 1
+		column = 1
+		width = medium
+	)
+
+	actions
+	{
+		on add
+		{
+			Submit
+			(
+				type = submit
+				displayname = "Submit"
+			)
+			Reset
+			(
+				type = reset
+				displayname = "Reset"
+			)
+		}
+		on edit
+		{
+			Update
+			(
+				type = submit
+				displayname = "Update"
+			)
+			Cancel
+			(
+				type = cancel
+				displayname = "Cancel"
+			)
+		}
+	}
+}

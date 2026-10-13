@@ -1,0 +1,33 @@
+Table_Reservation_On_Success as "Table Reservation On Success"
+{
+	type = form
+	form = Table_Reservation
+	record event = on add or edit
+
+	on success
+	{
+		actions
+		{
+			custom deluge script
+			(
+				tbl = Dining_Table[ID == input.Reserved_Table];
+				openOrders = Table_Order[Order_Table == input.Reserved_Table && Order_Status == "Open"].count();
+				if(input.Reservation_Status == "Seated")
+				{
+					tbl.Status = "Occupied";
+				}
+				else if(input.Reservation_Status == "Reserved")
+				{
+					if(input.Reservation_Date == zoho.currentdate && tbl.Status == "Available")
+					{
+						tbl.Status = "Reserved";
+					}
+				}
+				else if(openOrders == 0)
+				{
+					tbl.Status = "Available";
+				}
+			)
+		}
+	}
+}

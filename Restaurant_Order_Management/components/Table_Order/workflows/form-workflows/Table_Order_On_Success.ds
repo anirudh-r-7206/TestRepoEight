@@ -1,0 +1,29 @@
+Table_Order_On_Success as "Table Order On Success"
+{
+	type = form
+	form = Table_Order
+	record event = on add or edit
+
+	on success
+	{
+		actions
+		{
+			custom deluge script
+			(
+				tbl = Dining_Table[ID == input.Order_Table];
+				if(input.Order_Status == "Open" || input.Order_Status == "Served")
+				{
+					tbl.Status = "Occupied";
+				}
+				else
+				{
+					stillOpen = Table_Order[Order_Table == input.Order_Table && (Order_Status == "Open" || Order_Status == "Served") && ID != input.ID].count();
+					if(stillOpen == 0)
+					{
+						tbl.Status = "Available";
+					}
+				}
+			)
+		}
+	}
+}

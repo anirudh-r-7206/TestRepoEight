@@ -1,0 +1,79 @@
+report Reservation_Calendar
+{
+	quickview
+	(
+		layout
+		(
+			type = -1
+			datablock1
+			(
+				layout type = -1
+				fields
+				(
+					Guest_Name
+					Reserved_Table
+					Time_Slot
+					Reservation_Date
+					Reservation_Status
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+			record
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+		action
+		(
+			on click
+			(
+				View Record
+			)
+			on right click
+			(
+				Edit
+				Delete
+				Duplicate
+				View Record
+			)
+		)
+	)
+	detailview
+	(
+		layout
+		(
+			type = 1
+			datablock1
+			(
+				layout type = -2
+				fields
+				(
+					Guest_Name
+					Reserved_Table
+					Time_Slot
+					Reservation_Date
+					Reservation_Status
+				)
+			)
+		)
+		menu
+		(
+			header
+			(
+				Edit
+				Duplicate
+				Delete
+			)
+		)
+	)
+}

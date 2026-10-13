@@ -1,0 +1,91 @@
+menu
+{
+	space Restaurant_Space
+	{
+		displayname = "Restaurant"
+		icon = "business-building"
+
+		section Floor_Section
+		{
+			displayname = "Floor"
+			icon = "business-chart-bar-33"
+
+			page Table_Floor
+			{
+				icon = "business-chart-bar-33"
+			}
+		}
+
+		section Reservations_Section
+		{
+			displayname = "Reservations"
+			icon = "business-agenda"
+
+			form Table_Reservation
+			{
+				icon = "business-agenda"
+			}
+			report All_Reservations
+			{
+				icon = "tech-desktop"
+			}
+			report Reservation_Calendar
+			{
+				icon = "business-agenda"
+			}
+		}
+
+		section Orders_Section
+		{
+			displayname = "Orders"
+			icon = "files-single-folded-content"
+
+			form Table_Order
+			{
+				icon = "files-single-folded-content"
+			}
+			report All_Orders
+			{
+				icon = "tech-desktop"
+			}
+			report Open_Orders
+			{
+				icon = "business-progress"
+			}
+		}
+
+		section Setup_Section
+		{
+			displayname = "Tables and Menu"
+			icon = "users-multiple-11"
+
+			form Dining_Table
+			{
+				icon = "business-building"
+			}
+			report All_Tables
+			{
+				icon = "tech-desktop"
+			}
+			report Tables_By_Status
+			{
+				icon = "business-progress"
+			}
+			form Menu_Item
+			{
+				icon = "business-badge"
+			}
+			report All_Menu_Items
+			{
+				icon = "tech-desktop"
+			}
+		}
+
+		section SharedAnalytics_Section
+		{
+			type = shared_user_report_section
+			displayname = "Reports"
+			icon = "business-chart-bar-33"
+		}
+	}
+}

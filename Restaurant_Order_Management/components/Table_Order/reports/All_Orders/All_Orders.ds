@@ -1,0 +1,39 @@
+default list All_Orders
+{
+	displayName = "All Orders"
+	show all rows from Table_Order
+	(
+		Order_No
+		Order_Table
+		Order_Status
+		Order_Total
+		(
+			display = total
+		)
+		Order_Notes
+	)
+	filters
+	(
+		Order_Table
+		Order_Status
+	)
+	sort by
+	(
+		Order_No descending
+	)
+	conditional formatting
+	(
+		"Highlight Paid"
+		{
+			condition = (Order_Status == "Paid")
+			fields = [Order_Status]
+			format = "background-color:#DDF4E7;"
+		}
+		"Highlight Cancelled"
+		{
+			condition = (Order_Status == "Cancelled")
+			fields = [Order_Status]
+			format = "background-color:#FDE2E0;"
+		}
+	)
+}

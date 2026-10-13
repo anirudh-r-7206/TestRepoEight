@@ -1,0 +1,1965 @@
+application "Restaurant_Order_Management"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Dining_Table
+		{
+			displayname = "Dining Table"
+			success message = "Table saved."
+		
+			Table_Details
+			(
+				type = section
+				displayname = "Table Details"
+				row = 1
+				column = 0
+			)
+			must have unique Table_Number
+			(
+				type = text
+				displayname = "Table Number"
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Dining_Area
+			(
+				type = picklist
+				displayname = "Dining Area"
+				values = {"Indoor", "Outdoor", "Rooftop", "Private"}
+				initial value = "Indoor"
+				row = 1
+				column = 2
+				width = medium
+			)
+			must have Seats
+			(
+				type = number
+				displayname = "Seats"
+				initial value = 4
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Available", "Reserved", "Occupied"}
+				initial value = "Available"
+				row = 1
+				column = 2
+				width = medium
+			)
+			Notes
+			(
+				type = textarea
+				displayname = "Notes"
+				row = 1
+				column = 1
+				width = medium
+			)
+		
+			actions
+			{
+				on add
+				{
+					Submit
+					(
+						type = submit
+						displayname = "Submit"
+					)
+					Reset
+					(
+						type = reset
+						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					Update
+					(
+						type = submit
+						displayname = "Update"
+					)
+					Cancel
+					(
+						type = cancel
+						displayname = "Cancel"
+					)
+				}
+			}
+		}
+
+		form Menu_Item
+		{
+			displayname = "Menu Item"
+			success message = "Menu item saved."
+		
+			Item_Details
+			(
+				type = section
+				displayname = "Item Details"
+				row = 1
+				column = 0
+			)
+			must have unique Item_Name
+			(
+				type = text
+				displayname = "Item Name"
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Category
+			(
+				type = picklist
+				displayname = "Category"
+				values = {"Starters", "Mains", "Desserts", "Beverages", "Sides"}
+				initial value = "Mains"
+				row = 1
+				column = 2
+				width = medium
+			)
+			must have Price
+			(
+				type = decimal
+				displayname = "Price"
+				decimalplace = 2
+				row = 1
+				column = 1
+				width = medium
+			)
+			Is_Available
+			(
+				type = checkbox
+				displayname = "Available"
+				initial value = true
+				row = 1
+				column = 2
+				width = medium
+			)
+			Description
+			(
+				type = textarea
+				displayname = "Description"
+				row = 1
+				column = 1
+				width = medium
+			)
+		
+			actions
+			{
+				on add
+				{
+					Submit
+					(
+						type = submit
+						displayname = "Submit"
+					)
+					Reset
+					(
+						type = reset
+						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					Update
+					(
+						type = submit
+						displayname = "Update"
+					)
+					Cancel
+					(
+						type = cancel
+						displayname = "Cancel"
+					)
+				}
+			}
+		}
+
+		form Table_Order
+		{
+			displayname = "Table Order"
+			success message = "Order saved."
+		
+			Order_Details
+			(
+				type = section
+				displayname = "Order Details"
+				row = 1
+				column = 0
+			)
+			Order_No
+			(
+				type = autonumber
+				displayname = "Order No"
+				start index = 1001
+				row = 1
+				column = 1
+			)
+			must have Order_Table
+			(
+				type = picklist
+				displayname = "Table"
+				values = Dining_Table.ID
+				displayformat = [Table_Number]
+				searchable = true
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Order_Status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Open", "Served", "Paid", "Cancelled"}
+				initial value = "Open"
+				row = 1
+				column = 2
+				width = medium
+			)
+			Order_Notes
+			(
+				type = textarea
+				displayname = "Notes"
+				row = 1
+				column = 1
+				width = medium
+			)
+			Order_Total
+			(
+				type = decimal
+				displayname = "Order Total"
+				decimalplace = 2
+				row = 1
+				column = 2
+				width = medium
+			)
+			Items_Section
+			(
+				type = section
+				displayname = "Items"
+				visibility = false
+				row = 2
+				column = 1
+			)
+			Order_Items
+			(
+				type = grid
+				displayname = "Order Items"
+				defaultrow = 1
+				viewtype = list
+					Menu
+					(
+						type = picklist
+						displayname = "Menu Item"
+						values = Menu_Item.ID
+						displayformat = [Item_Name]
+						searchable = true
+					)
+					Quantity
+					(
+						type = number
+						displayname = "Quantity"
+						initial value = 1
+					)
+					Unit_Price
+					(
+						type = decimal
+						displayname = "Unit Price"
+						decimalplace = 2
+					)
+					Line_Amount
+					(
+						type = decimal
+						displayname = "Amount"
+						decimalplace = 2
+					)
+				row = 2
+				column = 1
+				width = medium
+			)
+		
+			actions
+			{
+				on add
+				{
+					Submit
+					(
+						type = submit
+						displayname = "Submit"
+					)
+					Reset
+					(
+						type = reset
+						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					Update
+					(
+						type = submit
+						displayname = "Update"
+					)
+					Cancel
+					(
+						type = cancel
+						displayname = "Cancel"
+					)
+				}
+			}
+		}
+
+		form Table_Reservation
+		{
+			displayname = "Table Reservation"
+			success message = "Reservation saved."
+		
+			Reservation_Details
+			(
+				type = section
+				displayname = "Reservation Details"
+				row = 1
+				column = 0
+			)
+			must have Reserved_Table
+			(
+				type = picklist
+				displayname = "Table"
+				values = Dining_Table.ID
+				displayformat = [Table_Number]
+				searchable = true
+				row = 1
+				column = 1
+				width = medium
+			)
+			Table_Seats
+			(
+				type = number
+				displayname = "Seats at Table"
+				row = 1
+				column = 2
+				width = medium
+			)
+			must have Guest_Name
+			(
+				type = text
+				displayname = "Guest Name"
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Phone
+			(
+				type = phonenumber
+				displayname = "Phone"
+				row = 1
+				column = 2
+				width = medium
+			)
+			must have Party_Size
+			(
+				type = number
+				displayname = "Party Size"
+				initial value = 2
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Reservation_Date
+			(
+				type = date
+				displayname = "Reservation Date"
+				initial value = "${zoho.currentdate}"
+				row = 1
+				column = 2
+				width = medium
+			)
+			must have Time_Slot
+			(
+				type = picklist
+				displayname = "Time Slot"
+				values = {"Breakfast", "Lunch", "Evening", "Dinner"}
+				initial value = "Dinner"
+				row = 1
+				column = 1
+				width = medium
+			)
+			must have Reservation_Status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Reserved", "Seated", "Completed", "Cancelled"}
+				initial value = "Reserved"
+				row = 1
+				column = 2
+				width = medium
+			)
+			Special_Requests
+			(
+				type = textarea
+				displayname = "Special Requests"
+				row = 1
+				column = 1
+				width = medium
+			)
+		
+			actions
+			{
+				on add
+				{
+					Submit
+					(
+						type = submit
+						displayname = "Submit"
+					)
+					Reset
+					(
+						type = reset
+						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					Update
+					(
+						type = submit
+						displayname = "Update"
+					)
+					Cancel
+					(
+						type = cancel
+						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+
+	reports
+	{
+		default list All_Tables
+		{
+			displayName = "All Tables"
+			show all rows from Dining_Table
+			(
+				Table_Number
+				Dining_Area
+				Seats
+				(
+					display = total
+				)
+				Status
+				Notes
+			)
+			filters
+			(
+				Dining_Area
+				Status
+			)
+			group by
+			(
+				properties
+				(
+					display record count = true
+				)
+				Dining_Area ascending
+			)
+			sort by
+			(
+				Table_Number ascending
+			)
+			conditional formatting
+			(
+				"Highlight Occupied"
+				{
+					condition = (Status == "Occupied")
+					fields = [Status]
+					format = "background-color:#FDE2E0;"
+				}
+				"Highlight Reserved"
+				{
+					condition = (Status == "Reserved")
+					fields = [Status]
+					format = "background-color:#FFF1D6;"
+				}
+				"Highlight Available"
+				{
+					condition = (Status == "Available")
+					fields = [Status]
+					format = "background-color:#DDF4E7;"
+				}
+			)
+		}
+
+		kanban Tables_By_Status
+		{
+			displayName = "Tables By Status"
+			show all rows from Dining_Table
+			(
+				Table_Number
+				Dining_Area
+				Seats
+				Status
+			)
+			filters
+			(
+				Dining_Area
+			)
+			sort by
+			(
+				Table_Number ascending
+			)
+			options
+			(
+				display field = Status
+				record count = enable
+			)
+		}
+
+		default list All_Menu_Items
+		{
+			displayName = "All Menu Items"
+			show all rows from Menu_Item
+			(
+				Item_Name
+				Category
+				Price
+				Is_Available
+				Description
+			)
+			filters
+			(
+				Category
+				Is_Available
+			)
+			group by
+			(
+				properties
+				(
+					display record count = true
+				)
+				Category ascending
+			)
+			sort by
+			(
+				Item_Name ascending
+			)
+		}
+
+		default list All_Orders
+		{
+			displayName = "All Orders"
+			show all rows from Table_Order
+			(
+				Order_No
+				Order_Table
+				Order_Status
+				Order_Total
+				(
+					display = total
+				)
+				Order_Notes
+			)
+			filters
+			(
+				Order_Table
+				Order_Status
+			)
+			sort by
+			(
+				Order_No descending
+			)
+			conditional formatting
+			(
+				"Highlight Paid"
+				{
+					condition = (Order_Status == "Paid")
+					fields = [Order_Status]
+					format = "background-color:#DDF4E7;"
+				}
+				"Highlight Cancelled"
+				{
+					condition = (Order_Status == "Cancelled")
+					fields = [Order_Status]
+					format = "background-color:#FDE2E0;"
+				}
+			)
+		}
+
+		list Open_Orders
+		{
+			displayName = "Open Orders"
+			show all rows from Table_Order [Order_Status == "Open" || Order_Status == "Served"]
+			(
+				Order_No
+				Order_Table
+				Order_Status
+				Order_Total
+				(
+					display = total
+				)
+			)
+			filters
+			(
+				Order_Table
+				Order_Status
+			)
+			sort by
+			(
+				Order_No descending
+			)
+		}
+
+		default list All_Reservations
+		{
+			displayName = "All Reservations"
+			show all rows from Table_Reservation
+			(
+				Reserved_Table
+				Guest_Name
+				Phone
+				Party_Size
+				Reservation_Date
+				(
+					displayformat = fulldate
+				)
+				Time_Slot
+				Reservation_Status
+			)
+			filters
+			(
+				Reserved_Table
+				Time_Slot
+				Reservation_Status
+			)
+			sort by
+			(
+				Reservation_Date descending
+			)
+			conditional formatting
+			(
+				"Highlight Cancelled"
+				{
+					condition = (Reservation_Status == "Cancelled")
+					fields = [Reservation_Status]
+					format = "background-color:#FDE2E0;"
+				}
+				"Highlight Seated"
+				{
+					condition = (Reservation_Status == "Seated")
+					fields = [Reservation_Status]
+					format = "background-color:#DDF4E7;"
+				}
+			)
+		}
+
+		calendar Reservation_Calendar
+		{
+			displayName = "Reservation Calendar"
+			show all rows from Table_Reservation [Reservation_Status != "Cancelled"]
+			(
+				Guest_Name
+				Reserved_Table
+				Time_Slot
+				Reservation_Date
+				Reservation_Status
+			)
+			filters
+			(
+				Reserved_Table
+				Time_Slot
+			)
+			options
+			(
+				display type = month
+				week start day = monday
+				display field = Guest_Name
+				start date = Reservation_Date
+			)
+		}
+	}
+
+	pages
+	{
+		page Table_Floor(string StatusFilter)
+		{
+					displayname = "Table Floor"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Floor_Tables' elementName='Floor_Tables'>\n\t\t\t\t\t<![CDATA[htmlpage Floor_Tables()\n\t\t\t\t\t\t content\n\t\t\t\t\t\t &lt;%{%&gt;\n\t\t\t\t\t\t\t\t &lt;%\nfilt = ifnull(input.StatusFilter, &quot;&quot;);\ntotalTables = Dining_Table[ID != 0].count();\navailTables = Dining_Table[Status == &quot;Available&quot;].count();\nreservedTables = Dining_Table[Status == &quot;Reserved&quot;].count();\noccupiedTables = Dining_Table[Status == &quot;Occupied&quot;].count();\nfreeSeats = ifnull(Dining_Table[Status == &quot;Available&quot;].sum(Seats), 0);\ntotalSeats = ifnull(Dining_Table[ID != 0].sum(Seats), 0);\nareas = {&quot;Indoor&quot;, &quot;Outdoor&quot;, &quot;Rooftop&quot;, &quot;Private&quot;};\nseatNums = {1, 2, 3, 4, 5, 6, 7, 8};\nonAll = &quot;&quot;;\nonAvail = &quot;&quot;;\nonRes = &quot;&quot;;\nonOcc = &quot;&quot;;\nif(filt == &quot;&quot;)\n{\n\tonAll = &quot;on&quot;;\n}\nif(filt == &quot;Available&quot;)\n{\n\tonAvail = &quot;on&quot;;\n}\nif(filt == &quot;Reserved&quot;)\n{\n\tonRes = &quot;on&quot;;\n}\nif(filt == &quot;Occupied&quot;)\n{\n\tonOcc = &quot;on&quot;;\n}\n%&gt;\n&lt;style&gt;\n.tf-wrap { padding: 20px; font-family: inherit; }\n.tf-head h2 { font-size: 22px; margin: 0 0 4px 0; }\n.tf-head p { margin: 0 0 16px 0; opacity: .7; }\n.tf-kpis { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }\n.tf-kpi { flex: 1 1 140px; border: 1px solid #dde3ea; border-radius: 10px; padding: 14px 16px; background: #fff; }\n.tf-kpi .n { font-size: 26px; font-weight: 700; }\n.tf-kpi .l { font-size: 12px; opacity: .7; text-transform: uppercase; letter-spacing: .04em; }\n.tf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }\n.tf-chips a { padding: 6px 14px; border-radius: 16px; border: 1px solid #c3ccd8; color: #333; text-decoration: none; font-size: 13px; background: #fff; }\n.tf-chips a.on { background: #1c64f2; border-color: #1c64f2; color: #fff; }\n.tf-area { font-size: 15px; font-weight: 700; margin: 18px 0 10px 0; }\n.tf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }\n.tf-card { border: 1px solid #dde3ea; border-top-width: 5px; border-radius: 10px; padding: 14px; background: #fff; }\n.tf-card.Available { border-top-color: #16ad78; }\n.tf-card.Reserved { border-top-color: #f5a623; }\n.tf-card.Occupied { border-top-color: #e5484d; }\n.tf-top { display: flex; justify-content: space-between; align-items: center; }\n.tf-no { font-size: 20px; font-weight: 700; }\n.tf-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; }\n.tf-badge.Available { background: #ddf4e7; color: #0b7a54; }\n.tf-badge.Reserved { background: #fff1d6; color: #9a6200; }\n.tf-badge.Occupied { background: #fde2e0; color: #b4232a; }\n.tf-seats { margin: 10px 0 6px 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 12px; }\n.tf-seat { width: 12px; height: 12px; border-radius: 3px; background: #c3ccd8; display: inline-block; }\n.tf-card.Available .tf-seat { background: #16ad78; }\n.tf-card.Reserved .tf-seat { background: #f5a623; }\n.tf-card.Occupied .tf-seat { background: #e5484d; }\n.tf-info { font-size: 12px; opacity: .8; min-height: 32px; margin-bottom: 10px; }\n.tf-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid #1c64f2; color: #1c64f2; background: #fff; }\n.tf-btn.primary { background: #1c64f2; color: #fff; }\n&lt;/style&gt;\n&lt;div class=&quot;tf-wrap&quot;&gt;\n\t&lt;div class=&quot;tf-head&quot;&gt;\n\t\t&lt;h2&gt;Table Floor&lt;/h2&gt;\n\t\t&lt;p&gt;Pick an available table to reserve it, or open an order for a table in service.&lt;/p&gt;\n\t&lt;/div&gt;\n\t&lt;div class=&quot;tf-kpis&quot;&gt;\n\t\t&lt;div class=&quot;tf-kpi&quot;&gt;&lt;div class=&quot;n&quot;&gt;&lt;%= totalTables %&gt;&lt;/div&gt;&lt;div class=&quot;l&quot;&gt;Tables&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;tf-kpi&quot;&gt;&lt;div class=&quot;n&quot;&gt;&lt;%= availTables %&gt;&lt;/div&gt;&lt;div class=&quot;l&quot;&gt;Available&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;tf-kpi&quot;&gt;&lt;div class=&quot;n&quot;&gt;&lt;%= reservedTables %&gt;&lt;/div&gt;&lt;div class=&quot;l&quot;&gt;Reserved&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;tf-kpi&quot;&gt;&lt;div class=&quot;n&quot;&gt;&lt;%= occupiedTables %&gt;&lt;/div&gt;&lt;div class=&quot;l&quot;&gt;Occupied&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;tf-kpi&quot;&gt;&lt;div class=&quot;n&quot;&gt;&lt;%= freeSeats %&gt; / &lt;%= totalSeats %&gt;&lt;/div&gt;&lt;div class=&quot;l&quot;&gt;Free seats&lt;/div&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\t&lt;div class=&quot;tf-chips&quot;&gt;\n\t\t&lt;a class=&quot;&lt;%= onAll %&gt;&quot; href=&quot;#Page:Table_Floor&quot;&gt;All&lt;/a&gt;\n\t\t&lt;a class=&quot;&lt;%= onAvail %&gt;&quot; href=&quot;#Page:Table_Floor?StatusFilter=Available&quot;&gt;Available&lt;/a&gt;\n\t\t&lt;a class=&quot;&lt;%= onRes %&gt;&quot; href=&quot;#Page:Table_Floor?StatusFilter=Reserved&quot;&gt;Reserved&lt;/a&gt;\n\t\t&lt;a class=&quot;&lt;%= onOcc %&gt;&quot; href=&quot;#Page:Table_Floor?StatusFilter=Occupied&quot;&gt;Occupied&lt;/a&gt;\n\t&lt;/div&gt;\n&lt;% for each area in areas { %&gt;\n&lt;% tables = Dining_Table[Dining_Area == area] sort by Table_Number; %&gt;\n&lt;% if(tables.count() &gt; 0) { %&gt;\n\t&lt;div class=&quot;tf-area&quot;&gt;&lt;i class=&quot;zc-li-outline business-building&quot;&gt;&lt;/i&gt; &lt;%= area %&gt;&lt;/div&gt;\n\t&lt;div class=&quot;tf-grid&quot;&gt;\n&lt;% for each t in tables { %&gt;\n&lt;% if(filt == &quot;&quot; || t.Status == filt) { %&gt;\n\t\t&lt;div class=&quot;tf-card &lt;%= t.Status %&gt;&quot;&gt;\n\t\t\t&lt;div class=&quot;tf-top&quot;&gt;\n\t\t\t\t&lt;span class=&quot;tf-no&quot;&gt;Table &lt;%= t.Table_Number %&gt;&lt;/span&gt;\n\t\t\t\t&lt;span class=&quot;tf-badge &lt;%= t.Status %&gt;&quot;&gt;&lt;%= t.Status %&gt;&lt;/span&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;tf-seats&quot;&gt;\n&lt;% for each n in seatNums { %&gt;\n&lt;% if(n &lt;= t.Seats) { %&gt;&lt;span class=&quot;tf-seat&quot;&gt;&lt;/span&gt;&lt;% } %&gt;\n&lt;% } %&gt;\n\t\t\t\t&lt;span&gt;&lt;%= t.Seats %&gt; seats&lt;/span&gt;\n\t\t\t&lt;/div&gt;\n\t\t\t&lt;div class=&quot;tf-info&quot;&gt;\n&lt;% if(t.Status == &quot;Reserved&quot;) { %&gt;\n&lt;% res = Table_Reservation[Reserved_Table == t.ID &amp;&amp; Reservation_Status == &quot;Reserved&quot;] sort by Reservation_Date; %&gt;\n&lt;% if(res.count() &gt; 0) { %&gt;Held for &lt;%= res.Guest_Name %&gt;, party of &lt;%= res.Party_Size %&gt; (&lt;%= res.Time_Slot %&gt;)&lt;% } %&gt;\n&lt;% } else if(t.Status == &quot;Occupied&quot;) { %&gt;\n&lt;% ord = Table_Order[Order_Table == t.ID &amp;&amp; (Order_Status == &quot;Open&quot; || Order_Status == &quot;Served&quot;)] sort by Order_No desc; %&gt;\n&lt;% if(ord.count() &gt; 0) { %&gt;Order #&lt;%= ord.Order_No %&gt; in progress, total &lt;%= ifnull(ord.Order_Total, 0) %&gt;&lt;% } %&gt;\n&lt;% } else { %&gt;Free to seat &lt;%= t.Seats %&gt; guests&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n&lt;% if(t.Status == &quot;Available&quot;) { %&gt;\n\t\t\t&lt;a class=&quot;tf-btn primary&quot; href=&quot;#Form:Table_Reservation?Reserved_Table=&lt;%= t.ID %&gt;&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;Reserve&lt;/a&gt;\n\t\t\t&lt;a class=&quot;tf-btn&quot; href=&quot;#Form:Table_Order?Order_Table=&lt;%= t.ID %&gt;&quot;&gt;Seat and order&lt;/a&gt;\n&lt;% } else if(t.Status == &quot;Reserved&quot;) { %&gt;\n\t\t\t&lt;a class=&quot;tf-btn&quot; href=&quot;#Report:All_Reservations&quot;&gt;View reservation&lt;/a&gt;\n\t\t\t&lt;a class=&quot;tf-btn&quot; href=&quot;#Form:Table_Order?Order_Table=&lt;%= t.ID %&gt;&quot;&gt;Seat and order&lt;/a&gt;\n&lt;% } else { %&gt;\n\t\t\t&lt;a class=&quot;tf-btn primary&quot; href=&quot;#Report:Open_Orders&quot;&gt;View orders&lt;/a&gt;\n&lt;% } %&gt;\n\t\t&lt;/div&gt;\n&lt;% } %&gt;\n&lt;% } %&gt;\n\t&lt;/div&gt;\n&lt;% } %&gt;\n&lt;% } %&gt;\n&lt;/div&gt;\n\t\t\t\t\t\t &lt;%}%&gt;\n\t\t\t\t ]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Menu_On_User_Input as "Menu On User Input"
+			{
+				type = form
+				form = Table_Order
+				record event = on add or edit
+			
+				on user input of Order_Items.Menu
+				{
+					actions
+					{
+						custom deluge script
+						(
+							if(row.Menu != null)
+							{
+								item = Menu_Item[ID == row.Menu];
+								row.Unit_Price = item.Price;
+								row.Line_Amount = item.Price * ifnull(row.Quantity, 1);
+							}
+						)
+					}
+				}
+			}
+
+			Quantity_On_User_Input as "Quantity On User Input"
+			{
+				type = form
+				form = Table_Order
+				record event = on add or edit
+			
+				on user input of Order_Items.Quantity
+				{
+					actions
+					{
+						custom deluge script
+						(
+							row.Line_Amount = ifnull(row.Unit_Price, 0.0) * ifnull(row.Quantity, 0);
+						)
+					}
+				}
+			}
+
+			Table_Order_On_Success as "Table Order On Success"
+			{
+				type = form
+				form = Table_Order
+				record event = on add or edit
+			
+				on success
+				{
+					actions
+					{
+						custom deluge script
+						(
+							tbl = Dining_Table[ID == input.Order_Table];
+							if(input.Order_Status == "Open" || input.Order_Status == "Served")
+							{
+								tbl.Status = "Occupied";
+							}
+							else
+							{
+								stillOpen = Table_Order[Order_Table == input.Order_Table && (Order_Status == "Open" || Order_Status == "Served") && ID != input.ID].count();
+								if(stillOpen == 0)
+								{
+									tbl.Status = "Available";
+								}
+							}
+						)
+					}
+				}
+			}
+
+			Table_Order_On_Validate as "Table Order On Validate"
+			{
+				type = form
+				form = Table_Order
+				record event = on add or edit
+			
+				on validate
+				{
+					actions
+					{
+						custom deluge script
+						(
+							total = 0.0;
+							lines = 0;
+							for each row in input.Order_Items
+							{
+								if(row.Menu != null)
+								{
+									item = Menu_Item[ID == row.Menu];
+									if(ifnull(row.Quantity, 0) < 1)
+									{
+										alert "Quantity for " + item.Item_Name + " must be at least 1.";
+										cancel submit;
+									}
+									total = total + (item.Price * row.Quantity);
+									lines = lines + 1;
+								}
+							}
+							if(lines == 0)
+							{
+								alert "Add at least one menu item to the order.";
+								cancel submit;
+							}
+							input.Order_Total = total;
+						)
+					}
+				}
+			}
+
+			Reserved_Table_On_User_Input as "Reserved Table On User Input"
+			{
+				type = form
+				form = Table_Reservation
+				record event = on add or edit
+			
+				on user input of Reserved_Table
+				{
+					actions
+					{
+						custom deluge script
+						(
+							if(input.Reserved_Table != null)
+							{
+								tbl = Dining_Table[ID == input.Reserved_Table];
+								input.Table_Seats = tbl.Seats;
+							}
+							else
+							{
+								input.Table_Seats = null;
+							}
+						)
+					}
+				}
+			}
+
+			Table_Reservation_On_Load as "Table Reservation On Load"
+			{
+				type = form
+				form = Table_Reservation
+				record event = on add or edit
+			
+				on load
+				{
+					actions
+					{
+						custom deluge script
+						(
+							disable Table_Seats;
+							if(input.Reserved_Table != null)
+							{
+								tbl = Dining_Table[ID == input.Reserved_Table];
+								input.Table_Seats = tbl.Seats;
+							}
+						)
+					}
+				}
+			}
+
+			Table_Reservation_On_Success as "Table Reservation On Success"
+			{
+				type = form
+				form = Table_Reservation
+				record event = on add or edit
+			
+				on success
+				{
+					actions
+					{
+						custom deluge script
+						(
+							tbl = Dining_Table[ID == input.Reserved_Table];
+							openOrders = Table_Order[Order_Table == input.Reserved_Table && Order_Status == "Open"].count();
+							if(input.Reservation_Status == "Seated")
+							{
+								tbl.Status = "Occupied";
+							}
+							else if(input.Reservation_Status == "Reserved")
+							{
+								if(input.Reservation_Date == zoho.currentdate && tbl.Status == "Available")
+								{
+									tbl.Status = "Reserved";
+								}
+							}
+							else if(openOrders == 0)
+							{
+								tbl.Status = "Available";
+							}
+						)
+					}
+				}
+			}
+
+			Table_Reservation_On_Validate as "Table Reservation On Validate"
+			{
+				type = form
+				form = Table_Reservation
+				record event = on add or edit
+			
+				on validate
+				{
+					actions
+					{
+						custom deluge script
+						(
+							tbl = Dining_Table[ID == input.Reserved_Table];
+							if(input.Party_Size > tbl.Seats)
+							{
+								alert "Table " + tbl.Table_Number + " seats only " + tbl.Seats + ". Please pick a larger table.";
+								cancel submit;
+							}
+							if(input.Reservation_Date < zoho.currentdate)
+							{
+								alert "Reservation date cannot be in the past.";
+								cancel submit;
+							}
+							if(input.Reservation_Status == "Reserved" || input.Reservation_Status == "Seated")
+							{
+								clashes = Table_Reservation[Reserved_Table == input.Reserved_Table && Reservation_Date == input.Reservation_Date && Time_Slot == input.Time_Slot && (Reservation_Status == "Reserved" || Reservation_Status == "Seated")];
+								for each clash in clashes
+								{
+									if(input.ID == null || clash.ID != input.ID)
+									{
+										alert "Table " + tbl.Table_Number + " is already reserved for this date and time slot.";
+										cancel submit;
+									}
+								}
+							}
+						)
+					}
+				}
+			}
+		}
+	}
+
+	share_settings
+	{
+	"Manager"
+	{
+		name = "Manager"
+		type = Users_Permissions
+		permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+		description = "Full access to tables, menu, reservations and orders"
+		ModulePermissions
+		{
+			Dining_Table
+			{
+				enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Tables={"View","Edit","Delete"}
+					Tables_By_Status={"View","Edit","Delete"}
+				}
+			}
+			Menu_Item
+			{
+				enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Menu_Items={"View","Edit","Delete"}
+				}
+			}
+			Table_Reservation
+			{
+				enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Reservations={"View","Edit","Delete"}
+					Reservation_Calendar={"View","Edit","Delete"}
+				}
+			}
+			Table_Order
+			{
+				enabled = Create,Viewall,Modifyall,Import,Export,Tab,View,Edit,Delete,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Orders={"View","Edit","Delete"}
+					Open_Orders={"View","Edit","Delete"}
+				}
+			}
+			Table_Floor
+			{
+				enabled = tab
+			}
+		}
+	}
+	"Waiter"
+	{
+		name = "Waiter"
+		type = Users_Permissions
+		permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+		description = "Runs the floor: reservations and orders, read-only on tables and menu"
+		ModulePermissions
+		{
+			Dining_Table
+			{
+				enabled = Viewall,Tab,View,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Tables={"View"}
+					Tables_By_Status={"View"}
+				}
+			}
+			Menu_Item
+			{
+				enabled = Viewall,Tab,View,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Menu_Items={"View"}
+				}
+			}
+			Table_Reservation
+			{
+				enabled = Create,Viewall,Modifyall,Tab,View,Edit,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Reservations={"View","Edit"}
+					Reservation_Calendar={"View","Edit"}
+				}
+			}
+			Table_Order
+			{
+				enabled = Create,Viewall,Modifyall,Tab,View,Edit,Search
+				allFieldsVisible = true
+				ReportPermissions
+				{
+					All_Orders={"View","Edit"}
+					Open_Orders={"View","Edit"}
+				}
+			}
+			Table_Floor
+			{
+				enabled = tab
+			}
+		}
+	}
+	}
+
+	web
+	{
+	forms
+	{
+		form Dining_Table
+		{
+			label placement = left
+		}
+		form Menu_Item
+		{
+			label placement = left
+		}
+		form Table_Reservation
+		{
+			label placement = left
+		}
+		form Table_Order
+		{
+			label placement = left
+		}
+	}
+	reports
+	{
+		report All_Tables
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Table_Number
+							Dining_Area
+							Seats
+							Status
+							Notes
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Table_Number
+							Dining_Area
+							Seats
+							Status
+							Notes
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report Tables_By_Status
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Table_Number
+							Dining_Area
+							Seats
+							Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Table_Number
+							Dining_Area
+							Seats
+							Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report All_Menu_Items
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Item_Name
+							Category
+							Price
+							Is_Available
+							Description
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Item_Name
+							Category
+							Price
+							Is_Available
+							Description
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report All_Orders
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Order_No
+							Order_Table
+							Order_Status
+							Order_Total
+							Order_Notes
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Order_No
+							Order_Table
+							Order_Status
+							Order_Total
+							Order_Notes
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report Open_Orders
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Order_No
+							Order_Table
+							Order_Status
+							Order_Total
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Order_No
+							Order_Table
+							Order_Status
+							Order_Total
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report All_Reservations
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Reserved_Table
+							Guest_Name
+							Phone
+							Party_Size
+							Reservation_Date
+							Time_Slot
+							Reservation_Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Reserved_Table
+							Guest_Name
+							Phone
+							Party_Size
+							Reservation_Date
+							Time_Slot
+							Reservation_Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	
+		report Reservation_Calendar
+		{
+			quickview
+			(
+				layout
+				(
+					type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Guest_Name
+							Reserved_Table
+							Time_Slot
+							Reservation_Date
+							Reservation_Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+					record
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+				action
+				(
+					on click
+					(
+						View Record
+					)
+					on right click
+					(
+						Edit
+						Delete
+						Duplicate
+						View Record
+					)
+				)
+			)
+			detailview
+			(
+				layout
+				(
+					type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Guest_Name
+							Reserved_Table
+							Time_Slot
+							Reservation_Date
+							Reservation_Status
+						)
+					)
+				)
+				menu
+				(
+					header
+					(
+						Edit
+						Duplicate
+						Delete
+					)
+				)
+			)
+		}
+	}
+	menu
+	{
+		space Restaurant_Space
+		{
+			displayname = "Restaurant"
+			icon = "business-building"
+	
+			section Floor_Section
+			{
+				displayname = "Floor"
+				icon = "business-chart-bar-33"
+	
+				page Table_Floor
+				{
+					icon = "business-chart-bar-33"
+				}
+			}
+	
+			section Reservations_Section
+			{
+				displayname = "Reservations"
+				icon = "business-agenda"
+	
+				form Table_Reservation
+				{
+					icon = "business-agenda"
+				}
+				report All_Reservations
+				{
+					icon = "tech-desktop"
+				}
+				report Reservation_Calendar
+				{
+					icon = "business-agenda"
+				}
+			}
+	
+			section Orders_Section
+			{
+				displayname = "Orders"
+				icon = "files-single-folded-content"
+	
+				form Table_Order
+				{
+					icon = "files-single-folded-content"
+				}
+				report All_Orders
+				{
+					icon = "tech-desktop"
+				}
+				report Open_Orders
+				{
+					icon = "business-progress"
+				}
+			}
+	
+			section Setup_Section
+			{
+				displayname = "Tables and Menu"
+				icon = "users-multiple-11"
+	
+				form Dining_Table
+				{
+					icon = "business-building"
+				}
+				report All_Tables
+				{
+					icon = "tech-desktop"
+				}
+				report Tables_By_Status
+				{
+					icon = "business-progress"
+				}
+				form Menu_Item
+				{
+					icon = "business-badge"
+				}
+				report All_Menu_Items
+				{
+					icon = "tech-desktop"
+				}
+			}
+	
+			section SharedAnalytics_Section
+			{
+				type = shared_user_report_section
+				displayname = "Reports"
+				icon = "business-chart-bar-33"
+			}
+		}
+	}
+	customize
+	{
+		font = "Poppins"
+		color options
+		{
+			color = "5"
+		}
+		logo
+		{
+			preference = "none"
+		}
+	}
+	}
+
+	phone
+	{
+	forms
+	{
+		form Dining_Table
+		{
+			label placement = left
+		}
+		form Menu_Item
+		{
+			label placement = left
+		}
+		form Table_Reservation
+		{
+			label placement = left
+		}
+		form Table_Order
+		{
+			label placement = left
+		}
+	}
+	menu
+	{
+		space Restaurant_Space
+		{
+			displayname = "Restaurant"
+			icon = "business-building"
+	
+			section Floor_Section
+			{
+				displayname = "Floor"
+				icon = "business-chart-bar-33"
+	
+				page Table_Floor
+				{
+					icon = "business-chart-bar-33"
+				}
+			}
+	
+			section Reservations_Section
+			{
+				displayname = "Reservations"
+				icon = "business-agenda"
+	
+				form Table_Reservation
+				{
+					icon = "business-agenda"
+				}
+				report All_Reservations
+				{
+					icon = "tech-desktop"
+				}
+				report Reservation_Calendar
+				{
+					icon = "business-agenda"
+				}
+			}
+	
+			section Orders_Section
+			{
+				displayname = "Orders"
+				icon = "files-single-folded-content"
+	
+				form Table_Order
+				{
+					icon = "files-single-folded-content"
+				}
+				report All_Orders
+				{
+					icon = "tech-desktop"
+				}
+				report Open_Orders
+				{
+					icon = "business-progress"
+				}
+			}
+	
+			section Setup_Section
+			{
+				displayname = "Tables and Menu"
+				icon = "users-multiple-11"
+	
+				form Dining_Table
+				{
+					icon = "business-building"
+				}
+				report All_Tables
+				{
+					icon = "tech-desktop"
+				}
+				report Tables_By_Status
+				{
+					icon = "business-progress"
+				}
+				form Menu_Item
+				{
+					icon = "business-badge"
+				}
+				report All_Menu_Items
+				{
+					icon = "tech-desktop"
+				}
+			}
+	
+			section SharedAnalytics_Section
+			{
+				type = shared_user_report_section
+				displayname = "Reports"
+				icon = "business-chart-bar-33"
+			}
+		}
+	}
+	}
+
+	tablet
+	{
+	forms
+	{
+		form Dining_Table
+		{
+			label placement = left
+		}
+		form Menu_Item
+		{
+			label placement = left
+		}
+		form Table_Reservation
+		{
+			label placement = left
+		}
+		form Table_Order
+		{
+			label placement = left
+		}
+	}
+	menu
+	{
+		space Restaurant_Space
+		{
+			displayname = "Restaurant"
+			icon = "business-building"
+	
+			section Floor_Section
+			{
+				displayname = "Floor"
+				icon = "business-chart-bar-33"
+	
+				page Table_Floor
+				{
+					icon = "business-chart-bar-33"
+				}
+			}
+	
+			section Reservations_Section
+			{
+				displayname = "Reservations"
+				icon = "business-agenda"
+	
+				form Table_Reservation
+				{
+					icon = "business-agenda"
+				}
+				report All_Reservations
+				{
+					icon = "tech-desktop"
+				}
+				report Reservation_Calendar
+				{
+					icon = "business-agenda"
+				}
+			}
+	
+			section Orders_Section
+			{
+				displayname = "Orders"
+				icon = "files-single-folded-content"
+	
+				form Table_Order
+				{
+					icon = "files-single-folded-content"
+				}
+				report All_Orders
+				{
+					icon = "tech-desktop"
+				}
+				report Open_Orders
+				{
+					icon = "business-progress"
+				}
+			}
+	
+			section Setup_Section
+			{
+				displayname = "Tables and Menu"
+				icon = "users-multiple-11"
+	
+				form Dining_Table
+				{
+					icon = "business-building"
+				}
+				report All_Tables
+				{
+					icon = "tech-desktop"
+				}
+				report Tables_By_Status
+				{
+					icon = "business-progress"
+				}
+				form Menu_Item
+				{
+					icon = "business-badge"
+				}
+				report All_Menu_Items
+				{
+					icon = "tech-desktop"
+				}
+			}
+	
+			section SharedAnalytics_Section
+			{
+				type = shared_user_report_section
+				displayname = "Reports"
+				icon = "business-chart-bar-33"
+			}
+		}
+	}
+	}
+}

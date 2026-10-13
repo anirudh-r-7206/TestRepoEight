@@ -1,0 +1,133 @@
+form Table_Order
+{
+	displayname = "Table Order"
+	success message = "Order saved."
+
+	Order_Details
+	(
+		type = section
+		displayname = "Order Details"
+		row = 1
+		column = 0
+	)
+	Order_No
+	(
+		type = autonumber
+		displayname = "Order No"
+		start index = 1001
+		row = 1
+		column = 1
+	)
+	must have Order_Table
+	(
+		type = picklist
+		displayname = "Table"
+		values = Dining_Table.ID
+		displayformat = [Table_Number]
+		searchable = true
+		row = 1
+		column = 1
+		width = medium
+	)
+	must have Order_Status
+	(
+		type = picklist
+		displayname = "Status"
+		values = {"Open", "Served", "Paid", "Cancelled"}
+		initial value = "Open"
+		row = 1
+		column = 2
+		width = medium
+	)
+	Order_Notes
+	(
+		type = textarea
+		displayname = "Notes"
+		row = 1
+		column = 1
+		width = medium
+	)
+	Order_Total
+	(
+		type = decimal
+		displayname = "Order Total"
+		decimalplace = 2
+		row = 1
+		column = 2
+		width = medium
+	)
+	Items_Section
+	(
+		type = section
+		displayname = "Items"
+		visibility = false
+		row = 2
+		column = 1
+	)
+	Order_Items
+	(
+		type = grid
+		displayname = "Order Items"
+		defaultrow = 1
+		viewtype = list
+			Menu
+			(
+				type = picklist
+				displayname = "Menu Item"
+				values = Menu_Item.ID
+				displayformat = [Item_Name]
+				searchable = true
+			)
+			Quantity
+			(
+				type = number
+				displayname = "Quantity"
+				initial value = 1
+			)
+			Unit_Price
+			(
+				type = decimal
+				displayname = "Unit Price"
+				decimalplace = 2
+			)
+			Line_Amount
+			(
+				type = decimal
+				displayname = "Amount"
+				decimalplace = 2
+			)
+		row = 2
+		column = 1
+		width = medium
+	)
+
+	actions
+	{
+		on add
+		{
+			Submit
+			(
+				type = submit
+				displayname = "Submit"
+			)
+			Reset
+			(
+				type = reset
+				displayname = "Reset"
+			)
+		}
+		on edit
+		{
+			Update
+			(
+				type = submit
+				displayname = "Update"
+			)
+			Cancel
+			(
+				type = cancel
+				displayname = "Cancel"
+			)
+		}
+	}
+}
