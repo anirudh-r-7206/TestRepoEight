@@ -34,6 +34,15 @@ form Students
         column = 2
         width = medium
     )
+    Birthday
+    (
+        type = date
+        displayname = "Birthday"
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+    )
     Gender
     (
         type = picklist
