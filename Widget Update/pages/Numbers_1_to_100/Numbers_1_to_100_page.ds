@@ -1,0 +1,12 @@
+<page linkname = "Numbers_1_to_100" displayname = "Numbers 1 to 100"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <widgets elementName='Numbers 1 to 100' importedTemplate='false' heightType='auto' linkName='Numbers_1_to_100' bgColor='#FFFFFF'/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

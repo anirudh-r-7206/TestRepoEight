@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Numbers 1 to 100</title>
+    <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+    <main class="number-widget" aria-labelledby="number-heading">
+        <header class="number-widget__header">
+            <p class="number-widget__eyebrow">Counting chart</p>
+            <h1 id="number-heading">Numbers 1 to 100</h1>
+            <p>Read the numbers from left to right, one row at a time.</p>
+        </header>
+        <section id="number-grid" class="number-grid" aria-label="Numbers from 1 to 100"></section>
+    </main>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script>
+        function renderNumbers() {
+            var grid = document.getElementById("number-grid");
+            var fragment = document.createDocumentFragment();
+
+            for (var number = 1; number <= 100; number += 1) {
+                var tile = document.createElement("div");
+                tile.className = "number-tile";
+                tile.textContent = number;
+                tile.setAttribute("aria-label", "Number " + number);
+                fragment.appendChild(tile);
+            }
+
+            grid.appendChild(fragment);
+        }
+
+        renderNumbers();
+        ZOHO.CREATOR.init();
+    </script>
+</body>
+</html>
