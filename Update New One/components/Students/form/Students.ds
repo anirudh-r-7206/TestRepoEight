@@ -43,6 +43,15 @@ form Students
         column = 1
         width = medium
     )
+    must have Opted_Subjects
+    (
+        type = list
+        displayname = "Opted Subjects"
+        values = {"English", "Mathematics", "Science", "Social Studies", "Computer Science", "Physics", "Chemistry", "Biology", "Accounting", "Business Studies", "Economics"}
+        row = 1
+        column = 2
+        width = medium
+    )
 
     actions
     {
