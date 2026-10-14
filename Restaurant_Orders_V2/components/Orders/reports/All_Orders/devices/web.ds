@@ -11,7 +11,7 @@ report All_Orders
                 fields
                 (
                     Order_No
-                    Dining_Table.Table_Number as "Table"
+                    Dining_Table as "Table"
                     Guests
                     Order_Time
                     Items
@@ -62,7 +62,7 @@ report All_Orders
                 fields
                 (
                     Order_No
-                    Dining_Table.Table_Number as "Table"
+                    Dining_Table as "Table"
                     Guests
                     Order_Time
                     Items
