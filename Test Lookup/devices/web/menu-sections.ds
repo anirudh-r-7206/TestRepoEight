@@ -1,0 +1,54 @@
+menu
+{
+    space Main_Navigation
+    {
+        displayname = "Player Management"
+        icon = "sport-whistle"
+
+        section Players_Section
+        {
+            displayname = "Players"
+            icon = "users-multiple-11"
+
+            form Players
+            {
+                icon = "users-single-body"
+            }
+            report All_Players
+            {
+                icon = "users-contacts"
+            }
+        }
+
+        section Player_Selections_Section
+        {
+            displayname = "Player Selections"
+            icon = "sport-tactic"
+
+            form Player_Selections
+            {
+                icon = "users-add-27"
+            }
+            report All_Player_Selections
+            {
+                icon = "business-notes"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

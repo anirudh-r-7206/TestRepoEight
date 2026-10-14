@@ -1,0 +1,382 @@
+application "Test-Lookup"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Player_Selections
+		{
+		    Selection_Details
+		    (
+		        type = section
+		        displayname = "Player Selection"
+		        row = 1
+		        column = 0
+		    )
+		    must have Player
+		    (
+		        type = picklist
+		        values = Players.ID
+		        displayformat = [Player_ID]
+		        searchable = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Players
+		{
+		    Player_Details
+		    (
+		        type = section
+		        displayname = "Player Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have unique Player_ID
+		    (
+		        type = text
+		        displayname = "Player ID"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Player_Selections
+		{
+		    displayName = "All Player Selections"
+		    show all rows from Player_Selections
+		    (
+		        Player
+		    )
+		}
+
+		default list All_Players
+		{
+		    displayName = "All Players"
+		    show all rows from Players
+		    (
+		        Player_ID
+		    )
+		    sort by
+		    (
+		        Player_ID ascending
+		    )
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        text = "PL"
+	        background color = "theme"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Players
+	    {
+	        label placement = left
+	    }
+	    form Player_Selections
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Player_Selections
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Player
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Player
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	
+		report All_Players
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Player_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Player_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Main_Navigation
+	    {
+	        displayname = "Player Management"
+	        icon = "sport-whistle"
+	
+	        section Players_Section
+	        {
+	            displayname = "Players"
+	            icon = "users-multiple-11"
+	
+	            form Players
+	            {
+	                icon = "users-single-body"
+	            }
+	            report All_Players
+	            {
+	                icon = "users-contacts"
+	            }
+	        }
+	
+	        section Player_Selections_Section
+	        {
+	            displayname = "Player Selections"
+	            icon = "sport-tactic"
+	
+	            form Player_Selections
+	            {
+	                icon = "users-add-27"
+	            }
+	            report All_Player_Selections
+	            {
+	                icon = "business-notes"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "1"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

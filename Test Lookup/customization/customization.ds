@@ -1,0 +1,9 @@
+customize
+{
+    icon
+    {
+        text = "PL"
+        background color = "theme"
+        foreground color = "#ffffff"
+    }
+}

@@ -1,0 +1,11 @@
+forms
+{
+    form Players
+    {
+        label placement = left
+    }
+    form Player_Selections
+    {
+        label placement = left
+    }
+}

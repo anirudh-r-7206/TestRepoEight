@@ -1,0 +1,8 @@
+default list All_Player_Selections
+{
+    displayName = "All Player Selections"
+    show all rows from Player_Selections
+    (
+        Player
+    )
+}

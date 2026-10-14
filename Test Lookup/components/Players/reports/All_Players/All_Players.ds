@@ -1,0 +1,12 @@
+default list All_Players
+{
+    displayName = "All Players"
+    show all rows from Players
+    (
+        Player_ID
+    )
+    sort by
+    (
+        Player_ID ascending
+    )
+}
