@@ -1,0 +1,27 @@
+list Open_Orders
+{
+    displayName = "Open Orders"
+    show all rows from Orders [Order_Status == "Open" || Order_Status == "Served"]
+    (
+        Order_No
+        Dining_Table.Table_Number as "Table"
+        Order_Time
+        (
+            displayformat = timeonly
+        )
+        Items
+        Total_Amount
+        (
+            display = total
+        )
+        Order_Status
+    )
+    filters
+    (
+        Order_Status
+    )
+    sort by
+    (
+        Order_Time ascending
+    )
+}

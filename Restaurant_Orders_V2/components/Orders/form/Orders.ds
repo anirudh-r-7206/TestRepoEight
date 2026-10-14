@@ -1,0 +1,179 @@
+form Orders
+{
+    title
+    {
+        displayname = "Orders"
+        on add = "New Order"
+        on edit = "Edit Order"
+    }
+    success message = "Order saved."
+
+    Order_Details
+    (
+        type = section
+        displayname = "Order Details"
+        row = 1
+        column = 0
+    )
+    Order_No
+    (
+        type = autonumber
+        displayname = "Order No"
+        start index = 5001
+        row = 1
+        column = 1
+    )
+    must have Dining_Table
+    (
+        type = picklist
+        displayname = "Table"
+        values = Dining_Tables.ID
+        displayformat = [Table_Number]
+        searchable = true
+        sortorder = ascending
+        row = 1
+        column = 1
+        width = medium
+    )
+    Guests
+    (
+        type = number
+        displayname = "Guests"
+        initial value = 2
+        maxchar = 3
+        row = 1
+        column = 2
+        width = medium
+    )
+    Order_Time
+    (
+        type = datetime
+        displayname = "Order Time"
+        initial value = "${zoho.currenttime}"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Order_Status
+    (
+        type = picklist
+        displayname = "Order Status"
+        values = {"Open", "Served", "Paid", "Cancelled"}
+        initial value = "Open"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Items_Section
+    (
+        type = section
+        displayname = "Items"
+        visibility = false
+        row = 2
+        column = 1
+    )
+    Items
+    (
+        type = grid
+        displayname = "Items"
+        defaultrow = 1
+        maxrow = 50
+            Menu_Item
+            (
+                type = picklist
+                displayname = "Menu Item"
+                values = Menu_Items[Available == true].ID
+                displayformat = [Item_Name]
+                searchable = true
+            )
+            Quantity
+            (
+                type = number
+                displayname = "Qty"
+                initial value = 1
+                maxchar = 3
+            )
+            Unit_Price
+            (
+                type = INR
+                displayname = "Unit Price"
+                decimalplace = 2
+                maxchar = 10
+            )
+            Line_Total
+            (
+                type = INR
+                displayname = "Line Total"
+                decimalplace = 2
+                maxchar = 12
+            )
+        row = 2
+        column = 1
+        width = medium
+    )
+    Billing
+    (
+        type = section
+        displayname = "Billing"
+        visibility = true
+        row = 3
+        column = 1
+    )
+    Total_Amount
+    (
+        type = INR
+        displayname = "Total Amount"
+        decimalplace = 2
+        maxchar = 12
+        row = 3
+        column = 1
+        width = medium
+    )
+    Payment_Mode
+    (
+        type = picklist
+        displayname = "Payment Mode"
+        values = {"Cash", "Card", "UPI", "Room Charge"}
+        row = 3
+        column = 2
+        width = medium
+    )
+    Order_Notes
+    (
+        type = textarea
+        displayname = "Notes"
+        row = 3
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Place Order"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

@@ -1,0 +1,103 @@
+form Menu_Items
+{
+    title
+    {
+        displayname = "Menu Items"
+        on add = "Add Menu Item"
+        on edit = "Edit Menu Item"
+    }
+    success message = "Menu item saved."
+
+    Dish_Details
+    (
+        type = section
+        displayname = "Dish Details"
+        row = 1
+        column = 0
+    )
+    must have unique Item_Name
+    (
+        type = text
+        displayname = "Item Name"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Category
+    (
+        type = picklist
+        displayname = "Category"
+        values = {"Starters", "Soups", "Main Course", "Breads", "Rice", "Desserts", "Beverages"}
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Price
+    (
+        type = INR
+        displayname = "Price"
+        decimalplace = 2
+        maxchar = 10
+        row = 1
+        column = 1
+        width = medium
+    )
+    Food_Type
+    (
+        type = radiobuttons
+        displayname = "Food Type"
+        values = {"Veg", "Non-Veg"}
+        initial value = "Veg"
+        layout = 2
+        row = 1
+        column = 2
+        width = medium
+    )
+    Available
+    (
+        type = checkbox
+        displayname = "Available"
+        initial value = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    Description
+    (
+        type = textarea
+        displayname = "Description"
+        row = 1
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Save"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

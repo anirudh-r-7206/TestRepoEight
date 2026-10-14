@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Table Floor</title>
+    <link rel="stylesheet" href="css/widget.css"/>
+</head>
+<body>
+    <div class="tf">
+        <header class="tf-head">
+            <div>
+                <h1 class="tf-title">Table Floor</h1>
+                <p class="tf-sub" id="tfUpdated">Loading tables...</p>
+            </div>
+            <div class="tf-summary" id="tfSummary"></div>
+        </header>
+
+        <div class="tf-toolbar">
+            <div class="tf-chips" id="tfAreaChips" role="tablist" aria-label="Filter by area"></div>
+            <div class="tf-tools">
+                <label class="tf-field-inline">
+                    <span>Status</span>
+                    <select id="tfStatusFilter">
+                        <option value="">All</option>
+                        <option value="Available">Available</option>
+                        <option value="Reserved">Reserved</option>
+                        <option value="Occupied">Occupied</option>
+                    </select>
+                </label>
+                <label class="tf-field-inline">
+                    <span>Party of</span>
+                    <input id="tfPartyFilter" type="number" min="0" max="50" placeholder="Any">
+                </label>
+                <button class="tf-btn tf-btn-ghost" id="tfRefresh" type="button" title="Refresh">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.75 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="tf-legend">
+            <span><i class="dot dot-available"></i>Available - click to reserve</span>
+            <span><i class="dot dot-reserved"></i>Reserved</span>
+            <span><i class="dot dot-occupied"></i>Occupied</span>
+        </div>
+
+        <div class="tf-grid" id="tfGrid" aria-live="polite"></div>
+        <p class="tf-empty" id="tfEmpty" hidden>No tables match these filters.</p>
+    </div>
+
+    <div class="tf-overlay" id="tfOverlay" hidden>
+        <form class="tf-modal" id="tfForm" novalidate>
+            <div class="tf-modal-head">
+                <div>
+                    <h2 id="tfModalTitle">Reserve table</h2>
+                    <p class="tf-sub" id="tfModalSub"></p>
+                </div>
+                <button class="tf-icon-btn" type="button" id="tfClose" aria-label="Close">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"/></svg>
+                </button>
+            </div>
+            <div class="tf-form-grid">
+                <label class="tf-field">
+                    <span>Guest name</span>
+                    <input id="fGuest" type="text" maxlength="100" required>
+                </label>
+                <label class="tf-field">
+                    <span>Phone</span>
+                    <input id="fPhone" type="tel" maxlength="20" required>
+                </label>
+                <label class="tf-field">
+                    <span>Party size</span>
+                    <input id="fParty" type="number" min="1" required>
+                </label>
+                <label class="tf-field">
+                    <span>Date and time</span>
+                    <input id="fTime" type="datetime-local" step="900" required>
+                </label>
+                <label class="tf-field tf-field-wide">
+                    <span>Special requests</span>
+                    <textarea id="fNotes" rows="2" maxlength="500"></textarea>
+                </label>
+            </div>
+            <p class="tf-error" id="tfError" role="alert" hidden></p>
+            <div class="tf-modal-actions">
+                <button class="tf-btn tf-btn-ghost" type="button" id="tfCancel">Cancel</button>
+                <button class="tf-btn tf-btn-primary" type="submit" id="tfSubmit">Reserve table</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="tf-toast" id="tfToast" hidden></div>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script src="js/widget.js"></script>
+</body>
+</html>

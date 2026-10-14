@@ -1,0 +1,12 @@
+<page linkname = "Table_Floor" displayname = "Table Floor"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <widgets elementName='Table Floor' importedTemplate='false' heightType='custom' heightValue='900px' linkName='tablefloor' bgColor='#F6F7F9'/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

@@ -1,0 +1,19 @@
+forms
+{
+    form Dining_Tables
+    {
+        label placement = left
+    }
+    form Menu_Items
+    {
+        label placement = left
+    }
+    form Reservations
+    {
+        label placement = left
+    }
+    form Orders
+    {
+        label placement = left
+    }
+}

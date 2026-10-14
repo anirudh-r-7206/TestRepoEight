@@ -1,0 +1,100 @@
+form Dining_Tables
+{
+    title
+    {
+        displayname = "Dining Tables"
+        on add = "Add Table"
+        on edit = "Edit Table"
+    }
+    success message = "Table saved."
+
+    Table_Details
+    (
+        type = section
+        displayname = "Table Details"
+        row = 1
+        column = 0
+    )
+    must have unique Table_Number
+    (
+        type = text
+        displayname = "Table Number"
+        maxchar = 20
+        description
+        [
+            type = tooltip
+            message = "Short label shown on the floor view, e.g. T1, R4"
+        ]
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Seats
+    (
+        type = number
+        displayname = "Seats"
+        initial value = 4
+        maxchar = 3
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Area
+    (
+        type = picklist
+        displayname = "Area"
+        values = {"Indoor", "Outdoor", "Rooftop", "Private Room"}
+        initial value = "Indoor"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Status
+    (
+        type = picklist
+        displayname = "Status"
+        values = {"Available", "Reserved", "Occupied"}
+        initial value = "Available"
+        row = 1
+        column = 2
+        width = medium
+    )
+    Notes
+    (
+        type = textarea
+        displayname = "Notes"
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Save"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

@@ -1,0 +1,47 @@
+Orders_On_Success as "Orders On Success"
+{
+    type = form
+    form = Orders
+    record event = on add or edit
+    description = "Marks the table occupied while an order is open and frees it once paid"
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                tableRec = Dining_Tables[ID == input.Dining_Table];
+                if(tableRec.count() > 0)
+                {
+                    if(input.Order_Status == "Open" || input.Order_Status == "Served")
+                    {
+                        tableRec.Status = "Occupied";
+                    }
+                    else
+                    {
+                        otherOpen = Orders[Dining_Table == input.Dining_Table && ID != input.ID && (Order_Status == "Open" || Order_Status == "Served")].count();
+                        seatedRes = Reservations[Dining_Table == input.Dining_Table && Status == "Seated"];
+                        for each res in seatedRes
+                        {
+                            res.Status = "Completed";
+                        }
+                        bookedCount = Reservations[Dining_Table == input.Dining_Table && Status == "Booked" && Reservation_Time >= zoho.currenttime].count();
+                        if(otherOpen > 0)
+                        {
+                            tableRec.Status = "Occupied";
+                        }
+                        else if(bookedCount > 0)
+                        {
+                            tableRec.Status = "Reserved";
+                        }
+                        else
+                        {
+                            tableRec.Status = "Available";
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

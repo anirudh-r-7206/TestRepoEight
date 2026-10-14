@@ -1,0 +1,34 @@
+Items_Menu_Item_On_User_Input as "Items Menu Item On User Input"
+{
+    type = form
+    form = Orders
+    record event = on add or edit
+    description = "Fills the unit price from the menu and recomputes totals"
+
+    on user input of Items.Menu_Item
+    {
+        actions
+        {
+            custom deluge script
+            (
+                price = 0;
+                if(row.Menu_Item != null)
+                {
+                    itemRec = Menu_Items[ID == row.Menu_Item];
+                    if(itemRec.count() > 0)
+                    {
+                        price = ifnull(itemRec.Price,0);
+                    }
+                }
+                row.Unit_Price = price;
+                row.Line_Total = price * ifnull(row.Quantity,0);
+                total = 0;
+                for each r in input.Items
+                {
+                    total = total + ifnull(r.Line_Total,0);
+                }
+                input.Total_Amount = total;
+            )
+        }
+    }
+}

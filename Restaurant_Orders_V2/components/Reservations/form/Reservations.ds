@@ -1,0 +1,132 @@
+form Reservations
+{
+    title
+    {
+        displayname = "Reservations"
+        on add = "Reserve a Table"
+        on edit = "Edit Reservation"
+    }
+    success message = "Reservation saved."
+
+    Guest_Details
+    (
+        type = section
+        displayname = "Guest Details"
+        row = 1
+        column = 0
+    )
+    Reservation_No
+    (
+        type = autonumber
+        displayname = "Reservation No"
+        start index = 1001
+        row = 1
+        column = 1
+    )
+    must have Guest_Name
+    (
+        type = text
+        displayname = "Guest Name"
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Phone
+    (
+        type = phonenumber
+        displayname = "Phone"
+        personal data = true
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Party_Size
+    (
+        type = number
+        displayname = "Party Size"
+        initial value = 2
+        maxchar = 3
+        row = 1
+        column = 1
+        width = medium
+    )
+    Booking_Details
+    (
+        type = section
+        displayname = "Booking Details"
+        visibility = true
+        row = 2
+        column = 1
+    )
+    must have Reservation_Time
+    (
+        type = datetime
+        displayname = "Reservation Time"
+        initial value = "${zoho.currenttime}"
+        mins_displayinterval = 15
+        row = 2
+        column = 1
+        width = medium
+    )
+    must have Dining_Table
+    (
+        type = picklist
+        displayname = "Table"
+        values = Dining_Tables.ID
+        displayformat = [Table_Number]
+        searchable = true
+        sortorder = ascending
+        row = 2
+        column = 2
+        width = medium
+    )
+    must have Status
+    (
+        type = picklist
+        displayname = "Status"
+        values = {"Booked", "Seated", "Completed", "Cancelled"}
+        initial value = "Booked"
+        row = 2
+        column = 1
+        width = medium
+    )
+    Special_Requests
+    (
+        type = textarea
+        displayname = "Special Requests"
+        row = 2
+        column = 2
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Reserve"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+}

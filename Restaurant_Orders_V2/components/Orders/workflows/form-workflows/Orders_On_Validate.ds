@@ -1,0 +1,33 @@
+Orders_On_Validate as "Orders On Validate"
+{
+    type = form
+    form = Orders
+    record event = on add or edit
+    description = "Requires at least one item and recomputes the total from the menu prices"
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Items.count() == 0)
+                {
+                    alert "Add at least one menu item to the order.";
+                    cancel submit;
+                }
+                if(input.Order_Status == "Paid" && input.Payment_Mode == null)
+                {
+                    alert "Select a payment mode before marking the order as paid.";
+                    cancel submit;
+                }
+                total = 0;
+                for each r in input.Items
+                {
+                    total = total + ifnull(r.Unit_Price,0) * ifnull(r.Quantity,0);
+                }
+                input.Total_Amount = total;
+            )
+        }
+    }
+}

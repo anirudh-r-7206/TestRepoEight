@@ -1,0 +1,47 @@
+default list All_Menu_Items
+{
+    displayName = "Menu"
+    show all rows from Menu_Items
+    (
+        Item_Name
+        Category
+        Price
+        Food_Type
+        Available
+        (
+            displaytrue = "Available"
+            displayfalse = "Sold Out"
+        )
+        Description
+        (
+            foldcontent = enable
+        )
+    )
+    filters
+    (
+        Category
+        Food_Type
+        Available
+    )
+    group by
+    (
+        properties
+        (
+            display record count = true
+        )
+        Category ascending
+    )
+    sort by
+    (
+        Item_Name ascending
+    )
+    conditional formatting
+    (
+        "Sold Out"
+        {
+            condition = (Available == false)
+            fields = [Item_Name, Available]
+            format = "color:#9AA0A6;font-style:italic"
+        }
+    )
+}

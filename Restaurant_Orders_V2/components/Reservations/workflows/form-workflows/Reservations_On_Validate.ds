@@ -1,0 +1,43 @@
+Reservations_On_Validate as "Reservations On Validate"
+{
+    type = form
+    form = Reservations
+    record event = on add or edit
+    description = "Rejects bookings that exceed table capacity or clash with another booking"
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Status == "Booked" || input.Status == "Seated")
+                {
+                    tableRec = Dining_Tables[ID == input.Dining_Table];
+                    if(tableRec.count() > 0)
+                    {
+                        if(ifnull(input.Party_Size,0) > tableRec.Seats)
+                        {
+                            alert "Table " + tableRec.Table_Number + " seats only " + tableRec.Seats + " guests. Pick a larger table.";
+                            cancel submit;
+                        }
+                        currentId = ifnull(input.ID,0);
+                        slotStart = input.Reservation_Time.subHour(2);
+                        slotEnd = input.Reservation_Time.addHour(2);
+                        if(input.Status == "Booked" && tableRec.Status == "Occupied" && input.Reservation_Time < zoho.currenttime.addHour(2))
+                        {
+                            alert "Table " + tableRec.Table_Number + " is occupied right now. Pick another table or a later time.";
+                            cancel submit;
+                        }
+                        clashCount = Reservations[Dining_Table == input.Dining_Table && ID != currentId && (Status == "Booked" || Status == "Seated") && Reservation_Time > slotStart && Reservation_Time < slotEnd].count();
+                        if(clashCount > 0)
+                        {
+                            alert "Table " + tableRec.Table_Number + " already has a booking within 2 hours of this time.";
+                            cancel submit;
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

@@ -1,0 +1,1 @@
+<chart elementName='Orders_By_Status_Chart' title='Orders by Status' titleColor='#222326' type='Column' xtitle='Status' ytitle='Orders' bgColor='#FFFFFF' theme='theme1' legendPos='none' heightType='custom' heightValue='320px' appLinkName='thisapp' formLinkName='Orders' xfield='Order_Status' yfields='count:Order_No' showDataLabel='true' underlyingReport='All_Orders' />

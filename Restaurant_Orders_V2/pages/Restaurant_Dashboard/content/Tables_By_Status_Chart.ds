@@ -1,0 +1,1 @@
+<chart elementName='Tables_By_Status_Chart' title='Tables by Status' titleColor='#222326' type='Donut' bgColor='#FFFFFF' theme='theme1' legendPos='center.bottom' heightType='custom' heightValue='320px' appLinkName='thisapp' formLinkName='Dining_Tables' xfield='Status' yfields='count:Table_Number' showDataLabel='true' underlyingReport='All_Tables' />

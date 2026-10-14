@@ -1,0 +1,30 @@
+list Todays_Reservations
+{
+    displayName = "Today's Reservations"
+    show all rows from Reservations [Reservation_Time >= zoho.currentdate && Reservation_Time < zoho.currentdate.addDay(1) && Status != "Cancelled"]
+    (
+        Reservation_No
+        Guest_Name
+        Phone
+        (
+            displayformat = formattednumber
+            linktodial = enable
+        )
+        Party_Size
+        Reservation_Time
+        (
+            displayformat = timeonly
+        )
+        Dining_Table.Table_Number as "Table"
+        Status
+        Special_Requests
+    )
+    filters
+    (
+        Status
+    )
+    sort by
+    (
+        Reservation_Time ascending
+    )
+}

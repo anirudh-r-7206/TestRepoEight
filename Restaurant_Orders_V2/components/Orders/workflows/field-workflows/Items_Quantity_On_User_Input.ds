@@ -1,0 +1,24 @@
+Items_Quantity_On_User_Input as "Items Quantity On User Input"
+{
+    type = form
+    form = Orders
+    record event = on add or edit
+    description = "Recomputes the line total and the order total"
+
+    on user input of Items.Quantity
+    {
+        actions
+        {
+            custom deluge script
+            (
+                row.Line_Total = ifnull(row.Unit_Price,0) * ifnull(row.Quantity,0);
+                total = 0;
+                for each r in input.Items
+                {
+                    total = total + ifnull(r.Line_Total,0);
+                }
+                input.Total_Amount = total;
+            )
+        }
+    }
+}

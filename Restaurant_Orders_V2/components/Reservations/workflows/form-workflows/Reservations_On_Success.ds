@@ -1,0 +1,50 @@
+Reservations_On_Success as "Reservations On Success"
+{
+    type = form
+    form = Reservations
+    record event = on add or edit
+    description = "Keeps the table status in sync with the reservation status"
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                tableRec = Dining_Tables[ID == input.Dining_Table];
+                if(tableRec.count() > 0)
+                {
+                    if(input.Status == "Seated")
+                    {
+                        tableRec.Status = "Occupied";
+                    }
+                    else if(input.Status == "Booked")
+                    {
+                        if(tableRec.Status == "Available")
+                        {
+                            tableRec.Status = "Reserved";
+                        }
+                    }
+                    else
+                    {
+                        seatedCount = Reservations[Dining_Table == input.Dining_Table && ID != input.ID && Status == "Seated"].count();
+                        openOrders = Orders[Dining_Table == input.Dining_Table && Order_Status != "Paid" && Order_Status != "Cancelled"].count();
+                        bookedCount = Reservations[Dining_Table == input.Dining_Table && ID != input.ID && Status == "Booked"].count();
+                        if(seatedCount > 0 || openOrders > 0)
+                        {
+                            tableRec.Status = "Occupied";
+                        }
+                        else if(bookedCount > 0)
+                        {
+                            tableRec.Status = "Reserved";
+                        }
+                        else
+                        {
+                            tableRec.Status = "Available";
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

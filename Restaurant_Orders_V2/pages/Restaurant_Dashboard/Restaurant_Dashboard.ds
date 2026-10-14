@@ -1,0 +1,27 @@
+<page linkname = "Restaurant_Dashboard" displayname = "Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Floor_KPIs' elementName='Floor_KPIs'>
+          <![CDATA[htmlpage Floor_KPIs()
+             content
+             <%{%>
+                 <file name:Floor_KPIs.dshtml/>
+             <%}%>
+         ]]>
+        </dsp>
+      </column>
+    </row>
+    <row>
+      <column width='50%'>
+        <file name:Tables_By_Status_Chart.ds/>
+      </column>
+      <column width='50%'>
+        <file name:Orders_By_Status_Chart.ds/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

@@ -1,0 +1,20 @@
+Orders_On_Load as "Orders On Load"
+{
+    type = form
+    form = Orders
+    record event = on add or edit
+    description = "Total and line prices are computed, so lock them"
+
+    on load
+    {
+        actions
+        {
+            custom deluge script
+            (
+                disable Total_Amount;
+                disable Items.Unit_Price;
+                disable Items.Line_Total;
+            )
+        }
+    }
+}

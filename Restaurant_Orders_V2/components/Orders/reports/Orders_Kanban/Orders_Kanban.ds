@@ -1,0 +1,22 @@
+kanban Orders_Kanban
+{
+    displayName = "Order Board"
+    show all rows from Orders [Order_Status != "Cancelled"]
+    (
+        Order_No
+        Dining_Table.Table_Number as "Table"
+        Total_Amount
+        Order_Time
+        Order_Status
+    )
+    sort by
+    (
+        Order_Time descending
+    )
+    options
+    (
+        display field = Order_Status
+        sort order = custom
+        record count = enable
+    )
+}

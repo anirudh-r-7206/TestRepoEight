@@ -1,0 +1,9 @@
+{
+  "service": "CREATOR",
+  "name": "tablefloor",
+  "type": "applications",
+  "cspDomains": {
+    "connect-src": []
+  },
+  "config": []
+}

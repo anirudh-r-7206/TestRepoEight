@@ -1,0 +1,29 @@
+calendar Reservation_Calendar
+{
+    displayName = "Reservation Calendar"
+    show all rows from Reservations [Status != "Cancelled"]
+    (
+        Guest_Name
+        Party_Size
+        Reservation_Time
+        Dining_Table.Table_Number as "Table"
+        Status
+    )
+    filters
+    (
+        Status
+    )
+    options
+    (
+        display type = week
+        week start day = monday
+        display field = Guest_Name
+        start date = Reservation_Time
+        default date
+        (
+            day   = Today
+            month = Currentmonth
+            year  = Currentyear
+        )
+    )
+}

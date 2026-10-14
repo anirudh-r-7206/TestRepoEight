@@ -1,0 +1,84 @@
+<%
+availableCount = Dining_Tables[Status == "Available"].count();
+reservedCount = Dining_Tables[Status == "Reserved"].count();
+occupiedCount = Dining_Tables[Status == "Occupied"].count();
+totalTables = availableCount + reservedCount + occupiedCount;
+freeSeats = ifnull(Dining_Tables[Status == "Available"].sum(Seats),0);
+tomorrow = zoho.currentdate.addDay(1);
+todaysBookings = Reservations[Reservation_Time >= zoho.currentdate && Reservation_Time < tomorrow && Status != "Cancelled"].count();
+upcomingBookings = Reservations[Reservation_Time >= zoho.currenttime && Reservation_Time < tomorrow && Status == "Booked"].count();
+openOrders = Orders[Order_Status == "Open" || Order_Status == "Served"].count();
+openValue = ifnull(Orders[Order_Status == "Open" || Order_Status == "Served"].sum(Total_Amount),0);
+todaysRevenue = ifnull(Orders[Order_Status == "Paid" && Order_Time >= zoho.currentdate && Order_Time < tomorrow].sum(Total_Amount),0);
+occupancy = 0;
+if(totalTables > 0)
+{
+	occupancy = ((occupiedCount * 100) / totalTables).round(0);
+}
+%>
+<style>
+.rd { font-family: inherit; color: var(--zcs_text_primary, #1f2328); padding: 4px 0; }
+.rd-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 16px; }
+.rd-title { font-size: 20px; font-weight: 600; margin: 0; }
+.rd-sub { font-size: 13px; color: var(--zcs_text_secondary, #5f6b7a); margin: 2px 0 0; }
+.rd-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.rd-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; border: 1px solid var(--zcs_border_color, #e3e6ea); color: var(--zcs_text_primary, #1f2328); background: var(--zcs_bg_primary, #ffffff); }
+.rd-btn.primary { background: var(--zcs_brand_color, #2f6fde); border-color: var(--zcs_brand_color, #2f6fde); color: #ffffff; }
+.rd-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.rd-card { background: var(--zcs_bg_primary, #ffffff); border: 1px solid var(--zcs_border_color, #e3e6ea); border-radius: 12px; padding: 14px 16px; text-decoration: none; color: inherit; display: block; }
+.rd-label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--zcs_text_secondary, #5f6b7a); }
+.rd-value { font-size: 26px; font-weight: 700; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.rd-note { font-size: 12px; color: var(--zcs_text_secondary, #5f6b7a); margin-top: 2px; }
+.rd-available .rd-value { color: #1e8e3e; }
+.rd-reserved .rd-value { color: #b06000; }
+.rd-occupied .rd-value { color: #c5221f; }
+.rd-bar { height: 8px; border-radius: 4px; background: #e8f5ec; overflow: hidden; display: flex; margin-top: 10px; }
+.rd-bar span { display: block; height: 100%; }
+</style>
+<div class="rd">
+	<div class="rd-head">
+		<div>
+			<h2 class="rd-title">Restaurant Overview</h2>
+			<p class="rd-sub"><%=zoho.currentdate.toString("EEEE, dd MMM yyyy")%> &middot; <%=totalTables%> tables &middot; <%=occupancy%>% occupied</p>
+		</div>
+		<div class="rd-actions">
+			<a class="rd-btn primary" href="#Page:Table_Floor"><i class="zc-li-outline furniture-table"></i>Open Table Floor</a>
+			<a class="rd-btn" href="#Form:Reservations"><i class="zc-li-outline location-appointment"></i>New Reservation</a>
+			<a class="rd-btn" href="#Form:Orders"><i class="zc-li-outline food-cutlery-75"></i>New Order</a>
+		</div>
+	</div>
+	<div class="rd-grid">
+		<a class="rd-card rd-available" href="#Page:Table_Floor">
+			<div class="rd-label"><i class="zc-li-outline files-check"></i>Available tables</div>
+			<div class="rd-value"><%=availableCount%></div>
+			<div class="rd-note"><%=freeSeats%> seats free</div>
+		</a>
+		<a class="rd-card rd-reserved" href="#Report:Todays_Reservations">
+			<div class="rd-label"><i class="zc-li-outline location-appointment"></i>Reserved tables</div>
+			<div class="rd-value"><%=reservedCount%></div>
+			<div class="rd-note"><%=upcomingBookings%> bookings still to arrive today</div>
+		</a>
+		<a class="rd-card rd-occupied" href="#Report:Open_Orders">
+			<div class="rd-label"><i class="zc-li-outline users-multiple-11"></i>Occupied tables</div>
+			<div class="rd-value"><%=occupiedCount%></div>
+			<div class="rd-bar">
+				<span style="width:<%=occupancy%>%;background:#c5221f;"></span>
+			</div>
+		</a>
+		<a class="rd-card" href="#Report:Todays_Reservations">
+			<div class="rd-label"><i class="zc-li-outline location-appointment"></i>Today's reservations</div>
+			<div class="rd-value"><%=todaysBookings%></div>
+			<div class="rd-note">excluding cancellations</div>
+		</a>
+		<a class="rd-card" href="#Report:Open_Orders">
+			<div class="rd-label"><i class="zc-li-outline shopping-receipt"></i>Open orders</div>
+			<div class="rd-value"><%=openOrders%></div>
+			<div class="rd-note">INR <%=openValue%> pending</div>
+		</a>
+		<a class="rd-card" href="#Report:All_Orders">
+			<div class="rd-label"><i class="zc-li-outline business-money-coins"></i>Revenue today</div>
+			<div class="rd-value">INR <%=todaysRevenue%></div>
+			<div class="rd-note">paid orders</div>
+		</a>
+	</div>
+</div>

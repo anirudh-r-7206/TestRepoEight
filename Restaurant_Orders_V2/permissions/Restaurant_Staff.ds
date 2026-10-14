@@ -1,0 +1,69 @@
+"Restaurant_Staff"
+{
+    name        = "Restaurant_Staff"
+    type        = Users_Permissions
+    permissions = { Chat:false, Predefined:false, ApiAccess:false, PIIAccess:true, ePHIAccess:false }
+    description = "Front-of-house staff: hosts and waiters who seat guests, take reservations and orders"
+
+    ModulePermissions
+    {
+        Dining_Tables
+        {
+            enabled          = Viewall,Modifyall,Tab,View,Edit,Search
+            allFieldsVisible = false
+            ReportPermissions
+            {
+                All_Tables={"View","Edit"}
+                Tables_Kanban={"View","Edit"}
+            }
+            FieldPermissions
+            {
+                Table_Number{visibility:true,readonly:true}
+                Seats{visibility:true,readonly:true}
+                Area{visibility:true,readonly:true}
+                Status{visibility:true,readonly:false}
+                Notes{visibility:true,readonly:false}
+            }
+        }
+        Menu_Items
+        {
+            enabled          = Viewall,Tab,View,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                All_Menu_Items={"View"}
+            }
+        }
+        Reservations
+        {
+            enabled          = Create,Viewall,Modifyall,Tab,View,Edit,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                All_Reservations={"View","Edit"}
+                Reservation_Calendar={"View","Edit"}
+                Todays_Reservations={"View","Edit"}
+            }
+        }
+        Orders
+        {
+            enabled          = Create,Viewall,Modifyall,Tab,View,Edit,Search
+            allFieldsVisible = true
+            ReportPermissions
+            {
+                All_Orders={"View","Edit"}
+                Open_Orders={"View","Edit"}
+                Orders_Kanban={"View","Edit"}
+            }
+        }
+
+        Table_Floor
+        {
+            enabled = tab
+        }
+        Restaurant_Dashboard
+        {
+            enabled = tab
+        }
+    }
+}

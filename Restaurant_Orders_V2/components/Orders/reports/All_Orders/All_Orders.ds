@@ -1,0 +1,28 @@
+default list All_Orders
+{
+    displayName = "All Orders"
+    show all rows from Orders
+    (
+        Order_No
+        Dining_Table.Table_Number as "Table"
+        Guests
+        Order_Time
+        Items
+        Total_Amount
+        (
+            display = total
+        )
+        Order_Status
+        Payment_Mode
+    )
+    filters
+    (
+        Order_Status
+        Payment_Mode
+        Order_Time
+    )
+    sort by
+    (
+        Order_Time descending
+    )
+}

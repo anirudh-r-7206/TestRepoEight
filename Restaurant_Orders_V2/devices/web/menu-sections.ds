@@ -1,0 +1,103 @@
+menu
+{
+    space Restaurant_Space
+    {
+        displayname = "Restaurant"
+        icon = "food-cutlery-75"
+
+        section Floor_Section
+        {
+            displayname = "Floor"
+            icon = "furniture-table"
+
+            page Table_Floor
+            {
+                icon = "furniture-table"
+            }
+            page Restaurant_Dashboard
+            {
+                icon = "business-chart-pie-36"
+            }
+        }
+
+        section Bookings_Section
+        {
+            displayname = "Bookings"
+            icon = "location-appointment"
+
+            form Reservations
+            {
+                icon = "location-appointment"
+            }
+            report Todays_Reservations
+            {
+                icon = "files-time"
+            }
+            report Reservation_Calendar
+            {
+                icon = "location-appointment"
+            }
+            report All_Reservations
+            {
+                icon = "users-multiple-11"
+            }
+        }
+
+        section Orders_Section
+        {
+            displayname = "Orders"
+            icon = "shopping-receipt"
+
+            form Orders
+            {
+                icon = "shopping-receipt"
+            }
+            report Open_Orders
+            {
+                icon = "shopping-receipt-list-43"
+            }
+            report Orders_Kanban
+            {
+                icon = "shopping-receipt-list-42"
+            }
+            report All_Orders
+            {
+                icon = "business-money-coins"
+            }
+        }
+
+        section Setup_Section
+        {
+            displayname = "Setup"
+            icon = "files-check"
+
+            form Dining_Tables
+            {
+                icon = "furniture-chair"
+            }
+            report All_Tables
+            {
+                icon = "furniture-table"
+            }
+            report Tables_Kanban
+            {
+                icon = "files-check"
+            }
+            form Menu_Items
+            {
+                icon = "food-cutlery-76"
+            }
+            report All_Menu_Items
+            {
+                icon = "food-cutlery-77"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+}

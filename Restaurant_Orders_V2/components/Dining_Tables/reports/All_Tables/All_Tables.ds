@@ -1,0 +1,54 @@
+default list All_Tables
+{
+    displayName = "All Tables"
+    show all rows from Dining_Tables
+    (
+        Table_Number
+        Seats
+        (
+            display = total
+        )
+        Area
+        Status
+        Notes
+    )
+    filters
+    (
+        Area
+        Status
+        "Available Now" : (Status == "Available")
+    )
+    group by
+    (
+        properties
+        (
+            display record count = true
+        )
+        Area ascending
+    )
+    sort by
+    (
+        Table_Number ascending
+    )
+    conditional formatting
+    (
+        "Available"
+        {
+            condition = (Status == "Available")
+            fields = [Status]
+            format = "color:#1E8E3E;font-weight:bold"
+        }
+        "Reserved"
+        {
+            condition = (Status == "Reserved")
+            fields = [Status]
+            format = "color:#B06000;font-weight:bold"
+        }
+        "Occupied"
+        {
+            condition = (Status == "Occupied")
+            fields = [Status]
+            format = "color:#C5221F;font-weight:bold"
+        }
+    )
+}

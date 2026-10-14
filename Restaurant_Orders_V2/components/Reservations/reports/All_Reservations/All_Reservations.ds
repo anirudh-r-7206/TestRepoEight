@@ -1,0 +1,47 @@
+default list All_Reservations
+{
+    displayName = "All Reservations"
+    show all rows from Reservations
+    (
+        Reservation_No
+        Guest_Name
+        Phone
+        (
+            displayformat = formattednumber
+            linktodial = enable
+        )
+        Party_Size
+        Reservation_Time
+        Dining_Table.Table_Number as "Table"
+        Status
+        Special_Requests
+        (
+            foldcontent = enable
+        )
+    )
+    filters
+    (
+        Status
+        Reservation_Time
+        "Upcoming" : (Status == "Booked" && Reservation_Time >= zoho.currenttime)
+    )
+    sort by
+    (
+        Reservation_Time descending
+    )
+    conditional formatting
+    (
+        "Cancelled"
+        {
+            condition = (Status == "Cancelled")
+            fields = [Guest_Name, Status]
+            format = "color:#9AA0A6;text-decoration:line-through"
+        }
+        "Seated"
+        {
+            condition = (Status == "Seated")
+            fields = [Status]
+            format = "color:#C5221F;font-weight:bold"
+        }
+    )
+}
