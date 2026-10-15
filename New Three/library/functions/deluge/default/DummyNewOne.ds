@@ -1,0 +1,4 @@
+void DummyNewOne()
+{
+	info "DummyNewOne";
+}
