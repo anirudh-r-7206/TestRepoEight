@@ -21,6 +21,16 @@ form Students
         row = 1
         column = 1
         width = medium
+        width = medium
+    )
+    Gender
+    (
+        type = picklist
+        displayname = "Gender"
+        values = {"Female", "Male", "Non-binary", "Prefer not to say"}
+        row = 1
+        column = 1
+        width = medium
     )
 
     actions
