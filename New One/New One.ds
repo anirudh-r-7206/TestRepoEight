@@ -1,0 +1,271 @@
+application "New-One"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    title
+		    {
+		        displayname = "Students"
+		        on add = "Add Student"
+		        on edit = "Edit Student"
+		    }
+		    success message = "Student saved successfully."
+		
+		    Student_Details
+		    (
+		        type = section
+		        displayname = "Student Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Student_Overview
+		{
+					displayname = "Student Overview"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Student_Overview_Content' elementName='Student_Overview_Content'>\n\t\t\t\t\t<![CDATA[htmlpage Student_Overview_Content()\ncontent\n&lt;%{%&gt;\n\t&lt;%\n\tstudentCount = Students.count();\n%&gt;\n&lt;style&gt;\n/* zcs-global.css — page-scoped essentials */\n:root {\n\t--zcs-white-color: #FFFFFF;\n\t--zcs-page-bg-color: #F3F3F4;\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-surface: var(--zcs-white-color);\n\t--zcs-bg: var(--zcs-page-bg-color);\n\t--zcs-text-1: var(--zcs-primary-text-color);\n\t--zcs-text-2: var(--zcs-secondary-text-color);\n\t--zcs-text-3: var(--zcs-teritiary-text-color);\n\t--zcs-border: var(--zcs_tertiary_border_color);\n\t--zcs-blue: var(--zcs_brand_color);\n\t--zcs-radius: 12px;\n\t--zcs-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.zcs-page {\n\tfont-family: var(--zcs-font);\n\tbackground: var(--zcs-bg);\n\tmin-height: 100vh;\n\tpadding: 24px;\n\tbox-sizing: border-box;\n}\n.zcs-page-header { margin-bottom: 24px; }\n.zcs-page-header__title {\n\tfont-size: 22px;\n\tfont-weight: 600;\n\tcolor: var(--zcs-text-1);\n\tmargin: 0 0 4px;\n}\n.zcs-page-header__sub {\n\tfont-size: 14px;\n\tcolor: var(--zcs-text-2);\n\tmargin: 0;\n}\n.student-overview-grid {\n\tdisplay: grid;\n\tgrid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);\n\tgap: 16px;\n\tmax-width: 860px;\n}\n.zcs-kpi-card {\n\tbackground: var(--zcs-surface);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n}\n.zcs-kpi-card__label {\n\tfont-size: 11px;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.6px;\n\tcolor: var(--zcs-text-2);\n}\n.zcs-kpi-card__value {\n\tcolor: var(--zcs-theme-brand-color);\n\tfont-size: 32px;\n\tfont-weight: 700;\n\tmargin: 6px 0 4px;\n\tline-height: 1;\n}\n.zcs-kpi-card__sub {\n\tfont-size: 12px;\n\tcolor: var(--zcs-text-3);\n}\n.zcs-section {\n\tbackground: var(--zcs-surface);\n\tborder-radius: var(--zcs-radius);\n\tbox-shadow: var(--zcs-shadow);\n\tpadding: 20px 24px;\n\tmargin-bottom: 16px;\n}\n.zcs-section__heading {\n\tfont-size: 15px;\n\tfont-weight: 600;\n\tcolor: var(--zcs-text-1);\n\tmargin: 0 0 8px;\n}\n.student-overview-guidance {\n\tcolor: var(--zcs-text-2);\n\tfont-size: 14px;\n\tline-height: 1.5;\n\tmargin: 0 0 10px;\n}\n.zcs-action-row {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tpadding: 11px 0 0;\n\tborder-top: 1px solid var(--zcs-border);\n\tfont-size: 14px;\n\tcolor: var(--zcs-blue);\n\ttext-decoration: none;\n\tcursor: pointer;\n}\n.zcs-action-row:hover { color: var(--zcs_brand_dark_color); }\n.zcs-action-row__arrow { color: var(--zcs-text-3); font-size: 16px; }\n@media (max-width: 680px) {\n\t.zcs-page { padding: 16px; }\n\t.student-overview-grid { grid-template-columns: 1fr; }\n}\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Student Overview&lt;/h1&gt;\n\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;A quick view of the student records stored in this app.&lt;/p&gt;\n\t&lt;/div&gt;\n\t&lt;div class=&quot;student-overview-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Students&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__value&quot;&gt;&lt;%= studentCount %&gt;&lt;/div&gt;\n\t\t\t&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Total stored student records&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Open the student list&lt;/h2&gt;\n\t\t\t&lt;p class=&quot;student-overview-guidance&quot;&gt;Select All Students to review, search, and manage the complete student list.&lt;/p&gt;\n\t\t\t&lt;a class=&quot;zcs-action-row&quot; href=&quot;#Report:All_Students&quot;&gt;\n\t\t\t\t&lt;span&gt;All Students&lt;/span&gt;\n\t\t\t\t&lt;i class=&quot;zcs-action-row__arrow zc-li-outline arrows-1-tail-right&quot;&gt;&lt;/i&gt;\n\t\t\t&lt;/a&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#0093FF"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Records
+	    {
+	        displayname = "Student Records"
+	        icon = "education-school"
+	
+	        section Overview_Section
+	        {
+	            displayname = "Overview"
+	            icon = "education-board-51"
+	
+	            page Student_Overview
+	            {
+	                icon = "education-book-open"
+	            }
+	        }
+	
+	        section Students_Section
+	        {
+	            displayname = "Students"
+	            icon = "education-books-46"
+	
+	            form Students
+	            {
+	                icon = "users-single-body"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-multiple-19"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_1"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

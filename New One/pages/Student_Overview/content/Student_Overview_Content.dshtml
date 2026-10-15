@@ -1,0 +1,129 @@
+<%
+  studentCount = Students.count();
+%>
+<style>
+/* zcs-global.css — page-scoped essentials */
+:root {
+  --zcs-white-color: #FFFFFF;
+  --zcs-page-bg-color: #F3F3F4;
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-surface: var(--zcs-white-color);
+  --zcs-bg: var(--zcs-page-bg-color);
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-border: var(--zcs_tertiary_border_color);
+  --zcs-blue: var(--zcs_brand_color);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.zcs-page {
+  font-family: var(--zcs-font);
+  background: var(--zcs-bg);
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.zcs-page-header { margin-bottom: 24px; }
+.zcs-page-header__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--zcs-text-1);
+  margin: 0 0 4px;
+}
+.zcs-page-header__sub {
+  font-size: 14px;
+  color: var(--zcs-text-2);
+  margin: 0;
+}
+.student-overview-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);
+  gap: 16px;
+  max-width: 860px;
+}
+.zcs-kpi-card {
+  background: var(--zcs-surface);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+}
+.zcs-kpi-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--zcs-text-2);
+}
+.zcs-kpi-card__value {
+  color: var(--zcs-theme-brand-color);
+  font-size: 32px;
+  font-weight: 700;
+  margin: 6px 0 4px;
+  line-height: 1;
+}
+.zcs-kpi-card__sub {
+  font-size: 12px;
+  color: var(--zcs-text-3);
+}
+.zcs-section {
+  background: var(--zcs-surface);
+  border-radius: var(--zcs-radius);
+  box-shadow: var(--zcs-shadow);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.zcs-section__heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zcs-text-1);
+  margin: 0 0 8px;
+}
+.student-overview-guidance {
+  color: var(--zcs-text-2);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.zcs-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0 0;
+  border-top: 1px solid var(--zcs-border);
+  font-size: 14px;
+  color: var(--zcs-blue);
+  text-decoration: none;
+  cursor: pointer;
+}
+.zcs-action-row:hover { color: var(--zcs_brand_dark_color); }
+.zcs-action-row__arrow { color: var(--zcs-text-3); font-size: 16px; }
+@media (max-width: 680px) {
+  .zcs-page { padding: 16px; }
+  .student-overview-grid { grid-template-columns: 1fr; }
+}
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header">
+    <h1 class="zcs-page-header__title">Student Overview</h1>
+    <p class="zcs-page-header__sub">A quick view of the student records stored in this app.</p>
+  </div>
+  <div class="student-overview-grid">
+    <div class="zcs-kpi-card">
+      <div class="zcs-kpi-card__label">Students</div>
+      <div class="zcs-kpi-card__value"><%= studentCount %></div>
+      <div class="zcs-kpi-card__sub">Total stored student records</div>
+    </div>
+    <div class="zcs-section">
+      <h2 class="zcs-section__heading">Open the student list</h2>
+      <p class="student-overview-guidance">Select All Students to review, search, and manage the complete student list.</p>
+      <a class="zcs-action-row" href="#Report:All_Students">
+        <span>All Students</span>
+        <i class="zcs-action-row__arrow zc-li-outline arrows-1-tail-right"></i>
+      </a>
+    </div>
+  </div>
+</div>

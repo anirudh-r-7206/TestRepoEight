@@ -1,0 +1,19 @@
+<page linkname = "Student_Overview" displayname = "Student Overview"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Student_Overview_Content' elementName='Student_Overview_Content'>
+          <![CDATA[htmlpage Student_Overview_Content()
+content
+<%{%>
+  <file name:Student_Overview_Content.dshtml/>
+<%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>
