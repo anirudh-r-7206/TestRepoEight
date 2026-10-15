@@ -1,0 +1,4 @@
+void DummyNewFive()
+{
+	info "DummyNewFive";
+}
