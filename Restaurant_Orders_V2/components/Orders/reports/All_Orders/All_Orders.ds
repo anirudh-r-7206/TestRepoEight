@@ -4,7 +4,7 @@ default list All_Orders
     show all rows from Orders
     (
         Order_No
-        Dining_Table as "Table"
+        Dining_Table.Table_Number as "Table"
         Guests
         Order_Time
         Items
