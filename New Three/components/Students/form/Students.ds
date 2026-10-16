@@ -43,6 +43,60 @@ form Students
         width = medium
     )
 
+    Address
+    (
+        type = address
+        displayname = "Address"
+        capture_coordinates = false
+        adjust_using_map = false
+        personal data = true
+        row = 1
+        column = 1
+        width = medium
+        address_line_1
+        (
+            type = address_line_1
+            displayname = "Street Address"
+        )
+        address_line_2
+        (
+            type = address_line_2
+            displayname = "Address Line 2"
+        )
+        district_city
+        (
+            type = district_city
+            displayname = "City"
+        )
+        state_province
+        (
+            type = state_province
+            displayname = "State / Province"
+        )
+        postal_Code
+        (
+            type = postal_Code
+            displayname = "Postal Code"
+        )
+        country
+        (
+            type = country
+            displayname = "Country"
+        )
+        latitude
+        (
+            type = latitude
+            displayname = "Latitude"
+            visibility = false
+        )
+        longitude
+        (
+            type = longitude
+            displayname = "Longitude"
+            visibility = false
+        )
+    )
+
     actions
     {
         on add
