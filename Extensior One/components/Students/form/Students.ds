@@ -36,6 +36,14 @@ form Students
         column = 1
         width = medium
     )
+    Email_ID
+    (
+        type = email
+        displayname = "Email ID"
+        row = 1
+        column = 1
+        width = medium
+    )
 
     actions
     {
