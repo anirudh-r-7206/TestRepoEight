@@ -1,0 +1,19 @@
+DailY_Reporter as "DailY Reporter"
+{
+
+				type =  schedule
+				start = "2026-10-21 22:02:39"
+				frequency = daily
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						info "Hello";
+					)
+					}
+				}
+			
+}
