@@ -1,0 +1,13 @@
+default list All_Students
+{
+
+			displayName = "All Students"
+			show all rows from Students    
+			(
+				Name
+				EmailId
+				Price as "Fees"
+				Age
+			)
+		
+}

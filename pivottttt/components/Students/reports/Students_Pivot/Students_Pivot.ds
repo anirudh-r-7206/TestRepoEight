@@ -1,0 +1,14 @@
+pivotchart Students_Pivot
+{
+
+			displayname = "Students Pivot"
+			based on Autoview_1792510028618_Students
+				show all rows from Students
+				(
+			Name 
+			EmailId 
+			Price  as "Fees"
+			Age 
+				)
+		
+}

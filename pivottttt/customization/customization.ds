@@ -1,0 +1,11 @@
+customize
+{
+
+		icon
+		{
+			text = "PIV"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	
+}
