@@ -12,6 +12,7 @@ report All_Students
                 (
                     Student_Name
                     Age
+                    Gender
                 )
             )
         )
@@ -57,6 +58,7 @@ report All_Students
                 (
                     Student_Name
                     Age
+                    Gender
                 )
             )
         )
