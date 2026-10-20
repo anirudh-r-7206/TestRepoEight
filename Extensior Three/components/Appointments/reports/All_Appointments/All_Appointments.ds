@@ -1,0 +1,40 @@
+default list All_Appointments
+{
+    displayName = "All Appointments"
+    show all rows from Appointments
+    (
+        Customer_Name
+        Customer_Email
+        Customer_Phone
+        Start_Time
+        End_Time
+        Sync_Status
+        Booking_ID
+        Summary_URL
+    )
+    filters
+    (
+        Customer_Name
+        Start_Time
+        Sync_Status
+    )
+    sort by
+    (
+        Start_Time descending
+    )
+    conditional formatting
+    (
+        "Failed Sync"
+        {
+            condition = (Sync_Status == "Failed")
+            fields = [Customer_Name, Start_Time, Sync_Status, Booking_ID]
+            format = "background-color:#FFE0E0;color:#A40000;font-weight:bold"
+        }
+        "Needs Review"
+        {
+            condition = (Sync_Status == "Needs Review")
+            fields = [Customer_Name, Start_Time, Sync_Status, Booking_ID]
+            format = "background-color:#FFF4CC;color:#7A5200;font-weight:bold"
+        }
+    )
+}

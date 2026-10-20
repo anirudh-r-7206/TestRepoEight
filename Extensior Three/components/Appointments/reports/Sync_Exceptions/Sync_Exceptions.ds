@@ -1,0 +1,22 @@
+list Sync_Exceptions
+{
+    displayName = "Sync Exceptions"
+    show all rows from Appointments [Sync_Status == "Failed" || Sync_Status == "Needs Review"]
+    (
+        Customer_Name
+        Customer_Email
+        Start_Time
+        Sync_Status
+        Booking_ID
+        Last_Sync_Message
+    )
+    filters
+    (
+        Sync_Status
+        Start_Time
+    )
+    sort by
+    (
+        Start_Time descending
+    )
+}

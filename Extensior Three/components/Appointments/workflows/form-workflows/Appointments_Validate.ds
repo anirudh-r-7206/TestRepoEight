@@ -1,0 +1,21 @@
+Appointments_Validate as "Appointments Validate"
+{
+    type = form
+    form = Appointments
+    record event = on add or edit
+
+    on validate
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.End_Time <= input.Start_Time)
+                {
+                    alert "End Time must be later than Start Time.";
+                    cancel submit;
+                }
+            )
+        }
+    }
+}

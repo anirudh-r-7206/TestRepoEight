@@ -1,0 +1,9 @@
+customize
+{
+    icon
+    {
+        icon = "zc-ab-ui-1-calendar-check-59"
+        background color = "#2967F5"
+        foreground color = "#ffffff"
+    }
+}

@@ -1,0 +1,56 @@
+report Sync_Exceptions
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Customer_Name
+                    Start_Time
+                    Sync_Status
+                    Booking_ID
+                    Last_Sync_Message
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Customer_Name
+                    Customer_Email
+                    Start_Time
+                    Sync_Status
+                    Booking_ID
+                    Last_Sync_Message
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

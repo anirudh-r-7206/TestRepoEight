@@ -1,0 +1,19 @@
+<page linkname = "Sync_Dashboard" displayname = "Sync Dashboard"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <dsp id='Sync_Dashboard_Main' elementName='Sync_Dashboard_Main'>
+          <![CDATA[htmlpage Sync_Dashboard_Main()
+content
+<%{%>
+  <file name:Sync_Dashboard_Main.dshtml/>
+<%}%>
+          ]]>
+        </dsp>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

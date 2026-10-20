@@ -1,0 +1,101 @@
+form Booking_Settings
+{
+    title
+    {
+        displayname = "Booking Settings"
+        on add = "Add Booking Settings"
+        on edit = "Edit Booking Settings"
+    }
+    success message = "Booking settings saved successfully."
+
+    Configuration_Details
+    (
+        type = section
+        displayname = "Configuration Details"
+        row = 1
+        column = 0
+    )
+    must have Setting_Name
+    (
+        type = text
+        displayname = "Setting Name"
+        initial value = "Default Booking Configuration"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Service_ID
+    (
+        type = number
+        displayname = "Service ID"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Assignee_ID
+    (
+        type = number
+        displayname = "Assignee ID"
+        row = 1
+        column = 1
+        width = medium
+    )
+    must have Assignee_Type
+    (
+        type = picklist
+        displayname = "Assignee Type"
+        values = {"Staff", "Resource"}
+        initial value = "Staff"
+        row = 1
+        column = 2
+        width = medium
+    )
+    must have Time_Zone
+    (
+        type = text
+        displayname = "Time Zone"
+        initial value = "Asia/Calcutta"
+        row = 1
+        column = 1
+        width = medium
+    )
+
+    actions
+    {
+        on add
+        {
+            Submit
+            (
+                type = submit
+                displayname = "Submit"
+            )
+            Reset
+            (
+                type = reset
+                displayname = "Reset"
+            )
+        }
+        on edit
+        {
+            Update
+            (
+                type = submit
+                displayname = "Update"
+            )
+            Cancel
+            (
+                type = cancel
+                displayname = "Cancel"
+            )
+        }
+    }
+
+    properties
+    {
+        total entries
+        {
+            allowed count = 1
+            exceed message = "Only one booking settings record is allowed. Edit the existing configuration instead."
+        }
+    }
+}

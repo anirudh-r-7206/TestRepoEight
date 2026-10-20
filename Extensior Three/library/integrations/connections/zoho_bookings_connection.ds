@@ -1,0 +1,6 @@
+zoho_bookings_connection
+(
+    displayname = "Zoho Bookings Connection"
+    connector = zoho_bookings
+    permissions = {"create_appointment"}
+)

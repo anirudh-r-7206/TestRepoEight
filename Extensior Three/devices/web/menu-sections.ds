@@ -1,0 +1,73 @@
+menu
+{
+    space Administration
+    {
+        displayname = "Administration"
+        icon = "business-briefcase-25"
+
+        section Overview
+        {
+            displayname = "Overview"
+            icon = "business-chart"
+
+            page Sync_Dashboard
+            {
+                icon = "business-chart-bar-33"
+            }
+        }
+
+        section Appointments_Section
+        {
+            displayname = "Appointments"
+            icon = "location-appointment"
+
+            form Appointments
+            {
+                icon = "business-agenda"
+            }
+            report All_Appointments
+            {
+                icon = "design-bullet-list-68"
+            }
+            report Appointment_Calendar
+            {
+                icon = "tech-watch-time"
+            }
+            report Sync_Exceptions
+            {
+                icon = "tech-sync"
+            }
+        }
+
+        section Configuration
+        {
+            displayname = "Configuration"
+            icon = "design-app"
+
+            form Booking_Settings
+            {
+                icon = "design-todo"
+            }
+            report Booking_Settings_Report
+            {
+                icon = "business-notes"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

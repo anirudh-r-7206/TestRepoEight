@@ -1,0 +1,202 @@
+<%
+allAppointments = Appointments[ID != 0];
+totalCount = allAppointments.count();
+upcomingAppointments = Appointments[Start_Time >= zoho.currenttime] sort by Start_Time asc;
+upcomingCount = upcomingAppointments.count();
+syncedCount = Appointments[Sync_Status == "Synced"].count();
+failedCount = Appointments[Sync_Status == "Failed"].count();
+reviewCount = Appointments[Sync_Status == "Needs Review"].count();
+pendingCount = Appointments[Sync_Status == "Pending"].count();
+attentionRecords = Appointments[Sync_Status == "Failed" || Sync_Status == "Needs Review"] sort by Added_Time desc;
+if(totalCount > 0)
+{
+    syncedPct = (syncedCount * 100.0 / totalCount).round(0);
+    failedPct = (failedCount * 100.0 / totalCount).round(0);
+    reviewPct = (reviewCount * 100.0 / totalCount).round(0);
+    pendingPct = (pendingCount * 100.0 / totalCount).round(0);
+}
+else
+{
+    syncedPct = 0;
+    failedPct = 0;
+    reviewPct = 0;
+    pendingPct = 0;
+}
+contextDate = zoho.currentdate.toString("EEEE, dd MMMM yyyy");
+%>
+<style>
+/* ===== zcs-global.css (shared once for this page) ===== */
+:root {
+  --zcs-theme-brand-color: var(--zcs_brand_color);
+  --zcs-light-bg-color: var(--zcs_brand_light_color);
+  --zcs-primary-text-color: var(--zcs_primary_text_color);
+  --zcs-secondary-text-color: var(--zcs_secondary_text_color);
+  --zcs-teritiary-text-color: var(--zcs_tertiary_text_color);
+  --zcs-border-color: var(--zcs_tertiary_border_color);
+  --zcs-white-color: #fff;
+  --zcs-surface: var(--zcs-white-color);
+  --zcs-bg: var(--zcs-page-bg-color, #f5f7fb);
+  --zcs-text-1: var(--zcs-primary-text-color);
+  --zcs-text-2: var(--zcs-secondary-text-color);
+  --zcs-text-3: var(--zcs-teritiary-text-color);
+  --zcs-radius: 12px;
+  --zcs-shadow: 0 1px 3px rgba(22, 34, 51, .08), 0 8px 24px rgba(22, 34, 51, .04);
+  --zcs-green: #179e6c; --zcs-green-bg: #e7f7f1;
+  --zcs-red: #d93b50; --zcs-red-bg: #fdecef;
+  --zcs-orange: #a96708; --zcs-orange-bg: #fff4dc;
+  --zcs-blue: #1769aa; --zcs-blue-bg: #eaf3fb;
+}
+* { box-sizing: border-box; }
+.zcs-w-full { width: 100%; }
+.zcs-relative { position: relative; }
+.zcs-sticky { position: sticky; }
+.zcs-flex { display: flex; }
+.zcs-direction-column { flex-direction: column; }
+.zcs-align-items-center { align-items: center; }
+.zcs-justify-space-between { justify-content: space-between; }
+.zcs-gap-6 { gap: .375rem; }
+.zcs-gap-8 { gap: .5rem; }
+.zcs-p-2 { padding: .125rem; }
+.zcs-px-16 { padding-left: 1rem; padding-right: 1rem; }
+.zcs-py-8 { padding-top: .5rem; padding-bottom: .5rem; }
+.zcs-m-0 { margin: 0; }
+.zcs-font-12 { font-size: .75rem; }
+.zcs-font-14 { font-size: .875rem; }
+.zcs-font-normal { font-weight: 400; }
+.zcs-font-medium { font-weight: 500; }
+.zcs-lh-body { line-height: 1.5; }
+.zcs-color-primary { color: var(--zcs-primary-text-color); }
+.zcs-color-secondary { color: var(--zcs-secondary-text-color); }
+.zcs-text-left { text-align: left; }
+.zcs-box-border { box-sizing: border-box; }
+.zcs-rounded-sm { border-radius: .25rem; }
+.zcs-page {
+  font-family: var(--zcs-font, inherit);
+  background: var(--zcs-bg);
+  min-height: 100vh;
+  padding: 24px;
+}
+.zcs-page-header { margin-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px; }
+.zcs-page-header__title { font-size:22px; font-weight:600; color:var(--zcs-text-1); margin:0 0 4px; }
+.zcs-page-header__sub { font-size:14px; color:var(--zcs-text-2); margin:0; }
+.dashboard-context { display:inline-flex; align-items:center; gap:8px; color:var(--zcs-text-2); font-size:13px; white-space:nowrap; }
+.zcs-kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px; margin-bottom:24px; }
+.zcs-kpi-card { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; border:1px solid var(--zcs-border-color); }
+.zcs-kpi-card__top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.zcs-kpi-card__icon { width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:var(--zcs-blue-bg); color:var(--zcs-blue); font-size:18px; }
+.zcs-kpi-card__label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--zcs-text-2); }
+.zcs-kpi-card__value { font-size:32px; font-weight:700; margin:6px 0 4px; line-height:1; color:var(--zcs-text-1); }
+.zcs-kpi-card__sub { font-size:12px; color:var(--zcs-text-3); }
+.zcs-color-green { color:#179e6c; } .zcs-color-red { color:#d93b50; } .zcs-color-yellow { color:#a96708; } .zcs-color-blue { color:#1769aa; }
+.dashboard-grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr); gap:16px; align-items:start; }
+.zcs-section { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; margin-bottom:16px; border:1px solid var(--zcs-border-color); }
+.zcs-section__head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.zcs-section__heading { font-size:15px; font-weight:600; color:var(--zcs-text-1); margin:0; }
+.section-meta { color:var(--zcs-text-3); font-size:12px; }
+.distribution-list { display:grid; gap:16px; }
+.zcs-progress-bar { height:8px; background-color:var(--zcs_component_hover_color, #edf0f5); overflow:hidden; }
+.zcs-progress-bar-indicator { height:inherit; border-radius:inherit; background-color:var(--zcs_brand_color); }
+.progress-success { background:#179e6c; } .progress-danger { background:#d93b50; } .progress-warning { background:#d69220; } .progress-neutral { background:#7890a5; }
+.zcs-table-wrapper { border:1px solid var(--zcs_tertiary_border_color); background-color:var(--zcs-white-color); overflow:auto; }
+.zcs-table-wrapper table { line-height:normal; border-collapse:collapse; min-width:560px; }
+.zcs-table-wrapper table thead { top:0; }
+.zcs-table-wrapper table thead th { background:#f9fafe; box-shadow:0 -1px 0 var(--zcs_tertiary_border_color) inset; white-space:nowrap; }
+.zcs-table-wrapper table tbody td { border-top:1px solid var(--zcs_tertiary_border_color); }
+.zcs-table-wrapper table tbody tr:first-child td { border-color:transparent; }
+.zcs-table-wrapper table tbody tr:hover td { background:#f9fafe; }
+.zcs-badge { display:inline-block; font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; line-height:1.4; white-space:nowrap; }
+.zcs-badge--success { background:var(--zcs-green-bg); color:var(--zcs-green); }
+.zcs-badge--danger { background:var(--zcs-red-bg); color:var(--zcs-red); }
+.zcs-badge--warning { background:var(--zcs-orange-bg); color:var(--zcs-orange); }
+.zcs-badge--info { background:var(--zcs-blue-bg); color:var(--zcs-blue); }
+.zcs-badge--neutral { background:#f3f4f6; color:var(--zcs-text-2); }
+.attention-list { display:grid; gap:10px; }
+.attention-row { display:grid; grid-template-columns:34px minmax(0,1fr); gap:11px; padding:12px; border:1px solid var(--zcs-border-color); border-radius:10px; }
+.attention-icon { width:34px; height:34px; display:flex; align-items:center; justify-content:center; border-radius:9px; background:var(--zcs-red-bg); color:var(--zcs-red); }
+.attention-icon.review { background:var(--zcs-orange-bg); color:var(--zcs-orange); }
+.attention-title { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--zcs-text-1); font-size:13px; font-weight:600; }
+.attention-time { font-size:11px; color:var(--zcs-text-3); font-weight:400; white-space:nowrap; }
+.attention-message { color:var(--zcs-text-2); font-size:12px; line-height:1.45; margin-top:4px; overflow-wrap:anywhere; }
+.zcs-empty-state { text-align:center; padding:40px 24px; }
+.zcs-empty-state i { display:block; font-size:28px; color:var(--zcs-text-3); margin-bottom:10px; }
+.zcs-empty-state__title { font-size:16px; font-weight:600; color:var(--zcs-text-2); margin:0 0 6px; }
+.zcs-empty-state__body { font-size:14px; color:var(--zcs-text-3); }
+@media (max-width: 900px) { .dashboard-grid { grid-template-columns:1fr; } }
+@media (max-width: 600px) {
+  .zcs-page { padding:14px; }
+  .zcs-page-header { align-items:flex-start; flex-direction:column; margin-bottom:18px; }
+  .zcs-kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .zcs-kpi-card { padding:16px; }
+  .zcs-kpi-card__value { font-size:26px; }
+  .zcs-section { padding:16px; }
+}
+@media (max-width: 390px) { .zcs-kpi-grid { grid-template-columns:1fr; } }
+</style>
+<div class="zcs-page">
+  <div class="zcs-page-header">
+    <div>
+      <h1 class="zcs-page-header__title">Sync Dashboard</h1>
+      <p class="zcs-page-header__sub">Appointment volume and Zoho Bookings synchronization health</p>
+    </div>
+    <div class="dashboard-context"><i class="zc-li-outline ui-2-time"></i><span><%=contextDate%></span></div>
+  </div>
+
+  <div class="zcs-kpi-grid">
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Total appointments</div><span class="zcs-kpi-card__icon"><i class="zc-li-outline ui-1-check-circle-08"></i></span></div><div class="zcs-kpi-card__value zcs-color-blue"><%=totalCount%></div><div class="zcs-kpi-card__sub">All recorded appointments</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Upcoming</div><span class="zcs-kpi-card__icon"><i class="zc-li-outline ui-2-time"></i></span></div><div class="zcs-kpi-card__value zcs-color-blue"><%=upcomingCount%></div><div class="zcs-kpi-card__sub">Starting from now onward</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Synced</div><span class="zcs-kpi-card__icon"><i class="zc-li-outline ui-1-check-circle-08"></i></span></div><div class="zcs-kpi-card__value zcs-color-green"><%=syncedCount%></div><div class="zcs-kpi-card__sub">Created in Zoho Bookings</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Failed syncs</div><span class="zcs-kpi-card__icon"><i class="zc-li-solid ui-2-time"></i></span></div><div class="zcs-kpi-card__value zcs-color-red"><%=failedCount%></div><div class="zcs-kpi-card__sub">Require corrective action</div></div>
+    <div class="zcs-kpi-card"><div class="zcs-kpi-card__top"><div class="zcs-kpi-card__label">Needs review</div><span class="zcs-kpi-card__icon"><i class="zc-li-outline ui-2-time"></i></span></div><div class="zcs-kpi-card__value zcs-color-yellow"><%=reviewCount%></div><div class="zcs-kpi-card__sub">Changed after remote booking</div></div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div>
+      <div class="zcs-section">
+        <div class="zcs-section__head"><h2 class="zcs-section__heading">Upcoming appointments</h2><span class="section-meta">Next 8 records</span></div>
+        <% if(upcomingCount == 0) { %>
+        <div class="zcs-empty-state"><i class="zc-li-outline ui-2-time"></i><div class="zcs-empty-state__title">No upcoming appointments</div><div class="zcs-empty-state__body">New future bookings will appear here.</div></div>
+        <% } else { %>
+        <div class="zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative">
+          <table class="zcs-w-full">
+            <thead class="zcs-sticky"><tr><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Customer</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Start time</th><th class="zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary">Sync status</th></tr></thead>
+            <tbody>
+            <% upcomingIndex = 0; for each appointment in upcomingAppointments { if(upcomingIndex < 8) { statusClass = "zcs-badge--neutral"; if(appointment.Sync_Status == "Synced") { statusClass = "zcs-badge--success"; } else if(appointment.Sync_Status == "Failed") { statusClass = "zcs-badge--danger"; } else if(appointment.Sync_Status == "Needs Review") { statusClass = "zcs-badge--warning"; } else if(appointment.Sync_Status == "Pending") { statusClass = "zcs-badge--info"; } %>
+              <tr><td class="zcs-px-16 zcs-py-8 zcs-font-14 zcs-font-normal zcs-color-primary"><%=appointment.Customer_Name%></td><td class="zcs-px-16 zcs-py-8 zcs-font-14 zcs-font-normal zcs-color-secondary"><%=appointment.Start_Time.toString("dd MMM yyyy, hh:mm a")%></td><td class="zcs-px-16 zcs-py-8"><span class="zcs-badge <%=statusClass%>"><%=appointment.Sync_Status%></span></td></tr>
+            <% upcomingIndex = upcomingIndex + 1; } } %>
+            </tbody>
+          </table>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div>
+      <div class="zcs-section">
+        <div class="zcs-section__head"><h2 class="zcs-section__heading">Status distribution</h2><span class="section-meta"><%=totalCount%> total</span></div>
+        <% if(totalCount == 0) { %>
+        <div class="zcs-empty-state"><i class="zc-li-outline ui-1-check-circle-08"></i><div class="zcs-empty-state__title">No sync data yet</div><div class="zcs-empty-state__body">Distribution is calculated when appointments are added.</div></div>
+        <% } else { %>
+        <div class="distribution-list">
+          <div class="zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6"><div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator progress-success" style="width:<%=syncedPct%>%;"></div></div><p class="zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0"><span class="zcs-color-primary">Synced (<%=syncedCount%>)</span><span class="zcs-color-primary"><%=syncedPct%>%</span></p></div>
+          <div class="zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6"><div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator progress-neutral" style="width:<%=pendingPct%>%;"></div></div><p class="zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0"><span class="zcs-color-primary">Pending (<%=pendingCount%>)</span><span class="zcs-color-primary"><%=pendingPct%>%</span></p></div>
+          <div class="zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6"><div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator progress-warning" style="width:<%=reviewPct%>%;"></div></div><p class="zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0"><span class="zcs-color-primary">Needs Review (<%=reviewCount%>)</span><span class="zcs-color-primary"><%=reviewPct%>%</span></p></div>
+          <div class="zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6"><div class="zcs-progress-bar zcs-rounded-sm"><div class="zcs-progress-bar-indicator progress-danger" style="width:<%=failedPct%>%;"></div></div><p class="zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0"><span class="zcs-color-primary">Failed (<%=failedCount%>)</span><span class="zcs-color-primary"><%=failedPct%>%</span></p></div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="zcs-section">
+        <div class="zcs-section__head"><h2 class="zcs-section__heading">Sync attention</h2><span class="section-meta"><%=failedCount + reviewCount%> open</span></div>
+        <% if(attentionRecords.count() == 0) { %>
+        <div class="zcs-empty-state"><i class="zc-li-outline ui-1-check-circle-08"></i><div class="zcs-empty-state__title">Synchronization is clear</div><div class="zcs-empty-state__body">There are no failed or needs-review records.</div></div>
+        <% } else { %>
+        <div class="attention-list">
+        <% attentionIndex = 0; for each issue in attentionRecords { if(attentionIndex < 6) { isReview = issue.Sync_Status == "Needs Review"; issueIconClass = "attention-icon"; issueBadgeClass = "zcs-badge--danger"; if(isReview) { issueIconClass = "attention-icon review"; issueBadgeClass = "zcs-badge--warning"; } issueMessage = ifnull(issue.Last_Sync_Message,"No synchronization message was recorded."); %>
+          <div class="attention-row"><div class="<%=issueIconClass%>"><i class="zc-li-outline ui-2-time"></i></div><div><div class="attention-title"><span><%=issue.Customer_Name%></span><span class="zcs-badge <%=issueBadgeClass%>"><%=issue.Sync_Status%></span></div><div class="attention-time"><%=issue.Start_Time.toString("dd MMM yyyy, hh:mm a")%></div><div class="attention-message"><%=issueMessage%></div></div></div>
+        <% attentionIndex = attentionIndex + 1; } } %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+Appointments_Flag_Edit as "Appointments Flag Edit"
+{
+    type = form
+    form = Appointments
+    record event = on edit
+
+    on success
+    {
+        actions
+        {
+            custom deluge script
+            (
+                if(input.Booking_ID != null && input.Booking_ID != "")
+                {
+                    input.Sync_Status = "Needs Review";
+                    input.Last_Sync_Message = "The Creator appointment record changed after booking and must be reconciled manually with Zoho Bookings.";
+                }
+            )
+        }
+    }
+}

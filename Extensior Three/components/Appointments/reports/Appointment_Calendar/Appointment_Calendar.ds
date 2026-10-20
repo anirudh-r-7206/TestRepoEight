@@ -1,0 +1,19 @@
+calendar Appointment_Calendar
+{
+    displayName = "Appointment Calendar"
+    show all rows from Appointments
+    (
+        Customer_Name
+        Start_Time
+        End_Time
+        Sync_Status
+    )
+    options
+    (
+        display type = month
+        week start day = monday
+        display field = Customer_Name
+        start date = Start_Time
+        end date = End_Time
+    )
+}

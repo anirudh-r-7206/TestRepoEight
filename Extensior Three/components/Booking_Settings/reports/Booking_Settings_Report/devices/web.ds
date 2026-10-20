@@ -1,0 +1,54 @@
+report Booking_Settings_Report
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Setting_Name
+                    Service_ID
+                    Assignee_Type
+                    Time_Zone
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Setting_Name
+                    Service_ID
+                    Assignee_ID
+                    Assignee_Type
+                    Time_Zone
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

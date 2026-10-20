@@ -1,0 +1,11 @@
+forms
+{
+    form Booking_Settings
+    {
+        label placement = left
+    }
+    form Appointments
+    {
+        label placement = top
+    }
+}

@@ -1,0 +1,58 @@
+report All_Appointments
+{
+    quickview
+    (
+        layout
+        (
+            type = -1
+            datablock1
+            (
+                layout type = -1
+                fields
+                (
+                    Customer_Name
+                    Start_Time
+                    End_Time
+                    Sync_Status
+                    Booking_ID
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+            record ( Edit  Duplicate  Delete )
+        )
+        action
+        (
+            on click ( View Record )
+            on right click ( Edit  Delete  Duplicate  View Record )
+        )
+    )
+    detailview
+    (
+        layout
+        (
+            type = 1
+            datablock1
+            (
+                layout type = -2
+                fields
+                (
+                    Customer_Name
+                    Customer_Email
+                    Customer_Phone
+                    Start_Time
+                    End_Time
+                    Sync_Status
+                    Booking_ID
+                    Summary_URL
+                )
+            )
+        )
+        menu
+        (
+            header ( Edit  Duplicate  Delete )
+        )
+    )
+}

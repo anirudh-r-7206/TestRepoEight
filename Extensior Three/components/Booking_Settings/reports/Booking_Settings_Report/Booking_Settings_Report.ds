@@ -1,0 +1,16 @@
+default list Booking_Settings_Report
+{
+    displayName = "Booking Settings Report"
+    show all rows from Booking_Settings
+    (
+        Setting_Name
+        Service_ID
+        Assignee_ID
+        Assignee_Type
+        Time_Zone
+    )
+    sort by
+    (
+        Setting_Name ascending
+    )
+}

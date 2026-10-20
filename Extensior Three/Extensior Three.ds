@@ -1,0 +1,855 @@
+application "Extensior-Three"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Appointments
+		{
+		    title
+		    {
+		        displayname = "Appointments"
+		        on add = "Add Appointment"
+		        on edit = "Edit Appointment"
+		    }
+		    success message = "Appointment saved successfully."
+		
+		    Appointment_Details
+		    (
+		        type = section
+		        displayname = "Appointment Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Customer_Name
+		    (
+		        type = text
+		        displayname = "Customer Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Customer_Email
+		    (
+		        type = email
+		        displayname = "Customer Email"
+		        personal data = true
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Customer_Phone
+		    (
+		        type = phonenumber
+		        displayname = "Customer Phone"
+		        personal data = true
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Start_Time
+		    (
+		        type = datetime
+		        displayname = "Start Time"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have End_Time
+		    (
+		        type = datetime
+		        displayname = "End Time"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    Notes
+		    (
+		        type = textarea
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		
+		    Sync_Details
+		    (
+		        type = section
+		        displayname = "Sync Details"
+		        visibility = true
+		        row = 2
+		        column = 1
+		    )
+		    Sync_Status
+		    (
+		        type = picklist
+		        displayname = "Sync Status"
+		        values = {"Pending", "Synced", "Needs Review", "Failed"}
+		        initial value = "Pending"
+		        private = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Booking_ID
+		    (
+		        type = text
+		        displayname = "Booking ID"
+		        private = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Summary_URL
+		    (
+		        type = url
+		        displayname = "Summary URL"
+		        private = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		    Last_Sync_Message
+		    (
+		        type = textarea
+		        displayname = "Last Sync Message"
+		        private = true
+		        row = 2
+		        column = 2
+		        width = medium
+		    )
+		    Synced_At
+		    (
+		        type = datetime
+		        displayname = "Synced At"
+		        private = true
+		        row = 2
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Booking_Settings
+		{
+		    title
+		    {
+		        displayname = "Booking Settings"
+		        on add = "Add Booking Settings"
+		        on edit = "Edit Booking Settings"
+		    }
+		    success message = "Booking settings saved successfully."
+		
+		    Configuration_Details
+		    (
+		        type = section
+		        displayname = "Configuration Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Setting_Name
+		    (
+		        type = text
+		        displayname = "Setting Name"
+		        initial value = "Default Booking Configuration"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Service_ID
+		    (
+		        type = number
+		        displayname = "Service ID"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Assignee_ID
+		    (
+		        type = number
+		        displayname = "Assignee ID"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Assignee_Type
+		    (
+		        type = picklist
+		        displayname = "Assignee Type"
+		        values = {"Staff", "Resource"}
+		        initial value = "Staff"
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Time_Zone
+		    (
+		        type = text
+		        displayname = "Time Zone"
+		        initial value = "Asia/Calcutta"
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		
+		    properties
+		    {
+		        total entries
+		        {
+		            allowed count = 1
+		            exceed message = "Only one booking settings record is allowed. Edit the existing configuration instead."
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Appointments
+		{
+		    displayName = "All Appointments"
+		    show all rows from Appointments
+		    (
+		        Customer_Name
+		        Customer_Email
+		        Customer_Phone
+		        Start_Time
+		        End_Time
+		        Sync_Status
+		        Booking_ID
+		        Summary_URL
+		    )
+		    filters
+		    (
+		        Customer_Name
+		        Start_Time
+		        Sync_Status
+		    )
+		    sort by
+		    (
+		        Start_Time descending
+		    )
+		    conditional formatting
+		    (
+		        "Failed Sync"
+		        {
+		            condition = (Sync_Status == "Failed")
+		            fields = [Customer_Name, Start_Time, Sync_Status, Booking_ID]
+		            format = "background-color:#FFE0E0;color:#A40000;font-weight:bold"
+		        }
+		        "Needs Review"
+		        {
+		            condition = (Sync_Status == "Needs Review")
+		            fields = [Customer_Name, Start_Time, Sync_Status, Booking_ID]
+		            format = "background-color:#FFF4CC;color:#7A5200;font-weight:bold"
+		        }
+		    )
+		}
+
+		calendar Appointment_Calendar
+		{
+		    displayName = "Appointment Calendar"
+		    show all rows from Appointments
+		    (
+		        Customer_Name
+		        Start_Time
+		        End_Time
+		        Sync_Status
+		    )
+		    options
+		    (
+		        display type = month
+		        week start day = monday
+		        display field = Customer_Name
+		        start date = Start_Time
+		        end date = End_Time
+		    )
+		}
+
+		list Sync_Exceptions
+		{
+		    displayName = "Sync Exceptions"
+		    show all rows from Appointments [Sync_Status == "Failed" || Sync_Status == "Needs Review"]
+		    (
+		        Customer_Name
+		        Customer_Email
+		        Start_Time
+		        Sync_Status
+		        Booking_ID
+		        Last_Sync_Message
+		    )
+		    filters
+		    (
+		        Sync_Status
+		        Start_Time
+		    )
+		    sort by
+		    (
+		        Start_Time descending
+		    )
+		}
+
+		default list Booking_Settings_Report
+		{
+		    displayName = "Booking Settings Report"
+		    show all rows from Booking_Settings
+		    (
+		        Setting_Name
+		        Service_ID
+		        Assignee_ID
+		        Assignee_Type
+		        Time_Zone
+		    )
+		    sort by
+		    (
+		        Setting_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Sync_Dashboard
+		{
+					displayname = "Sync Dashboard"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<dsp id='Sync_Dashboard_Main' elementName='Sync_Dashboard_Main'>\n\t\t\t\t\t<![CDATA[htmlpage Sync_Dashboard_Main()\ncontent\n&lt;%{%&gt;\n\t&lt;%\nallAppointments = Appointments[ID != 0];\ntotalCount = allAppointments.count();\nupcomingAppointments = Appointments[Start_Time &gt;= zoho.currenttime] sort by Start_Time asc;\nupcomingCount = upcomingAppointments.count();\nsyncedCount = Appointments[Sync_Status == &quot;Synced&quot;].count();\nfailedCount = Appointments[Sync_Status == &quot;Failed&quot;].count();\nreviewCount = Appointments[Sync_Status == &quot;Needs Review&quot;].count();\npendingCount = Appointments[Sync_Status == &quot;Pending&quot;].count();\nattentionRecords = Appointments[Sync_Status == &quot;Failed&quot; || Sync_Status == &quot;Needs Review&quot;] sort by Added_Time desc;\nif(totalCount &gt; 0)\n{\n\t\tsyncedPct = (syncedCount * 100.0 / totalCount).round(0);\n\t\tfailedPct = (failedCount * 100.0 / totalCount).round(0);\n\t\treviewPct = (reviewCount * 100.0 / totalCount).round(0);\n\t\tpendingPct = (pendingCount * 100.0 / totalCount).round(0);\n}\nelse\n{\n\t\tsyncedPct = 0;\n\t\tfailedPct = 0;\n\t\treviewPct = 0;\n\t\tpendingPct = 0;\n}\ncontextDate = zoho.currentdate.toString(&quot;EEEE, dd MMMM yyyy&quot;);\n%&gt;\n&lt;style&gt;\n/* ===== zcs-global.css (shared once for this page) ===== */\n:root {\n\t--zcs-theme-brand-color: var(--zcs_brand_color);\n\t--zcs-light-bg-color: var(--zcs_brand_light_color);\n\t--zcs-primary-text-color: var(--zcs_primary_text_color);\n\t--zcs-secondary-text-color: var(--zcs_secondary_text_color);\n\t--zcs-teritiary-text-color: var(--zcs_tertiary_text_color);\n\t--zcs-border-color: var(--zcs_tertiary_border_color);\n\t--zcs-white-color: #fff;\n\t--zcs-surface: var(--zcs-white-color);\n\t--zcs-bg: var(--zcs-page-bg-color, #f5f7fb);\n\t--zcs-text-1: var(--zcs-primary-text-color);\n\t--zcs-text-2: var(--zcs-secondary-text-color);\n\t--zcs-text-3: var(--zcs-teritiary-text-color);\n\t--zcs-radius: 12px;\n\t--zcs-shadow: 0 1px 3px rgba(22, 34, 51, .08), 0 8px 24px rgba(22, 34, 51, .04);\n\t--zcs-green: #179e6c; --zcs-green-bg: #e7f7f1;\n\t--zcs-red: #d93b50; --zcs-red-bg: #fdecef;\n\t--zcs-orange: #a96708; --zcs-orange-bg: #fff4dc;\n\t--zcs-blue: #1769aa; --zcs-blue-bg: #eaf3fb;\n}\n* { box-sizing: border-box; }\n.zcs-w-full { width: 100%; }\n.zcs-relative { position: relative; }\n.zcs-sticky { position: sticky; }\n.zcs-flex { display: flex; }\n.zcs-direction-column { flex-direction: column; }\n.zcs-align-items-center { align-items: center; }\n.zcs-justify-space-between { justify-content: space-between; }\n.zcs-gap-6 { gap: .375rem; }\n.zcs-gap-8 { gap: .5rem; }\n.zcs-p-2 { padding: .125rem; }\n.zcs-px-16 { padding-left: 1rem; padding-right: 1rem; }\n.zcs-py-8 { padding-top: .5rem; padding-bottom: .5rem; }\n.zcs-m-0 { margin: 0; }\n.zcs-font-12 { font-size: .75rem; }\n.zcs-font-14 { font-size: .875rem; }\n.zcs-font-normal { font-weight: 400; }\n.zcs-font-medium { font-weight: 500; }\n.zcs-lh-body { line-height: 1.5; }\n.zcs-color-primary { color: var(--zcs-primary-text-color); }\n.zcs-color-secondary { color: var(--zcs-secondary-text-color); }\n.zcs-text-left { text-align: left; }\n.zcs-box-border { box-sizing: border-box; }\n.zcs-rounded-sm { border-radius: .25rem; }\n.zcs-page {\n\tfont-family: var(--zcs-font, inherit);\n\tbackground: var(--zcs-bg);\n\tmin-height: 100vh;\n\tpadding: 24px;\n}\n.zcs-page-header { margin-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px; }\n.zcs-page-header__title { font-size:22px; font-weight:600; color:var(--zcs-text-1); margin:0 0 4px; }\n.zcs-page-header__sub { font-size:14px; color:var(--zcs-text-2); margin:0; }\n.dashboard-context { display:inline-flex; align-items:center; gap:8px; color:var(--zcs-text-2); font-size:13px; white-space:nowrap; }\n.zcs-kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px; margin-bottom:24px; }\n.zcs-kpi-card { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; border:1px solid var(--zcs-border-color); }\n.zcs-kpi-card__top { display:flex; align-items:center; justify-content:space-between; gap:12px; }\n.zcs-kpi-card__icon { width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:var(--zcs-blue-bg); color:var(--zcs-blue); font-size:18px; }\n.zcs-kpi-card__label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--zcs-text-2); }\n.zcs-kpi-card__value { font-size:32px; font-weight:700; margin:6px 0 4px; line-height:1; color:var(--zcs-text-1); }\n.zcs-kpi-card__sub { font-size:12px; color:var(--zcs-text-3); }\n.zcs-color-green { color:#179e6c; } .zcs-color-red { color:#d93b50; } .zcs-color-yellow { color:#a96708; } .zcs-color-blue { color:#1769aa; }\n.dashboard-grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr); gap:16px; align-items:start; }\n.zcs-section { background:var(--zcs-surface); border-radius:var(--zcs-radius); box-shadow:var(--zcs-shadow); padding:20px 24px; margin-bottom:16px; border:1px solid var(--zcs-border-color); }\n.zcs-section__head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }\n.zcs-section__heading { font-size:15px; font-weight:600; color:var(--zcs-text-1); margin:0; }\n.section-meta { color:var(--zcs-text-3); font-size:12px; }\n.distribution-list { display:grid; gap:16px; }\n.zcs-progress-bar { height:8px; background-color:var(--zcs_component_hover_color, #edf0f5); overflow:hidden; }\n.zcs-progress-bar-indicator { height:inherit; border-radius:inherit; background-color:var(--zcs_brand_color); }\n.progress-success { background:#179e6c; } .progress-danger { background:#d93b50; } .progress-warning { background:#d69220; } .progress-neutral { background:#7890a5; }\n.zcs-table-wrapper { border:1px solid var(--zcs_tertiary_border_color); background-color:var(--zcs-white-color); overflow:auto; }\n.zcs-table-wrapper table { line-height:normal; border-collapse:collapse; min-width:560px; }\n.zcs-table-wrapper table thead { top:0; }\n.zcs-table-wrapper table thead th { background:#f9fafe; box-shadow:0 -1px 0 var(--zcs_tertiary_border_color) inset; white-space:nowrap; }\n.zcs-table-wrapper table tbody td { border-top:1px solid var(--zcs_tertiary_border_color); }\n.zcs-table-wrapper table tbody tr:first-child td { border-color:transparent; }\n.zcs-table-wrapper table tbody tr:hover td { background:#f9fafe; }\n.zcs-badge { display:inline-block; font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; line-height:1.4; white-space:nowrap; }\n.zcs-badge--success { background:var(--zcs-green-bg); color:var(--zcs-green); }\n.zcs-badge--danger { background:var(--zcs-red-bg); color:var(--zcs-red); }\n.zcs-badge--warning { background:var(--zcs-orange-bg); color:var(--zcs-orange); }\n.zcs-badge--info { background:var(--zcs-blue-bg); color:var(--zcs-blue); }\n.zcs-badge--neutral { background:#f3f4f6; color:var(--zcs-text-2); }\n.attention-list { display:grid; gap:10px; }\n.attention-row { display:grid; grid-template-columns:34px minmax(0,1fr); gap:11px; padding:12px; border:1px solid var(--zcs-border-color); border-radius:10px; }\n.attention-icon { width:34px; height:34px; display:flex; align-items:center; justify-content:center; border-radius:9px; background:var(--zcs-red-bg); color:var(--zcs-red); }\n.attention-icon.review { background:var(--zcs-orange-bg); color:var(--zcs-orange); }\n.attention-title { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--zcs-text-1); font-size:13px; font-weight:600; }\n.attention-time { font-size:11px; color:var(--zcs-text-3); font-weight:400; white-space:nowrap; }\n.attention-message { color:var(--zcs-text-2); font-size:12px; line-height:1.45; margin-top:4px; overflow-wrap:anywhere; }\n.zcs-empty-state { text-align:center; padding:40px 24px; }\n.zcs-empty-state i { display:block; font-size:28px; color:var(--zcs-text-3); margin-bottom:10px; }\n.zcs-empty-state__title { font-size:16px; font-weight:600; color:var(--zcs-text-2); margin:0 0 6px; }\n.zcs-empty-state__body { font-size:14px; color:var(--zcs-text-3); }\n@media (max-width: 900px) { .dashboard-grid { grid-template-columns:1fr; } }\n@media (max-width: 600px) {\n\t.zcs-page { padding:14px; }\n\t.zcs-page-header { align-items:flex-start; flex-direction:column; margin-bottom:18px; }\n\t.zcs-kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }\n\t.zcs-kpi-card { padding:16px; }\n\t.zcs-kpi-card__value { font-size:26px; }\n\t.zcs-section { padding:16px; }\n}\n@media (max-width: 390px) { .zcs-kpi-grid { grid-template-columns:1fr; } }\n&lt;/style&gt;\n&lt;div class=&quot;zcs-page&quot;&gt;\n\t&lt;div class=&quot;zcs-page-header&quot;&gt;\n\t\t&lt;div&gt;\n\t\t\t&lt;h1 class=&quot;zcs-page-header__title&quot;&gt;Sync Dashboard&lt;/h1&gt;\n\t\t\t&lt;p class=&quot;zcs-page-header__sub&quot;&gt;Appointment volume and Zoho Bookings synchronization health&lt;/p&gt;\n\t\t&lt;/div&gt;\n\t\t&lt;div class=&quot;dashboard-context&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;span&gt;&lt;%=contextDate%&gt;&lt;/span&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;zcs-kpi-grid&quot;&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Total appointments&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value zcs-color-blue&quot;&gt;&lt;%=totalCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;All recorded appointments&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Upcoming&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value zcs-color-blue&quot;&gt;&lt;%=upcomingCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Starting from now onward&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Synced&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value zcs-color-green&quot;&gt;&lt;%=syncedCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Created in Zoho Bookings&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Failed syncs&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-solid ui-2-time&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value zcs-color-red&quot;&gt;&lt;%=failedCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Require corrective action&lt;/div&gt;&lt;/div&gt;\n\t\t&lt;div class=&quot;zcs-kpi-card&quot;&gt;&lt;div class=&quot;zcs-kpi-card__top&quot;&gt;&lt;div class=&quot;zcs-kpi-card__label&quot;&gt;Needs review&lt;/div&gt;&lt;span class=&quot;zcs-kpi-card__icon&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__value zcs-color-yellow&quot;&gt;&lt;%=reviewCount%&gt;&lt;/div&gt;&lt;div class=&quot;zcs-kpi-card__sub&quot;&gt;Changed after remote booking&lt;/div&gt;&lt;/div&gt;\n\t&lt;/div&gt;\n\n\t&lt;div class=&quot;dashboard-grid&quot;&gt;\n\t\t&lt;div&gt;\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Upcoming appointments&lt;/h2&gt;&lt;span class=&quot;section-meta&quot;&gt;Next 8 records&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;% if(upcomingCount == 0) { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No upcoming appointments&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;New future bookings will appear here.&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;% } else { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-table-wrapper zcs-rounded-sm zcs-box-border zcs-relative&quot;&gt;\n\t\t\t\t\t&lt;table class=&quot;zcs-w-full&quot;&gt;\n\t\t\t\t\t\t&lt;thead class=&quot;zcs-sticky&quot;&gt;&lt;tr&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Customer&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Start time&lt;/th&gt;&lt;th class=&quot;zcs-px-16 zcs-py-8 zcs-text-left zcs-font-14 zcs-font-medium zcs-color-primary&quot;&gt;Sync status&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;\n\t\t\t\t\t\t&lt;tbody&gt;\n\t\t\t\t\t\t&lt;% upcomingIndex = 0; for each appointment in upcomingAppointments { if(upcomingIndex &lt; 8) { statusClass = &quot;zcs-badge--neutral&quot;; if(appointment.Sync_Status == &quot;Synced&quot;) { statusClass = &quot;zcs-badge--success&quot;; } else if(appointment.Sync_Status == &quot;Failed&quot;) { statusClass = &quot;zcs-badge--danger&quot;; } else if(appointment.Sync_Status == &quot;Needs Review&quot;) { statusClass = &quot;zcs-badge--warning&quot;; } else if(appointment.Sync_Status == &quot;Pending&quot;) { statusClass = &quot;zcs-badge--info&quot;; } %&gt;\n\t\t\t\t\t\t\t&lt;tr&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14 zcs-font-normal zcs-color-primary&quot;&gt;&lt;%=appointment.Customer_Name%&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8 zcs-font-14 zcs-font-normal zcs-color-secondary&quot;&gt;&lt;%=appointment.Start_Time.toString(&quot;dd MMM yyyy, hh:mm a&quot;)%&gt;&lt;/td&gt;&lt;td class=&quot;zcs-px-16 zcs-py-8&quot;&gt;&lt;span class=&quot;zcs-badge &lt;%=statusClass%&gt;&quot;&gt;&lt;%=appointment.Sync_Status%&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;\n\t\t\t\t\t\t&lt;% upcomingIndex = upcomingIndex + 1; } } %&gt;\n\t\t\t\t\t\t&lt;/tbody&gt;\n\t\t\t\t\t&lt;/table&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\n\t\t&lt;div&gt;\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Status distribution&lt;/h2&gt;&lt;span class=&quot;section-meta&quot;&gt;&lt;%=totalCount%&gt; total&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;% if(totalCount == 0) { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;No sync data yet&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;Distribution is calculated when appointments are added.&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;% } else { %&gt;\n\t\t\t\t&lt;div class=&quot;distribution-list&quot;&gt;\n\t\t\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator progress-success&quot; style=&quot;width:&lt;%=syncedPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;Synced (&lt;%=syncedCount%&gt;)&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=syncedPct%&gt;%&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator progress-neutral&quot; style=&quot;width:&lt;%=pendingPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;Pending (&lt;%=pendingCount%&gt;)&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=pendingPct%&gt;%&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator progress-warning&quot; style=&quot;width:&lt;%=reviewPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;Needs Review (&lt;%=reviewCount%&gt;)&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=reviewPct%&gt;%&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;\n\t\t\t\t\t&lt;div class=&quot;zcs-progress-bar-wrapper zcs-flex zcs-direction-column zcs-gap-6&quot;&gt;&lt;div class=&quot;zcs-progress-bar zcs-rounded-sm&quot;&gt;&lt;div class=&quot;zcs-progress-bar-indicator progress-danger&quot; style=&quot;width:&lt;%=failedPct%&gt;%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;p class=&quot;zcs-flex zcs-align-items-center zcs-justify-space-between zcs-gap-8 zcs-font-12 zcs-font-medium zcs-m-0&quot;&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;Failed (&lt;%=failedCount%&gt;)&lt;/span&gt;&lt;span class=&quot;zcs-color-primary&quot;&gt;&lt;%=failedPct%&gt;%&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n\n\t\t\t&lt;div class=&quot;zcs-section&quot;&gt;\n\t\t\t\t&lt;div class=&quot;zcs-section__head&quot;&gt;&lt;h2 class=&quot;zcs-section__heading&quot;&gt;Sync attention&lt;/h2&gt;&lt;span class=&quot;section-meta&quot;&gt;&lt;%=failedCount + reviewCount%&gt; open&lt;/span&gt;&lt;/div&gt;\n\t\t\t\t&lt;% if(attentionRecords.count() == 0) { %&gt;\n\t\t\t\t&lt;div class=&quot;zcs-empty-state&quot;&gt;&lt;i class=&quot;zc-li-outline ui-1-check-circle-08&quot;&gt;&lt;/i&gt;&lt;div class=&quot;zcs-empty-state__title&quot;&gt;Synchronization is clear&lt;/div&gt;&lt;div class=&quot;zcs-empty-state__body&quot;&gt;There are no failed or needs-review records.&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;% } else { %&gt;\n\t\t\t\t&lt;div class=&quot;attention-list&quot;&gt;\n\t\t\t\t&lt;% attentionIndex = 0; for each issue in attentionRecords { if(attentionIndex &lt; 6) { isReview = issue.Sync_Status == &quot;Needs Review&quot;; issueIconClass = &quot;attention-icon&quot;; issueBadgeClass = &quot;zcs-badge--danger&quot;; if(isReview) { issueIconClass = &quot;attention-icon review&quot;; issueBadgeClass = &quot;zcs-badge--warning&quot;; } issueMessage = ifnull(issue.Last_Sync_Message,&quot;No synchronization message was recorded.&quot;); %&gt;\n\t\t\t\t\t&lt;div class=&quot;attention-row&quot;&gt;&lt;div class=&quot;&lt;%=issueIconClass%&gt;&quot;&gt;&lt;i class=&quot;zc-li-outline ui-2-time&quot;&gt;&lt;/i&gt;&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;attention-title&quot;&gt;&lt;span&gt;&lt;%=issue.Customer_Name%&gt;&lt;/span&gt;&lt;span class=&quot;zcs-badge &lt;%=issueBadgeClass%&gt;&quot;&gt;&lt;%=issue.Sync_Status%&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;attention-time&quot;&gt;&lt;%=issue.Start_Time.toString(&quot;dd MMM yyyy, hh:mm a&quot;)%&gt;&lt;/div&gt;&lt;div class=&quot;attention-message&quot;&gt;&lt;%=issueMessage%&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n\t\t\t\t&lt;% attentionIndex = attentionIndex + 1; } } %&gt;\n\t\t\t\t&lt;/div&gt;\n\t\t\t\t&lt;% } %&gt;\n\t\t\t&lt;/div&gt;\n\t\t&lt;/div&gt;\n\t&lt;/div&gt;\n&lt;/div&gt;\n&lt;%}%&gt;\n\t\t\t\t\t]]>\n\t\t\t\t</dsp>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	workflow
+	{
+		form
+		{
+			Appointments_Create_Booking as "Appointments Create Booking"
+			{
+			    type = form
+			    form = Appointments
+			    record event = on add
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                settings_count = Booking_Settings[ID != 0].count();
+			                if(settings_count == 0)
+			                {
+			                    input.Sync_Status = "Failed";
+			                    input.Last_Sync_Message = "Booking configuration is missing. Create the Booking Settings record before adding appointments.";
+			                }
+			                else
+			                {
+			                    settings = Booking_Settings[ID != 0] range from 0 to 0;
+			                    customer_details = Map();
+			                    customer_details.put("name",input.Customer_Name);
+			                    customer_details.put("email",input.Customer_Email);
+			                    customer_details.put("phone_number",input.Customer_Phone);
+			                    appointment_start = input.Start_Time.toString("dd-MMM-yyyy HH:mm:ss");
+			                    try
+			                    {
+			                        booking_response = zoho.bookings.createAppointment(settings.Service_ID,appointment_start,customer_details,settings.Assignee_ID,settings.Time_Zone,settings.Assignee_Type == "Staff","zoho_bookings_connection");
+			                        if(booking_response.containKey("response"))
+			                        {
+			                            response_data = booking_response.get("response");
+			                            if(response_data.containKey("status") && response_data.get("status") == "success" && response_data.containKey("returnvalue"))
+			                            {
+			                                return_value = response_data.get("returnvalue");
+			                                if(return_value.containKey("booking_id"))
+			                                {
+			                                    input.Booking_ID = return_value.get("booking_id");
+			                                }
+			                                if(return_value.containKey("summary_url"))
+			                                {
+			                                    input.Summary_URL = return_value.get("summary_url");
+			                                }
+			                                input.Sync_Status = "Synced";
+			                                input.Synced_At = zoho.currenttime;
+			                                input.Last_Sync_Message = "Zoho Bookings appointment created successfully.";
+			                            }
+			                            else
+			                            {
+			                                input.Sync_Status = "Failed";
+			                                input.Last_Sync_Message = "Zoho Bookings rejected the appointment: " + response_data.toString();
+			                            }
+			                        }
+			                        else
+			                        {
+			                            input.Sync_Status = "Failed";
+			                            input.Last_Sync_Message = "Zoho Bookings returned an unexpected response: " + booking_response.toString();
+			                        }
+			                    }
+			                    catch(e)
+			                    {
+			                        input.Sync_Status = "Failed";
+			                        input.Last_Sync_Message = "Zoho Bookings appointment creation failed: " + e.message;
+			                    }
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Appointments_Flag_Edit as "Appointments Flag Edit"
+			{
+			    type = form
+			    form = Appointments
+			    record event = on edit
+			
+			    on success
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.Booking_ID != null && input.Booking_ID != "")
+			                {
+			                    input.Sync_Status = "Needs Review";
+			                    input.Last_Sync_Message = "The Creator appointment record changed after booking and must be reconciled manually with Zoho Bookings.";
+			                }
+			            )
+			        }
+			    }
+			}
+
+			Appointments_Validate as "Appointments Validate"
+			{
+			    type = form
+			    form = Appointments
+			    record event = on add or edit
+			
+			    on validate
+			    {
+			        actions
+			        {
+			            custom deluge script
+			            (
+			                if(input.End_Time <= input.Start_Time)
+			                {
+			                    alert "End Time must be later than Start Time.";
+			                    cancel submit;
+			                }
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-ui-1-calendar-check-59"
+	        background color = "#2967F5"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Booking_Settings
+	    {
+	        label placement = left
+	    }
+	    form Appointments
+	    {
+	        label placement = top
+	    }
+	}
+	reports
+	{
+		report All_Appointments
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Customer_Name
+		                    Start_Time
+		                    End_Time
+		                    Sync_Status
+		                    Booking_ID
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Customer_Name
+		                    Customer_Email
+		                    Customer_Phone
+		                    Start_Time
+		                    End_Time
+		                    Sync_Status
+		                    Booking_ID
+		                    Summary_URL
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Appointment_Calendar
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Customer_Name
+		                    Start_Time
+		                    End_Time
+		                    Sync_Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Customer_Name
+		                    Start_Time
+		                    End_Time
+		                    Sync_Status
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Sync_Exceptions
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Customer_Name
+		                    Start_Time
+		                    Sync_Status
+		                    Booking_ID
+		                    Last_Sync_Message
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Customer_Name
+		                    Customer_Email
+		                    Start_Time
+		                    Sync_Status
+		                    Booking_ID
+		                    Last_Sync_Message
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	
+		report Booking_Settings_Report
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Setting_Name
+		                    Service_ID
+		                    Assignee_Type
+		                    Time_Zone
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		            record ( Edit  Duplicate  Delete )
+		        )
+		        action
+		        (
+		            on click ( View Record )
+		            on right click ( Edit  Delete  Duplicate  View Record )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Setting_Name
+		                    Service_ID
+		                    Assignee_ID
+		                    Assignee_Type
+		                    Time_Zone
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header ( Edit  Duplicate  Delete )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Administration
+	    {
+	        displayname = "Administration"
+	        icon = "business-briefcase-25"
+	
+	        section Overview
+	        {
+	            displayname = "Overview"
+	            icon = "business-chart"
+	
+	            page Sync_Dashboard
+	            {
+	                icon = "business-chart-bar-33"
+	            }
+	        }
+	
+	        section Appointments_Section
+	        {
+	            displayname = "Appointments"
+	            icon = "location-appointment"
+	
+	            form Appointments
+	            {
+	                icon = "business-agenda"
+	            }
+	            report All_Appointments
+	            {
+	                icon = "design-bullet-list-68"
+	            }
+	            report Appointment_Calendar
+	            {
+	                icon = "tech-watch-time"
+	            }
+	            report Sync_Exceptions
+	            {
+	                icon = "tech-sync"
+	            }
+	        }
+	
+	        section Configuration
+	        {
+	            displayname = "Configuration"
+	            icon = "design-app"
+	
+	            form Booking_Settings
+	            {
+	                icon = "design-todo"
+	            }
+	            report Booking_Settings_Report
+	            {
+	                icon = "business-notes"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "2"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+
+	connections
+	{
+		zoho_bookings_connection
+		(
+		    displayname = "Zoho Bookings Connection"
+		    connector = zoho_bookings
+		    permissions = {"create_appointment"}
+		)
+	}
+}
