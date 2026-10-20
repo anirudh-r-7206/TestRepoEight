@@ -1,0 +1,4 @@
+void Dummy_Info()
+{
+    info "dummy";
+}
