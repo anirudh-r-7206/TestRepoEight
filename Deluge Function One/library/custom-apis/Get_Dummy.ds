@@ -7,6 +7,6 @@ api Get_Dummy
     scope = "All users"
     actions
     (
-        Deluge_Function_One.Dummy_API_Response();
+        Dummy_API_Response();
     )
 }
