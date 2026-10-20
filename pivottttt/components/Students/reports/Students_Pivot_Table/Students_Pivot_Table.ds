@@ -1,0 +1,14 @@
+pivottable Students_Pivot_Table
+{
+
+			displayname = "Students Pivot Table"
+			based on Autoview_1792510028618_Students
+				show all rows from Students
+				(
+			Name 
+			EmailId 
+			Price  as "Fees"
+			Age 
+				)
+		
+}

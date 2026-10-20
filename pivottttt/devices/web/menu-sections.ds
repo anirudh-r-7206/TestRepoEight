@@ -23,6 +23,11 @@ menu
 					{
 						icon = "education-pencil-47"
 					}
+ 
+					report Students_Pivot_Table
+					{
+						icon = "education-pencil-47"
+					}
 				}
 				section ZC_App_Preferences
 				{
