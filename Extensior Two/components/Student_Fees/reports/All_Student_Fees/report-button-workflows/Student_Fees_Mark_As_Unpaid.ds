@@ -1,0 +1,17 @@
+Student_Fees_Mark_As_Unpaid as "Mark as Unpaid"
+{
+    type = functions
+    form = Student_Fees
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                input.Status = "Not Paid";
+            )
+        }
+    }
+}

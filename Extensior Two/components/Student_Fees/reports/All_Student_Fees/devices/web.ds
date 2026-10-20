@@ -44,6 +44,8 @@ report All_Student_Fees
                 Delete
                 Duplicate
                 View Record
+                "Mark as Paid"
+                "Mark as Unpaid"
             )
         )
     )

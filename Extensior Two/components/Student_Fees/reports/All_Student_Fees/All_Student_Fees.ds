@@ -29,19 +29,18 @@ default list All_Student_Fees
     (
         Student_Name ascending
     )
-    conditional formatting
+    custom actions
     (
-        "Paid Fees"
-        {
+        "Mark as Unpaid"
+        (
+            workflow = Student_Fees_Mark_As_Unpaid
             condition = (Status == "Paid")
-            fields = [Student_Name, Age, Status]
-            format = "background-color:#E6F4EA;color:#137333;font-weight:bold"
-        }
-        "Unpaid Fees"
-        {
-            condition = (Status == "Not Paid")
-            fields = [Student_Name, Age, Status]
-            format = "background-color:#FCE8E6;color:#C5221F;font-weight:bold"
-        }
+            confirmation before execution
+            (
+                message for individual record = "Mark this student's fee status as unpaid?"
+                confirm button text = "Mark Unpaid"
+                cancel button text = "Cancel"
+            )
+        )
     )
 }
