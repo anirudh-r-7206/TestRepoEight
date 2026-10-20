@@ -22,5 +22,6 @@ Student Registry is a small Zoho Creator app for storing student names and ages.
 - Student Name and Age are mandatory declarative fields.
 - Records are sorted alphabetically by student name.
 - `Dummy_Info` is a standalone, parameterless function and logs `dummy` with an `info` statement.
+- `Get_Dummy` is an OAuth2-protected GET custom API that returns `dummy` through `Dummy_API_Response`.
 - Standard Zoho Creator profiles are used instead of custom profiles.
 - The web interface uses an education-themed icon and simple navigation.

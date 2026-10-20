@@ -87,6 +87,11 @@ application "Deluge-Function-One"
 	{
 		Deluge
 		{
+			string Dummy_API_Response()
+			{
+			    return "dummy";
+			}
+
 			void Dummy_Info()
 			{
 			    info "dummy";

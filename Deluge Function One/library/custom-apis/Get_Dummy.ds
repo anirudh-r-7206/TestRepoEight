@@ -1,0 +1,12 @@
+api Get_Dummy
+{
+    display name = "Get Dummy"
+    description = "Returns a dummy response for API testing."
+    method = GET
+    authentication = OAuth2
+    scope = "All users"
+    actions
+    (
+        Deluge_Function_One.Dummy_API_Response();
+    )
+}
