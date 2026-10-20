@@ -1,0 +1,299 @@
+application "Extensior-Two"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Student_Fees
+		{
+		    displayname = "Student Fees"
+		    success message = "Student fee record saved successfully."
+		
+		    Fee_Details
+		    (
+		        type = section
+		        displayname = "Student Fee Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        maxchar = 100
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        maxchar = 3
+		        row = 1
+		        column = 2
+		        width = medium
+		    )
+		    must have Status
+		    (
+		        type = radiobuttons
+		        displayname = "Fee Status"
+		        values = {"Paid", "Not Paid"}
+		        initial value = "Not Paid"
+		        layout = 2
+		        row = 1
+		        column = 1
+		        width = medium
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Student_Fees
+		{
+		    displayName = "All Student Fees"
+		    show all rows from Student_Fees
+		    (
+		        Student_Name
+		        Age
+		        Status
+		        custom action "Mark as Paid"
+		        (
+		            workflow = Student_Fees_Mark_As_Paid
+		            show action for each record = true
+		            column header = "Mark as Paid"
+		            success message = "Fee status marked as paid."
+		            condition = (Status == "Not Paid")
+		            confirmation before execution
+		            (
+		                message for individual record = "Mark this student's fee status as paid?"
+		                confirm button text = "Mark Paid"
+		                cancel button text = "Cancel"
+		            )
+		        )
+		    )
+		    filters
+		    (
+		        Status
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+	}
+
+	workflow
+	{
+		functions
+		{
+			Student_Fees_Mark_As_Paid as "Mark as Paid"
+			{
+			    type = functions
+			    form = Student_Fees
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                input.Status = "Paid";
+			            )
+			        }
+			    }
+			}
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#0093FF"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Student_Fees
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Student_Fees
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Status
+		                    "Mark as Paid"
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                    Status
+		                    "Mark as Paid"
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Fee_Management
+	    {
+	        displayname = "Student Fee Management"
+	        icon = "education-school"
+	
+	        section Fee_Tracking
+	        {
+	            displayname = "Fee Tracking"
+	            icon = "education-notepad"
+	
+	            form Student_Fees
+	            {
+	                icon = "education-pencil-47"
+	            }
+	            report All_Student_Fees
+	            {
+	                icon = "education-agenda-bookmark"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    font = "poppins"
+	
+	    color options
+	    {
+	        color = "5"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

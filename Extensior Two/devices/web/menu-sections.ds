@@ -1,0 +1,39 @@
+menu
+{
+    space Student_Fee_Management
+    {
+        displayname = "Student Fee Management"
+        icon = "education-school"
+
+        section Fee_Tracking
+        {
+            displayname = "Fee Tracking"
+            icon = "education-notepad"
+
+            form Student_Fees
+            {
+                icon = "education-pencil-47"
+            }
+            report All_Student_Fees
+            {
+                icon = "education-agenda-bookmark"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

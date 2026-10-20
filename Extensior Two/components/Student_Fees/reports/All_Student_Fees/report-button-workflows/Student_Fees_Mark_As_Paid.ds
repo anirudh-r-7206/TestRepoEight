@@ -1,0 +1,17 @@
+Student_Fees_Mark_As_Paid as "Mark as Paid"
+{
+    type = functions
+    form = Student_Fees
+    execution type = for each record
+
+    on start
+    {
+        actions
+        {
+            on click
+            (
+                input.Status = "Paid";
+            )
+        }
+    }
+}

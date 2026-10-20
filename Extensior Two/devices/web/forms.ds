@@ -1,0 +1,7 @@
+forms
+{
+    form Student_Fees
+    {
+        label placement = left
+    }
+}

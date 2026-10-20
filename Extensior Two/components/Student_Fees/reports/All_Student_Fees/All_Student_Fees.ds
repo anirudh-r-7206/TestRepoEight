@@ -1,0 +1,32 @@
+default list All_Student_Fees
+{
+    displayName = "All Student Fees"
+    show all rows from Student_Fees
+    (
+        Student_Name
+        Age
+        Status
+        custom action "Mark as Paid"
+        (
+            workflow = Student_Fees_Mark_As_Paid
+            show action for each record = true
+            column header = "Mark as Paid"
+            success message = "Fee status marked as paid."
+            condition = (Status == "Not Paid")
+            confirmation before execution
+            (
+                message for individual record = "Mark this student's fee status as paid?"
+                confirm button text = "Mark Paid"
+                cancel button text = "Cancel"
+            )
+        )
+    )
+    filters
+    (
+        Status
+    )
+    sort by
+    (
+        Student_Name ascending
+    )
+}
