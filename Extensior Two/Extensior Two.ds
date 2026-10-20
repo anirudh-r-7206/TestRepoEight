@@ -115,6 +115,20 @@ application "Extensior-Two"
 		    (
 		        Student_Name ascending
 		    )
+		    custom actions
+		    (
+		        "Mark as Unpaid"
+		        (
+		            workflow = Student_Fees_Mark_As_Unpaid
+		            condition = (Status == "Paid")
+		            confirmation before execution
+		            (
+		                message for individual record = "Mark this student's fee status as unpaid?"
+		                confirm button text = "Mark Unpaid"
+		                cancel button text = "Cancel"
+		            )
+		        )
+		    )
 		}
 	}
 
@@ -135,6 +149,24 @@ application "Extensior-Two"
 			            on click
 			            (
 			                input.Status = "Paid";
+			            )
+			        }
+			    }
+			}
+
+			Student_Fees_Mark_As_Unpaid as "Mark as Unpaid"
+			{
+			    type = functions
+			    form = Student_Fees
+			    execution type = for each record
+			
+			    on start
+			    {
+			        actions
+			        {
+			            on click
+			            (
+			                input.Status = "Not Paid";
 			            )
 			        }
 			    }
@@ -209,6 +241,8 @@ application "Extensior-Two"
 		                Delete
 		                Duplicate
 		                View Record
+		                "Mark as Paid"
+		                "Mark as Unpaid"
 		            )
 		        )
 		    )
