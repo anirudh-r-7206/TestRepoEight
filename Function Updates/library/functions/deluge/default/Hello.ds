@@ -2,4 +2,5 @@ void Hello()
 {
     info "Hello";
     info "Testing";
+    info "Testing again";
 }
