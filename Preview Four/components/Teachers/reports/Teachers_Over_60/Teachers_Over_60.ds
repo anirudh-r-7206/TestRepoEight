@@ -1,0 +1,13 @@
+list Teachers_Over_60
+{
+    displayName = "Teachers Over 60"
+    show all rows from Teachers [Age > 60]
+    (
+        Teacher_Name
+        Age
+    )
+    sort by
+    (
+        Teacher_Name ascending
+    )
+}

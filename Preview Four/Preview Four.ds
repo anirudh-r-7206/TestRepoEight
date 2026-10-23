@@ -1,0 +1,595 @@
+application "Preview-Four"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+
+
+	forms
+	{
+		form Students
+		{
+		    Student_Details
+		    (
+		        type = section
+		        displayname = "Student Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Student_Name
+		    (
+		        type = text
+		        displayname = "Student Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 100
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 3
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Teachers
+		{
+		    Teacher_Details
+		    (
+		        type = section
+		        displayname = "Teacher Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Teacher_Name
+		    (
+		        type = text
+		        displayname = "Teacher Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 100
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 3
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+
+		form Trainers
+		{
+		    Trainer_Details
+		    (
+		        type = section
+		        displayname = "Trainer Details"
+		        row = 1
+		        column = 0
+		    )
+		    must have Trainer_Name
+		    (
+		        type = text
+		        displayname = "Trainer Name"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 100
+		    )
+		    must have Age
+		    (
+		        type = number
+		        displayname = "Age"
+		        row = 1
+		        column = 1
+		        width = medium
+		        maxchar = 3
+		    )
+		
+		    actions
+		    {
+		        on add
+		        {
+		            Submit
+		            (
+		                type = submit
+		                displayname = "Submit"
+		            )
+		            Reset
+		            (
+		                type = reset
+		                displayname = "Reset"
+		            )
+		        }
+		        on edit
+		        {
+		            Update
+		            (
+		                type = submit
+		                displayname = "Update"
+		            )
+		            Cancel
+		            (
+		                type = cancel
+		                displayname = "Cancel"
+		            )
+		        }
+		    }
+		}
+	}
+
+	reports
+	{
+		default list All_Students
+		{
+		    displayName = "All Students"
+		    show all rows from Students
+		    (
+		        Student_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+
+		list Students_Over_60
+		{
+		    displayName = "Students Over 60"
+		    show all rows from Students [Age > 60]
+		    (
+		        Student_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Student_Name ascending
+		    )
+		}
+
+		list Teachers_Over_60
+		{
+		    displayName = "Teachers Over 60"
+		    show all rows from Teachers [Age > 60]
+		    (
+		        Teacher_Name
+		        Age
+		    )
+		    sort by
+		    (
+		        Teacher_Name ascending
+		    )
+		}
+	}
+
+	pages
+	{
+		page Prime_Numbers
+		{
+					displayname = "Prime Numbers"
+					Content="<zml>\n\t<layout>\n\t\t<row>\n\t\t\t<column width='100%'>\n\t\t\t\t<widgets elementName='Prime Numbers' importedTemplate='false' heightType='custom' heightValue='650px' linkName='PrimeNumbers' bgColor='#F4F7FF' title='Prime Numbers from 1 to 100' titleSize='20px' titleColor='#17233C' boldTitle='true' italicTitle='false' titleFontFamily='Lato'/>\n\t\t\t</column>\n\t\t</row>\n\t</layout>\n</zml>"
+		}
+	}
+
+	customize
+	{
+	    icon
+	    {
+	        icon = "zc-ab-education-1"
+	        background color = "#2967F5"
+	        foreground color = "#ffffff"
+	    }
+	}
+
+	web
+	{
+	forms
+	{
+	    form Students
+	    {
+	        label placement = left
+	    }
+	    form Teachers
+	    {
+	        label placement = left
+	    }
+	    form Trainers
+	    {
+	        label placement = left
+	    }
+	}
+	reports
+	{
+		report All_Students
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	
+		report Students_Over_60
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Student_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	
+		report Teachers_Over_60
+		{
+		    quickview
+		    (
+		        layout
+		        (
+		            type = -1
+		            datablock1
+		            (
+		                layout type = -1
+		                fields
+		                (
+		                    Teacher_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		            record
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		        action
+		        (
+		            on click
+		            (
+		                View Record
+		            )
+		            on right click
+		            (
+		                Edit
+		                Delete
+		                Duplicate
+		                View Record
+		            )
+		        )
+		    )
+		    detailview
+		    (
+		        layout
+		        (
+		            type = 1
+		            datablock1
+		            (
+		                layout type = -2
+		                fields
+		                (
+		                    Teacher_Name
+		                    Age
+		                )
+		            )
+		        )
+		        menu
+		        (
+		            header
+		            (
+		                Edit
+		                Duplicate
+		                Delete
+		            )
+		        )
+		    )
+		}
+	}
+	menu
+	{
+	    space Student_Directory
+	    {
+	        displayname = "Student Directory"
+	        icon = "education-school"
+	
+	        section Learning_Tools
+	        {
+	            displayname = "Learning Tools"
+	            icon = "education-atom"
+	
+	            page Prime_Numbers
+	            {
+	                icon = "education-notepad"
+	            }
+	        }
+	
+	        section Student_Records
+	        {
+	            displayname = "Student Records"
+	            icon = "users-multiple-11"
+	
+	            form Students
+	            {
+	                icon = "education-pencil-47"
+	            }
+	            report All_Students
+	            {
+	                icon = "users-contacts"
+	            }
+	            report Students_Over_60
+	            {
+	                icon = "education-glasses"
+	            }
+	        }
+	
+	        section Teacher_Records
+	        {
+	            displayname = "Teacher Records"
+	            icon = "users-badge-13"
+	
+	            form Teachers
+	            {
+	                icon = "users-single-body"
+	            }
+	            report Teachers_Over_60
+	            {
+	                icon = "users-man-glasses"
+	            }
+	        }
+	
+	        section Trainer_Records
+	        {
+	            displayname = "Trainer Records"
+	            icon = "users-network"
+	
+	            form Trainers
+	            {
+	                icon = "users-badge-14"
+	            }
+	        }
+	
+	        section SharedAnalytics_Section
+	        {
+	            type = shared_user_report_section
+	            displayname = "Reports"
+	            icon = "business-chart-bar-33"
+	        }
+	    }
+	
+	    preference
+	    {
+	        icon
+	        {
+	            style = outline
+	            show = {space,section,component}
+	        }
+	    }
+	}
+	customize
+	{
+	    layout
+	    {
+	        theme = "theme_11"
+	    }
+	
+	    font = "lato"
+	
+	    color options
+	    {
+	        color = "2"
+	    }
+	
+	    logo
+	    {
+	        preference = "app_icon"
+	        placement = "left"
+	    }
+	}
+	}
+}

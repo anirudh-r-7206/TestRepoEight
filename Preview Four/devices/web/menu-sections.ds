@@ -1,0 +1,80 @@
+menu
+{
+    space Student_Directory
+    {
+        displayname = "Student Directory"
+        icon = "education-school"
+
+        section Learning_Tools
+        {
+            displayname = "Learning Tools"
+            icon = "education-atom"
+
+            page Prime_Numbers
+            {
+                icon = "education-notepad"
+            }
+        }
+
+        section Student_Records
+        {
+            displayname = "Student Records"
+            icon = "users-multiple-11"
+
+            form Students
+            {
+                icon = "education-pencil-47"
+            }
+            report All_Students
+            {
+                icon = "users-contacts"
+            }
+            report Students_Over_60
+            {
+                icon = "education-glasses"
+            }
+        }
+
+        section Teacher_Records
+        {
+            displayname = "Teacher Records"
+            icon = "users-badge-13"
+
+            form Teachers
+            {
+                icon = "users-single-body"
+            }
+            report Teachers_Over_60
+            {
+                icon = "users-man-glasses"
+            }
+        }
+
+        section Trainer_Records
+        {
+            displayname = "Trainer Records"
+            icon = "users-network"
+
+            form Trainers
+            {
+                icon = "users-badge-14"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}

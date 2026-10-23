@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prime Numbers from 1 to 100</title>
+    <link rel="stylesheet" href="css/widget.css">
+</head>
+<body>
+    <main class="prime-card">
+        <header>
+            <p class="eyebrow">NUMBER EXPLORER</p>
+            <h1>Prime Numbers</h1>
+            <p class="subtitle">All prime numbers between 1 and 100</p>
+        </header>
+        <section id="prime-list" class="prime-grid" aria-label="Prime numbers"></section>
+        <footer><span id="prime-count">0</span> prime numbers found</footer>
+    </main>
+
+    <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+    <script>
+        function isPrime(number) {
+            if (number < 2) return false;
+            for (let divisor = 2; divisor <= Math.sqrt(number); divisor++) {
+                if (number % divisor === 0) return false;
+            }
+            return true;
+        }
+
+        function renderPrimes() {
+            const primes = [];
+            for (let number = 1; number <= 100; number++) {
+                if (isPrime(number)) primes.push(number);
+            }
+            document.getElementById("prime-list").innerHTML = primes
+                .map(number => `<div class="prime-number">${number}</div>`)
+                .join("");
+            document.getElementById("prime-count").textContent = primes.length;
+        }
+
+        renderPrimes();
+        ZOHO.CREATOR.init().catch(function() {
+            // The number list remains available even if the SDK cannot initialize in preview mode.
+        });
+    </script>
+</body>
+</html>

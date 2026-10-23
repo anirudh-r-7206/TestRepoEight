@@ -1,0 +1,12 @@
+<page linkname = "Prime_Numbers" displayname = "Prime Numbers"/>
+<content>
+<zml>
+  <layout>
+    <row>
+      <column width='100%'>
+        <widgets elementName='Prime Numbers' importedTemplate='false' heightType='custom' heightValue='650px' linkName='PrimeNumbers' bgColor='#F4F7FF' title='Prime Numbers from 1 to 100' titleSize='20px' titleColor='#17233C' boldTitle='true' italicTitle='false' titleFontFamily='Lato'/>
+      </column>
+    </row>
+  </layout>
+</zml>
+</content>

@@ -1,0 +1,15 @@
+forms
+{
+    form Students
+    {
+        label placement = left
+    }
+    form Teachers
+    {
+        label placement = left
+    }
+    form Trainers
+    {
+        label placement = left
+    }
+}

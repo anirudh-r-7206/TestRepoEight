@@ -1,0 +1,39 @@
+menu
+{
+    space Students_Space
+    {
+        displayname = "Students"
+        icon = "education-school"
+
+        section Students_Section
+        {
+            displayname = "Student Registry"
+            icon = "education-hat"
+
+            form Students
+            {
+                icon = "education-pencil-47"
+            }
+            report All_Students
+            {
+                icon = "education-books-46"
+            }
+        }
+
+        section SharedAnalytics_Section
+        {
+            type = shared_user_report_section
+            displayname = "Reports"
+            icon = "business-chart-bar-33"
+        }
+    }
+
+    preference
+    {
+        icon
+        {
+            style = outline
+            show = {space,section,component}
+        }
+    }
+}
